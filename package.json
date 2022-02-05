@@ -1,0 +1,63 @@
+{
+	"name": "twyr-mdc-web",
+	"private": true,
+	"displayName": "Twy'r MDC Web",
+	"description": "Monorepo for the Ember v4.0+ implementation of material design components for the web",
+	"homepage": "https://github.com/twyr/twyr-mdc-web#readme",
+	"license": "MITNFA",
+	"readme": "README.md",
+	"version": "0.1.1",
+	"author": {
+		"name": "Vish Desai",
+		"email": "shadyvd@hotmail.com",
+		"url": "https://github.com/shadyvd"
+	},
+	"contributors": [
+		{
+			"name": "Vish Desai",
+			"email": "shadyvd@hotmail.com",
+			"url": "https://github.com/shadyvd"
+		}
+	],
+	"maintainers": [
+		{
+			"name": "Vish Desai",
+			"email": "shadyvd@hotmail.com",
+			"url": "https://github.com/shadyvd"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/twyr/twyr-mdc-web.git"
+	},
+	"bugs": {
+		"url": "https://github.com/twyr/twyr-mdc-web/issues"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "16.1.0",
+		"@commitlint/config-conventional": "16.0.0",
+		"commitizen": "4.2.4",
+		"cz-customizable": "6.3.0",
+		"eslint": "8.8.0",
+		"eslint-config-prettier": "8.3.0",
+		"eslint-plugin-editorconfig": "3.2.0",
+		"eslint-plugin-json": "3.1.0",
+		"eslint-plugin-node": "11.1.0",
+		"eslint-plugin-prettier": "4.0.0",
+		"eslint-plugin-security": "1.4.0",
+		"eslint-plugin-security-node": "1.1.1",
+		"git-cz": "4.8.0",
+		"git-split-diffs": "0.10.0",
+		"husky": "7.0.4",
+		"lerna": "4.0.0",
+		"lint-staged": "12.3.3"
+	},
+	"scripts": {
+		"lint-staged": "npx --no-install lint-staged --allow-empty",
+		"prepare": "npx --no-install husky install"
+	},
+	"engines": {
+		"node": ">= 14"
+	},
+	"workspaces": []
+}
