@@ -90,6 +90,7 @@
 
 /* @use 'material-components-web/material-components-web'; */
 @use '@material/card/mdc-card';
+@use './emdc-card.css';
 
 @use '@material/theme/mdc-theme';
 @use '@material/typography/mdc-typography';

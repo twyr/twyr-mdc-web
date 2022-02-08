@@ -1,0 +1,15 @@
+.mdc-card__header {
+	@apply p-3;
+
+	& .mdc-card__header-article {
+		@apply container;
+		@apply text-left;
+		@apply flex flex-col;
+	}
+}
+
+.mdc-card__content-article {
+	@apply container;
+	@apply text-left;
+	@apply flex flex-col;
+}

@@ -1,0 +1,10 @@
+<div class='mdc-card__primary-action' ...attributes>
+	<article class='mdc-card__content-article'>
+		{{#if (has-block 'title')}}
+			{{yield (component this.titleComponent) to='title'}}
+		{{/if}}
+		{{#if (has-block 'subtitle')}}
+			{{yield (component this.subtitleComponent) to='subtitle'}}
+		{{/if}}
+	</article>
+</div>

@@ -1,0 +1,12 @@
+<div class='mdc-card__header' ...attributes>
+	{{#if (or (has-block 'headline') (has-block 'subheadline'))}}
+		<article class='mdc-card__header-article'>
+			{{#if (has-block 'headline')}}
+				{{yield (component this.headlineComponent) to='headline'}}
+			{{/if}}
+			{{#if (has-block 'subheadline')}}
+				{{yield (component this.subHeadlineComponent) to='subheadline'}}
+			{{/if}}
+		</article>
+	{{/if}}
+</div>

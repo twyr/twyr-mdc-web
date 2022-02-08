@@ -1,0 +1,11 @@
+<div class='mdc-card__footer' ...attributes>
+	<div class='mdc-card__footer-action-container'>
+		{{#if (has-block 'actionButtons')}}
+			{{yield (component this.actionButtonComponent) to='actionButtons'}}
+		{{/if}}
+
+		{{#if (has-block 'actionIcons')}}
+			{{yield (component this.actionIconComponent) to='actionIcons'}}
+		{{/if}}
+	</div>
+</div>

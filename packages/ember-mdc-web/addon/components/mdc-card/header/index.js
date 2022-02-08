@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
-export default class MdcCardComponent extends Component {
+export default class MdcCardHeaderComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
@@ -22,16 +22,12 @@ export default class MdcCardComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
-	get headerComponent() {
-		return this?._getComputedSubcomponent?.('header');
+	get headlineComponent() {
+		return this?._getComputedSubcomponent?.('headline');
 	}
 
-	get contentComponent() {
-		return this?._getComputedSubcomponent?.('content');
-	}
-
-	get footerComponent() {
-		return this?._getComputedSubcomponent?.('footer');
+	get subHeadlineComponent() {
+		return this?._getComputedSubcomponent?.('subheadline');
 	}
 	// #endregion
 
@@ -44,17 +40,16 @@ export default class MdcCardComponent extends Component {
 
 		return subComponent;
 	}
-	// #endregion
+	// //#endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		header: 'mdc-card/header',
-		content: 'mdc-card/content',
-		footer: 'mdc-card/footer'
+		headline: 'mdc-headline',
+		subheadline: 'mdc-sub-headline'
 	};
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('component:mdc-card');
+	#debug = debugLogger('component:mdc-card-header');
 	// #endregion
 }

@@ -1,0 +1,27 @@
+.mdc-card__header {
+	padding: 0.75rem;
+}
+
+.mdc-card__header .mdc-card__header-article {
+	display: box;
+	display: flexbox;
+	display: flex;
+	flex-direction: column;
+	flex-direction: column;
+	width: 100%;
+	text-align: left;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+}
+
+.mdc-card__content-article {
+	display: box;
+	display: flexbox;
+	display: flex;
+	flex-direction: column;
+	flex-direction: column;
+	width: 100%;
+	text-align: left;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+}

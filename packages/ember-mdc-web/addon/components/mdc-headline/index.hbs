@@ -1,3 +1,7 @@
-<h4 class='mdc-typography mdc-typography--headline4' ...attributes>
-	{{yield}}
-</h4>
+<h2 class='mdc-typography mdc-typography--headline6' ...attributes>
+	{{#if (has-block)}}
+		{{yield}}
+	{{else}}
+		{{@text}}
+	{{/if}}
+</h2>
