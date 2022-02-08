@@ -1,6 +1,6 @@
 {
-	"*.css": "npx stylelint --cache --fix",
-	"*.scss": "npx stylelint --cache --fix",
+	"*.css": "npx stylelint --aei --cache --fix",
+	"*.scss": "npx stylelint --aei --cache --fix",
 	"*.hbs": "npx ember-template-lint --fix",
 	"*.html": "npx prettier --write",
 	"*.js": ["npx prettier --write", "npx eslint --cache --fix"],
