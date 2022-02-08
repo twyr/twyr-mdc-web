@@ -1,11 +1,5 @@
 /* Material Design Components for the Web */
 @use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web';
 
-/* Ember Freestyle Documentation */
-$FreestyleGuide-color--primary: var('--mdc-theme-primary');
-$FreestyleGuide-color--accent: var('--mdc-theme-secondary');
-
-@use 'ember-freestyle';
-
 /* CSS Variable Overrides */
 @use './global-vars.scss';
