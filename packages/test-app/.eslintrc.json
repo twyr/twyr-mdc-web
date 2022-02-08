@@ -1,0 +1,48 @@
+{
+	"root": true,
+	"parser": "@babel/eslint-parser",
+	"parserOptions": {
+		"ecmaVersion": 2021,
+		"sourceType": "module",
+		"requireConfigFile": false,
+		"ecmaFeatures": {
+			"legacyDecorators": true
+		}
+	},
+	"plugins": ["ember", "json"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:json/recommended",
+		"plugin:ember/recommended"
+	],
+	"env": {
+		"browser": true,
+		"node": false
+	},
+	"rules": {},
+	"overrides": [
+		{
+			"files": [
+				".dependency-cruiser.js",
+				".template-lintrc.js",
+				"ember-cli-build.js",
+				"testem.js",
+				"config/**"
+			],
+			"excludedFiles": ["app/**"],
+			"parserOptions": {
+				"ecmaVersion": 2021,
+				"sourceType": "script"
+			},
+			"env": {
+				"browser": false,
+				"node": true
+			},
+			"plugins": ["json", "node"],
+			"extends": ["plugin:json/recommended", "plugin:node/recommended"],
+			"rules": {
+				"node/no-unpublished-require": "off"
+			}
+		}
+	]
+}
