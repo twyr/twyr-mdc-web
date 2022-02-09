@@ -60,6 +60,7 @@
 		"@mdi/font": "6.5.95",
 		"ember-cli-sass": "10.0.1",
 		"ember-debug-logger": "2.1.1",
+		"ember-truth-helpers": "3.0.0",
 		"material-components-web": "13.0.0",
 		"sass": "1.49.7"
 	},
@@ -92,10 +93,12 @@
 		"stylelint-order": "5.0.0",
 		"stylelint-prettier": "2.0.0",
 		"stylelint-scss": "4.1.0",
-		"tailwindcss": "3.0.19"
+		"tailwindcss": "3.0.19",
+		"tailwindcss-rtl": "0.9.0"
 	},
 	"scripts": {
-		"build": "mkdir -p ./dist && rm -rf ./dist && npx rollup --config && npm run lint:fix",
+		"build": "npx rollup --config",
+		"build:clean": "mkdir -p ./dist && rm -rf ./dist && npx rollup --config && npm run lint:fix",
 		"lint": "npm run lint:hbs && npm run lint:css && npm run lint:js && npm run lint:misc",
 		"lint:fix": "npm run lint:hbs:fix && npm run lint:css:fix && npm run lint:js:fix && npm run lint:misc:fix",
 		"lint:css": "npx stylelint ./**/*.{css,scss} --cache",
@@ -110,7 +113,8 @@
 		"postcss": "npx postcss ./tailwindcss --base --config ./postcss.config.js  --dir ./addon/styles --verbose",
 		"postcss:watch": "npx postcss ./tailwindcss --base --config ./postcss.config.js  --dir ./addon/styles --watch --verbose",
 		"prepare": "mkdir -p ./dist && rm -rf ./dist && npx rollup --config && npm run lint:fix",
-		"start": "mkdir -p ./dist && rm -rf ./dist && npm run lint:fix && npx rollup --config --watch --no-watch.clearScreen",
+		"start": "npx rollup --config --watch --no-watch.clearScreen",
+		"start:clean": "mkdir -p ./dist && rm -rf ./dist && npm run lint:fix && npx rollup --config --watch --no-watch.clearScreen",
 		"test": "echo 'Addon does not have tests, run tests in test-app'"
 	},
 	"engines": {

@@ -416,7 +416,8 @@
 		"webpack": "5.68.0"
 	},
 	"scripts": {
-		"build": "mkdir -p ./dist && rm -rf ./dist && ember build --environment=production && npm run lint:fix",
+		"build": "ember build --environment=production",
+		"build:clean": "mkdir -p ./dist && rm -rf ./dist && ember build --environment=production && npm run lint:fix",
 		"lint": "npm run lint:hbs && npm run lint:css && npm run lint:js && npm run lint:misc",
 		"lint:fix": "npm run lint:hbs:fix && npm run lint:css:fix && npm run lint:js:fix && npm run lint:misc:fix",
 		"lint:css": "npx stylelint ./**/*.{css,scss} --cache",
@@ -429,7 +430,7 @@
 		"lint:misc:fix": "npx prettier ./**/*.{html,yml} --no-error-on-unmatched-pattern --write && npx eslint . --cache --fix",
 		"lint-staged": "npx lint-staged --allow-empty",
 		"prepare": "npm run build",
-		"start": "npm run lint:fix && ember serve",
+		"start": "ember serve",
 		"start:clean": "mkdir -p ./dist && rm -rf ./dist && npm run lint:fix && ember serve",
 		"test": "npm run lint:fix && npm run test:ember",
 		"test:ember": "ember test"
