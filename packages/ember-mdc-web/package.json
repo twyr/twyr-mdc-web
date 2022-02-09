@@ -86,7 +86,7 @@
 		"prettier": "2.5.1",
 		"prettier-plugin-jsdoc": "0.3.30",
 		"rollup": "2.67.1",
-		"stylelint": "14.3.0",
+		"stylelint": "14.4.0",
 		"stylelint-config-hudochenkov": "6.0.1",
 		"stylelint-config-prettier": "9.0.3",
 		"stylelint-order": "5.0.0",
