@@ -3,13 +3,15 @@
 
 	& .mdc-card__header-article {
 		@apply container;
-		@apply text-left;
+		@apply text-start;
 		@apply flex flex-col;
 	}
 }
 
-.mdc-card__content-article {
-	@apply container;
-	@apply text-left;
-	@apply flex flex-col;
+.mdc-card__content {
+	& .mdc-card__content-article {
+		@apply container;
+		@apply text-start;
+		@apply flex flex-col;
+	}
 }

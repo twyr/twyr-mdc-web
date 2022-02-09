@@ -965,5 +965,5 @@ module.exports = {
 	corePlugins: {
 		preflight: false
 	},
-	plugins: []
+	plugins: [require('tailwindcss-rtl')]
 };

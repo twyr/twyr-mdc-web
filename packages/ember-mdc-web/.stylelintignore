@@ -26,3 +26,6 @@
 /npm-shrinkwrap.json.ember-try
 /package.json.ember-try
 /package-lock.json.ember-try
+
+# generated css
+/addon/styles/**/*.css
