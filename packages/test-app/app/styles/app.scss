@@ -1,5 +1,14 @@
-/* Material Design Components for the Web */
+/*
+ * Material Design Components for the Web
+ */
 @use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web';
 
-/* CSS Variable Overrides */
+/*
+ * Tailwind JIT-ted stuff
+ */
+@use './tailwind-classes.css';
+
+/*
+ * CSS Variable Overrides
+ */
 @use './global-vars.scss';

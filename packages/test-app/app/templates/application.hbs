@@ -1,5 +1,5 @@
 {{page-title 'Ember MDC Web'}}
-<MdcCard class='mdc-card--outlined'>
+<MdcCard class='w-1/3'>
 	<:header as |Header|>
 		<Header>
 			<:headline as |Headline|>
@@ -11,9 +11,10 @@
 		</Header>
 	</:header>
 	<:content as |Content|>
-		<Content>
+		<Content @direction='vertical'>
 			<:media as |Media|>
 				<Media
+					class='mdc-theme--text-primary-on-dark min-w-[30%]'
 					@src='https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg'
 				>
 					<MdcHeadline>Yoo, hoo</MdcHeadline>
@@ -21,7 +22,9 @@
 				</Media>
 			</:media>
 			<:text>
-				<MdcHeadline>Hello, world</MdcHeadline>
+				<span class='mdc-theme--text-secondary-on-light'>
+					Its another Tequila Sunrise
+				</span>
 			</:text>
 		</Content>
 	</:content>

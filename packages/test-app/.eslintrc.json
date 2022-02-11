@@ -26,6 +26,8 @@
 				".dependency-cruiser.js",
 				".template-lintrc.js",
 				"ember-cli-build.js",
+				"postcss.config.js",
+				"tailwind.config.js",
 				"testem.js",
 				"config/**"
 			],
