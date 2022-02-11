@@ -47,11 +47,6 @@
 */
 
 /*
- * Utilities
- */
-@use './utilities.css';
-
-/*
  * MDC Web Component Styles
  */
 @use '@material/card/mdc-card';
@@ -63,3 +58,8 @@
 
 @use '@material/theme/mdc-theme';
 @use '@material/typography/mdc-typography';
+
+/*
+ * Tailwind JIT-ted stuff
+ */
+@use './tailwind-classes.css';

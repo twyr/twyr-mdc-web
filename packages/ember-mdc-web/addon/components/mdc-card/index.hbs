@@ -1,4 +1,8 @@
-<div class='mdc-card' ...attributes>
+<div
+	class='mdc-card'
+	{{has-class-if @outline 'mdc-card--outlined'}}
+	...attributes
+>
 	{{#if (has-block 'header')}}
 		{{yield (component this.headerComponent) to='header'}}
 	{{/if}}

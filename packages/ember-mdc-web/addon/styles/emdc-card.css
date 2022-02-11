@@ -58,28 +58,6 @@
     color: inherit
 }
 
-.mdc-card__content.vertical {
-
-    -webkit-box-orient: vertical;
-
-    -webkit-box-direction: normal;
-
-        -ms-flex-direction: column;
-
-            flex-direction: column
-}
-
-.mdc-card__content.horizontal {
-
-    -webkit-box-orient: horizontal;
-
-    -webkit-box-direction: normal;
-
-        -ms-flex-direction: row;
-
-            flex-direction: row
-}
-
 .mdc-card__content .mdc-card__content-default {
 
     padding: 0.75rem
@@ -128,28 +106,6 @@
     padding-left: 0.75rem;
 
     padding-right: 0.75rem
-}
-
-.mdc-card__primary-action.vertical {
-
-    -webkit-box-orient: vertical;
-
-    -webkit-box-direction: normal;
-
-        -ms-flex-direction: column;
-
-            flex-direction: column
-}
-
-.mdc-card__primary-action.horizontal {
-
-    -webkit-box-orient: horizontal;
-
-    -webkit-box-direction: normal;
-
-        -ms-flex-direction: row;
-
-            flex-direction: row
 }
 
 .mdc-card__primary-action .mdc-card__primary-action-default {

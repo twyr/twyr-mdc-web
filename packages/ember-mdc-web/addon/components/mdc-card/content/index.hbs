@@ -4,11 +4,18 @@
 		'mdc-card__primary-action mdc-ripple-upgraded'
 		'mdc-card__content'
 	}}
-	{{has-class-if (eq @direction 'horizontal') 'horizontal' 'vertical'}}
+	{{has-class-if
+		(eq @direction 'horizontal')
+		'flex flex-row'
+		'flex flex-col'
+	}}
 	...attributes
 >
 	{{#if (has-block 'media')}}
-		{{yield (component this.mediaComponent) to='media'}}
+		{{yield
+			(component this.mediaComponent direction=@direction)
+			to='media'
+		}}
 	{{/if}}
 	{{#if (has-block 'text')}}
 		<div

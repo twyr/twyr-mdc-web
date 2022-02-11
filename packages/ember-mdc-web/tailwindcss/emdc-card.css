@@ -16,14 +16,6 @@
 	@apply box-border;
 	@apply text-inherit;
 
-	&.vertical {
-		@apply flex-col;
-	}
-
-	&.horizontal {
-		@apply flex-row;
-	}
-
 	& .mdc-card__content-default {
 		@apply p-3;
 		@apply text-start;
@@ -36,14 +28,6 @@
 }
 
 .mdc-card__primary-action {
-	&.vertical {
-		@apply flex-col;
-	}
-
-	&.horizontal {
-		@apply flex-row;
-	}
-
 	& .mdc-card__primary-action-default {
 		@apply p-3;
 		@apply text-start;

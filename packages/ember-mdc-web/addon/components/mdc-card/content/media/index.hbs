@@ -1,4 +1,9 @@
-<div class='mdc-card__media' {{store-element this.storeElement}} ...attributes>
+<div
+	class='mdc-card__media'
+	{{has-class-if (eq @direction 'horizontal') 'aspect-square' 'aspect-video'}}
+	{{store-element this.storeElement}}
+	...attributes
+>
 	{{#if (has-block)}}
 		<div class='mdc-card__media-content'>
 			{{yield}}
