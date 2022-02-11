@@ -40,8 +40,8 @@ export default class MdcCardComponent extends Component {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
-		this.#debug(`${componentName}-component`, subComponent);
 
+		this.#debug(`${componentName}-component`, subComponent);
 		return subComponent;
 	}
 	// #endregion

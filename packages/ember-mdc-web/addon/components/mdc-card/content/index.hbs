@@ -1,10 +1,24 @@
-<div class='mdc-card__primary-action' ...attributes>
-	<article class='mdc-card__content-article'>
-		{{#if (has-block 'title')}}
-			{{yield (component this.titleComponent) to='title'}}
-		{{/if}}
-		{{#if (has-block 'subtitle')}}
-			{{yield (component this.subtitleComponent) to='subtitle'}}
-		{{/if}}
-	</article>
+<div
+	{{has-class-if
+		@primaryAction
+		'mdc-card__primary-action mdc-ripple-upgraded'
+		'mdc-card__content'
+	}}
+	{{has-class-if (eq @direction 'horizontal') 'horizontal' 'vertical'}}
+	...attributes
+>
+	{{#if (has-block 'media')}}
+		{{yield (component this.mediaComponent) to='media'}}
+	{{/if}}
+	{{#if (has-block 'text')}}
+		<div
+			{{has-class-if
+				@primaryAction
+				'mdc-card__primary-action-default'
+				'mdc-card__content-default'
+			}}
+		>
+			{{yield to='text'}}
+		</div>
+	{{/if}}
 </div>

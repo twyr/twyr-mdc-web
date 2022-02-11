@@ -29,6 +29,10 @@ export default class MdcCardContentComponent extends Component {
 	get subtitleComponent() {
 		return this?._getComputedSubcomponent?.('subtitle');
 	}
+
+	get mediaComponent() {
+		return this?._getComputedSubcomponent?.('media');
+	}
 	// #endregion
 
 	// #region Private Methods

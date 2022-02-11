@@ -2,83 +2,37 @@
 
 @use '@material/theme' with (
 	$primary: #01579b,
-	$on-primary: #ffffff,
 	$secondary: #f57f17,
-	$on-secondary: #000000,
 	$error: #d50000,
-	$on-error: #ffffff,
 	$surface: #fafafa,
-	$on-surface: #000000,
 	$background: #f6f6f6
 );
 
 @use '@material/typography' with (
-	$font-family: unquote('Roboto'),
+	$font-family: unquote('Inter, sans-serif'),
 	$styles-headline1: (
-		font-weight: 700,
-		font-size: 2.25em,
-		letter-spacing: 0.1em,
-		line-height: 1.75
+		font-family: unquote('Josefin Sans, sans-serif')
 	),
 	$styles-headline2: (
-		font-weight: 600,
-		font-size: 1.5em,
-		letter-spacing: 0.05em,
-		line-height: 1.75
+		font-family: unquote('Josefin Sans, sans-serif')
 	),
 	$styles-headline3: (
-		font-weight: 500,
-		font-size: 1.25em,
-		letter-spacing: 0.025em,
-		line-height: 1.5
+		font-family: unquote('Josefin Sans, sans-serif')
 	),
 	$styles-headline4: (
-		font-weight: 500,
-		font-size: 1.25em,
-		letter-spacing: 0.025em,
-		line-height: 1.5
+		font-family: unquote('Josefin Sans, sans-serif')
 	),
 	$styles-headline5: (
-		font-weight: 450,
-		font-size: 1.1em,
-		letter-spacing: 0,
-		line-height: 1.5
+		font-family: unquote('Josefin Sans, sans-serif')
 	),
 	$styles-headline6: (
-		font-weight: 450,
-		font-size: 1.1em,
-		letter-spacing: 0,
-		line-height: 1.5
+		font-family: unquote('Josefin Sans, sans-serif')
 	),
 	$styles-subtitle1: (
-		font-weight: 400,
-		font-size: 1.1em,
-		letter-spacing: 0,
-		line-height: 1.5
+		font-family: unquote('Josefin Sans, sans-serif')
 	),
 	$styles-subtitle2: (
-		font-weight: 400,
-		font-size: 1em,
-		letter-spacing: 0,
-		line-height: 1.5
-	),
-	$styles-body1: (
-		font-weight: 400,
-		font-size: 1em,
-		letter-spacing: 0,
-		line-height: 1.25
-	),
-	$styles-body2: (
-		font-weight: 400,
-		font-size: 1em,
-		letter-spacing: 0,
-		line-height: 1.25
-	),
-	$styles-caption: (
-		font-weight: 400,
-		font-size: 0.875em,
-		letter-spacing: 0,
-		line-height: 1.5
+		font-family: unquote('Josefin Sans, sans-serif')
 	)
 );
 
@@ -88,9 +42,24 @@
 	$large-component-radius: 0.125rem
 );
 
-/* @use 'material-components-web/material-components-web'; */
+/*
+@use 'material-components-web/material-components-web';
+*/
+
+/*
+ * Utilities
+ */
+@use './utilities.css';
+
+/*
+ * MDC Web Component Styles
+ */
 @use '@material/card/mdc-card';
 @use './emdc-card.css';
+
+/*
+ * MDC Theme, Typography, etc.
+ */
 
 @use '@material/theme/mdc-theme';
 @use '@material/typography/mdc-typography';

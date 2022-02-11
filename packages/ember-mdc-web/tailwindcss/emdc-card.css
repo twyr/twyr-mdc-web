@@ -1,7 +1,7 @@
 .mdc-card__header {
 	@apply p-3;
 
-	& .mdc-card__header-article {
+	& .mdc-card__header--article {
 		@apply container;
 		@apply text-start;
 		@apply flex flex-col;
@@ -9,9 +9,48 @@
 }
 
 .mdc-card__content {
-	& .mdc-card__content-article {
-		@apply container;
+	@apply flex;
+	@apply relative;
+	@apply outline-none;
+	@apply overflow-hidden;
+	@apply box-border;
+	@apply text-inherit;
+
+	&.vertical {
+		@apply flex-col;
+	}
+
+	&.horizontal {
+		@apply flex-row;
+	}
+
+	& .mdc-card__content-default {
+		@apply p-3;
 		@apply text-start;
-		@apply flex flex-col;
+	}
+
+	& .mdc-card__media-content {
+		@apply flex flex-col justify-end content-end self-end;
+		@apply px-3;
+	}
+}
+
+.mdc-card__primary-action {
+	&.vertical {
+		@apply flex-col;
+	}
+
+	&.horizontal {
+		@apply flex-row;
+	}
+
+	& .mdc-card__primary-action-default {
+		@apply p-3;
+		@apply text-start;
+	}
+
+	& .mdc-card__media-content {
+		@apply flex flex-col justify-end content-end self-end;
+		@apply px-3;
 	}
 }

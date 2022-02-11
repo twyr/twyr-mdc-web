@@ -1,0 +1,7 @@
+<div class='mdc-card__media' {{store-element this.storeElement}} ...attributes>
+	{{#if (has-block)}}
+		<div class='mdc-card__media-content'>
+			{{yield}}
+		</div>
+	{{/if}}
+</div>
