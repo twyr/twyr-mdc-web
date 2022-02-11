@@ -54,12 +54,15 @@
 		"dist"
 	],
 	"dependencies": {
-		"@embroider/addon-shim": "1.1.0",
+		"@embroider/addon-shim": "1.2.0",
+		"@embroider/util": "1.2.0",
 		"@glimmer/component": "1.0.4",
 		"@glimmer/tracking": "1.0.4",
 		"@mdi/font": "6.5.95",
 		"ember-cli-sass": "10.0.1",
 		"ember-debug-logger": "2.1.1",
+		"ember-modifier": "3.1.0",
+		"ember-source": "4.2.0",
 		"ember-truth-helpers": "3.0.0",
 		"material-components-web": "13.0.0",
 		"sass": "1.49.7"
@@ -70,7 +73,7 @@
 		"@babel/plugin-proposal-class-properties": "7.16.7",
 		"@babel/plugin-proposal-decorators": "7.17.2",
 		"@babel/plugin-syntax-decorators": "7.17.0",
-		"@embroider/addon-dev": "1.1.0",
+		"@embroider/addon-dev": "1.2.0",
 		"@rollup/plugin-babel": "5.3.0",
 		"autoprefixer": "10.4.2",
 		"ember-template-lint": "4.0.0",
@@ -86,19 +89,19 @@
 		"postcss-preset-env": "7.3.1",
 		"prettier": "2.5.1",
 		"prettier-plugin-jsdoc": "0.3.30",
-		"rollup": "2.67.1",
-		"stylelint": "14.4.0",
+		"rollup": "2.67.2",
+		"stylelint": "14.5.0",
 		"stylelint-config-hudochenkov": "6.0.1",
 		"stylelint-config-prettier": "9.0.3",
 		"stylelint-order": "5.0.0",
 		"stylelint-prettier": "2.0.0",
 		"stylelint-scss": "4.1.0",
-		"tailwindcss": "3.0.19",
+		"tailwindcss": "3.0.21",
 		"tailwindcss-rtl": "0.9.0"
 	},
 	"scripts": {
-		"build": "npx rollup --config",
-		"build:clean": "mkdir -p ./dist && rm -rf ./dist && npx rollup --config && npm run lint:fix",
+		"build": "npm run postcss && npx rollup --config",
+		"build:clean": "mkdir -p ./dist && rm -rf ./dist && npm run build && npm run lint:fix",
 		"lint": "npm run lint:hbs && npm run lint:css && npm run lint:js && npm run lint:misc",
 		"lint:fix": "npm run lint:hbs:fix && npm run lint:css:fix && npm run lint:js:fix && npm run lint:misc:fix",
 		"lint:css": "npx stylelint ./**/*.{css,scss} --cache",
@@ -112,7 +115,7 @@
 		"lint-staged": "npx lint-staged --allow-empty",
 		"postcss": "npx postcss ./tailwindcss --base --config ./postcss.config.js  --dir ./addon/styles --verbose",
 		"postcss:watch": "npx postcss ./tailwindcss --base --config ./postcss.config.js  --dir ./addon/styles --watch --verbose",
-		"prepare": "mkdir -p ./dist && rm -rf ./dist && npx rollup --config && npm run lint:fix",
+		"prepare": "npm run build:clean",
 		"start": "npx rollup --config --watch --no-watch.clearScreen",
 		"start:clean": "mkdir -p ./dist && rm -rf ./dist && npm run lint:fix && npx rollup --config --watch --no-watch.clearScreen",
 		"test": "echo 'Addon does not have tests, run tests in test-app'"
@@ -129,13 +132,16 @@
 		"main": "addon-main.js",
 		"app-js": {
 			"./components/mdc-card/content/index.js": "./dist/_app_/components/mdc-card/content/index.js",
+			"./components/mdc-card/content/media/index.js": "./dist/_app_/components/mdc-card/content/media/index.js",
 			"./components/mdc-card/footer/action-button/index.js": "./dist/_app_/components/mdc-card/footer/action-button/index.js",
 			"./components/mdc-card/footer/action-icon/index.js": "./dist/_app_/components/mdc-card/footer/action-icon/index.js",
 			"./components/mdc-card/footer/index.js": "./dist/_app_/components/mdc-card/footer/index.js",
 			"./components/mdc-card/header/index.js": "./dist/_app_/components/mdc-card/header/index.js",
 			"./components/mdc-card/index.js": "./dist/_app_/components/mdc-card/index.js",
 			"./components/mdc-headline/index.js": "./dist/_app_/components/mdc-headline/index.js",
-			"./components/mdc-sub-headline/index.js": "./dist/_app_/components/mdc-sub-headline/index.js"
+			"./components/mdc-sub-headline/index.js": "./dist/_app_/components/mdc-sub-headline/index.js",
+			"./modifiers/has-class-if.js": "./dist/_app_/modifiers/has-class-if.js",
+			"./modifiers/store-element.js": "./dist/_app_/modifiers/store-element.js"
 		}
 	}
 }
