@@ -23,7 +23,7 @@ module.exports = function (environment) {
 			// when it is created
 		},
 
-		googleFonts: ['Roboto', 'Noto Sans']
+		googleFonts: ['Inter', 'Josefin Sans']
 	};
 
 	if (environment === 'development') {

@@ -1,6 +1,15 @@
 :root {
-	--mdc-typography-font-family: 'Noto Sans';
-	--mdc-shape-small: 0.5em;
-	--mdc-shape-medium: 0.25em;
-	--mdc-shape-large: 0.125em;
+	--mdc-typography-font-family: 'Inter', sans-serif;
+
+	--mdc-typography-headline1-font-family: 'Josefin Sans', sans-serif;
+	--mdc-typography-headline2-font-family: 'Josefin Sans', sans-serif;
+	--mdc-typography-headline3-font-family: 'Josefin Sans', sans-serif;
+	--mdc-typography-headline4-font-family: 'Josefin Sans', sans-serif;
+	--mdc-typography-headline5-font-family: 'Josefin Sans', sans-serif;
+	--mdc-typography-headline6-font-family: 'Josefin Sans', sans-serif;
+
+	--mdc-typography-subtitle1-font-family: 'Josefin Sans', sans-serif;
+	--mdc-typography-subtitle2-font-family: 'Josefin Sans', sans-serif;
+
+	--mdc-typography-caption-font-family: 'Josefin Sans', sans-serif;
 }

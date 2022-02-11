@@ -1,2 +1,31 @@
 {{page-title 'Ember MDC Web'}}
-{{outlet}}
+<MdcCard class='mdc-card--outlined'>
+	<:header as |Header|>
+		<Header>
+			<:headline as |Headline|>
+				<Headline @text='Material Design Components for the Web' />
+			</:headline>
+			<:subheadline as |SubHeadline|>
+				<SubHeadline @text='Ember 4.0+ Addon for MDC Web 13.0+' />
+			</:subheadline>
+		</Header>
+	</:header>
+	<:content as |Content|>
+		<Content>
+			<:media as |Media|>
+				<Media
+					@src='https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg'
+				>
+					<MdcHeadline>Yoo, hoo</MdcHeadline>
+					<MdcSubHeadline>Woo, yes</MdcSubHeadline>
+				</Media>
+			</:media>
+			<:text>
+				<MdcHeadline>Hello, world</MdcHeadline>
+			</:text>
+		</Content>
+	</:content>
+	<:footer as |Footer|>
+		<Footer />
+	</:footer>
+</MdcCard>
