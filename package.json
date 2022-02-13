@@ -34,11 +34,11 @@
 		"url": "https://github.com/twyr/twyr-mdc-web/issues"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "16.1.0",
-		"@commitlint/config-conventional": "16.0.0",
+		"@commitlint/cli": "16.2.1",
+		"@commitlint/config-conventional": "16.2.1",
 		"commitizen": "4.2.4",
 		"cz-customizable": "6.3.0",
-		"eslint": "8.8.0",
+		"eslint": "8.9.0",
 		"eslint-config-prettier": "8.3.0",
 		"eslint-plugin-editorconfig": "3.2.0",
 		"eslint-plugin-json": "3.1.0",
