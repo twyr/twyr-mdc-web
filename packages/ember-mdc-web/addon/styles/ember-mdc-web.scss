@@ -49,6 +49,10 @@
 /*
  * MDC Web Component Styles
  */
+@use '@material/button/mdc-button';
+@use '@material/icon-button/mdc-icon-button';
+@use '@material/segmented-button/styles' as segmented-button-styles;
+
 @use '@material/card/mdc-card';
 @use './emdc-card.css';
 
@@ -60,6 +64,21 @@
 @use '@material/typography/mdc-typography';
 
 /*
+ * Material Design Icons
+ */
+@use '@mdi/font/scss/materialdesignicons' with (
+	$mdi-font-path: '../@mdi/font/fonts'
+);
+
+/*
  * Tailwind JIT-ted stuff
  */
-@use './tailwind-classes.css';
+/* @use './tailwind-base.css'; */
+@use './tailwind-components.css';
+@use './tailwind-utilities.css';
+@use './tailwind-variants.css';
+
+/*
+ * EMDC Utilities
+ */
+@use './emdc-utilities.css';

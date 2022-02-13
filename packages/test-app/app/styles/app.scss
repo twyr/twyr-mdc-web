@@ -6,7 +6,10 @@
 /*
  * Tailwind JIT-ted stuff
  */
-@use './tailwind-classes.css';
+/* @use './tailwind-base.css'; */
+@use './tailwind-components.css';
+@use './tailwind-utilities.css';
+@use './tailwind-variants.css';
 
 /*
  * CSS Variable Overrides
