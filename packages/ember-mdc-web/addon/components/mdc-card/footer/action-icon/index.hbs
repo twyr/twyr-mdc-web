@@ -1,2 +1,10 @@
-{{! TODO: Yield a custom button with all the classes already applied  }}
-{{yield}}
+{{! TODO: Replace with the MDCButton component when it gets done }}
+<button
+	class='mdc-icon-button mdc-card__action mdc-card__action--icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded'
+	aria-pressed='false'
+	aria-label={{@title}}
+	title={{@title}}
+	type='button'
+>
+	<i class='mdi {{@icon}}'></i>
+</button>

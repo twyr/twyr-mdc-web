@@ -9,6 +9,12 @@
 		'flex flex-row'
 		'flex flex-col'
 	}}
+	{{has-class-if @primary 'mdc-theme--primary-bg mdc-theme--on-primary'}}
+	{{has-class-if
+		@secondary
+		'mdc-theme--secondary-bg mdc-theme--on-secondary'
+	}}
+	{{has-class-if @error 'mdc-theme--error-bg mdc-theme--on-error'}}
 	...attributes
 >
 	{{#if (has-block 'media')}}
