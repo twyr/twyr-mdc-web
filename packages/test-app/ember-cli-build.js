@@ -5,6 +5,8 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function (defaults) {
 	let app = new EmberApp(defaults, {
 		// Add options here
+		storeConfigInMeta: false,
+
 		sassOptions: {
 			implementation: require('sass'),
 			includePaths: ['node_modules']
@@ -23,6 +25,9 @@ module.exports = function (defaults) {
 	// modules that you would like to import into your application
 	// please specify an object with the list of modules as keys
 	// along with the exports of each module as its value.
+	app.import(
+		'node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2'
+	);
 
 	const { Webpack } = require('@embroider/webpack');
 	return require('@embroider/compat').compatBuild(app, Webpack, {
