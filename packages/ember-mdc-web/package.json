@@ -139,6 +139,7 @@
 			"./components/mdc-card/header/index.js": "./dist/_app_/components/mdc-card/header/index.js",
 			"./components/mdc-card/index.js": "./dist/_app_/components/mdc-card/index.js",
 			"./components/mdc-headline/index.js": "./dist/_app_/components/mdc-headline/index.js",
+			"./components/mdc-icon/index.js": "./dist/_app_/components/mdc-icon/index.js",
 			"./components/mdc-sub-headline/index.js": "./dist/_app_/components/mdc-sub-headline/index.js",
 			"./modifiers/has-class-if.js": "./dist/_app_/modifiers/has-class-if.js",
 			"./modifiers/store-element.js": "./dist/_app_/modifiers/store-element.js"
