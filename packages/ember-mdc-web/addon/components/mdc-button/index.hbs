@@ -1,0 +1,21 @@
+<button
+	type='button'
+	class='mdc-button'
+	{{! Tooltip stuff }}
+	title={{@title}}
+	{{! Add styling classes as necessary }}
+	{{has-class-if @outline 'mdc-button--outlined'}}
+	{{has-class-if @raised 'mdc-button--raised'}}
+	{{has-class-if @flat 'mdc-button--unelevated'}}
+	{{! Re-calculate colors as necessary }}
+	{{on-args-change this.recalcStyling @palette @outline @raised @flat}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	...attributes
+>
+	<span class='mdc-button__ripple'></span>
+	{{#if @icon}}
+		<MdcIcon class='mdc-button__icon' @icon={{@icon}} />
+	{{/if}}
+	<span class='mdc-button__label'>{{@text}}</span>
+</button>
