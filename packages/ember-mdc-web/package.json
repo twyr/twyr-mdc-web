@@ -58,12 +58,14 @@
 		"@embroider/util": "1.2.0",
 		"@glimmer/component": "1.0.4",
 		"@glimmer/tracking": "1.0.4",
+		"@material/ripple": "13.0.0",
 		"@mdi/font": "6.5.95",
 		"ember-cli-sass": "10.0.1",
 		"ember-debug-logger": "2.1.1",
 		"ember-modifier": "3.1.0",
 		"ember-source": "4.2.0",
 		"ember-truth-helpers": "3.0.0",
+		"invert-color": "2.0.0",
 		"material-components-web": "13.0.0",
 		"sass": "1.49.7"
 	},
@@ -131,6 +133,7 @@
 		"type": "addon",
 		"main": "addon-main.js",
 		"app-js": {
+			"./components/mdc-button/index.js": "./dist/_app_/components/mdc-button/index.js",
 			"./components/mdc-card/content/index.js": "./dist/_app_/components/mdc-card/content/index.js",
 			"./components/mdc-card/content/media/index.js": "./dist/_app_/components/mdc-card/content/media/index.js",
 			"./components/mdc-card/footer/action-button/index.js": "./dist/_app_/components/mdc-card/footer/action-button/index.js",
@@ -142,7 +145,15 @@
 			"./components/mdc-icon/index.js": "./dist/_app_/components/mdc-icon/index.js",
 			"./components/mdc-sub-headline/index.js": "./dist/_app_/components/mdc-sub-headline/index.js",
 			"./modifiers/has-class-if.js": "./dist/_app_/modifiers/has-class-if.js",
-			"./modifiers/store-element.js": "./dist/_app_/modifiers/store-element.js"
+			"./modifiers/on-args-change.js": "./dist/_app_/modifiers/on-args-change.js",
+			"./modifiers/on-mutation.js": "./dist/_app_/modifiers/on-mutation.js",
+			"./modifiers/on-resize.js": "./dist/_app_/modifiers/on-resize.js",
+			"./modifiers/store-element.js": "./dist/_app_/modifiers/store-element.js",
+			"./services/colour-utilities.js": "./dist/_app_/services/colour-utilities.js",
+			"./services/element-mutation-watcher.js": "./dist/_app_/services/element-mutation-watcher.js",
+			"./services/element-resize-watcher.js": "./dist/_app_/services/element-resize-watcher.js",
+			"./utils/check-browser-features.js": "./dist/_app_/utils/check-browser-features.js",
+			"./utils/next-browser-tick.js": "./dist/_app_/utils/next-browser-tick.js"
 		}
 	}
 }
