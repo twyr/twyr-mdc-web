@@ -1,10 +1,9 @@
-{{! TODO: Replace with the MDCButton component when it gets done }}
-<button
+<MdcButton
 	class='mdc-icon-button mdc-card__action mdc-card__action--icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded'
 	aria-pressed='false'
 	aria-label={{@title}}
 	title={{@title}}
 	type='button'
 >
-	<MdcIcon @icon={{@icon}} />
-</button>
+	<MdcIcon class='mdc-icon-button__icon' @icon={{@icon}} />
+</MdcButton>

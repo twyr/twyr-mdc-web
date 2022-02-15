@@ -1,8 +1,14 @@
-{{! TODO: Replace with the MDCButton component when it gets done }}
-<button
-	class='mdc-button mdc-card__action mdc-card__action--button mdc-ripple-upgraded'
-	type='button'
->
-	<span class='mdc-button__ripple'></span>
-	{{yield}}
-</button>
+<MdcButton
+	class='mdc-card__action mdc-card__action--button'
+	{{! Tooltip stuff }}
+	@title={{@title}}
+	{{! Icon and Text }}
+	@icon={{@icon}}
+	@text={{@text}}
+	{{! Styling }}
+	@flat={{@flat}}
+	@outline={{@outline}}
+	@raised={{@raised}}
+	{{! Colour scheme }}
+	@palette={{@palette}}
+/>
