@@ -21,3 +21,6 @@
         -ms-flex-direction: column;
             flex-direction: column
 }
+.outline {
+    outline-style: solid
+}
