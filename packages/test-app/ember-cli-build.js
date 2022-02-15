@@ -7,6 +7,14 @@ module.exports = function (defaults) {
 		// Add options here
 		storeConfigInMeta: false,
 
+		autoImport: {
+			watchDependencies: '@twyr/ember-mdc-web'
+		},
+
+		babel: {
+			plugins: [require.resolve('ember-auto-import/babel-plugin')]
+		},
+
 		sassOptions: {
 			implementation: require('sass'),
 			includePaths: ['node_modules']
