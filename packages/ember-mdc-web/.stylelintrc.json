@@ -18,7 +18,8 @@
 					"extends",
 					"layer",
 					"tailwind",
-					"use"
+					"use",
+					"include"
 				]
 			}
 		],
@@ -30,7 +31,8 @@
 					"extends",
 					"layer",
 					"tailwind",
-					"use"
+					"use",
+					"include"
 				]
 			}
 		],
