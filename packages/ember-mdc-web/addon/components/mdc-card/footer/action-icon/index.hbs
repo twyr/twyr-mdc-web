@@ -1,9 +1,11 @@
-<MdcButton
-	class='mdc-icon-button mdc-card__action mdc-card__action--icon mdc-ripple-upgraded--unbounded mdc-ripple-upgraded'
-	aria-pressed='false'
-	aria-label={{@title}}
-	title={{@title}}
-	type='button'
->
-	<MdcIcon class='mdc-icon-button__icon' @icon={{@icon}} />
-</MdcButton>
+<MdcIconButton
+	class='mdc-card__action mdc-card__action--icon mdc-ripple-upgraded mdc-ripple-upgraded__unbounded'
+	{{! Tooltip stuff }}
+	@title={{@title}}
+	{{! Icon }}
+	@icon={{@icon}}
+	{{! Colour scheme }}
+	@palette={{@palette}}
+	{{! Toggle }}
+	@toggle={{@toggle}}
+/>
