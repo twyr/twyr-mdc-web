@@ -29,6 +29,7 @@ export default class MdcBackdropComponent extends Component {
 		const isEventInsideElement =
 			event?.target === this.#element ||
 			this.#element?.contains?.(event?.target);
+
 		if (isEventInsideElement) {
 			event?.stopPropagation?.();
 			event?.preventDefault?.();
