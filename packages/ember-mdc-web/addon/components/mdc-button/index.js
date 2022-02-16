@@ -38,6 +38,9 @@ export default class MdcButtonComponent extends Component {
 		this.#element?.style?.removeProperty?.(
 			'--mdc-text-button-hover-state-layer-color'
 		);
+		this.#element?.style?.removeProperty?.(
+			'--mdc-text-button-container-shape'
+		);
 
 		// Outlined button
 		this.#element?.style?.removeProperty?.(
@@ -49,6 +52,9 @@ export default class MdcButtonComponent extends Component {
 		);
 		this.#element?.style?.removeProperty?.(
 			'--mdc-outlined-button-hover-state-layer-color'
+		);
+		this.#element?.style?.removeProperty?.(
+			'--mdc-outlined-button-container-shape'
 		);
 
 		// Raised (protected) button
@@ -70,6 +76,9 @@ export default class MdcButtonComponent extends Component {
 		// Step 2: Style / Palette for each button type
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
 		const textColour = `--mdc-theme-on-${this?.args?.palette ?? 'primary'}`;
+		const borderRadius = window?.getComputedStyle?.(
+			this.#element
+		)?.borderRadius;
 
 		// Non-styled (regular) button
 		this.#element?.style?.setProperty?.(
@@ -80,6 +89,12 @@ export default class MdcButtonComponent extends Component {
 			'--mdc-text-button-hover-state-layer-color',
 			`var(${paletteColour})`
 		);
+
+		if (this?.args?.shape === 'rounded')
+			this.#element?.style?.setProperty?.(
+				'--mdc-text-button-container-shape',
+				borderRadius
+			);
 
 		// Outlined button
 		if (this?.args?.style === 'outlined') {
@@ -97,6 +112,12 @@ export default class MdcButtonComponent extends Component {
 				'--mdc-outlined-button-hover-state-layer-color',
 				`var(${paletteColour})`
 			);
+
+			if (this?.args?.shape === 'rounded')
+				this.#element?.style?.setProperty?.(
+					'--mdc-outlined-button-container-shape',
+					borderRadius
+				);
 		}
 
 		// Raised button
