@@ -21,6 +21,9 @@
         -ms-flex-direction: column;
             flex-direction: column
 }
-.outline {
-    outline-style: solid
+.rounded {
+    border-radius: 0.25rem
+}
+.rounded-full {
+    border-radius: 9999px
 }

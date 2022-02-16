@@ -4,11 +4,12 @@
 	{{! Tooltip stuff }}
 	title={{@title}}
 	{{! Add styling classes as necessary }}
-	{{has-class-if @outline 'mdc-button--outlined'}}
-	{{has-class-if @raised 'mdc-button--raised'}}
-	{{has-class-if @flat 'mdc-button--unelevated'}}
-	{{! Re-calculate colors as necessary }}
-	{{on-args-change this.recalcStyling @palette @outline @raised @flat}}
+	{{has-class-if (eq @style 'outlined') 'mdc-button--outlined'}}
+	{{has-class-if (eq @style 'raised') 'mdc-button--raised'}}
+	{{has-class-if (eq @style 'flat') 'mdc-button--unelevated'}}
+	{{has-class-if (eq @shape 'rounded') 'rounded-full'}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyling @palette @style}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	...attributes
