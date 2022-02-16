@@ -45,10 +45,17 @@
 /*
 @use 'material-components-web/material-components-web';
 */
+/*
+ * Tailwind JIT-ted stuff
+ */
+/* @use './tailwind-base.css'; */
+@use './tailwind-components.css';
 
 /*
  * MDC Web Component Styles
  */
+@use './emdc-backdrop.css';
+
 @use '@material/button/mdc-button';
 @use '@material/icon-button/mdc-icon-button';
 @use '@material/segmented-button/styles' as segmented-button-styles;
@@ -73,8 +80,6 @@
 /*
  * Tailwind JIT-ted stuff
  */
-/* @use './tailwind-base.css'; */
-@use './tailwind-components.css';
 @use './tailwind-utilities.css';
 @use './tailwind-variants.css';
 

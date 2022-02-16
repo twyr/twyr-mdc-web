@@ -133,6 +133,7 @@
 		"type": "addon",
 		"main": "addon-main.js",
 		"app-js": {
+			"./components/mdc-backdrop/index.js": "./dist/_app_/components/mdc-backdrop/index.js",
 			"./components/mdc-button/index.js": "./dist/_app_/components/mdc-button/index.js",
 			"./components/mdc-card/content/index.js": "./dist/_app_/components/mdc-card/content/index.js",
 			"./components/mdc-card/content/media/index.js": "./dist/_app_/components/mdc-card/content/media/index.js",
@@ -153,6 +154,7 @@
 			"./services/element-mutation-watcher.js": "./dist/_app_/services/element-mutation-watcher.js",
 			"./services/element-resize-watcher.js": "./dist/_app_/services/element-resize-watcher.js",
 			"./utils/check-browser-features.js": "./dist/_app_/utils/check-browser-features.js",
+			"./utils/dom-element-attributes.js": "./dist/_app_/utils/dom-element-attributes.js",
 			"./utils/next-browser-tick.js": "./dist/_app_/utils/next-browser-tick.js"
 		}
 	}

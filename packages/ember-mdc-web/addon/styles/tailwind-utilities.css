@@ -1,3 +1,9 @@
+.fixed {
+    position: fixed
+}
+.absolute {
+    position: absolute
+}
 .flex {
     display: -webkit-box;
     display: -ms-flexbox;
