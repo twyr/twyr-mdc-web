@@ -1,0 +1,15 @@
+<button
+	type='button'
+	class='mdc-icon-button'
+	{{! Tooltip stuff }}
+	title={{@title}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyling @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	data-mdc-ripple-is-unbounded='true'
+	...attributes
+>
+	<span class='mdc-icon-button__ripple'></span>
+	<MdcIcon @icon={{@icon}} class='mdc-icon-button__icon' />
+</button>
