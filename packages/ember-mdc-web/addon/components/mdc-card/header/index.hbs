@@ -1,11 +1,6 @@
 <div
 	class='mdc-card__header'
-	{{has-class-if @primary 'mdc-theme--primary-bg mdc-theme--on-primary'}}
-	{{has-class-if
-		@secondary
-		'mdc-theme--secondary-bg mdc-theme--on-secondary'
-	}}
-	{{has-class-if @error 'mdc-theme--error-bg mdc-theme--on-error'}}
+	{{has-class-if @palette this.paletteStyle}}
 	...attributes
 >
 	{{#if (or (has-block 'headline') (has-block 'subheadline'))}}

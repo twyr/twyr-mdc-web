@@ -22,6 +22,12 @@ export default class MdcCardContentComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
+	get paletteStyle() {
+		if (!this?.args?.palette) return null;
+
+		return `mdc-theme--${this?.args?.palette}-bg mdc-theme--on-${this?.args?.palette}`;
+	}
+
 	get titleComponent() {
 		return this?._getComputedSubcomponent?.('title');
 	}

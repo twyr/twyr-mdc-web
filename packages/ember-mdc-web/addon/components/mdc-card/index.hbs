@@ -4,27 +4,14 @@
 	...attributes
 >
 	{{#if (has-block 'header')}}
-		{{yield
-			(component
-				this.headerComponent
-				primary=@primary
-				secondary=@secondary
-				error=@error
-			)
-			to='header'
-		}}
+		{{yield (component this.headerComponent palette=@palette) to='header'}}
 	{{/if}}
 	{{#if (has-block 'content')}}
 		{{#if (has-block 'header')}}
 			{{yield (component this.contentComponent) to='content'}}
 		{{else}}
 			{{yield
-				(component
-					this.contentComponent
-					primary=@primary
-					secondary=@secondary
-					error=@error
-				)
+				(component this.contentComponent palette=@palette)
 				to='content'
 			}}
 		{{/if}}
