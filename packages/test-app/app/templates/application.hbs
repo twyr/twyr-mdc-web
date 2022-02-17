@@ -1,9 +1,9 @@
 {{page-title 'Ember MDC Web'}}
-<MdcCard class='w-1/3'>
+<MdcCard class='max-w-[20%]'>
 	<:header as |Header|>
 		<Header>
 			<:headline as |Headline|>
-				<Headline @text='Material Design Components for the Web' />
+				<Headline @text='MDC for the Web' />
 			</:headline>
 			<:subheadline as |SubHeadline|>
 				<SubHeadline @text='Ember 4.0+ Addon for MDC Web 13.0+' />
@@ -22,13 +22,38 @@
 				</Media>
 			</:media>
 			<:text>
-				<span class='mdc-theme--text-secondary-on-light'>
-					Its another Tequila Sunrise
-				</span>
+				<MdcFab
+					@extended={{true}}
+					@icon='share'
+					@palette='error'
+					{{on 'click' this.showDialog}}
+				>
+					It's another Tequila Sunrise
+				</MdcFab>
 			</:text>
 		</Content>
 	</:content>
 	<:footer as |Footer|>
-		<Footer />
+		<Footer>
+			<:actionButtons as |ActionButton|>
+				<ActionButton
+					@title='Bookmark'
+					@text='Bookmark'
+					@icon='share'
+					@style='none'
+					@shape='rounded'
+					@palette='primary'
+					{{on 'click' this.showDialog}}
+				/>
+			</:actionButtons>
+			<:actionIcons as |ActionIcon|>
+				<ActionIcon
+					@title='Share'
+					@icon='share-variant'
+					@palette='error'
+					{{on 'click' this.showDialog}}
+				/>
+			</:actionIcons>
+		</Footer>
 	</:footer>
 </MdcCard>
