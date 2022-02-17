@@ -147,6 +147,7 @@
 			"./components/mdc-dialog/footer/index.js": "./dist/_app_/components/mdc-dialog/footer/index.js",
 			"./components/mdc-dialog/header/index.js": "./dist/_app_/components/mdc-dialog/header/index.js",
 			"./components/mdc-dialog/index.js": "./dist/_app_/components/mdc-dialog/index.js",
+			"./components/mdc-fab/index.js": "./dist/_app_/components/mdc-fab/index.js",
 			"./components/mdc-headline/index.js": "./dist/_app_/components/mdc-headline/index.js",
 			"./components/mdc-icon-button/index.js": "./dist/_app_/components/mdc-icon-button/index.js",
 			"./components/mdc-icon/index.js": "./dist/_app_/components/mdc-icon/index.js",

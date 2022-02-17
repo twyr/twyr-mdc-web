@@ -1,0 +1,20 @@
+<button
+	type='button'
+	class='mdc-fab'
+	{{has-class-if @mini 'mdc-fab--mini'}}
+	{{has-class-if @extended 'mdc-fab--extended'}}
+	{{! Tooltip stuff }}
+	title={{@title}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyling @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	data-mdc-ripple-is-unbounded='true'
+	...attributes
+>
+	<span class='mdc-fab__ripple'></span>
+	<MdcIcon @icon={{@icon}} class='mdc-fab__icon' />
+	{{#if @extended}}
+		<span class='mdc-fab__label'>{{yield}}</span>
+	{{/if}}
+</button>
