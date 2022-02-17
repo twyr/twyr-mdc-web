@@ -9,11 +9,12 @@
 	{{on-args-change this.recalcStyling @palette}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
-	data-mdc-ripple-is-unbounded='true'
 	...attributes
 >
 	<span class='mdc-fab__ripple'></span>
-	<MdcIcon @icon={{@icon}} class='mdc-fab__icon' />
+	{{#if @icon}}
+		<MdcIcon @icon={{@icon}} class='mdc-fab__icon' />
+	{{/if}}
 	{{#if @extended}}
 		<span class='mdc-fab__label'>{{yield}}</span>
 	{{/if}}

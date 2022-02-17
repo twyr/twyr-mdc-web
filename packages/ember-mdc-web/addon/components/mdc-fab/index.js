@@ -38,7 +38,12 @@ export default class MdcFabComponent extends Component {
 		this.#element.style.color = `var(${textColour})`;
 
 		const iconElement = this.#element?.querySelector?.('i.mdc-fab__icon');
-		iconElement.style.color = `var(${textColour})`;
+		if (iconElement) iconElement.style.color = `var(${textColour})`;
+
+		const labelElement = this.#element?.querySelector?.(
+			'span.mdc-fab__label'
+		);
+		if (labelElement) labelElement.style.color = `var(${textColour})`;
 
 		this.#element?.style?.setProperty?.(
 			'--mdc-ripple-color',
