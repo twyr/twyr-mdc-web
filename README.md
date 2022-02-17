@@ -28,12 +28,12 @@
     -   [Contributors](#contributors)
 -   [License](#license)
 
-#### About
+#### ABOUT
 
 This is a monorepo used for the development and maintenance of the [Ember](https://emberjs.com) implementation of [Material Design Component for the Web](https://material.io/components?platform=web), and consists of
 two packages - the Ember MDC Web Addon itself, and an Ember App for testing, debugging, documenting, and showcasing the addon.
 
-#### Status
+#### STATUS
 
 | Category       | Status                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -47,11 +47,11 @@ two packages - the Ember MDC Web Addon itself, and an Ember App for testing, deb
 | Release Status | ![GitHub package.json version](https://img.shields.io/github/package-json/v/twyr/twyr-mdc-web/main) ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/twyr/twyr-mdc-web?sort=semver) ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/twyr/twyr-mdc-web?sort=semver)                                                                                                                                                                                                                                                                                                  |
 | Publish Status | ![node-current](https://img.shields.io/node/v/@twyr/twyr-mdc-web) ![npm bundle size](https://img.shields.io/bundlephobia/min/@twyr/twyr-mdc-web) ![npm](https://img.shields.io/npm/dy/@twyr/twyr-mdc-web)                                                                                                                                                                                                                                                                                                                                                                                                      |
 
-#### Why
+#### WHY
 
 Just because...
 
-#### Goals
+#### GOALS
 
 Ember-related goals:
 
@@ -64,7 +64,7 @@ MDC Web related goals:
 2. Re-use MDC Javascript API for utilities (Ripples, etc.) to provide a "MDC Native" feel for the Ember components
 3. Build using the SCSS files provided by MDC Web - extend/enhance only if necessary
 
-#### Contributing
+#### CONTRIBUTING
 
 ##### Code of Conduct
 
@@ -101,7 +101,7 @@ This project owes its existence to these wonderful people ([emoji key](https://a
 
 This project follows the [all-contributors](https://allcontributors.org) specification. Contributions of any kind are welcome!
 
-#### License
+#### LICENSE
 
 This project is licensed under the [MIT +no-false-attribs](https://spdx.org/licenses/MITNFA.html) license.
 You may get a copy of the license by following the link, or at [LICENSE.md](LICENSE.md)
