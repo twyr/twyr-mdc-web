@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import Component from './../../../mdc-icon-button/index';
 import debugLogger from 'ember-debug-logger';
 
 export default class MdcCardFooterActionIconComponent extends Component {
