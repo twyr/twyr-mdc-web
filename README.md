@@ -8,7 +8,7 @@
 <hr />
 
 <div align="center">
-    <a href="https://emberjs.com">Ember 4.0+</a> implementation of <a href="https://material.io/components?platform=web">Material Design components (MDC) for the Web</a>
+    <a href="https://emberjs.com">Ember 4.0+</a> implementation of <a href="https://material-components.github.io/material-components-web-catalog/#/">Material Design components (MDC) for the Web</a>
 </div>
 <div align="center">
     Built as part of the <a href="https://github.com/twyr">Twy&apos;r</a> effort by <a href="https://github.com/shadyvd">Vish Desai</a> and <a href="https://github.com/twyr/twyr-mdc-web/graphs/contributors">contributors</a>
@@ -30,7 +30,7 @@
 
 #### ABOUT
 
-This is a monorepo used for the development and maintenance of the [Ember](https://emberjs.com) implementation of [Material Design Component for the Web](https://material.io/components?platform=web), and consists of
+This is a monorepo used for the development and maintenance of the [Ember](https://emberjs.com) implementation of [Material Components for the Web](https://material-components.github.io/material-components-web-catalog/#/), and consists of
 two packages - the Ember MDC Web Addon itself, and an Ember App for testing, debugging, documenting, and showcasing the addon.
 
 #### STATUS
@@ -60,7 +60,7 @@ Ember-related goals:
 
 MDC Web related goals:
 
-1. Build using the latest release of [MDC for the Web 13.0+](https://material.io/components?platform=web) - with no expectation of backward compatibility
+1. Build using the latest release of [MDC for the Web 13.0+](https://material-components.github.io/material-components-web-catalog/#/) - with no expectation of backward compatibility
 2. Re-use MDC Javascript API for utilities (Ripples, etc.) to provide a "MDC Native" feel for the Ember components
 3. Build using the SCSS files provided by MDC Web - extend/enhance only if necessary
 
