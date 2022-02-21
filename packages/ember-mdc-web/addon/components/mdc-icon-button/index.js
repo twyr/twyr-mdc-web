@@ -27,7 +27,9 @@ export default class MdcIconButtonComponent extends Component {
 		this.#debug?.(`recalcStyling: re-calculating styling`);
 		if (!this.#element) return;
 
-		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
+		const paletteColour = `--mdc-theme-on-${
+			this?.args?.palette ?? 'primary'
+		}`;
 
 		this.#element.style.color = `var(${paletteColour})`;
 		this.#element?.style?.setProperty?.(

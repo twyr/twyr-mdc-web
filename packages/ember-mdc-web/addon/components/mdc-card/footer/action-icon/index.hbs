@@ -3,13 +3,19 @@
 	class='mdc-icon-button mdc-card__action mdc-card__action--icon mdc-ripple-upgraded mdc-ripple-upgraded__unbounded'
 	{{! Tooltip stuff }}
 	title={{@title}}
+	{{! Add styling classes as necessary }}
+	{{has-class-if @toggled 'mdc-icon-button--on'}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyling @palette}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
-	data-mdc-ripple-is-unbounded='true'
+	{{! Overridden attributes }}
 	...attributes
 >
 	<span class='mdc-icon-button__ripple'></span>
+	<MdcIcon
+		@icon={{@toggledIcon}}
+		class='mdc-icon-button__icon mdc-icon-button__icon--on'
+	/>
 	<MdcIcon @icon={{@icon}} class='mdc-icon-button__icon' />
 </button>
