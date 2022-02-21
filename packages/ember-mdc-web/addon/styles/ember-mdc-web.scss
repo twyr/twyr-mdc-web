@@ -65,7 +65,17 @@
 @use './emdc-card.css';
 
 @use '@material/dialog/mdc-dialog';
+
+@use '@material/drawer/mdc-drawer';
+@use './emdc-drawer.css';
+
 @use '@material/elevation/mdc-elevation';
+
+@use '@material/image-list/mdc-image-list';
+@use '@material/list/mdc-list';
+
+@use '@material/top-app-bar/mdc-top-app-bar';
+@use './emdc-top-app-bar.css';
 
 /*
  * MDC Theme, Typography, etc.
