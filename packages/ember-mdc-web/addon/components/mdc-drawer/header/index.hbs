@@ -1,0 +1,16 @@
+<div
+	class='mdc-drawer__header'
+	{{has-class-if @palette this.paletteStyle}}
+	...attributes
+>
+	{{#if (or (has-block 'headline') (has-block 'subheadline'))}}
+		<article class='mdc-drawer__header--article'>
+			{{#if (has-block 'headline')}}
+				{{yield (component this.headlineComponent) to='headline'}}
+			{{/if}}
+			{{#if (has-block 'subheadline')}}
+				{{yield (component this.subHeadlineComponent) to='subheadline'}}
+			{{/if}}
+		</article>
+	{{/if}}
+</div>

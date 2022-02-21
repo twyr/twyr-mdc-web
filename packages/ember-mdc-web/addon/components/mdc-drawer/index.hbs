@@ -1,0 +1,17 @@
+<aside
+	class='mdc-drawer'
+	{{has-class-if @modal 'mdc-drawer--modal' 'mdc-drawer--dismissible'}}
+	{{has-class-if (or @locked this.isOpen) 'mdc-drawer--open'}}
+	{{on-args-change this.registerWithControl @controlElement}}
+	{{not-on 'click' this.onClickOutside}}
+	{{store-element this.storeElement}}
+	...attributes
+>
+	{{#if (has-block 'header')}}
+		{{yield (component this.headerComponent palette=@palette) to='header'}}
+		<MdcDivider />
+	{{/if}}
+	{{#if (has-block 'content')}}
+		{{yield (component this.contentComponent) to='content'}}
+	{{/if}}
+</aside>
