@@ -42,7 +42,9 @@ export default class MdcIconButtonComponent extends Component {
 		this.#element = element;
 
 		this?.recalcStyling?.();
-		MDCRipple?.attachTo?.(this.#element);
+
+		const buttonRipple = new MDCRipple(this.#element);
+		buttonRipple.unbounded = true;
 	}
 	// #endregion
 
