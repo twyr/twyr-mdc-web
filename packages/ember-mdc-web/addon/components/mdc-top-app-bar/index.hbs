@@ -1,0 +1,46 @@
+<header
+	class='mdc-top-app-bar'
+	{{has-class-if @short 'mdc-top-app-bar--short'}}
+	{{has-class-if (and @short @collapsed) 'mdc-top-app-bar--short-collapsed'}}
+	{{has-class-if
+		(and @short (has-block 'actionIcons'))
+		'mdc-top-app-bar--short-has-action-item'
+	}}
+	{{has-class-if @dense 'mdc-top-app-bar--dense'}}
+	{{has-class-if @fixed 'mdc-top-app-bar--fixed'}}
+	{{has-class-if @prominent 'mdc-top-app-bar--prominent'}}
+	{{has-class-if @palette this.paletteStyle}}
+	...attributes
+>
+	<div class='mdc-top-app-bar__row'>
+		{{#if (or (has-block 'navigationIcon') (has-block 'title'))}}
+			<section
+				class='mdc-top-app-bar__section mdc-top-app-bar__section--align-start'
+			>
+				{{#if (has-block 'navigationIcon')}}
+					{{yield
+						(component
+							this.navigationIconComponent palette=@palette
+						)
+						to='navigationIcon'
+					}}
+				{{/if}}
+				{{#if (has-block 'title')}}
+					<span class='mdc-top-app-bar__title'>{{yield
+							to='title'
+						}}</span>
+				{{/if}}
+			</section>
+		{{/if}}
+		{{#if (has-block 'actionIcons')}}
+			<section
+				class='mdc-top-app-bar__section mdc-top-app-bar__section--align-end'
+			>
+				{{yield
+					(component this.actionIconComponent palette=@palette)
+					to='actionIcons'
+				}}
+			</section>
+		{{/if}}
+	</div>
+</header>

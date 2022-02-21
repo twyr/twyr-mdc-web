@@ -1,0 +1,7 @@
+.mdc-top-app-bar {
+	@apply absolute;
+
+	&.mdc-top-app-bar--fixed {
+		@apply fixed;
+	}
+}
