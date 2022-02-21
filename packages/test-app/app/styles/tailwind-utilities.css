@@ -4,14 +4,6 @@
 	display: flex;
 }
 
-.min-w-\[30\%\] {
-	min-width: 30%;
-}
-
-.max-w-\[20\%\] {
-	max-width: 20%;
-}
-
 .flex-row {
 	flex-direction: row;
 	flex-direction: row;
@@ -19,23 +11,6 @@
 	-webkit-box-direction: normal;
 }
 
-.items-center {
-	align-items: center;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-}
-
-.justify-center {
-	justify-content: center;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-}
-
-.self-center {
-	align-self: center;
-	-ms-flex-item-align: center;
-}
-
-.rounded {
-	border-radius: 0.25rem;
+.pt-16 {
+	padding-top: 4rem;
 }

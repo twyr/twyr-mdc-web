@@ -9,7 +9,8 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked toggled = false;
+	@tracked navIconElement = null;
+	@tracked palette = 'error';
 	// #endregion
 
 	// #region Constructor
@@ -24,13 +25,9 @@ export default class ApplicationController extends Controller {
 
 	// #region DOM Event Handlers
 	@action
-	showDialog() {
-		this.#debug?.('showDialog: ON BUTTON CLICK');
-	}
-
-	@action
-	toggleIconButton() {
-		this.toggled = !this.toggled;
+	storeNavigationIconElement(navIconElement) {
+		this.#debug?.('storeNavigationIconElement: ', navIconElement);
+		this.navIconElement = navIconElement;
 	}
 	// #endregion
 

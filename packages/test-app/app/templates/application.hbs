@@ -1,68 +1,34 @@
-{{page-title 'Ember MDC Web'}}
-<MdcCard class='max-w-[20%]'>
-	<:header as |Header|>
-		<Header>
-			<:headline as |Headline|>
-				<Headline @text='MDC for the Web' />
-			</:headline>
-			<:subheadline as |SubHeadline|>
-				<SubHeadline @text='Ember 4.0+ Addon for MDC Web 13.0+' />
-			</:subheadline>
-		</Header>
-	</:header>
-	<:content as |Content|>
-		<Content @direction='vertical'>
-			<:media as |Media|>
-				<Media
-					class='mdc-theme--text-primary-on-dark min-w-[30%]'
-					@src='https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg'
-				>
-					<MdcHeadline>Yoo, hoo</MdcHeadline>
-					<MdcSubHeadline>Woo, yes</MdcSubHeadline>
-				</Media>
-			</:media>
-			<:text>
-				<div
-					class='flex flex-row justify-center items-center self-center'
-				>
-					<MdcFab
-						@extended={{false}}
-						@icon='share'
-						@palette='error'
-						{{on 'click' this.showDialog}}
-					/>
+{{! template-lint-disable no-inline-styles }}
+{{page-title 'Ember Material Components for the Web'}}
+<MdcTopAppBar @fixed={{true}} @palette={{this.palette}}>
+	<:navigationIcon as |NavIcon|>
+		<NavIcon
+			@icon='menu'
+			{{store-element this.storeNavigationIconElement}}
+		/>
+	</:navigationIcon>
 
-					<MdcIconButton
-						@toggled={{this.toggled}}
-						@icon='cards-diamond-outline'
-						@toggledIcon='cards-diamond'
-						{{on 'click' this.toggleIconButton}}
-					/>
-				</div>
-			</:text>
-		</Content>
-	</:content>
-	<:footer as |Footer|>
-		<Footer>
-			<:actionButtons as |ActionButton|>
-				<ActionButton
-					@title='Bookmark'
-					@text='Bookmark'
-					@icon='share'
-					@style='none'
-					@shape='rounded'
-					@palette='primary'
-					{{on 'click' this.showDialog}}
-				/>
-			</:actionButtons>
-			<:actionIcons as |ActionIcon|>
-				<ActionIcon
-					@title='Share'
-					@icon='share-variant'
-					@palette='error'
-					{{on 'click' this.showDialog}}
-				/>
-			</:actionIcons>
-		</Footer>
-	</:footer>
-</MdcCard>
+	<:title>Ember Material Components for the Web</:title>
+</MdcTopAppBar>
+
+<div class='flex flex-row pt-16'>
+	<MdcDrawer
+		@modal={{false}}
+		@locked={{true}}
+		@controlElement={{this.navIconElement}}
+		style='height:calc(100% - 4rem);'
+	>
+		<:header as |Header|>
+			<Header>
+				<:headline as |Headline|>
+					<Headline @text='Material Web' />
+				</:headline>
+				<:subheadline as |Subheadline|>
+					<Subheadline @text='Documentation' />
+				</:subheadline>
+			</Header>
+		</:header>
+	</MdcDrawer>
+
+	{{outlet}}
+</div>
