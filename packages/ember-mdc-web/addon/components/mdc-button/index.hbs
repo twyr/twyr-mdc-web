@@ -4,6 +4,7 @@
 	{{! Tooltip stuff }}
 	title={{@title}}
 	{{! Add styling classes as necessary }}
+	{{has-class-if @dense 'mdc-button--dense'}}
 	{{has-class-if (eq @style 'outlined') 'mdc-button--outlined'}}
 	{{has-class-if (eq @style 'raised') 'mdc-button--raised'}}
 	{{has-class-if (eq @style 'flat') 'mdc-button--unelevated'}}
