@@ -67,10 +67,10 @@
 		"ember-truth-helpers": "3.0.0",
 		"invert-color": "2.0.0",
 		"material-components-web": "13.0.0",
-		"sass": "1.49.7"
+		"sass": "1.49.8"
 	},
 	"devDependencies": {
-		"@babel/core": "7.17.4",
+		"@babel/core": "7.17.5",
 		"@babel/eslint-parser": "7.17.0",
 		"@babel/plugin-proposal-class-properties": "7.16.7",
 		"@babel/plugin-proposal-decorators": "7.17.2",
@@ -88,10 +88,10 @@
 		"postcss-cli": "9.1.0",
 		"postcss-import": "14.0.2",
 		"postcss-nesting": "10.1.2",
-		"postcss-preset-env": "7.4.0",
+		"postcss-preset-env": "7.4.1",
 		"prettier": "2.5.1",
 		"prettier-plugin-jsdoc": "0.3.30",
-		"rollup": "2.67.2",
+		"rollup": "2.67.3",
 		"stylelint": "14.5.1",
 		"stylelint-config-hudochenkov": "6.0.1",
 		"stylelint-config-prettier": "9.0.3",
