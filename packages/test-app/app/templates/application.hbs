@@ -22,14 +22,23 @@
 				</Media>
 			</:media>
 			<:text>
-				<MdcFab
-					@extended={{true}}
-					@icon='share'
-					@palette='error'
-					{{on 'click' this.showDialog}}
+				<div
+					class='flex flex-row justify-center items-center self-center'
 				>
-					It's another Tequila Sunrise
-				</MdcFab>
+					<MdcFab
+						@extended={{false}}
+						@icon='share'
+						@palette='error'
+						{{on 'click' this.showDialog}}
+					/>
+
+					<MdcIconButton
+						@toggled={{this.toggled}}
+						@icon='cards-diamond-outline'
+						@toggledIcon='cards-diamond'
+						{{on 'click' this.toggleIconButton}}
+					/>
+				</div>
 			</:text>
 		</Content>
 	</:content>

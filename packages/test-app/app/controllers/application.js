@@ -2,12 +2,14 @@ import Controller from '@ember/controller';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
 	// #region Accessed Services
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked toggled = false;
 	// #endregion
 
 	// #region Constructor
@@ -24,6 +26,11 @@ export default class ApplicationController extends Controller {
 	@action
 	showDialog() {
 		this.#debug?.('showDialog: ON BUTTON CLICK');
+	}
+
+	@action
+	toggleIconButton() {
+		this.toggled = !this.toggled;
 	}
 	// #endregion
 
