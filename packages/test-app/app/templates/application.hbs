@@ -13,7 +13,7 @@
 
 <div class='flex flex-row pt-16'>
 	<MdcDrawer
-		@modal={{false}}
+		@modal={{true}}
 		@locked={{true}}
 		@controlElement={{this.navIconElement}}
 		style='height:calc(100% - 4rem);'
@@ -28,6 +28,37 @@
 				</:subheadline>
 			</Header>
 		</:header>
+
+		<:content>
+			<MdcList
+				@doubleLine={{true}}
+				@palette={{this.palette}}
+				@shaped={{false}}
+				as |List|
+			>
+				<List.Item @selected={{false}}>
+					<:icon as |Icon|>
+						<Icon @icon='share' />
+					</:icon>
+
+					<:primaryText>Home</:primaryText>
+					<:secondaryText>Home, sweet home</:secondaryText>
+
+					<:default>Home</:default>
+
+					<:meta>
+						<MdcIcon @icon='crowd' />
+					</:meta>
+				</List.Item>
+
+				<List.Item @selected={{false}}>
+					<:primaryText>Rome</:primaryText>
+					<:secondaryText>Rome, sweet rome</:secondaryText>
+					<:default>Rome</:default>
+				</List.Item>
+				<List.Divider />
+			</MdcList>
+		</:content>
 	</MdcDrawer>
 
 	{{outlet}}
