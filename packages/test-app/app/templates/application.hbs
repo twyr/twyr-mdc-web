@@ -30,34 +30,58 @@
 		</:header>
 
 		<:content>
-			<MdcList
+			<MdcListGroup
 				@doubleLine={{true}}
 				@palette={{this.palette}}
 				@shaped={{false}}
-				as |List|
+				as |ListGroup|
 			>
-				<List.Item @selected={{false}}>
-					<:icon as |Icon|>
-						<Icon @icon='share' />
-					</:icon>
+				<ListGroup.Header>
+					List Group #1
+				</ListGroup.Header>
+				<ListGroup.List as |List|>
+					<List.Item @selected={{false}}>
+						<:primaryText>Home</:primaryText>
+						<:secondaryText>Home, sweet home</:secondaryText>
 
-					<:primaryText>Home</:primaryText>
-					<:secondaryText>Home, sweet home</:secondaryText>
+						<:default>Home</:default>
 
-					<:default>Home</:default>
+						<:meta>
+							<MdcIcon @icon='crowd' />
+						</:meta>
+					</List.Item>
 
-					<:meta>
-						<MdcIcon @icon='crowd' />
-					</:meta>
-				</List.Item>
+					<List.Item @selected={{false}}>
+						<:primaryText>Rome</:primaryText>
+						<:secondaryText>Rome, sweet rome</:secondaryText>
+						<:default>Rome</:default>
+					</List.Item>
+					<List.Divider />
+				</ListGroup.List>
 
-				<List.Item @selected={{false}}>
-					<:primaryText>Rome</:primaryText>
-					<:secondaryText>Rome, sweet rome</:secondaryText>
-					<:default>Rome</:default>
-				</List.Item>
-				<List.Divider />
-			</MdcList>
+				<ListGroup.Header>
+					List Group #2
+				</ListGroup.Header>
+				<ListGroup.List as |List|>
+					<List.Item @selected={{false}}>
+						<:primaryText>Home</:primaryText>
+						<:secondaryText>Home, sweet home</:secondaryText>
+
+						<:default>Home</:default>
+
+						<:meta>
+							<MdcIcon @icon='crowd' />
+						</:meta>
+					</List.Item>
+
+					<List.Item @selected={{false}}>
+						<:primaryText>Rome</:primaryText>
+						<:secondaryText>Rome, sweet rome</:secondaryText>
+						<:default>Rome</:default>
+					</List.Item>
+					<List.Divider />
+				</ListGroup.List>
+			</MdcListGroup>
 		</:content>
 	</MdcDrawer>
 
