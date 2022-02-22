@@ -1,0 +1,13 @@
+<div class='mdc-list-group' ...attributes>
+	{{yield
+		(hash
+			Header=(component this.headerComponent palette=@palette)
+			List=(component
+				this.listComponent
+				doubleLine=@doubleLine
+				palette=@palette
+				shaped=@shaped
+			)
+		)
+	}}
+</div>

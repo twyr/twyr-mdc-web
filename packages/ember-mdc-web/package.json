@@ -155,6 +155,8 @@
 			"./components/mdc-headline/index.js": "./dist/_app_/components/mdc-headline/index.js",
 			"./components/mdc-icon-button/index.js": "./dist/_app_/components/mdc-icon-button/index.js",
 			"./components/mdc-icon/index.js": "./dist/_app_/components/mdc-icon/index.js",
+			"./components/mdc-list-group/header/index.js": "./dist/_app_/components/mdc-list-group/header/index.js",
+			"./components/mdc-list-group/index.js": "./dist/_app_/components/mdc-list-group/index.js",
 			"./components/mdc-list/divider/index.js": "./dist/_app_/components/mdc-list/divider/index.js",
 			"./components/mdc-list/index.js": "./dist/_app_/components/mdc-list/index.js",
 			"./components/mdc-list/item/icon/index.js": "./dist/_app_/components/mdc-list/item/icon/index.js",
