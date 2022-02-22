@@ -9,7 +9,7 @@
 	{{has-class-if (eq @style 'flat') 'mdc-button--unelevated'}}
 	{{has-class-if (eq @shape 'rounded') 'rounded-full'}}
 	{{! Re-calculate colours as necessary }}
-	{{on-args-change this.recalcStyling @palette @style @shape}}
+	{{on-args-change this.recalcStyles @palette @style @shape}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	...attributes

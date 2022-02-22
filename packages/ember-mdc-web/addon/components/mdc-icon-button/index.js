@@ -23,8 +23,8 @@ export default class MdcIconButtonComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	recalcStyling() {
-		this.#debug?.(`recalcStyling: re-calculating styling`);
+	recalcStyles() {
+		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
 		const paletteColour = `--mdc-theme-on-${
@@ -43,7 +43,7 @@ export default class MdcIconButtonComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?.recalcStyling?.();
+		this?.recalcStyles?.();
 
 		const buttonRipple = new MDCRipple(this.#element);
 		buttonRipple.unbounded = true;

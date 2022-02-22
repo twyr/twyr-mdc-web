@@ -23,8 +23,8 @@ export default class MdcButtonComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	recalcStyling() {
-		this.#debug?.(`recalcStyling: re-calculating styling`);
+	recalcStyles() {
+		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
 		// Step 1: Reset
@@ -150,7 +150,7 @@ export default class MdcButtonComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?.recalcStyling?.();
+		this?.recalcStyles?.();
 		MDCRipple?.attachTo?.(this.#element);
 	}
 	// #endregion
