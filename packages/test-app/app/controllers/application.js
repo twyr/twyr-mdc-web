@@ -10,7 +10,7 @@ export default class ApplicationController extends Controller {
 
 	// #region Tracked Attributes
 	@tracked navIconElement = null;
-	@tracked palette = false;
+	@tracked palette = 'secondary';
 	// #endregion
 
 	// #region Constructor

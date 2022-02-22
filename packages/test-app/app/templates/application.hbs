@@ -11,10 +11,11 @@
 	<:title>Ember Material Components for the Web</:title>
 </MdcTopAppBar>
 
-<div class='flex flex-row pt-16'>
+<div class='flex flex-row mdc-top-app-bar--fixed-adjust'>
 	<MdcDrawer
-		@modal={{true}}
+		@modal={{false}}
 		@locked={{true}}
+		@open={{true}}
 		@controlElement={{this.navIconElement}}
 		style='height:calc(100% - 4rem);'
 	>
@@ -85,5 +86,21 @@
 		</:content>
 	</MdcDrawer>
 
-	{{outlet}}
+	<div class='mdc-drawer-app-content'>
+		<MdcImageList as |ImageList|>
+			<ImageList.Item
+				src='https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/1.jpg'
+				@text='Image 1'
+			/>
+			<ImageList.Item
+				src='https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg'
+				@text='Image 2'
+			/>
+			<ImageList.Item
+				src='https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/3.jpg'
+				@text='Image 3'
+			/>
+		</MdcImageList>
+		{{outlet}}
+	</div>
 </div>
