@@ -1,0 +1,7 @@
+<ul
+	class='mdc-image-list'
+	{{has-class-if @masonry 'mdc-image-list--masonry'}}
+	...attributes
+>
+	{{yield (hash Item=(component this.itemComponent))}}
+</ul>
