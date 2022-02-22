@@ -1,0 +1,8 @@
+<span
+	class='mdc-list-item__graphic'
+	{{has-class-if @doubleLine 'double'}}
+	{{on-args-change this.recalcStyles @palette}}
+	{{store-element this.storeElement}}
+>
+	<i class='mdi mdi-{{@icon}}' ...attributes></i>
+</span>

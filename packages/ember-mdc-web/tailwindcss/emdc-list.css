@@ -1,0 +1,23 @@
+.mdc-list-item__graphic {
+	@apply m-0 mr-2;
+	@apply w-6 h-6;
+	@apply flex items-center justify-center;
+
+	&.double {
+		@apply h-full;
+		@apply aspect-square;
+		@apply text-3xl;
+	}
+}
+
+.mdc-list-item__meta {
+	@apply ml-auto mr-0;
+	@apply w-6 h-6;
+	@apply flex items-center justify-center;
+
+	&.double {
+		@apply h-full;
+		@apply aspect-square;
+		@apply text-3xl;
+	}
+}

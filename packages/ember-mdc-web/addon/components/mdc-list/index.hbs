@@ -1,0 +1,14 @@
+{{! template-lint-disable no-invalid-interactive }}
+<ul class='mdc-list' {{store-element this.storeElement}} ...attributes>
+	{{yield
+		(hash
+			Divider=(component this.dividerComponent palette=@palette)
+			Item=(component
+				this.listItemComponent
+				doubleLine=@doubleLine
+				palette=@palette
+				shaped=@shaped
+			)
+		)
+	}}
+</ul>

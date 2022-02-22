@@ -1,0 +1,41 @@
+<li
+	class='mdc-list-item mdc-ripple-upgraded'
+	{{has-class-if @doubleLine 'mdc-list-item--with-two-lines'}}
+	{{has-class-if @selected 'mdc-list-item--selected'}}
+	{{! Shaped styling }}
+	{{on-args-change this.recalcStyles @palette @shaped @selected}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<span class='mdc-list-item__ripple'></span>
+
+	{{#if (has-block 'icon')}}
+		{{yield
+			(component
+				this.iconComponent doubleLine=@doubleLine palette=@palette
+			)
+			to='icon'
+		}}
+	{{/if}}
+
+	<span class='mdc-list-item__text'>
+		{{#if @doubleLine}}
+			<span class='mdc-list-item__primary-text'>
+				{{yield to='primaryText'}}
+			</span>
+			<span class='mdc-list-item__secondary-text'>
+				{{yield to='secondaryText'}}
+			</span>
+		{{else}}
+			{{yield}}
+		{{/if}}
+	</span>
+
+	{{#if (has-block 'meta')}}
+		<div class='mdc-list-item__meta' {{has-class-if @doubleLine 'double'}}>
+			{{yield to='meta'}}
+		</div>
+	{{/if}}
+</li>
