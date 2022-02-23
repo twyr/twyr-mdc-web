@@ -1,0 +1,29 @@
+.standard-image-list {
+	& .mdc-image-list__item {
+		width: calc(100% / 5 - 4.2px);
+		margin: 2px;
+	}
+
+	& .mdc-image-list__image-aspect-container {
+		padding-bottom: 66.66667%;
+	}
+
+	& .mdc-image-list__image {
+		border-radius: 8px;
+	}
+
+	&.mdc-image-list--with-text-protection .mdc-image-list__supporting {
+		border-radius: 0 0 8px 8px;
+	}
+}
+
+.masonry-image-list {
+	column-count: 5;
+	column-count: 5;
+	column-gap: 1rem;
+	column-gap: 1rem;
+
+	& .mdc-image-list__item {
+		margin-bottom: 1rem;
+	}
+}

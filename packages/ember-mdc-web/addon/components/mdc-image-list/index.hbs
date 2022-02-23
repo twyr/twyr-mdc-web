@@ -1,6 +1,10 @@
 <ul
 	class='mdc-image-list'
-	{{has-class-if @masonry 'mdc-image-list--masonry'}}
+	{{has-class-if
+		@masonry
+		'masonry-image-list mdc-image-list--masonry'
+		'standard-image-list mdc-image-list--with-text-protection'
+	}}
 	...attributes
 >
 	{{yield (hash Item=(component this.itemComponent))}}
