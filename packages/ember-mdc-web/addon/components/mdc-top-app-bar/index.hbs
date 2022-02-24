@@ -1,5 +1,6 @@
 <header
 	class='mdc-top-app-bar'
+	{{! Add styling classes as necessary }}
 	{{has-class-if @short 'mdc-top-app-bar--short'}}
 	{{has-class-if (and @short @collapsed) 'mdc-top-app-bar--short-collapsed'}}
 	{{has-class-if
@@ -10,6 +11,7 @@
 	{{has-class-if @fixed 'mdc-top-app-bar--fixed'}}
 	{{has-class-if @prominent 'mdc-top-app-bar--prominent'}}
 	{{has-class-if @palette this.paletteStyle}}
+	{{! HTML attributes added in the calling template }}
 	...attributes
 >
 	<div class='mdc-top-app-bar__row'>

@@ -1,6 +1,9 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import { action } from '@ember/object';
+import { MDCRipple } from '@material/ripple/index';
+
 export default class MdcCardContentComponent extends Component {
 	// #region Accessed Services
 	// #endregion
@@ -19,6 +22,24 @@ export default class MdcCardContentComponent extends Component {
 	// #endregion
 
 	// #region DOM Event Handlers
+	@action
+	recalcStyles() {
+		this.#debug?.(`recalcStyles: re-calculating styling`);
+		if (!this.#element) return;
+		if (!this.#mdcRipple) return;
+
+		if (this?.args?.primaryAction) this.#mdcRipple?.activate?.();
+		else this.#mdcRipple?.deactivate?.();
+	}
+
+	@action
+	storeElement(element) {
+		this.#debug?.(`storeElement: `, element);
+		this.#element = element;
+
+		this.#mdcRipple = new MDCRipple(this.#element);
+		this?.recalcStyles?.();
+	}
 	// #endregion
 
 	// #region Computed Properties
@@ -62,5 +83,8 @@ export default class MdcCardContentComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-card-content');
+
+	#element = null;
+	#mdcRipple = null;
 	// #endregion
 }

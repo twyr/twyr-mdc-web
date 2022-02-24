@@ -2,15 +2,23 @@
 {{#in-element this.parentElement insertBefore=null}}
 	<div
 		class='mdc-dialog mdc-dialog--scrollable'
+		{{! Add styling classes as necessary }}
+		{{has-class-if @fullScreen ' mdc-dialog--fullscreen'}}
 		{{has-class-if @open 'mdc-dialog--open'}}
+		{{! Re-calculate as necessary }}
 		{{on-args-change this.positionModal @parentElement}}
 	>
-		<div class='mdc-dialog__scrim'></div>
 		<div class='mdc-dialog__container'>
 			<div
 				class='mdc-dialog__surface'
+				{{! React to clicks outside the dialog box area }}
 				{{not-on 'click' this.onClickOutside}}
+				{{! Store reference to the element for DOM manipulation }}
 				{{store-element this.storeElement}}
+				{{! Aria stuff }}
+				role='alertdialog'
+				aria-modal='true'
+				{{! HTML attributes added in the calling template }}
 				...attributes
 			>
 				{{#if (has-block 'header')}}
@@ -24,5 +32,6 @@
 				{{/if}}
 			</div>
 		</div>
+		<div class='mdc-dialog__scrim'></div>
 	</div>
 {{/in-element}}

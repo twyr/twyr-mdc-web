@@ -1,10 +1,15 @@
 <aside
 	class='mdc-drawer'
+	{{! Add styling classes as necessary }}
 	{{has-class-if @modal 'mdc-drawer--modal' 'mdc-drawer--dismissible'}}
 	{{has-class-if (or @locked this.isOpen) 'mdc-drawer--open'}}
+	{{! Re-register with control element as necessary }}
 	{{on-args-change this.registerWithControl @controlElement}}
+	{{! React to clicks outside the dialog box area }}
 	{{not-on 'click' this.onClickOutside}}
+	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
 	...attributes
 >
 	{{#if (has-block 'header')}}

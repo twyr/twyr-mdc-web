@@ -1,11 +1,17 @@
-<div class='mdc-card__actions' ...attributes>
+<div
+	class='mdc-card__actions'
+	{{! Add styling classes as necessary }}
+	{{has-class-if @fullBleed 'mdc-card__actions--full-bleed'}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
 	{{#if (has-block 'actionButtons')}}
 		<div class='mdc-card__action-buttons'>
 			{{yield (component this.actionButtonComponent) to='actionButtons'}}
 		</div>
 	{{/if}}
 
-	{{#if (has-block 'actionIcons')}}
+	{{#if (and (not @fullBleed) (has-block 'actionIcons'))}}
 		<div class='mdc-card__action-icons'>
 			{{yield (component this.actionIconComponent) to='actionIcons'}}
 		</div>

@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import Component from './../../../mdc-button/index';
 import debugLogger from 'ember-debug-logger';
 
 export default class MdcDialogFooterActionButtonComponent extends Component {

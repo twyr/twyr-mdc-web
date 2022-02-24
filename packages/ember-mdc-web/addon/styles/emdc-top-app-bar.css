@@ -1,6 +1,10 @@
 .mdc-top-app-bar {
-    position: absolute
+
+	position: absolute;
+
+	z-index: 8
 }
 .mdc-top-app-bar.mdc-top-app-bar--fixed {
-    position: fixed
+
+	position: fixed
 }

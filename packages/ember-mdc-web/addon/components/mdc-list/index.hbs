@@ -1,5 +1,10 @@
-{{! template-lint-disable no-invalid-interactive }}
-<ul class='mdc-list' {{store-element this.storeElement}} ...attributes>
+<ul
+	class='mdc-list'
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
 	{{yield
 		(hash
 			Divider=(component this.dividerComponent palette=@palette)

@@ -1,6 +1,8 @@
 <div
 	class='mdc-card__header'
+	{{! Add styling classes as necessary }}
 	{{has-class-if @palette this.paletteStyle}}
+	{{! HTML attributes added in the calling template }}
 	...attributes
 >
 	{{#if (or (has-block 'headline') (has-block 'subheadline'))}}

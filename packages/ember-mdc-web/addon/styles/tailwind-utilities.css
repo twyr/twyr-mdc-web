@@ -9,12 +9,6 @@
     display: -ms-flexbox;
     display: flex
 }
-.aspect-square {
-    aspect-ratio: 1 / 1
-}
-.aspect-video {
-    aspect-ratio: 16 / 9
-}
 .flex-row {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;

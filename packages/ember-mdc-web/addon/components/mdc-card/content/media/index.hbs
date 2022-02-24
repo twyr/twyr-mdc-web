@@ -1,7 +1,14 @@
 <div
 	class='mdc-card__media'
-	{{has-class-if (eq @direction 'horizontal') 'aspect-square' 'aspect-video'}}
+	{{! Add styling classes as necessary }}
+	{{has-class-if
+		(eq @direction 'horizontal')
+		'mdc-card__media--square'
+		'mdc-card__media--16-9'
+	}}
+	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
 	...attributes
 >
 	{{#if (has-block)}}

@@ -54,36 +54,51 @@
 /*
  * MDC Web Component Styles
  */
+
+/* TODO: Backdrop component - put in the actual styles */
 @use './emdc-backdrop.css';
 
+/* Button component(s) - button, fab, icon-button, etc. */
 @use '@material/button/mdc-button';
 @use '@material/fab/mdc-fab';
 @use '@material/icon-button/mdc-icon-button';
 @use '@material/segmented-button/styles' as segmented-button-styles;
 
+/* Card component */
 @use '@material/card/mdc-card';
 @use './emdc-card.css';
 
+/* Checkbox component */
 @use '@material/checkbox/mdc-checkbox';
 
+/* Chips component - why is it deprecated, and in favour of what? */
+@use '@material/chips/deprecated/mdc-chips';
+
+/* Table component */
 @use '@material/data-table/mdc-data-table';
 
+/* Dialog component */
 @use '@material/dialog/mdc-dialog';
 
+/* Drawer component - aka sidebar */
 @use '@material/drawer/mdc-drawer';
 @use './emdc-drawer.css';
 
-@use '@material/elevation/mdc-elevation';
-
+/* Floating label component - aka labels on input / select components */
 @use '@material/floating-label/mdc-floating-label';
+
+/* Form field component - standard stuff used by all form fields */
 @use '@material/form-field/mdc-form-field';
 
+/* Image List component */
 @use '@material/image-list/mdc-image-list';
 @use './emdc-image-list.css';
 
+/* List component */
 @use '@material/list/mdc-list';
 @use './emdc-list.css';
 
+/* Top Bar component */
 @use '@material/top-app-bar/mdc-top-app-bar';
 @use './emdc-top-app-bar.css';
 
@@ -91,6 +106,10 @@
  * MDC Theme, Typography, etc.
  */
 
+/* Elevation styles */
+@use '@material/elevation/mdc-elevation';
+
+/* Theme and Typography */
 @use '@material/theme/mdc-theme';
 @use '@material/typography/mdc-typography';
 

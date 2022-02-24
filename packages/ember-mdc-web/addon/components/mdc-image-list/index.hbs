@@ -1,10 +1,12 @@
 <ul
 	class='mdc-image-list'
+	{{! Add styling classes as necessary }}
 	{{has-class-if
 		@masonry
 		'masonry-image-list mdc-image-list--masonry'
 		'standard-image-list mdc-image-list--with-text-protection'
 	}}
+	{{! HTML attributes added in the calling template }}
 	...attributes
 >
 	{{yield (hash Item=(component this.itemComponent))}}

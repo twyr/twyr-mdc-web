@@ -1,6 +1,8 @@
 .mdc-top-app-bar {
 	@apply absolute;
 
+	z-index: 8;
+
 	&.mdc-top-app-bar--fixed {
 		@apply fixed;
 	}
