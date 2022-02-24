@@ -1,9 +1,6 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
-import { isDisabled } from '../../utils/dom-element-attributes';
-import { action } from '@ember/object';
-
 export default class MdcBackdropComponent extends Component {
 	// #region Accessed Services
 	// #endregion
@@ -22,29 +19,6 @@ export default class MdcBackdropComponent extends Component {
 	// #endregion
 
 	// #region DOM Event Handlers
-	@action
-	onClick(event) {
-		this.#debug(`onClick: `, event);
-
-		const isEventInsideElement =
-			event?.target === this.#element ||
-			this.#element?.contains?.(event?.target);
-
-		if (isEventInsideElement) {
-			event?.stopPropagation?.();
-			event?.preventDefault?.();
-		}
-
-		if (isDisabled(this.#element)) return;
-
-		this?.args?.onClick?.(event);
-	}
-
-	@action
-	storeElement(element) {
-		this.#debug(`storeElement: `, element);
-		this.#element = element;
-	}
 	// #endregion
 
 	// #region Computed Properties
