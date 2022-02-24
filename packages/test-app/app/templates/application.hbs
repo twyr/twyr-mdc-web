@@ -11,89 +11,100 @@
 	<:title>Ember Material Components for the Web</:title>
 </MdcTopAppBar>
 
-<div class='mdc-top-app-bar--fixed-adjust'>
-	<MdcDrawer
-		@modal={{false}}
-		@locked={{true}}
-		@open={{true}}
-		@controlElement={{this.navIconElement}}
-		style='height:calc(100% - 4rem);'
-	>
-		<:header as |Header|>
-			<Header>
-				<:headline as |Headline|>
-					<Headline @text='Material Web' />
-				</:headline>
-				<:subheadline as |Subheadline|>
-					<Subheadline @text='Documentation' />
-				</:subheadline>
-			</Header>
-		</:header>
+<MdcDrawer
+	class='mdc-top-app-bar--fixed-adjust'
+	@modal={{true}}
+	@locked={{true}}
+	@open={{true}}
+	@controlElement={{this.navIconElement}}
+>
+	<:header as |Header|>
+		<Header>
+			<:headline as |Headline|>
+				<Headline @text='Material Web' />
+			</:headline>
+			<:subheadline as |Subheadline|>
+				<Subheadline @text='Documentation' />
+			</:subheadline>
+		</Header>
+	</:header>
 
-		<:content>
-			<MdcListGroup
-				@doubleLine={{true}}
-				@palette={{this.palette}}
-				@shaped={{false}}
-				as |ListGroup|
-			>
-				<ListGroup.Header>
-					List Group #1
-				</ListGroup.Header>
-				<ListGroup.List as |List|>
-					<List.Item @selected={{false}}>
-						<:primaryText>Home</:primaryText>
-						<:secondaryText>Home, sweet home</:secondaryText>
-
-						<:default>Home</:default>
-
-						<:meta>
-							<MdcIcon @icon='crowd' />
-						</:meta>
-					</List.Item>
-
-					<List.Item @selected={{false}}>
-						<:primaryText>Rome</:primaryText>
-						<:secondaryText>Rome, sweet rome</:secondaryText>
-						<:default>Rome</:default>
-					</List.Item>
-					<List.Divider />
-				</ListGroup.List>
-
-				<ListGroup.Header>
-					List Group #2
-				</ListGroup.Header>
-				<ListGroup.List as |List|>
-					<List.Item @selected={{false}}>
-						<:primaryText>Home</:primaryText>
-						<:secondaryText>Home, sweet home</:secondaryText>
-
-						<:default>Home</:default>
-
-						<:meta>
-							<MdcIcon @icon='crowd' />
-						</:meta>
-					</List.Item>
-
-					<List.Item @selected={{false}}>
-						<:primaryText>Rome</:primaryText>
-						<:secondaryText>Rome, sweet rome</:secondaryText>
-						<:default>Rome</:default>
-					</List.Item>
-					<List.Divider />
-				</ListGroup.List>
-			</MdcListGroup>
-		</:content>
-	</MdcDrawer>
-
-	<div class='mdc-drawer-app-content mdc-theme--surface'>
-		<MdcCheckbox
+	<:content>
+		<MdcListGroup
+			@doubleLine={{true}}
 			@palette={{this.palette}}
-			{{on 'statuschange' this.processCheckboxEvent}}
-			checked
+			@shaped={{false}}
+			as |ListGroup|
 		>
-			Checkbox
-		</MdcCheckbox>
-		{{outlet}}
-	</div>
+			<ListGroup.Header>
+				List Group #1
+			</ListGroup.Header>
+			<ListGroup.List as |List|>
+				<List.Item @selected={{false}}>
+					<:primaryText>Home</:primaryText>
+					<:secondaryText>Home, sweet home</:secondaryText>
+
+					<:default>Home</:default>
+
+					<:meta>
+						<MdcIcon @icon='crowd' />
+					</:meta>
+				</List.Item>
+
+				<List.Item @selected={{false}}>
+					<:primaryText>Rome</:primaryText>
+					<:secondaryText>Rome, sweet rome</:secondaryText>
+					<:default>Rome</:default>
+				</List.Item>
+				<List.Divider />
+			</ListGroup.List>
+
+			<ListGroup.Header>
+				List Group #2
+			</ListGroup.Header>
+			<ListGroup.List as |List|>
+				<List.Item @selected={{false}}>
+					<:primaryText>Home</:primaryText>
+					<:secondaryText>Home, sweet home</:secondaryText>
+
+					<:default>Home</:default>
+
+					<:meta>
+						<MdcIcon @icon='crowd' />
+					</:meta>
+				</List.Item>
+
+				<List.Item @selected={{false}}>
+					<:primaryText>Rome</:primaryText>
+					<:secondaryText>Rome, sweet rome</:secondaryText>
+					<:default>Rome</:default>
+				</List.Item>
+				<List.Divider />
+			</ListGroup.List>
+		</MdcListGroup>
+	</:content>
+</MdcDrawer>
+
+<div
+	class='mdc-drawer-app-content mdc-top-app-bar--fixed-adjust mdc-theme--surface'
+>
+	<MdcCheckbox
+		@palette={{this.palette}}
+		{{on 'statuschange' this.processCheckboxEvent}}
+		checked
+	>
+		Checkbox
+	</MdcCheckbox>
+
+	<MdcChipSet @palette={{this.palette}} as |Chipset|>
+		<Chipset.Chip
+			@icon='abacus'
+			@closeable={{true}}
+			{{on 'close' this.closeChip}}
+		>
+			Hello
+		</Chipset.Chip>
+		<Chipset.Chip @icon='crowd'>World</Chipset.Chip>
+	</MdcChipSet>
+	{{outlet}}
 </div>

@@ -31,6 +31,11 @@ export default class ApplicationController extends Controller {
 	}
 
 	@action
+	closeChip(event) {
+		this.#debug?.('closeChip', event?.detail);
+	}
+
+	@action
 	processCheckboxEvent(event) {
 		this.#debug?.('processCheckboxEvent', event?.detail);
 
