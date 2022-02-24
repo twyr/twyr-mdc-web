@@ -9,6 +9,9 @@
     display: -ms-flexbox;
     display: flex
 }
+.grid {
+    display: grid
+}
 .flex-row {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;

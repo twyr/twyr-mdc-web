@@ -144,6 +144,8 @@
 			"./components/mdc-card/header/index.js": "./dist/_app_/components/mdc-card/header/index.js",
 			"./components/mdc-card/index.js": "./dist/_app_/components/mdc-card/index.js",
 			"./components/mdc-checkbox/index.js": "./dist/_app_/components/mdc-checkbox/index.js",
+			"./components/mdc-chip-set/chip/index.js": "./dist/_app_/components/mdc-chip-set/chip/index.js",
+			"./components/mdc-chip-set/index.js": "./dist/_app_/components/mdc-chip-set/index.js",
 			"./components/mdc-dialog/content/index.js": "./dist/_app_/components/mdc-dialog/content/index.js",
 			"./components/mdc-dialog/footer/action-button/index.js": "./dist/_app_/components/mdc-dialog/footer/action-button/index.js",
 			"./components/mdc-dialog/footer/index.js": "./dist/_app_/components/mdc-dialog/footer/index.js",

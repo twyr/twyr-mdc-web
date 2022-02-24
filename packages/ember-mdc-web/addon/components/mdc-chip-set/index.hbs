@@ -1,0 +1,20 @@
+<span
+	class='mdc-evolution-chip-set'
+	role={{this.chipsetType}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette @role @multiselect}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<span class='mdc-evolution-chip-set__chips' role='presentation'>
+		{{yield
+			(hash
+				Chip=(component
+					this.chipComponent role=this.chipRole palette=@palette
+				)
+			)
+		}}
+	</span>
+</span>

@@ -70,9 +70,11 @@
 
 /* Checkbox component */
 @use '@material/checkbox/mdc-checkbox';
+@use './emdc-checkbox.css';
 
 /* Chips component - why is it deprecated, and in favour of what? */
-@use '@material/chips/deprecated/mdc-chips';
+@use '@material/chips/styles';
+@use './emdc-chip-set.css';
 
 /* Table component */
 @use '@material/data-table/mdc-data-table';
@@ -89,6 +91,7 @@
 
 /* Form field component - standard stuff used by all form fields */
 @use '@material/form-field/mdc-form-field';
+@use './emdc-form-field.css';
 
 /* Image List component */
 @use '@material/image-list/mdc-image-list';
