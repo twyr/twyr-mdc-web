@@ -30,6 +30,8 @@ export default class MdcCheckboxComponent extends Component {
 	@action
 	onAttributeMutation() {
 		this.#debug?.(`onAttributeMutation:`, arguments);
+		if (!this.#element) return;
+
 		this.inputElementId = this.#element?.getAttribute?.('id');
 
 		if (this.#element?.disabled)
@@ -62,10 +64,8 @@ export default class MdcCheckboxComponent extends Component {
 
 		rootElement?.style?.removeProperty?.('--mdc-checkbox-ink-color');
 		rootElement?.style?.removeProperty?.('--mdc-checkbox-checked-color');
-		rootElement?.style?.removeProperty?.('--mdc-ripple-color');
-		rootElement?.style?.removeProperty?.(
-			'--mdc-theme-text-primary-on-background'
-		);
+		rootElement?.style?.removeProperty?.('--mdc-checkbox-ripple-color');
+		rootElement?.style?.removeProperty?.('--mdc-form-field-color');
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -84,12 +84,12 @@ export default class MdcCheckboxComponent extends Component {
 		);
 
 		rootElement?.style?.setProperty?.(
-			'--mdc-ripple-color',
+			'--mdc-checkbox-ripple-color',
 			`var(${paletteColour})`
 		);
 
 		rootElement?.style?.setProperty?.(
-			'--mdc-theme-text-primary-on-background',
+			'--mdc-form-field-color',
 			`var(${paletteColour})`
 		);
 	}

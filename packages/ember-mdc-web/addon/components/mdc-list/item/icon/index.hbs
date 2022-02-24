@@ -1,7 +1,10 @@
 <span
 	class='mdc-list-item__graphic'
+	{{! Add styling classes as necessary }}
 	{{has-class-if @doubleLine 'double'}}
+	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 >
 	<i class='mdi mdi-{{@icon}}' ...attributes></i>

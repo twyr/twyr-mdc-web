@@ -1,8 +1,9 @@
 <li
 	class='mdc-list-item mdc-ripple-upgraded'
+	{{! Add styling classes as necessary }}
 	{{has-class-if @doubleLine 'mdc-list-item--with-two-lines'}}
 	{{has-class-if @selected 'mdc-list-item--selected'}}
-	{{! Shaped styling }}
+	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette @shaped @selected}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
