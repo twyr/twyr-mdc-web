@@ -10,7 +10,7 @@ export default class ApplicationController extends Controller {
 
 	// #region Tracked Attributes
 	@tracked navIconElement = null;
-	@tracked palette = 'secondary';
+	@tracked palette = 'primary';
 	// #endregion
 
 	// #region Constructor
@@ -28,6 +28,18 @@ export default class ApplicationController extends Controller {
 	storeNavigationIconElement(navIconElement) {
 		this.#debug?.('storeNavigationIconElement: ', navIconElement);
 		this.navIconElement = navIconElement;
+	}
+
+	@action
+	processCheckboxEvent(event) {
+		this.#debug?.('processCheckboxEvent', event?.detail);
+
+		setTimeout(() => {
+			const newStatus = Object?.assign?.({}, event?.detail?.status);
+			const checkboxControls = event?.detail?.controls;
+
+			checkboxControls?.setState?.(newStatus);
+		}, 2000);
 	}
 	// #endregion
 
