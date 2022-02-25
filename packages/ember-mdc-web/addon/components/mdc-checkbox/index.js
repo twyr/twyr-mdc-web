@@ -107,7 +107,7 @@ export default class MdcCheckboxComponent extends Component {
 		checkboxRipple.unbounded = true;
 
 		this.inputElementId = this.#element?.getAttribute?.('id');
-		this?._fireEvent?.('statusinit');
+		this?._fireEvent?.('init');
 	}
 	// #endregion
 
@@ -122,6 +122,7 @@ export default class MdcCheckboxComponent extends Component {
 
 		const thisEvent = new CustomEvent(name, {
 			detail: {
+				id: this.#element?.getAttribute?.('id'),
 				controls: this.#controls,
 				status: {
 					checked: this.#element?.checked,

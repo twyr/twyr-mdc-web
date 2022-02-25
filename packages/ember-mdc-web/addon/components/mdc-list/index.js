@@ -35,6 +35,12 @@ export default class MdcListComponent extends Component {
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
+
+		if (this?.args?.listGroupControls) return;
+
+		this?._fireEvent?.({
+			name: 'init'
+		});
 	}
 	// #endregion
 
@@ -83,18 +89,46 @@ export default class MdcListComponent extends Component {
 			this.#debug?.(`Item not registered: `, item);
 		}
 
-		this.#items?.forEach?.((itemControls, mappedItem) => {
-			if (mappedItem === item) return;
-			itemControls?.select?.(false);
-		});
-
-		const listItemControls = this.#items?.get?.(item);
-		if (!listItemControls) {
-			this.#debug?.(`Controls not found for: `, item);
-			return;
+		const unselectedItem = this.#element?.querySelector?.(
+			'li.mdc-list-item--selected'
+		);
+		if (unselectedItem) {
+			const unselectedItemControls = this.#items?.get?.(unselectedItem);
+			unselectedItemControls?.select?.(false);
 		}
 
-		listItemControls?.select?.(selected);
+		if (unselectedItem !== item && !selected) {
+			const listItemControls = this.#items?.get?.(item);
+			listItemControls?.select?.(selected);
+		}
+
+		const eventData = {
+			name: 'select',
+			selected: selected ? item?.getAttribute?.('id') : null,
+			unselected: unselectedItem?.getAttribute?.('id')
+		};
+		this?._fireEvent?.(eventData);
+	}
+
+	@action
+	_fireEvent(data) {
+		this.#debug?.(`_fireEvent`);
+		if (!this.#element) return;
+
+		const thisEvent = new CustomEvent(data?.name, {
+			detail: {
+				id: this.#element?.getAttribute?.('id'),
+				controls: {
+					selectItem: this?._selectItem
+				},
+				status: {
+					selected: data?.selected,
+					unselected: data?.unselected
+				}
+			}
+		});
+
+		this.#element?.dispatchEvent?.(thisEvent);
 	}
 
 	_getComputedSubcomponent(componentName) {

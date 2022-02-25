@@ -1,4 +1,12 @@
-<div class='mdc-list-group' ...attributes>
+<div
+	class='mdc-list-group'
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
 	{{yield
 		(hash
 			Header=(component this.headerComponent palette=@palette)
