@@ -67,7 +67,7 @@
 		"ember-truth-helpers": "3.0.0",
 		"invert-color": "2.0.0",
 		"material-components-web": "13.0.0",
-		"sass": "1.49.8",
+		"sass": "1.49.9",
 		"uuid": "8.3.2"
 	},
 	"devDependencies": {
@@ -85,7 +85,7 @@
 		"eslint-plugin-ember": "10.5.9",
 		"eslint-plugin-json": "3.1.0",
 		"eslint-plugin-node": "11.1.0",
-		"postcss": "8.4.6",
+		"postcss": "8.4.7",
 		"postcss-cli": "9.1.0",
 		"postcss-import": "14.0.2",
 		"postcss-nesting": "10.1.2",
