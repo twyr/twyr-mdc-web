@@ -10,7 +10,7 @@ export default class ApplicationController extends Controller {
 
 	// #region Tracked Attributes
 	@tracked navIconElement = null;
-	@tracked palette = 'primary';
+	@tracked palette = 'error';
 	// #endregion
 
 	// #region Constructor
@@ -39,12 +39,23 @@ export default class ApplicationController extends Controller {
 	processCheckboxEvent(event) {
 		this.#debug?.('processCheckboxEvent', event?.detail);
 
-		setTimeout(() => {
-			const newStatus = Object?.assign?.({}, event?.detail?.status);
-			const checkboxControls = event?.detail?.controls;
+		// setTimeout(() => {
+		// 	const newStatus = Object?.assign?.({}, event?.detail?.status);
+		// 	const checkboxControls = event?.detail?.controls;
 
-			checkboxControls?.setState?.(newStatus);
-		}, 2000);
+		// 	checkboxControls?.setState?.(newStatus);
+		// }, 2000);
+	}
+
+	@action
+	processListGroupEvent(event) {
+		this.#debug?.('processListGroupEvent', event?.detail);
+		// if(!event?.detail?.status?.unselected) return;
+
+		// setTimeout(() => {
+		// 	const unselectedItem = document?.getElementById?.(event?.detail?.status?.unselected);
+		// 	event?.detail?.controls?.selectItem?.(unselectedItem, true);
+		// }, 5000);
 	}
 	// #endregion
 

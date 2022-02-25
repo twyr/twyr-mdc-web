@@ -33,7 +33,8 @@
 		<MdcListGroup
 			@doubleLine={{true}}
 			@palette={{this.palette}}
-			@shaped={{false}}
+			@shaped={{true}}
+			{{on 'select' this.processListGroupEvent}}
 			as |ListGroup|
 		>
 			<ListGroup.Header>
