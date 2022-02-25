@@ -15,7 +15,7 @@ export default class MdcDrawerComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 
 		this.#controls.open = this?._open;
 		this.#controls.close = this?._close;
@@ -28,10 +28,10 @@ export default class MdcDrawerComponent extends Component {
 
 	// #region Lifecycle Hooks
 	willDestroy() {
-		this.#debug(`willDestroy`);
+		this.#debug?.(`willDestroy`);
 
 		if (this?.args?.controlElement) {
-			this.#debug(`willDestroy: unregistering with control`);
+			this.#debug?.(`willDestroy: unregistering with control`);
 			this?.args?.controlElement?.sidebarControls?.unregisterSidebar?.(
 				this.#element
 			);
@@ -44,14 +44,14 @@ export default class MdcDrawerComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	onClickOutside(event) {
-		this.#debug(`onClickOutside: `, event);
+		this.#debug?.(`onClickOutside: `, event);
 
 		const isEventOnControl =
 			event.target === this?.args?.controlElement ||
 			this?.args?.controlElement?.contains?.(event.target);
 
 		if (isEventOnControl) {
-			this.#debug(
+			this.#debug?.(
 				`onClickOutside::isEventOnControl: ${isEventOnControl}`
 			);
 			return;
@@ -62,7 +62,7 @@ export default class MdcDrawerComponent extends Component {
 
 	@action
 	storeElement(element) {
-		this.#debug(`storeElement: `, element);
+		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
 		this?.registerWithControl?.();
@@ -70,10 +70,12 @@ export default class MdcDrawerComponent extends Component {
 
 	@action
 	registerWithControl() {
-		this.#debug(`registerWithControl`);
+		this.#debug?.(`registerWithControl`);
 
 		if (!this.#element) {
-			this.#debug(`registerWithControl: element not in dom. aborting...`);
+			this.#debug?.(
+				`registerWithControl: element not in dom. aborting...`
+			);
 			return;
 		}
 
@@ -97,16 +99,16 @@ export default class MdcDrawerComponent extends Component {
 	// #region Private Methods
 	@action
 	_open() {
-		this.#debug(`_open`);
+		this.#debug?.(`_open`);
 		this.isOpen = true;
 	}
 
 	@action
 	_close() {
-		this.#debug(`_close`);
+		this.#debug?.(`_close`);
 
 		if (this?.args?.locked) {
-			this.#debug(`_close: sidebar is locked. aborting...`);
+			this.#debug?.(`_close: sidebar is locked. aborting...`);
 			return;
 		}
 
@@ -115,7 +117,7 @@ export default class MdcDrawerComponent extends Component {
 
 	@action
 	_toggle() {
-		this.#debug(`_toggle`);
+		this.#debug?.(`_toggle`);
 		if (this?.isOpen) this?._close?.();
 		else this?._open?.();
 	}
@@ -124,7 +126,7 @@ export default class MdcDrawerComponent extends Component {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
-		this.#debug(`${componentName}-component`, subComponent);
+		this.#debug?.(`${componentName}-component`, subComponent);
 
 		return subComponent;
 	}

@@ -17,7 +17,7 @@ export default class MdcCheckboxComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 
 		this.#controls.setState = this?._setState;
 	}

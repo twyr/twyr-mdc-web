@@ -11,7 +11,7 @@ export default class MdcCardComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
@@ -41,7 +41,7 @@ export default class MdcCardComponent extends Component {
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug(`${componentName}-component`, subComponent);
+		this.#debug?.(`${componentName}-component`, subComponent);
 		return subComponent;
 	}
 	// #endregion

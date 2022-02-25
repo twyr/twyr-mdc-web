@@ -11,7 +11,7 @@ export default class MdcImageListMasonryItemComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 

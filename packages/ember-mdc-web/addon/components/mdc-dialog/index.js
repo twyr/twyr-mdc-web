@@ -13,7 +13,7 @@ export default class MdcDialogComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
@@ -25,7 +25,7 @@ export default class MdcDialogComponent extends Component {
 	onClickOutside(event) {
 		const shouldClose = this?.args?.clickOutsideToClose ?? true;
 		if (!shouldClose) {
-			this.#debug(`onClickOutside: ${shouldClose}. aborting...`);
+			this.#debug?.(`onClickOutside: ${shouldClose}. aborting...`);
 			return;
 		}
 
@@ -33,7 +33,7 @@ export default class MdcDialogComponent extends Component {
 			event?.target === this.#element ||
 			this.#element?.contains?.(event?.target);
 		if (isEventInsideElement) {
-			this.#debug(
+			this.#debug?.(
 				`onClickOutside: click is inside this element. aborting...`
 			);
 			return;
@@ -44,7 +44,7 @@ export default class MdcDialogComponent extends Component {
 
 	@action
 	positionModal() {
-		this.#debug(`positionModal`);
+		this.#debug?.(`positionModal`);
 
 		if (!this.#element) return;
 
@@ -58,7 +58,7 @@ export default class MdcDialogComponent extends Component {
 
 	@action
 	storeElement(element) {
-		this.#debug(`storeElement: `, element);
+		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
 		this?.positionModal?.();
@@ -84,7 +84,7 @@ export default class MdcDialogComponent extends Component {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
-		this.#debug(`${componentName}-component`, subComponent);
+		this.#debug?.(`${componentName}-component`, subComponent);
 
 		return subComponent;
 	}

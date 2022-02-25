@@ -15,7 +15,7 @@ export default class MdcChipsetChipComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
@@ -106,7 +106,7 @@ export default class MdcChipsetChipComponent extends Component {
 
 	@action
 	storeElement(element) {
-		this.#debug(`storeElement: `, element);
+		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
 		this?.recalcStyle?.();
@@ -114,7 +114,7 @@ export default class MdcChipsetChipComponent extends Component {
 
 	@action
 	storePrimaryActionElement(actionElement) {
-		this.#debug(`storePrimaryActionElement: `, actionElement);
+		this.#debug?.(`storePrimaryActionElement: `, actionElement);
 		this.#primaryActionElement = actionElement;
 
 		MDCRipple?.attachTo?.(this.#primaryActionElement);

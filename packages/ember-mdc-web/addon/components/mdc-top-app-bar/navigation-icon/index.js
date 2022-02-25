@@ -13,7 +13,7 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 
 		this.#controls.registerSidebar = this?._register;
 		this.#controls.unregisterSidebar = this?._unregister;
@@ -22,7 +22,7 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 
 	// #region Lifecycle Hooks
 	willDestroy() {
-		this.#debug(`willDestroy`);
+		this.#debug?.(`willDestroy`);
 
 		this.#sideBars?.clear?.();
 		super.willDestroy(...arguments);
@@ -32,7 +32,7 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	onClick(event) {
-		this.#debug(`onClick: `, event);
+		this.#debug?.(`onClick: `, event);
 
 		this.#sideBars?.forEach?.((value) => {
 			const sidebarControls = value;
@@ -42,7 +42,7 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 
 	@action
 	storeElement(element) {
-		this.#debug(`storeElement: `, element);
+		this.#debug?.(`storeElement: `, element);
 		super.storeElement?.(element);
 
 		this.#element = element;
@@ -56,13 +56,13 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 	// #region Private Methods
 	@action
 	_register(sidebarElement, sidebarControls) {
-		this.#debug(`_register: `, sidebarElement);
+		this.#debug?.(`_register: `, sidebarElement);
 		this.#sideBars?.set(sidebarElement, sidebarControls);
 	}
 
 	@action
 	_unregister(sidebarElement) {
-		this.#debug(`_unregister: `, sidebarElement);
+		this.#debug?.(`_unregister: `, sidebarElement);
 		this.#sideBars?.delete?.(sidebarElement);
 	}
 	// #endregion

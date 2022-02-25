@@ -13,7 +13,7 @@ export default class MdcCardContentMediaComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
@@ -23,7 +23,7 @@ export default class MdcCardContentMediaComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	storeElement(element) {
-		this.#debug(`storeElement: `, element);
+		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
 		this.#element.style.backgroundImage = `url(${this?.args?.src})`;
