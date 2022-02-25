@@ -2,6 +2,8 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+
 import { MDCRipple } from '@material/ripple/index';
 
 export default class MdcListItemComponent extends Component {
@@ -9,19 +11,33 @@ export default class MdcListItemComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked selected = false;
 	// #endregion
 
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
+
+		this.#controls.select = this?._select;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this?.args?.listControls?.registerItem?.(this.#element, null, false);
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	@action
+	onClick() {
+		this?.args?.listControls?.selectItem?.(this.#element, !this?.selected);
+	}
+
 	@action
 	recalcStyles() {
 		if (!this.#element) return;
@@ -68,6 +84,12 @@ export default class MdcListItemComponent extends Component {
 
 		this?.recalcStyles?.();
 		MDCRipple?.attachTo?.(this.#element);
+
+		this?.args?.listControls?.registerItem?.(
+			this.#element,
+			this.#controls,
+			true
+		);
 	}
 	// #endregion
 
@@ -78,12 +100,18 @@ export default class MdcListItemComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
+	@action
+	_select(selected) {
+		this.#debug?.(`_select: `, selected);
+		this.selected = selected;
+	}
+
 	_getComputedSubcomponent(componentName) {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug(`${componentName}-component`, subComponent);
+		this.#debug?.(`${componentName}-component`, subComponent);
 		return subComponent;
 	}
 	// #endregion
@@ -96,6 +124,8 @@ export default class MdcListItemComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-list-item');
+
 	#element = null;
+	#controls = {};
 	// #endregion
 }

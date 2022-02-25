@@ -13,7 +13,7 @@ export default class MdcListDividerComponent extends Component {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
@@ -34,7 +34,7 @@ export default class MdcListDividerComponent extends Component {
 
 	@action
 	storeElement(element) {
-		this.#debug(`storeElement: `, element);
+		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
 		this?.recalcStyle?.();

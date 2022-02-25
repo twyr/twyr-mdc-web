@@ -1,8 +1,11 @@
+{{! template-lint-disable no-invalid-interactive }}
 <li
 	class='mdc-list-item mdc-ripple-upgraded'
 	{{! Add styling classes as necessary }}
 	{{has-class-if @doubleLine 'mdc-list-item--with-two-lines'}}
-	{{has-class-if @selected 'mdc-list-item--selected'}}
+	{{has-class-if this.selected 'mdc-list-item--selected'}}
+	{{! React to clicks }}
+	{{on 'click' this.onClick}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette @shaped @selected}}
 	{{! Store reference to the element for DOM manipulation }}
