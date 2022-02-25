@@ -72,9 +72,13 @@
 @use '@material/checkbox/mdc-checkbox';
 @use './emdc-checkbox.css';
 
-/* Chips component - why is it deprecated, and in favour of what? */
+/* Chips component */
 @use '@material/chips/styles';
 @use './emdc-chip-set.css';
+
+/* Circular progress component */
+@use '@material/circular-progress/mdc-circular-progress';
+@use './emdc-circular-progress.css';
 
 /* Table component */
 @use '@material/data-table/mdc-data-table';

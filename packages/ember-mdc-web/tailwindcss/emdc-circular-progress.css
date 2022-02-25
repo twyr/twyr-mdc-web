@@ -1,0 +1,16 @@
+.mdc-circular-progress {
+	&.large {
+		width: 48px;
+		height: 48px;
+	}
+
+	&.medium {
+		width: 32px;
+		height: 32px;
+	}
+
+	&.small {
+		width: 24px;
+		height: 24px;
+	}
+}
