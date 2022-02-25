@@ -36,6 +36,5 @@ export default class MdcBackdropComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-backdrop');
-	#element = null;
 	// #endregion
 }

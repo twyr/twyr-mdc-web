@@ -1,7 +1,7 @@
 <div
 	class='mdc-backdrop {{this.positionClass}}'
-	{{! Store reference to the element for DOM manipulation }}
-	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
 	...attributes
-></div>
+>
+	{{yield}}
+</div>
