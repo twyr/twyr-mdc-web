@@ -8,7 +8,7 @@
 	aria-label={{this.label}}
 	aria-valuemin='0'
 	aria-valuemax='1'
-	aria-valuenow={{@value}}
+	aria-valuenow={{@progress}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
 	{{! Store reference to the element for DOM manipulation }}
