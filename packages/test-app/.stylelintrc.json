@@ -7,6 +7,7 @@
 	"rules": {
 		"custom-property-empty-line-before": null,
 		"indentation": "tab",
+		"no-unknown-animations": null,
 		"prettier/prettier": true,
 		"selector-max-type": 1,
 
