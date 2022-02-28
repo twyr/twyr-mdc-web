@@ -109,9 +109,20 @@
 	</MdcChipSet>
 
 	<MdcCircularProgress
-		@size='large'
-		@indeterminate={{true}}
-		@multicolor={{true}}
+		@size='3'
+		@minValue='0'
+		@maxValue='100'
+		@progress={{this.progress}}
+		@palette={{this.palette}}
+	/>
+
+	<MdcLinearProgress
+		@minValue='0'
+		@maxValue='100'
+		@bufferedValue={{this.bufferValue}}
+		@indeterminate={{false}}
+		@progress={{this.progress}}
+		@palette={{this.palette}}
 	/>
 	{{outlet}}
 </div>

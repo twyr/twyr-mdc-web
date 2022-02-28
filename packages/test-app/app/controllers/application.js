@@ -10,7 +10,10 @@ export default class ApplicationController extends Controller {
 
 	// #region Tracked Attributes
 	@tracked navIconElement = null;
-	@tracked palette = 'error';
+	@tracked palette = 'none';
+
+	@tracked bufferValue = 76;
+	@tracked progress = 59;
 	// #endregion
 
 	// #region Constructor
@@ -28,6 +31,12 @@ export default class ApplicationController extends Controller {
 	storeNavigationIconElement(navIconElement) {
 		this.#debug?.('storeNavigationIconElement: ', navIconElement);
 		this.navIconElement = navIconElement;
+
+		// setInterval(() => {
+		// 	this.progress += 0.1;
+		// 	if(this.progress > 100)
+		// 		this.progress = 0;
+		// }, 100);
 	}
 
 	@action
