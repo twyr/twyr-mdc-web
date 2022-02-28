@@ -1,16 +1,6 @@
-.mdc-circular-progress {
-	&.large {
-		width: 48px;
-		height: 48px;
-	}
-
-	&.medium {
-		width: 32px;
-		height: 32px;
-	}
-
-	&.small {
-		width: 24px;
-		height: 24px;
-	}
+.mdc-circular-progress__determinate-circle {
+	stroke: var(
+		--mdc-circular-progress-stroke-color,
+		var(--mdc-theme-primary, #01579b)
+	);
 }

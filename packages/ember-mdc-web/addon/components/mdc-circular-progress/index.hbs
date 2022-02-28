@@ -1,162 +1,43 @@
 {{! template-lint-disable require-presentational-children}}
-{{! template-lint-disable simple-unless}}
+{{! template-lint-disable no-inline-styles}}
+{{! template-lint-disable style-concatenation}}
 <div
-	class='mdc-circular-progress {{this.size}}'
-	{{has-class-if @indeterminate 'mdc-circular-progress--indeterminate'}}
+	class='mdc-circular-progress'
 	role='progressbar'
+	style='height:{{this.size}}px; width:{{this.size}}px;'
 	aria-label={{this.label}}
 	aria-valuemin='0'
 	aria-valuemax='1'
 	aria-valuenow={{@value}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
 	...attributes
 >
-	{{#unless @indeterminate}}
-		<div class='mdc-circular-progress__determinate-container'>
-			<svg
-				class='mdc-circular-progress__determinate-circle-graphic'
-				viewBox={{this.viewBox}}
-				xmlns='http://www.w3.org/2000/svg'
-			>
-				<circle
-					class='mdc-circular-progress__determinate-track'
-					cx={{this.cxCy}}
-					cy={{this.cxCy}}
-					r={{this.r}}
-					stroke-width={{this.majorStrokeWidth}}
-				></circle>
-				<circle
-					class='mdc-circular-progress__determinate-circle'
-					cx={{this.cxCy}}
-					cy={{this.cxCy}}
-					r={{this.r}}
-					stroke-dasharray={{this.strokeDashArray}}
-					stroke-dashoffset={{this.strokeDashArray}}
-					stroke-width={{this.majorStrokeWidth}}
-				></circle>
-			</svg>
-		</div>
-	{{else}}
-		<div class='mdc-circular-progress__indeterminate-container'>
-			{{#unless @multicolor}}
-				<div class='mdc-circular-progress__spinner-layer'>
-					<div
-						class='mdc-circular-progress__circle-clipper mdc-circular-progress__circle-left'
-					>
-						<svg
-							class='mdc-circular-progress__indeterminate-circle-graphic'
-							viewBox={{this.viewBox}}
-							xmlns='http://www.w3.org/2000/svg'
-						>
-							<circle
-								cx={{this.cxCy}}
-								cy={{this.cxCy}}
-								r={{this.r}}
-								stroke-dasharray={{this.strokeDashArray}}
-								stroke-dashoffset={{this.strokeDashOffset}}
-								stroke-width={{this.majorStrokeWidth}}
-							></circle>
-						</svg>
-					</div>
-					<div class='mdc-circular-progress__gap-patch'>
-						<svg
-							class='mdc-circular-progress__indeterminate-circle-graphic'
-							viewBox={{this.viewBox}}
-							xmlns='http://www.w3.org/2000/svg'
-						>
-							<circle
-								cx={{this.cxCy}}
-								cy={{this.cxCy}}
-								r={{this.r}}
-								stroke-dasharray={{this.strokeDashArray}}
-								stroke-dashoffset={{this.strokeDashOffset}}
-								stroke-width={{this.minorStrokeWidth}}
-							></circle>
-						</svg>
-					</div>
-					<div
-						class='mdc-circular-progress__circle-clipper mdc-circular-progress__circle-right'
-					>
-						<svg
-							class='mdc-circular-progress__indeterminate-circle-graphic'
-							viewBox={{this.viewBox}}
-							xmlns='http://www.w3.org/2000/svg'
-						>
-							<circle
-								cx={{this.cxCy}}
-								cy={{this.cxCy}}
-								r={{this.r}}
-								stroke-dasharray={{this.strokeDashArray}}
-								stroke-dashoffset={{this.strokeDashOffset}}
-								stroke-width={{this.majorStrokeWidth}}
-							></circle>
-						</svg>
-					</div>
-				</div>
-			{{else}}
-				{{#let (array 1 2 3 4) as |colors|}}
-					{{#each colors as |color|}}
-						<div
-							class='mdc-circular-progress__spinner-layer mdc-circular-progress__color-{{color}}'
-						>
-							<div
-								class='mdc-circular-progress__circle-clipper mdc-circular-progress__circle-left'
-							>
-								<svg
-									class='mdc-circular-progress__indeterminate-circle-graphic'
-									viewBox={{this.viewBox}}
-									xmlns='http://www.w3.org/2000/svg'
-								>
-									<circle
-										cx={{this.cxCy}}
-										cy={{this.cxCy}}
-										r={{this.r}}
-										stroke-dasharray={{this.strokeDashArray}}
-										stroke-dashoffset={{this.strokeDashOffset}}
-										stroke-width={{this.majorStrokeWidth}}
-									></circle>
-								</svg>
-							</div>
-							<div class='mdc-circular-progress__gap-patch'>
-								<svg
-									class='mdc-circular-progress__indeterminate-circle-graphic'
-									viewBox={{this.viewBox}}
-									xmlns='http://www.w3.org/2000/svg'
-								>
-									<circle
-										cx={{this.cxCy}}
-										cy={{this.cxCy}}
-										r={{this.r}}
-										stroke-dasharray={{this.strokeDashArray}}
-										stroke-dashoffset={{this.strokeDashOffset}}
-										stroke-width={{this.minorStrokeWidth}}
-									></circle>
-								</svg>
-							</div>
-							<div
-								class='mdc-circular-progress__circle-clipper mdc-circular-progress__circle-right'
-							>
-								<svg
-									class='mdc-circular-progress__indeterminate-circle-graphic'
-									viewBox={{this.viewBox}}
-									xmlns='http://www.w3.org/2000/svg'
-								>
-									<circle
-										cx={{this.cxCy}}
-										cy={{this.cxCy}}
-										r={{this.r}}
-										stroke-dasharray={{this.strokeDashArray}}
-										stroke-dashoffset={{this.strokeDashOffset}}
-										stroke-width={{this.majorStrokeWidth}}
-									></circle>
-								</svg>
-							</div>
-						</div>
-					{{/each}}
-				{{/let}}
-			{{/unless}}
-		</div>
-	{{/unless}}
+	<div class='mdc-circular-progress__determinate-container'>
+		<svg
+			class='mdc-circular-progress__determinate-circle-graphic'
+			viewBox={{this.viewBox}}
+			xmlns='http://www.w3.org/2000/svg'
+		>
+			<circle
+				class='mdc-circular-progress__determinate-track'
+				cx={{this.cxCy}}
+				cy={{this.cxCy}}
+				r={{this.radius}}
+				stroke-width={{this.strokeWidth}}
+			></circle>
+			<circle
+				class='mdc-circular-progress__determinate-circle'
+				cx={{this.cxCy}}
+				cy={{this.cxCy}}
+				r={{this.radius}}
+				stroke-dasharray={{this.strokeDashArray}}
+				stroke-dashoffset={{this.strokeDashOffset}}
+				stroke-width={{this.strokeWidth}}
+			></circle>
+		</svg>
+	</div>
 </div>

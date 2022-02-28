@@ -22,131 +22,132 @@ export default class MdcCircularProgressComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
+	recalcStyles() {
+		this.#debug?.(`recalcStyles: re-calculating styling`);
+		if (!this.#element) return;
+
+		this.#element
+			?.querySelector?.(
+				'circle.mdc-circular-progress__determinate-circle'
+			)
+			?.style?.removeProperty?.('--mdc-circular-progress-stroke-color');
+
+		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
+		this.#element
+			?.querySelector?.(
+				'circle.mdc-circular-progress__determinate-circle'
+			)
+			?.style?.setProperty?.(
+				'--mdc-circular-progress-stroke-color',
+				`var(${paletteColour})`
+			);
+	}
+
+	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
+
+		const remSize = window?.getComputedStyle?.(document?.documentElement)?.[
+			'fontSize'
+		];
+		this.#oneRem = Number(remSize?.replace?.('px', ''));
+
+		this?.recalcStyles?.();
 	}
 	// #endregion
 
 	// #region Computed Properties
 	get cxCy() {
-		if (this?.size === 'large') {
-			return `24`;
-		}
+		const cxCy = this?.size / 2 ?? 24;
+		this.#debug?.(`cxCy: ${cxCy}`);
+		return cxCy;
+	}
 
-		if (this?.size === 'medium') {
-			return `16`;
-		}
+	get displayValue() {
+		const rangeUpper =
+			(Math?.abs?.(this?.minValue + this?.maxValue) +
+				Math?.abs?.(this?.minValue - this?.maxValue)) /
+			2;
+		this.#debug?.(`displayValue::rangeUpper: ${rangeUpper}`);
 
-		if (this?.size === 'small') {
-			return `12`;
-		}
+		const rangeLower =
+			(Math?.abs?.(this?.minValue + this?.maxValue) -
+				Math?.abs?.(this?.minValue - this?.maxValue)) /
+			2;
+		this.#debug?.(`displayValue::rangeLower: ${rangeLower}`);
 
-		return `24`;
+		let value = Number(this?.args?.progress) ?? rangeLower;
+		if (Number?.isNaN(value)) value = rangeLower;
+
+		if (value < rangeLower) value = rangeLower;
+		if (value > rangeUpper) value = rangeUpper;
+
+		const displayValue = (value - rangeLower) / (rangeUpper - rangeLower);
+		this.#debug?.(`displayValue::displayValue: ${displayValue}`);
+
+		return displayValue;
+	}
+
+	get maxValue() {
+		let maxValue = Number(this?.args?.maxValue) ?? 1;
+		if (Number?.isNaN(maxValue)) maxValue = 1;
+
+		this.#debug?.(`maxValue: ${maxValue}`);
+		return maxValue;
+	}
+
+	get minValue() {
+		let minValue = Number(this?.args?.minValue) ?? 0;
+		if (Number?.isNaN(minValue)) minValue = 0;
+
+		this.#debug?.(`minValue: ${minValue}`);
+		return minValue;
 	}
 
 	get label() {
 		return this?.args?.label ?? 'circular progress bar';
 	}
 
-	get majorStrokeWidth() {
-		if (this?.size === 'large') {
-			return `4`;
-		}
-
-		if (this?.size === 'medium') {
-			return `3`;
-		}
-
-		if (this?.size === 'small') {
-			return `2.5`;
-		}
-
-		return `4`;
-	}
-
-	get minorStrokeWidth() {
-		if (this?.size === 'large') {
-			return `3.2`;
-		}
-
-		if (this?.size === 'medium') {
-			return `2.4`;
-		}
-
-		if (this?.size === 'small') {
-			return `2`;
-		}
-
-		return `3.2`;
-	}
-
-	get r() {
-		if (this?.size === 'large') {
-			return `18`;
-		}
-
-		if (this?.size === 'medium') {
-			return `12.5`;
-		}
-
-		if (this?.size === 'small') {
-			return `8.75`;
-		}
-
-		return `18`;
+	get radius() {
+		this.#debug?.(`radius: ${this?.cxCy * 0.75}`);
+		return this?.cxCy * 0.75;
 	}
 
 	get size() {
-		return this?.args?.size ?? 'large';
+		let size = Number(this?.args?.size) ?? 3;
+		if (Number?.isNaN?.(size)) size = 3;
+
+		return size * this.#oneRem;
 	}
 
 	get strokeDashArray() {
-		if (this?.size === 'large') {
-			return `113.097`;
-		}
+		const filledArcLength = 2 * Math?.PI * this?.radius;
+		this.#debug?.(`strokeDashArray::filledArcLength: ${filledArcLength}`);
 
-		if (this?.size === 'medium') {
-			return `78.54`;
-		}
-
-		if (this?.size === 'small') {
-			return `54.978`;
-		}
-
-		return `113.097`;
+		return filledArcLength;
 	}
 
 	get strokeDashOffset() {
-		if (this?.size === 'large') {
-			return `56.549`;
-		}
+		const unfilledArcLength =
+			(1 - this?.displayValue) * (2 * Math?.PI * this?.radius);
+		this.#debug?.(
+			`strokeDashOffset::unfilledArcLength: ${unfilledArcLength}`
+		);
 
-		if (this?.size === 'medium') {
-			return `39.27`;
-		}
+		return unfilledArcLength;
+	}
 
-		if (this?.size === 'small') {
-			return `27.489`;
-		}
-
-		return `56.549`;
+	get strokeWidth() {
+		this.#debug?.(`strokeWidth: ${this?.cxCy * 0.2}`);
+		return this?.cxCy * 0.16;
 	}
 
 	get viewBox() {
-		if (this?.size === 'large') {
-			return `0 0 48 48`;
-		}
+		const boxDims = this?.size ?? 48;
 
-		if (this?.size === 'medium') {
-			return `0 0 32 32`;
-		}
-
-		if (this?.size === 'small') {
-			return `0 0 24 24`;
-		}
-
-		return `0 0 48 48`;
+		this.#debug?.(`viewBox: 0 0 ${boxDims} ${boxDims}`);
+		return `0 0 ${boxDims} ${boxDims}`;
 	}
 	// #endregion
 
@@ -159,5 +160,6 @@ export default class MdcCircularProgressComponent extends Component {
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-circular-progress');
 	#element = null;
+	#oneRem = 16;
 	// #endregion
 }
