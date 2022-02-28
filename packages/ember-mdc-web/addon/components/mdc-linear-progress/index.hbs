@@ -1,0 +1,41 @@
+{{! template-lint-disable no-inline-styles}}
+{{! template-lint-disable style-concatenation}}
+<div
+	class='mdc-linear-progress'
+	{{! Add styling classes as necessary }}
+	{{has-class-if @indeterminate 'mdc-linear-progress--indeterminate'}}
+	{{has-class-if @reversed 'mdc-linear-progress--reversed'}}
+	{{! Accessibility }}
+	role='progressbar'
+	aria-label={{this.label}}
+	aria-valuemin='0'
+	aria-valuemax='1'
+	aria-valuenow={{@progress}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	{{#if this.bufferValue}}
+		<div
+			class='mdc-linear-progress__buffer'
+			style='transform: scale({{this.bufferValue}})'
+		></div>
+		<div class='mdc-linear-progress__buffer-dots'></div>
+	{{/if}}
+	<div
+		class='mdc-linear-progress__bar mdc-linear-progress__primary-bar'
+		style='transform: scale({{this.displayValue}})'
+	>
+		<span class='mdc-linear-progress__bar-inner'></span>
+	</div>
+	{{#unless @indeterminate}}
+		<div
+			class='mdc-linear-progress__bar mdc-linear-progress__secondary-bar'
+		>
+			<span class='mdc-linear-progress__bar-inner'></span>
+		</div>
+	{{/unless}}
+</div>

@@ -163,6 +163,7 @@
 			"./components/mdc-image-list/index.js": "./dist/_app_/components/mdc-image-list/index.js",
 			"./components/mdc-image-list/masonry-item/index.js": "./dist/_app_/components/mdc-image-list/masonry-item/index.js",
 			"./components/mdc-image-list/regular-item/index.js": "./dist/_app_/components/mdc-image-list/regular-item/index.js",
+			"./components/mdc-linear-progress/index.js": "./dist/_app_/components/mdc-linear-progress/index.js",
 			"./components/mdc-list-group/header/index.js": "./dist/_app_/components/mdc-list-group/header/index.js",
 			"./components/mdc-list-group/index.js": "./dist/_app_/components/mdc-list-group/index.js",
 			"./components/mdc-list/divider/index.js": "./dist/_app_/components/mdc-list/divider/index.js",

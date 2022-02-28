@@ -101,6 +101,10 @@
 @use '@material/image-list/mdc-image-list';
 @use './emdc-image-list.css';
 
+/* Linear progress component */
+@use '@material/linear-progress/mdc-linear-progress';
+@use './emdc-linear-progress.css';
+
 /* List component */
 @use '@material/list/mdc-list';
 @use './emdc-list.css';
