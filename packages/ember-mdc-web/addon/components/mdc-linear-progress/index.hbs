@@ -21,13 +21,13 @@
 	{{#if this.bufferValue}}
 		<div
 			class='mdc-linear-progress__buffer'
-			style='transform: scale({{this.bufferValue}})'
+			style='transform: scaleX({{this.bufferValue}})'
 		></div>
 		<div class='mdc-linear-progress__buffer-dots'></div>
 	{{/if}}
 	<div
 		class='mdc-linear-progress__bar mdc-linear-progress__primary-bar'
-		style='transform: scale({{this.displayValue}})'
+		style='transform: scaleX({{this.displayValue}})'
 	>
 		<span class='mdc-linear-progress__bar-inner'></span>
 	</div>
