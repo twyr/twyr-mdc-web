@@ -73,23 +73,21 @@ export default class MdcListGroupComponent extends Component {
 			this.#debug?.(`Item not registered: `, item);
 		}
 
-		const unselectedItem = this.#element?.querySelector?.(
+		const selectedItem = this.#element?.querySelector?.(
 			'li.mdc-list-item--selected'
 		);
-		if (unselectedItem) {
-			const unselectedItemControls = this.#items?.get?.(unselectedItem);
-			unselectedItemControls?.select?.(false);
+		if (selectedItem) {
+			const selectedItemControls = this.#items?.get?.(selectedItem);
+			selectedItemControls?.select?.(false);
 		}
 
-		if (unselectedItem !== item && !selected) {
-			const listItemControls = this.#items?.get?.(item);
-			listItemControls?.select?.(selected);
-		}
+		const listItemControls = this.#items?.get?.(item);
+		listItemControls?.select?.(selected);
 
 		const eventData = {
 			name: 'select',
 			selected: selected ? item?.getAttribute?.('id') : null,
-			unselected: unselectedItem?.getAttribute?.('id')
+			unselected: selectedItem?.getAttribute?.('id')
 		};
 		this?._fireEvent?.(eventData);
 	}
