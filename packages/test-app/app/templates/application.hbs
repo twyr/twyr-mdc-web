@@ -41,7 +41,7 @@
 				List Group #1
 			</ListGroup.Header>
 			<ListGroup.List as |List|>
-				<List.Item @selected={{false}}>
+				<List.Item>
 					<:primaryText>Home</:primaryText>
 					<:secondaryText>Home, sweet home</:secondaryText>
 
@@ -52,7 +52,7 @@
 					</:meta>
 				</List.Item>
 
-				<List.Item @selected={{false}}>
+				<List.Item>
 					<:primaryText>Rome</:primaryText>
 					<:secondaryText>Rome, sweet rome</:secondaryText>
 					<:default>Rome</:default>
@@ -64,7 +64,7 @@
 				List Group #2
 			</ListGroup.Header>
 			<ListGroup.List as |List|>
-				<List.Item @selected={{false}}>
+				<List.Item>
 					<:primaryText>Home</:primaryText>
 					<:secondaryText>Home, sweet home</:secondaryText>
 
@@ -75,7 +75,7 @@
 					</:meta>
 				</List.Item>
 
-				<List.Item @selected={{false}}>
+				<List.Item>
 					<:primaryText>Rome</:primaryText>
 					<:secondaryText>Rome, sweet rome</:secondaryText>
 					<:default>Rome</:default>
@@ -96,6 +96,21 @@
 	>
 		Checkbox
 	</MdcCheckbox>
+
+	<MdcRadioGroup
+		@groupName='Test Group 1'
+		@palette={{this.palette}}
+		{{on 'statuschange' this.processRadioGroupEvent}}
+		as |RadioGroup|
+	>
+		<RadioGroup.Radio>
+			Radio 1
+		</RadioGroup.Radio>
+
+		<RadioGroup.Radio>
+			Radio 2
+		</RadioGroup.Radio>
+	</MdcRadioGroup>
 
 	<MdcChipSet @palette={{this.palette}} as |Chipset|>
 		<Chipset.Chip

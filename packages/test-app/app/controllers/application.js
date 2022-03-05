@@ -10,9 +10,9 @@ export default class ApplicationController extends Controller {
 
 	// #region Tracked Attributes
 	@tracked navIconElement = null;
-	@tracked palette = 'none';
+	@tracked palette = 'error';
 
-	@tracked bufferValue = 76;
+	@tracked bufferValue = 59;
 	@tracked progress = 59;
 	// #endregion
 
@@ -48,12 +48,31 @@ export default class ApplicationController extends Controller {
 	processCheckboxEvent(event) {
 		this.#debug?.('processCheckboxEvent', event?.detail);
 
-		// setTimeout(() => {
-		// 	const newStatus = Object?.assign?.({}, event?.detail?.status);
-		// 	const checkboxControls = event?.detail?.controls;
+		setTimeout(() => {
+			const newStatus = Object?.assign?.({}, event?.detail?.status);
+			const checkboxControls = event?.detail?.controls;
 
-		// 	checkboxControls?.setState?.(newStatus);
-		// }, 2000);
+			// newStatus.checked = !newStatus.checked;
+			checkboxControls?.setState?.(newStatus);
+		}, 2000);
+	}
+
+	@action
+	processRadioGroupEvent(event) {
+		this.#debug?.('processRadioGroupEvent', event?.detail);
+
+		setTimeout(() => {
+			const newStatus = Object?.assign?.({}, event?.detail?.status);
+			delete newStatus.radio;
+
+			const radio = document?.getElementById?.(
+				event?.detail?.status?.radio
+			);
+			const radioGroupControls = event?.detail?.controls;
+
+			// newStatus.checked = !newStatus.checked;
+			radioGroupControls?.selectRadio?.(radio, newStatus);
+		}, 3000);
 	}
 
 	@action
