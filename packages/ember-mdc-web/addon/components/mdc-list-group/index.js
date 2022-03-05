@@ -71,6 +71,7 @@ export default class MdcListGroupComponent extends Component {
 
 		if (!this.#items?.has?.(item)) {
 			this.#debug?.(`Item not registered: `, item);
+			return;
 		}
 
 		const selectedItem = this.#element?.querySelector?.(
