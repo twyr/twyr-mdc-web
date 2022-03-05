@@ -4,6 +4,8 @@
 	{{! Add styling classes as necessary }}
 	{{has-class-if @labelBefore 'mdc-form-field--align-end'}}
 	{{has-class-if @nowrap 'mdc-form-field--nowrap'}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
 >
 	<div
 		class='mdc-radio mdc-radio--upgraded'

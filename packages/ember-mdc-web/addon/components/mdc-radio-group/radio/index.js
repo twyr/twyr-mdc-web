@@ -27,7 +27,7 @@ export default class MdcRadioGroupRadioComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 
-		this?.args?.groupControls?.registerItem?.(this.#element, null, false);
+		this?.args?.groupControls?.register?.(this.#element, null, false);
 		super.willDestroy(...arguments);
 	}
 	// #endregion
