@@ -85,6 +85,17 @@ export default class ApplicationController extends Controller {
 		// 	event?.detail?.controls?.selectItem?.(unselectedItem, true);
 		// }, 5000);
 	}
+
+	@action
+	onButtonGroupSelectionChange(event) {
+		this.#debug?.('onButtonGroupSelectionChange', event?.detail);
+		// if(!event?.detail?.status?.unselected) return;
+
+		// setTimeout(() => {
+		// 	const unselectedSegment = document?.getElementById?.(event?.detail?.status?.unselected);
+		// 	event?.detail?.controls?.selectSegment?.(unselectedSegment);
+		// }, 3000);
+	}
 	// #endregion
 
 	// #region Computed Properties

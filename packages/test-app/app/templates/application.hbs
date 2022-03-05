@@ -13,7 +13,7 @@
 
 <MdcDrawer
 	class='mdc-top-app-bar--fixed-adjust'
-	@modal={{true}}
+	@modal={{false}}
 	@locked={{true}}
 	@open={{true}}
 	@controlElement={{this.navIconElement}}
@@ -107,7 +107,7 @@
 			Radio 1
 		</RadioGroup.Radio>
 
-		<RadioGroup.Radio>
+		<RadioGroup.Radio checked>
 			Radio 2
 		</RadioGroup.Radio>
 	</MdcRadioGroup>
@@ -122,6 +122,17 @@
 		</Chipset.Chip>
 		<Chipset.Chip @icon='crowd'>World</Chipset.Chip>
 	</MdcChipSet>
+
+	<MdcSegmentedButton
+		@palette={{this.palette}}
+		@singleSelect={{true}}
+		{{on 'select' this.onButtonGroupSelectionChange}}
+		as |SegmentedButton|
+	>
+		<SegmentedButton.Segment @icon='format-bold' @label='Bold' />
+		<SegmentedButton.Segment @icon='format-italic' @label='Italic' />
+		<SegmentedButton.Segment @icon='format-underline' @label='Underline' />
+	</MdcSegmentedButton>
 
 	<MdcCircularProgress
 		@size='3'
