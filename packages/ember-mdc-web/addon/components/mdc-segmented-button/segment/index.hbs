@@ -1,0 +1,35 @@
+<button
+	class='mdc-segmented-button__segment'
+	{{! Add styling classes as necessary }}
+	role={{this.role}}
+	aria-pressed={{this.pressed}}
+	aria-checked={{this.checked}}
+	...attributes
+	type='button'
+	{{has-class-if
+		(or this.checked this.pressed)
+		'mdc-segmented-button__segment--selected'
+	}}
+	{{! Accessibility stuff }}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! React to clicks }}
+	{{on 'click' this.onClick}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{on-args-change this.recalcAria @singleSelect}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+>
+	<div class='mdc-segmented-button__ripple'></div>
+	{{#if @icon}}
+		<MdcIcon
+			class='material-icons mdc-segmented-button__icon'
+			@icon={{@icon}}
+		/>
+	{{/if}}
+	{{#if @label}}
+		<div class='mdc-segmented-button__label'>{{@label}}</div>
+	{{/if}}
+</button>

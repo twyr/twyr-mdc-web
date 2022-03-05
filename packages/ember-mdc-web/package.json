@@ -172,6 +172,8 @@
 			"./components/mdc-list/item/index.js": "./dist/_app_/components/mdc-list/item/index.js",
 			"./components/mdc-radio-group/index.js": "./dist/_app_/components/mdc-radio-group/index.js",
 			"./components/mdc-radio-group/radio/index.js": "./dist/_app_/components/mdc-radio-group/radio/index.js",
+			"./components/mdc-segmented-button/index.js": "./dist/_app_/components/mdc-segmented-button/index.js",
+			"./components/mdc-segmented-button/segment/index.js": "./dist/_app_/components/mdc-segmented-button/segment/index.js",
 			"./components/mdc-sub-headline/index.js": "./dist/_app_/components/mdc-sub-headline/index.js",
 			"./components/mdc-top-app-bar/action-icon/index.js": "./dist/_app_/components/mdc-top-app-bar/action-icon/index.js",
 			"./components/mdc-top-app-bar/index.js": "./dist/_app_/components/mdc-top-app-bar/index.js",

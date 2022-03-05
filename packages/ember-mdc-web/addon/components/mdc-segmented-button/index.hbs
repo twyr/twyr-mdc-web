@@ -1,0 +1,22 @@
+<div
+	class='mdc-segmented-button'
+	{{! Accessibility stuff }}
+	role={{this.role}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	{{yield
+		(hash
+			Segment=(component
+				this.segmentComponent
+				segmentedButtonControls=this.controls
+				palette=@palette
+				singleSelect=@singleSelect
+			)
+		)
+	}}
+</div>
