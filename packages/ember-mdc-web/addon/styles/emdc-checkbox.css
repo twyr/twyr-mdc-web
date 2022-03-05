@@ -1,3 +1,13 @@
-.mdc-checkbox {
-	--mdc-ripple-color: var(--mdc-checkbox-ripple-color, rgb(0 0 0 / 0.87));
-}
+
+	.mdc-checkbox .mdc-checkbox__ripple::before {
+		background-color: var(
+			--mdc-checkbox-ripple-color,
+			var(--mdc-ripple-color, rgb(0 0 0 0.87))
+		);
+	}
+.mdc-checkbox .mdc-checkbox__ripple::after {
+		background-color: var(
+			--mdc-checkbox-ripple-color,
+			var(--mdc-ripple-color, rgb(0 0 0 0.87))
+		);
+	}
