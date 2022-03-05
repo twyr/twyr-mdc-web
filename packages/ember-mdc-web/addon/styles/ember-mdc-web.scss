@@ -109,6 +109,10 @@
 @use '@material/list/mdc-list';
 @use './emdc-list.css';
 
+/* Radio Button component */
+@use '@material/radio/mdc-radio';
+@use './emdc-radio.css';
+
 /* Top Bar component */
 @use '@material/top-app-bar/mdc-top-app-bar';
 @use './emdc-top-app-bar.css';
