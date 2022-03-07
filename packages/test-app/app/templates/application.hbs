@@ -112,6 +112,13 @@
 		</RadioGroup.Radio>
 	</MdcRadioGroup>
 
+	<MdcSwitch
+		@palette={{this.palette}}
+		@selectedLabel='On'
+		@unselectedLabel='Off'
+		{{on 'statuschange' this.processSwitchEvent}}
+	/>
+
 	<MdcChipSet @palette={{this.palette}} as |Chipset|>
 		<Chipset.Chip
 			@icon='abacus'

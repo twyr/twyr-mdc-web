@@ -48,31 +48,31 @@ export default class ApplicationController extends Controller {
 	processCheckboxEvent(event) {
 		this.#debug?.('processCheckboxEvent', event?.detail);
 
-		setTimeout(() => {
-			const newStatus = Object?.assign?.({}, event?.detail?.status);
-			const checkboxControls = event?.detail?.controls;
+		// setTimeout(() => {
+		// 	const newStatus = Object?.assign?.({}, event?.detail?.status);
+		// 	const checkboxControls = event?.detail?.controls;
 
-			// newStatus.checked = !newStatus.checked;
-			checkboxControls?.setState?.(newStatus);
-		}, 2000);
+		// 	newStatus.checked = !newStatus.checked;
+		// 	checkboxControls?.setState?.(newStatus);
+		// }, 2000);
 	}
 
 	@action
 	processRadioGroupEvent(event) {
 		this.#debug?.('processRadioGroupEvent', event?.detail);
 
-		setTimeout(() => {
-			const newStatus = Object?.assign?.({}, event?.detail?.status);
-			delete newStatus.radio;
+		// setTimeout(() => {
+		// 	const newStatus = Object?.assign?.({}, event?.detail?.status);
+		// 	delete newStatus.radio;
 
-			const radio = document?.getElementById?.(
-				event?.detail?.status?.radio
-			);
-			const radioGroupControls = event?.detail?.controls;
+		// 	const radio = document?.getElementById?.(
+		// 		event?.detail?.status?.radio
+		// 	);
+		// 	const radioGroupControls = event?.detail?.controls;
 
-			// newStatus.checked = !newStatus.checked;
-			radioGroupControls?.selectRadio?.(radio, newStatus);
-		}, 3000);
+		// 	newStatus.checked = !newStatus.checked;
+		// 	radioGroupControls?.selectRadio?.(radio, newStatus);
+		// }, 3000);
 	}
 
 	@action
@@ -94,6 +94,16 @@ export default class ApplicationController extends Controller {
 		// setTimeout(() => {
 		// 	const unselectedSegment = document?.getElementById?.(event?.detail?.status?.unselected);
 		// 	event?.detail?.controls?.selectSegment?.(unselectedSegment);
+		// }, 3000);
+	}
+
+	@action
+	processSwitchEvent(event) {
+		this.#debug?.('processSwitchEvent', event?.detail);
+		// setTimeout(() => {
+		// 	const newStatus = Object?.assign({}, event?.detail?.status);
+		// 	newStatus.on = !newStatus?.on;
+		// 	event?.detail?.controls?.setState?.(newStatus);
 		// }, 3000);
 	}
 	// #endregion
