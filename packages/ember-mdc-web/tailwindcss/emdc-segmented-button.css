@@ -1,5 +1,7 @@
 .mdc-segmented-button {
 	& .mdc-segmented-button__segment {
+		resize: none;
+
 		& .mdc-segmented-button__ripple::before {
 			background-color: var(
 				--mdc-segmented-button-ripple-color,
