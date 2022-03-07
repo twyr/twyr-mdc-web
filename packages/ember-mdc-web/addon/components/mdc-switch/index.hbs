@@ -1,0 +1,60 @@
+{{! template-lint-disable require-presentational-children}}
+<button
+	type='button'
+	class='mdc-switch'
+	{{! Add styling classes as necessary }}
+	{{has-class-if
+		this.selected
+		'mdc-switch--selected'
+		'mdc-switch--unselected'
+	}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! Tooltip stuff }}
+	title={{@title}}
+	{{! Accessibility stuff }}
+	role='switch'
+	aria-checked='{{this.selected}}'
+	{{! Monitor changes to id and disabled status }}
+	{{on-mutation
+		this.onAttributeMutation
+		attributeFilter=(array 'id' 'disabled')
+	}}
+	{{! React to clicks }}
+	{{on 'click' this.onClick}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<div class='mdc-switch__track'></div>
+	<div class='mdc-switch__handle-track'>
+		<div class='mdc-switch__handle'>
+			<div class='mdc-switch__shadow'>
+				<div class='mdc-elevation-overlay'></div>
+			</div>
+			<div class='mdc-switch__ripple'></div>
+			<div class='mdc-switch__icons'>
+				<svg
+					class='mdc-switch__icon mdc-switch__icon--on'
+					viewBox='0 0 24 24'
+				>
+					<path
+						d='M19.69,5.23L8.96,15.96l-4.23-4.23L2.96,13.5l6,6L21.46,7L19.69,5.23z'
+					></path>
+				</svg>
+				<svg
+					class='mdc-switch__icon mdc-switch__icon--off'
+					viewBox='0 0 24 24'
+				>
+					<path d='M20 13H4v-2h16v2z'></path>
+				</svg>
+			</div>
+		</div>
+	</div>
+</button>
+<label for={{this.inputElementId}}>
+	{{this.label}}
+</label>

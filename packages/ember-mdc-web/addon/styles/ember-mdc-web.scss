@@ -75,7 +75,7 @@
 @use './emdc-checkbox.css';
 
 /* Chips component */
-@use '@material/chips/styles';
+@use '@material/chips/styles' as chip-styles;
 @use './emdc-chip-set.css';
 
 /* Circular progress component */
@@ -114,6 +114,9 @@
 /* Radio Button component */
 @use '@material/radio/mdc-radio';
 @use './emdc-radio.css';
+
+/* Switch component */
+@use '@material/switch/styles' as switch-styles;
 
 /* Top Bar component */
 @use '@material/top-app-bar/mdc-top-app-bar';
