@@ -14,8 +14,6 @@ export default class ApplicationController extends Controller {
 
 	@tracked bufferValue = 59;
 	@tracked progress = 59;
-
-	@tracked showAlert = true;
 	// #endregion
 
 	// #region Constructor
@@ -110,19 +108,47 @@ export default class ApplicationController extends Controller {
 	}
 
 	@action
-	processAlertAction(event) {
-		this.#debug?.('processAlertAction', event);
-		this.showAlert = false;
+	setAlertControls(event) {
+		this.#debug?.('setAlertControls: ', event?.detail);
+		this.#alertControls = event?.detail?.controls;
 
 		setTimeout(() => {
-			this.showAlert = true;
+			this.#alertFired = true;
+			this.#alertControls?.showAlert?.({
+				open: true,
+				text: 'Wassup?',
+				actionLabel: 'Close'
+			});
+		}, 10000);
+	}
+
+	@action
+	processAlertDisplay(event) {
+		this.#debug?.('processAlertDisplay: ', event?.detail);
+	}
+
+	@action
+	processAlertAction(event) {
+		this.#debug?.('processAlertAction', event);
+		this.#alertControls?.showAlert?.({
+			open: false
+		});
+
+		setTimeout(() => {
+			this.#alertControls?.showAlert?.({
+				open: true,
+				text: 'Wassup?',
+				actionLabel: 'Close'
+			});
 		}, 5000);
 	}
 
 	@action
 	processAlertClose(event) {
 		this.#debug?.('processAlertClose', event);
-		this.showAlert = false;
+		this.#alertControls?.showAlert?.({
+			open: false
+		});
 	}
 	// #endregion
 
@@ -137,5 +163,8 @@ export default class ApplicationController extends Controller {
 
 	// #region Private Attributes
 	#debug = debugLogger?.('application:test-app');
+
+	#alertFired = false;
+	#alertControls = null;
 	// #endregion
 }
