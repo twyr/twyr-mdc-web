@@ -115,6 +115,10 @@
 @use '@material/radio/mdc-radio';
 @use './emdc-radio.css';
 
+/* Snackbar component */
+@use '@material/snackbar/mdc-snackbar';
+@use './emdc-snackbar.css';
+
 /* Switch component */
 @use '@material/switch/styles' as switch-styles;
 

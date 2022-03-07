@@ -1,0 +1,4 @@
+.mdc-snackbar__action:not(:disabled) {
+	color: var(--mdc-snackbar-action-color,
+			#bb86fc);
+}
