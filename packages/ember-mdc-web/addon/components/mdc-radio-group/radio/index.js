@@ -73,7 +73,6 @@ export default class MdcRadioGroupRadioComponent extends Component {
 		rootElement?.style?.removeProperty?.('--mdc-radio-ink-color');
 		rootElement?.style?.removeProperty?.('--mdc-radio-checked-color');
 		rootElement?.style?.removeProperty?.('--mdc-radio-ripple-color');
-		rootElement?.style?.removeProperty?.('--mdc-form-field-color');
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -93,11 +92,6 @@ export default class MdcRadioGroupRadioComponent extends Component {
 
 		rootElement?.style?.setProperty?.(
 			'--mdc-radio-ripple-color',
-			`var(${paletteColour})`
-		);
-
-		rootElement?.style?.setProperty?.(
-			'--mdc-form-field-color',
 			`var(${paletteColour})`
 		);
 	}

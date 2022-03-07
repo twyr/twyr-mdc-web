@@ -1,18 +1,17 @@
 <button
+	type='button'
 	class='mdc-segmented-button__segment'
 	{{! Add styling classes as necessary }}
-	role={{this.role}}
-	aria-pressed={{this.pressed}}
-	aria-checked={{this.checked}}
-	...attributes
-	type='button'
 	{{has-class-if
 		(or this.checked this.pressed)
 		'mdc-segmented-button__segment--selected'
 	}}
-	{{! Accessibility stuff }}
 	{{! Ensure id is present - we need it for the events }}
 	{{requires-id ignore=true}}
+	{{! Accessibility stuff }}
+	role={{this.role}}
+	aria-pressed={{this.pressed}}
+	aria-checked={{this.checked}}
 	{{! React to clicks }}
 	{{on 'click' this.onClick}}
 	{{! Re-calculate colours as necessary }}
@@ -21,6 +20,7 @@
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
+	...attributes
 >
 	<div class='mdc-segmented-button__ripple'></div>
 	{{#if @icon}}
