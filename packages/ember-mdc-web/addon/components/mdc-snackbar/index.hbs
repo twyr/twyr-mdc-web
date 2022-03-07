@@ -1,34 +1,40 @@
 <aside
 	class='mdc-snackbar'
 	{{! Add styling classes as necessary }}
-	{{has-class-if @open 'mdc-snackbar--open'}}
-	{{has-class-if @stacked 'mdc-snackbar--stacked'}}
+	{{has-class-if this.open 'mdc-snackbar--open'}}
+	{{has-class-if this.stacked 'mdc-snackbar--stacked'}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
 >
 	<div class='mdc-snackbar__surface' role='status' aria-relevant='additions'>
 		<div class='mdc-snackbar__label' aria-atomic='false'>
-			{{@text}}
+			{{this.text}}
 		</div>
-		{{#if (or @actionLabel @closeable)}}
+		{{#if (or this.actionLabel this.closeable)}}
 			<div class='mdc-snackbar__actions' aria-atomic='true'>
-				{{#if @actionLabel}}
+				{{#if this.actionLabel}}
 					<button
 						type='button'
 						class='mdc-button mdc-snackbar__action'
 						{{! React to clicks }}
 						{{on 'click' this.onAction}}
 						{{! Store reference to the element for DOM manipulation }}
-						{{store-element this.storeElement}}
-						{{! HTML attributes added in the calling template }}
-						...attributes
+						{{store-element this.storeActionElement}}
 					>
 						<div class='mdc-button__ripple'></div>
-						<span class='mdc-button__label'>{{@actionLabel}}</span>
+						<span
+							class='mdc-button__label'
+						>{{this.actionLabel}}</span>
 					</button>
 				{{/if}}
 
-				{{#if @closeable}}
+				{{#if this.closeable}}
 					<MdcIconButton
 						class='mdc-snackbar__dismiss'
 						@icon='close'

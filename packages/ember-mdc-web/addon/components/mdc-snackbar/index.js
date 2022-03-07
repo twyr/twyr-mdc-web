@@ -2,6 +2,8 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+
 import { MDCRipple } from '@material/ripple/index';
 
 export default class MdcSnackbarComponent extends Component {
@@ -9,12 +11,19 @@ export default class MdcSnackbarComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked open = false;
+	@tracked stacked = false;
+	@tracked text = 'Hello, world';
+	@tracked actionLabel = null;
+	@tracked closeable = true;
 	// #endregion
 
 	// #region Constructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		this.#controls.showAlert = this._showAlert;
 	}
 	// #endregion
 
@@ -59,8 +68,26 @@ export default class MdcSnackbarComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		MDCRipple?.attachTo?.(this.#element);
 		this?.recalcStyles?.();
+
+		const thisEvent = new CustomEvent('init', {
+			detail: {
+				id: this.#element?.getAttribute?.('id'),
+				controls: this.#controls,
+				status: {
+					open: this?.open,
+					closeable: this?.closeable,
+					stacked: this?.stacked
+				}
+			}
+		});
+
+		this.#element?.dispatchEvent?.(thisEvent);
+	}
+
+	@action
+	storeActionElement(element) {
+		MDCRipple?.attachTo?.(element);
 	}
 	// #endregion
 
@@ -68,6 +95,30 @@ export default class MdcSnackbarComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
+	@action
+	_showAlert(options) {
+		this.#debug?.(`_showAlert: `, options);
+
+		this.open = options?.open ?? false;
+		this.stacked = options?.stacked ?? false;
+		this.text = options?.text ?? 'Hello, world';
+		this.actionLabel = options?.actionLabel ?? null;
+		this.closeable = options?.closeable ?? true;
+
+		const thisEvent = new CustomEvent('alert', {
+			detail: {
+				id: this.#element?.getAttribute?.('id'),
+				controls: this.#controls,
+				status: {
+					open: this?.open,
+					closeable: this?.closeable,
+					stacked: this?.stacked
+				}
+			}
+		});
+
+		this.#element?.dispatchEvent?.(thisEvent);
+	}
 	// #endregion
 
 	// #region Default Sub-components
@@ -75,6 +126,8 @@ export default class MdcSnackbarComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-snackbar');
+
 	#element = null;
+	#controls = {};
 	// #endregion
 }
