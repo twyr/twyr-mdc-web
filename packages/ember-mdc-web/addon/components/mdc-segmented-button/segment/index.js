@@ -53,7 +53,7 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	}
 
 	@action
-	recalcStyle() {
+	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
@@ -96,7 +96,7 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?.recalcStyle?.();
+		this?.recalcStyles?.();
 		MDCRipple?.attachTo?.(this.#element);
 
 		this?.args?.segmentedButtonControls?.register?.(
@@ -117,7 +117,8 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action _setSelected(selected) {
+	@action
+	_setSelected(selected) {
 		this.#debug?.(`_setSelected: `, selected);
 		this.#checked = selected;
 		this.#pressed = selected;

@@ -90,12 +90,17 @@ export default class MdcSegmentedButtonComponent extends Component {
 		}
 
 		const segmentControls = this.#segments?.get?.(segment);
-		segmentControls?.select?.(true);
+		const isSegmentSelected = segment?.classList?.contains?.(
+			'mdc-segmented-button__segment--selected'
+		);
+		segmentControls?.select?.(!isSegmentSelected);
 
 		const eventData = {
 			name: 'select',
-			selected: segment?.getAttribute?.('id'),
-			unselected: selectedSegment?.getAttribute?.('id')
+			selected: isSegmentSelected ? segment?.getAttribute?.('id') : null,
+			unselected: isSegmentSelected
+				? null
+				: selectedSegment?.getAttribute?.('id')
 		};
 
 		this?._fireEvent?.(eventData);
