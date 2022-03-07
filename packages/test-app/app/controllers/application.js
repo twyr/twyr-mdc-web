@@ -10,10 +10,12 @@ export default class ApplicationController extends Controller {
 
 	// #region Tracked Attributes
 	@tracked navIconElement = null;
-	@tracked palette = 'error';
+	@tracked palette = 'secondary';
 
 	@tracked bufferValue = 59;
 	@tracked progress = 59;
+
+	@tracked showAlert = true;
 	// #endregion
 
 	// #region Constructor
@@ -105,6 +107,22 @@ export default class ApplicationController extends Controller {
 		// 	newStatus.on = !newStatus?.on;
 		// 	event?.detail?.controls?.setState?.(newStatus);
 		// }, 3000);
+	}
+
+	@action
+	processAlertAction(event) {
+		this.#debug?.('processAlertAction', event);
+		this.showAlert = false;
+
+		setTimeout(() => {
+			this.showAlert = true;
+		}, 5000);
+	}
+
+	@action
+	processAlertClose(event) {
+		this.#debug?.('processAlertClose', event);
+		this.showAlert = false;
 	}
 	// #endregion
 

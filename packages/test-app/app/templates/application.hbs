@@ -159,3 +159,14 @@
 	/>
 	{{outlet}}
 </div>
+
+<MdcSnackbar
+	@text='Hello, how are you all doing?'
+	@open={{this.showAlert}}
+	@closeable={{true}}
+	@actionLabel='Hide for a bit'
+	@stacked={{false}}
+	@palette={{this.palette}}
+	{{on 'action' this.processAlertAction}}
+	{{on 'close' this.processAlertClose}}
+/>
