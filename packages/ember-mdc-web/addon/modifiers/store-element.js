@@ -8,19 +8,26 @@ export default class StoreElementModifier extends Modifier {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	didReceiveArguments() {
 		super.didReceiveArguments(...arguments);
-		this.#debug(
+		this.#debug?.(
 			`didReceiveArguments:\nelement: `,
 			this?.element,
 			`\nargs: `,
 			this?.args
 		);
+
+		if (this.#hasFired) {
+			this.#debug?.(`hasFired: ${this.#hasFired}. Not calling back`);
+			return;
+		}
+
+		this.#hasFired = true;
 
 		const storeFunc = this?.args?.positional?.[0];
 		storeFunc?.(this?.element, this?.args?.positional?.[1]);
@@ -38,5 +45,6 @@ export default class StoreElementModifier extends Modifier {
 
 	// #region Private Attributes
 	#debug = debugLogger('modifier:store-element');
+	#hasFired = false;
 	// #endregion
 }

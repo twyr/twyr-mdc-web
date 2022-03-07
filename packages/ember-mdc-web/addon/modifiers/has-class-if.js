@@ -8,14 +8,14 @@ export default class HasClassIfModifier extends Modifier {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	didReceiveArguments() {
 		super.didReceiveArguments(...arguments);
-		this.#debug(
+		this.#debug?.(
 			`didReceiveArguments:\nelement: `,
 			this?.element,
 			`\nargs: `,
@@ -44,7 +44,7 @@ export default class HasClassIfModifier extends Modifier {
 
 		const condition = this?.args?.positional?.[0];
 		if (condition) {
-			this.#debug(
+			this.#debug?.(
 				`didReceiveArguments:\ncondition: ${condition}\nyes classes: ${yesClassList.join(
 					' '
 				)}\nno classes: ${noClassList.join(' ')}`
@@ -54,7 +54,7 @@ export default class HasClassIfModifier extends Modifier {
 			if (noClassList?.length)
 				this?.element?.classList?.remove?.(...noClassList);
 		} else {
-			this.#debug(
+			this.#debug?.(
 				`didReceiveArguments:\ncondition: ${condition}\nyes classes: ${yesClassList.join(
 					' '
 				)}\nno classes: ${noClassList.join(' ')}`

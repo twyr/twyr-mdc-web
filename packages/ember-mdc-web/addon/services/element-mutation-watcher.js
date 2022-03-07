@@ -11,7 +11,7 @@ export default class ElementMutationWatcherService extends Service {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 
 		this.#observer = new MutationObserver(
 			this?._notifyMutation?.bind?.(this)
@@ -21,7 +21,7 @@ export default class ElementMutationWatcherService extends Service {
 
 	// #region Lifecycle Hooks
 	willDestroy() {
-		this.#debug(`willDestroy`);
+		this.#debug?.(`willDestroy`);
 		super.willDestroy(...arguments);
 
 		this.#elementCallback?.clear?.();
@@ -37,7 +37,7 @@ export default class ElementMutationWatcherService extends Service {
 
 	// #region Public Methods
 	watchElement(element, options, callback) {
-		this.#debug(`watchElement:`, element, options);
+		this.#debug?.(`watchElement:`, element, options);
 		if (!this.#observer) return;
 
 		if (!this.#elementCallback?.has?.(element))
@@ -50,11 +50,11 @@ export default class ElementMutationWatcherService extends Service {
 	}
 
 	unwatchElement(element, callback) {
-		this.#debug(`unwatchElement:`, element);
+		this.#debug?.(`unwatchElement:`, element);
 		if (!this.#observer) return;
 
 		if (!callback) {
-			this.#debug(
+			this.#debug?.(
 				`unwatchElement:`,
 				element,
 				`callback not passed in. aborting...`
@@ -65,7 +65,7 @@ export default class ElementMutationWatcherService extends Service {
 		const currentElementCallbacks = this.#elementCallback?.get?.(element);
 		const callbackIndex = currentElementCallbacks?.indexOf?.(callback);
 		if (callbackIndex < 0) {
-			this.#debug(
+			this.#debug?.(
 				`unwatchElement:`,
 				element,
 				`callback not registered. aborting...`
@@ -76,7 +76,7 @@ export default class ElementMutationWatcherService extends Service {
 		currentElementCallbacks?.splice?.(callbackIndex, 1);
 		if (currentElementCallbacks?.length) return;
 
-		this.#debug(
+		this.#debug?.(
 			`unwatchElement:`,
 			element,
 			`last callback removed. unobserving...`
@@ -88,25 +88,25 @@ export default class ElementMutationWatcherService extends Service {
 
 	// #region Private Methods
 	_notifyMutation(entries) {
-		this.#debug(`_notifyMutation:`, entries);
+		this.#debug?.(`_notifyMutation:`, entries);
 		entries?.forEach?.((entry) => {
-			this.#debug(
+			this.#debug?.(
 				`_notifyMutation::processing mutation entry:`,
 				JSON.stringify(entry, null, '\t')
 			);
 
 			const element = entry?.target;
 			if (!element) {
-				this.#debug(
+				this.#debug?.(
 					`_notifyMutation::target element not found. aborting...`
 				);
 				return;
 			}
 
-			this.#debug(`_notifyMutation::target element:`, element);
+			this.#debug?.(`_notifyMutation::target element:`, element);
 			const callbacks = this.#elementCallback?.get?.(element);
 			if (!callbacks) {
-				this.#debug(
+				this.#debug?.(
 					`_notifyMutation::target element callback not found. aborting...`
 				);
 				return;

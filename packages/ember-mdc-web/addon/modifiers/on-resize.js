@@ -11,7 +11,7 @@ export default class OnResizeModifier extends Modifier {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
@@ -24,7 +24,9 @@ export default class OnResizeModifier extends Modifier {
 		};
 
 		if (this.#currentCallback) {
-			this.#debug(`didReceiveArguments: de-registering old callback...`);
+			this.#debug?.(
+				`didReceiveArguments: de-registering old callback...`
+			);
 			this?.mutationWatcher?.unwatchElement(
 				this?.element,
 				this.#currentCallback
@@ -33,13 +35,13 @@ export default class OnResizeModifier extends Modifier {
 
 		this.#currentCallback = this?.args?.positional?.[0];
 		if (!this.#currentCallback) {
-			this.#debug(
+			this.#debug?.(
 				`didReceiveArguments: no callback defined. aborting...`
 			);
 			return;
 		}
 
-		this.#debug(
+		this.#debug?.(
 			`didReceiveArguments:\nelement: `,
 			this?.element,
 			`\noptions: `,
@@ -55,7 +57,7 @@ export default class OnResizeModifier extends Modifier {
 	}
 
 	willDestroy() {
-		this.#debug(`willDestroy`);
+		this.#debug?.(`willDestroy`);
 		super.willDestroy(...arguments);
 
 		this?.resizeWatcher?.unwatchElement?.(

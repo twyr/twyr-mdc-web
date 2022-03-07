@@ -11,7 +11,7 @@ export default class OnMutationModifier extends Modifier {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
@@ -32,7 +32,9 @@ export default class OnMutationModifier extends Modifier {
 		if (!this?.attributes) delete options?.attributeFilter;
 
 		if (this.#currentCallback) {
-			this.#debug(`didReceiveArguments: de-registering old callback...`);
+			this.#debug?.(
+				`didReceiveArguments: de-registering old callback...`
+			);
 			this?.mutationWatcher?.unwatchElement(
 				this?.element,
 				this.#currentCallback
@@ -41,13 +43,13 @@ export default class OnMutationModifier extends Modifier {
 
 		this.#currentCallback = this?.args?.positional?.[0];
 		if (!this.#currentCallback) {
-			this.#debug(
+			this.#debug?.(
 				`didReceiveArguments: no callback defined. aborting...`
 			);
 			return;
 		}
 
-		this.#debug(
+		this.#debug?.(
 			`didReceiveArguments:\nelement: `,
 			this?.element,
 			`\noptions: `,
@@ -63,7 +65,7 @@ export default class OnMutationModifier extends Modifier {
 	}
 
 	willDestroy() {
-		this.#debug(`willDestroy`);
+		this.#debug?.(`willDestroy`);
 		super.willDestroy(...arguments);
 
 		this?.mutationWatcher?.unwatchElement(

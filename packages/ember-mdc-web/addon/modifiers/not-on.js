@@ -10,14 +10,14 @@ export default class NotOnModifier extends Modifier {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	didReceiveArguments() {
 		super.didReceiveArguments(...arguments);
-		this.#debug(
+		this.#debug?.(
 			`didReceiveArguments:\nelement: `,
 			this?.element,
 			`\nargs: `,
@@ -55,7 +55,7 @@ export default class NotOnModifier extends Modifier {
 		const isEventOutsideElement =
 			event.target !== this.element &&
 			!this.element.contains(event.target);
-		this.#debug(
+		this.#debug?.(
 			`_eventHandler:\nelement: `,
 			this?.element,
 			`\nevent: `,

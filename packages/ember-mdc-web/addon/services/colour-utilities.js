@@ -13,13 +13,13 @@ export default class ColourUtilitiesService extends Service {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	willDestroy() {
-		this.#debug(`willDestroy`);
+		this.#debug?.(`willDestroy`);
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -35,7 +35,7 @@ export default class ColourUtilitiesService extends Service {
 		)?.color;
 		const overlayColour = this.parseColour(elementColour, opacity);
 
-		this.#debug(
+		this.#debug?.(
 			`getOverlayColour::elementColour: ${elementColour}, overlayColour: ${overlayColour}`
 		);
 		return overlayColour;
@@ -47,7 +47,7 @@ export default class ColourUtilitiesService extends Service {
 		];
 		let fieldOpacity = 1;
 
-		this.#debug(`getInverseColour: ${field} Colour: ${fieldColour}`);
+		this.#debug?.(`getInverseColour: ${field} Colour: ${fieldColour}`);
 
 		if (fieldColour.indexOf('rgb(') === 0) {
 			fieldColour = fieldColour
@@ -74,7 +74,7 @@ export default class ColourUtilitiesService extends Service {
 
 		fieldOpacity = Number(fieldOpacity);
 		if (fieldOpacity === 0) {
-			this.#debug(
+			this.#debug?.(
 				`getInverseColour::bwOnly: ${!!bwOnly}, ${field} Colour: ${fieldColour}, opacity: ${fieldOpacity}, inverseColour: null`
 			);
 			return null;
@@ -89,7 +89,7 @@ export default class ColourUtilitiesService extends Service {
 
 		const inverseColour = invert?.(fieldColour, bwOnly);
 
-		this.#debug(
+		this.#debug?.(
 			`getInverseColour::bwOnly: ${!!bwOnly}, ${field} Colour: ${fieldColour}, ${field} Opacity: ${fieldOpacity}, inverseColour: ${inverseColour}`
 		);
 		return inverseColour;
@@ -99,12 +99,12 @@ export default class ColourUtilitiesService extends Service {
 		colour = colour?.trim?.();
 		opacity = opacity?.trim?.();
 
-		this.#debug(`parseColour: ${colour}`);
+		this.#debug?.(`parseColour: ${colour}`);
 		if (!colour) return colour;
 
 		if (colour.indexOf('rgba') === 0) {
 			if (opacity) {
-				this.#debug(
+				this.#debug?.(
 					`parseColour::rgba::opacity: ${colour.replace(
 						/\d?\.?\d*\s*\)\s*$/,
 						`${opacity})`
@@ -113,12 +113,12 @@ export default class ColourUtilitiesService extends Service {
 				return colour?.replace?.(/\d?\.?\d*\s*\)\s*$/, `${opacity})`);
 			}
 
-			this.#debug(`parseColour::rgba::no_opacity: ${colour}`);
+			this.#debug?.(`parseColour::rgba::no_opacity: ${colour}`);
 			return colour;
 		}
 
 		if (colour.indexOf('rgb') === 0) {
-			this.#debug(
+			this.#debug?.(
 				`parseColour::rgb: ${colour
 					.replace(')', `, ${opacity ?? 0.1})`)
 					.replace('(', 'a(')}`
@@ -131,7 +131,7 @@ export default class ColourUtilitiesService extends Service {
 		if (colour.indexOf('#') === 0) {
 			const rgbaColour = this?._hexToRGBA?.(colour, opacity);
 
-			this.#debug(`parseColour::#: ${rgbaColour}`);
+			this.#debug?.(`parseColour::#: ${rgbaColour}`);
 			return rgbaColour;
 		}
 

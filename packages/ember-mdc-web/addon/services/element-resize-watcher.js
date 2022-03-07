@@ -11,7 +11,7 @@ export default class ElementResizeWatcherService extends Service {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 
 		this.#observer = new ResizeObserver(this?._notifyResize?.bind?.(this));
 	}
@@ -19,7 +19,7 @@ export default class ElementResizeWatcherService extends Service {
 
 	// #region Lifecycle Hooks
 	willDestroy() {
-		this.#debug(`willDestroy`);
+		this.#debug?.(`willDestroy`);
 		super.willDestroy(...arguments);
 
 		this.#elementCallback?.clear?.();
@@ -35,7 +35,7 @@ export default class ElementResizeWatcherService extends Service {
 
 	// #region Public Methods
 	watchElement(element, options, callback) {
-		this.#debug(`watchElement:`, element, options);
+		this.#debug?.(`watchElement:`, element, options);
 		if (!this.#observer) return;
 
 		if (!this.#elementCallback?.has?.(element))
@@ -48,11 +48,11 @@ export default class ElementResizeWatcherService extends Service {
 	}
 
 	unwatchElement(element, callback) {
-		this.#debug(`unwatchElement:`, element);
+		this.#debug?.(`unwatchElement:`, element);
 		if (!this.#observer) return;
 
 		if (!callback) {
-			this.#debug(
+			this.#debug?.(
 				`unwatchElement:`,
 				element,
 				`callback not passed in. aborting...`
@@ -63,7 +63,7 @@ export default class ElementResizeWatcherService extends Service {
 		const currentElementCallbacks = this.#elementCallback?.get?.(element);
 		const callbackIndex = currentElementCallbacks?.indexOf?.(callback);
 		if (callbackIndex < 0) {
-			this.#debug(
+			this.#debug?.(
 				`unwatchElement:`,
 				element,
 				`callback not registered. aborting...`
@@ -74,7 +74,7 @@ export default class ElementResizeWatcherService extends Service {
 		currentElementCallbacks?.splice?.(callbackIndex, 1);
 		if (currentElementCallbacks?.length) return;
 
-		this.#debug(
+		this.#debug?.(
 			`unwatchElement:`,
 			element,
 			`last callback removed. unobserving...`
@@ -86,7 +86,7 @@ export default class ElementResizeWatcherService extends Service {
 
 	// #region Private Methods
 	_notifyResize(entries) {
-		this.#debug(`_notifyResize:`, entries);
+		this.#debug?.(`_notifyResize:`, entries);
 		entries.forEach((entry) => {
 			const element = entry?.target;
 			if (!element) return;

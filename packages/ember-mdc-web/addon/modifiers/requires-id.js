@@ -10,7 +10,7 @@ export default class RequiresIdModifier extends Modifier {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
@@ -18,7 +18,7 @@ export default class RequiresIdModifier extends Modifier {
 	didReceiveArguments() {
 		super.didReceiveArguments(...arguments);
 
-		this.#debug(
+		this.#debug?.(
 			`didReceiveArguments:\nelement: `,
 			this?.element,
 			`\nargs: `,

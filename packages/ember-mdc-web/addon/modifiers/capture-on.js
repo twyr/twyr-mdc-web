@@ -8,14 +8,14 @@ export default class CaptureOnModifier extends Modifier {
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	didReceiveArguments() {
 		super.didReceiveArguments(...arguments);
-		this.#debug(
+		this.#debug?.(
 			`didReceiveArguments:\nelement: `,
 			this?.element,
 			`\nargs: `,
@@ -54,7 +54,7 @@ export default class CaptureOnModifier extends Modifier {
 			event.target !== this.element &&
 			!this.element.contains(event.target);
 
-		this.#debug(
+		this.#debug?.(
 			`_eventHandler:\nelement: `,
 			this?.element,
 			`\nevent: `,
