@@ -60,11 +60,11 @@ export default class MdcChipsetChipComponent extends Component {
 			this.#element?.classList?.add?.('mdc-evolution-chip--disabled');
 		else this.#element?.classList?.remove?.('mdc-evolution-chip--disabled');
 
-		this?.recalcStyle?.();
+		this?.recalcStyles?.();
 	}
 
 	@action
-	recalcStyle() {
+	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
@@ -109,7 +109,7 @@ export default class MdcChipsetChipComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?.recalcStyle?.();
+		this?.recalcStyles?.();
 	}
 
 	@action

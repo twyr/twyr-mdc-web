@@ -22,7 +22,7 @@ export default class MdcListDividerComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	recalcStyle() {
+	recalcStyles() {
 		if (!this.#element) return;
 
 		this.#element.style.backgroundColor = null;
@@ -37,7 +37,7 @@ export default class MdcListDividerComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?.recalcStyle?.();
+		this?.recalcStyles?.();
 	}
 	// #endregion
 
