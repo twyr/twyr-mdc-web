@@ -87,6 +87,7 @@ export default class MdcSnackbarComponent extends Component {
 
 	@action
 	storeActionElement(element) {
+		this.#debug?.(`storeActionElement: `, element);
 		MDCRipple?.attachTo?.(element);
 	}
 	// #endregion
@@ -98,12 +99,34 @@ export default class MdcSnackbarComponent extends Component {
 	@action
 	_showAlert(options) {
 		this.#debug?.(`_showAlert: `, options);
+		let shouldFire = false;
 
-		this.open = options?.open ?? false;
-		this.stacked = options?.stacked ?? false;
-		this.text = options?.text ?? 'Hello, world';
-		this.actionLabel = options?.actionLabel ?? null;
-		this.closeable = options?.closeable ?? true;
+		if (this?.open !== options?.open) {
+			this.open = options?.open ?? false;
+			shouldFire ||= true;
+		}
+
+		if (this?.stacked !== options?.stacked) {
+			this.stacked = options?.stacked ?? false;
+			shouldFire ||= true;
+		}
+
+		if (this?.text !== options?.text) {
+			this.text = options?.text ?? 'Hello, world';
+			shouldFire ||= true;
+		}
+
+		if (this?.actionLabel !== options?.actionLabel) {
+			this.actionLabel = options?.actionLabel ?? null;
+			shouldFire ||= true;
+		}
+
+		if (this?.closeable !== options?.closeable) {
+			this.closeable = options?.closeable ?? true;
+			shouldFire ||= true;
+		}
+
+		if (!shouldFire) return;
 
 		const thisEvent = new CustomEvent('alert', {
 			detail: {
