@@ -113,7 +113,7 @@ export default class ApplicationController extends Controller {
 		this.#alertControls = event?.detail?.controls;
 
 		setTimeout(() => {
-			this.#alertFired = true;
+			this.#debug?.('setAlertControls: showing alert...');
 			this.#alertControls?.showAlert?.({
 				open: true,
 				text: 'Wassup?',
@@ -129,7 +129,7 @@ export default class ApplicationController extends Controller {
 
 	@action
 	processAlertAction(event) {
-		this.#debug?.('processAlertAction', event);
+		this.#debug?.('processAlertAction', event?.detail);
 		this.#alertControls?.showAlert?.({
 			open: false
 		});
@@ -145,7 +145,7 @@ export default class ApplicationController extends Controller {
 
 	@action
 	processAlertClose(event) {
-		this.#debug?.('processAlertClose', event);
+		this.#debug?.('processAlertClose', event?.detail);
 		this.#alertControls?.showAlert?.({
 			open: false
 		});
@@ -163,8 +163,6 @@ export default class ApplicationController extends Controller {
 
 	// #region Private Attributes
 	#debug = debugLogger?.('application:test-app');
-
-	#alertFired = false;
 	#alertControls = null;
 	// #endregion
 }
