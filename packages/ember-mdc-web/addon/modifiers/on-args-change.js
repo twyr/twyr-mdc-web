@@ -13,10 +13,23 @@ export default class OnArgsChangeModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didReceiveArguments() {
-		super.didReceiveArguments(...arguments);
+	didInstall() {
+		super.didInstall(...arguments);
 		this.#debug?.(
-			`didReceiveArguments:\nelement: `,
+			`didInstall:\nelement: `,
+			this?.element,
+			`\nargs: `,
+			this?.args
+		);
+
+		const callback = this?.args?.positional?.[0];
+		callback?.();
+	}
+
+	didUpdateArguments() {
+		super.didUpdateArguments(...arguments);
+		this.#debug?.(
+			`didUpdateArguments:\nelement: `,
 			this?.element,
 			`\nargs: `,
 			this?.args

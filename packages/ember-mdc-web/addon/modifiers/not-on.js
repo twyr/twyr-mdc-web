@@ -15,32 +15,28 @@ export default class NotOnModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didReceiveArguments() {
-		super.didReceiveArguments(...arguments);
+	didInstall() {
+		super.didInstall(...arguments);
 		this.#debug?.(
-			`didReceiveArguments:\nelement: `,
+			`didInstall:\nelement: `,
 			this?.element,
 			`\nargs: `,
 			this?.args
 		);
 
-		// eslint-disable-next-line curly
-		if (this.#event && this.#eventHandler) {
-			document.removeEventListener(
-				this.#event,
-				this?._eventHandler?.bind?.(this),
-				this.#defaultOptions
-			);
-		}
+		this?._addEventListener?.();
+	}
 
-		this.#event = this?.args?.positional?.[0];
-		this.#eventHandler = this?.args?.positional?.[1];
-
-		document.addEventListener(
-			this.#event,
-			this?._eventHandler?.bind?.(this),
-			this.#defaultOptions
+	didUpdateArguments() {
+		super.didUpdateArguments(...arguments);
+		this.#debug?.(
+			`didUpdateArguments:\nelement: `,
+			this?.element,
+			`\nargs: `,
+			this?.args
 		);
+
+		this?._addEventListener?.();
 	}
 	// #endregion
 
@@ -51,6 +47,23 @@ export default class NotOnModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
+	_addEventListener() {
+		// eslint-disable-next-line curly
+		if (this.#event && this.#eventHandler) {
+			document.removeEventListener(
+				this.#event,
+				this?._eventHandler?.bind?.(this),
+				this.#defaultOptions
+			);
+		}
+
+		document.addEventListener(
+			this.#event,
+			this?._eventHandler?.bind?.(this),
+			this.#defaultOptions
+		);
+	}
+
 	_eventHandler(event) {
 		const isEventOutsideElement =
 			event.target !== this.element &&

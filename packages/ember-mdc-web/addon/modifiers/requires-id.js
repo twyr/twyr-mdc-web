@@ -15,15 +15,39 @@ export default class RequiresIdModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didReceiveArguments() {
-		super.didReceiveArguments(...arguments);
-
+	didInstall() {
+		super.didInstall(...arguments);
 		this.#debug?.(
-			`didReceiveArguments:\nelement: `,
+			`didInstall:\nelement: `,
 			this?.element,
 			`\nargs: `,
 			this?.args
 		);
+
+		this?._setElementId?.();
+	}
+
+	didUpdateArguments() {
+		super.didUpdateArguments(...arguments);
+		this.#debug?.(
+			`didUpdateArguments:\nelement: `,
+			this?.element,
+			`\nargs: `,
+			this?.args
+		);
+
+		this?._setElementId?.();
+	}
+	// #endregion
+
+	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Computed Properties
+	// #endregion
+
+	// #region Private Methods
+	_setElementId() {
 		const elementId = uuidv4();
 
 		const currentId = this?.element?.getAttribute?.('id');
@@ -52,15 +76,6 @@ export default class RequiresIdModifier extends Modifier {
 				`${[elementId, currentId].join('-')}`
 			);
 	}
-	// #endregion
-
-	// #region DOM Event Handlers
-	// #endregion
-
-	// #region Computed Properties
-	// #endregion
-
-	// #region Private Methods
 	// #endregion
 
 	// #region Private Attributes

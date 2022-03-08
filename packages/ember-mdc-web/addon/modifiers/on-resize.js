@@ -16,44 +16,28 @@ export default class OnResizeModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didReceiveArguments() {
-		super.didReceiveArguments(...arguments);
-
-		const options = {
-			box: this.resizeBox
-		};
-
-		if (this.#currentCallback) {
-			this.#debug?.(
-				`didReceiveArguments: de-registering old callback...`
-			);
-			this?.mutationWatcher?.unwatchElement(
-				this?.element,
-				this.#currentCallback
-			);
-		}
-
-		this.#currentCallback = this?.args?.positional?.[0];
-		if (!this.#currentCallback) {
-			this.#debug?.(
-				`didReceiveArguments: no callback defined. aborting...`
-			);
-			return;
-		}
-
+	didInstall() {
+		super.didInstall(...arguments);
 		this.#debug?.(
-			`didReceiveArguments:\nelement: `,
+			`didInstall:\nelement: `,
 			this?.element,
-			`\noptions: `,
-			options,
-			`\ncallback: `,
-			this.#currentCallback
+			`\nargs: `,
+			this?.args
 		);
-		this?.resizeWatcher?.watchElement?.(
+
+		this?._addWatcher?.();
+	}
+
+	didUpdateArguments() {
+		super.didUpdateArguments(...arguments);
+		this.#debug?.(
+			`didUpdateArguments:\nelement: `,
 			this?.element,
-			options,
-			this.#currentCallback
+			`\nargs: `,
+			this?.args
 		);
+
+		this?._addWatcher?.();
 	}
 
 	willDestroy() {
@@ -77,6 +61,41 @@ export default class OnResizeModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
+	_addWatcher() {
+		const options = {
+			box: this.resizeBox
+		};
+
+		if (this.#currentCallback) {
+			this.#debug?.(`_addWatcher: de-registering old callback...`);
+
+			this?.mutationWatcher?.unwatchElement(
+				this?.element,
+				this.#currentCallback
+			);
+		}
+
+		this.#currentCallback = this?.args?.positional?.[0];
+		if (!this.#currentCallback) {
+			this.#debug?.(`_addWatcher: no callback defined. aborting...`);
+			return;
+		}
+
+		this.#debug?.(
+			`_addWatcher:\nelement: `,
+			this?.element,
+			`\noptions: `,
+			options,
+			`\ncallback: `,
+			this.#currentCallback
+		);
+
+		this?.resizeWatcher?.watchElement?.(
+			this?.element,
+			options,
+			this.#currentCallback
+		);
+	}
 	// #endregion
 
 	// #region Private Attributes

@@ -13,15 +13,39 @@ export default class CaptureOnModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didReceiveArguments() {
-		super.didReceiveArguments(...arguments);
+	didInstall() {
+		super.didInstall(...arguments);
 		this.#debug?.(
-			`didReceiveArguments:\nelement: `,
+			`didInstall:\nelement: `,
 			this?.element,
 			`\nargs: `,
 			this?.args
 		);
 
+		this?._addEventListener?.();
+	}
+
+	didUpdateArguments() {
+		super.didUpdateArguments(...arguments);
+		this.#debug?.(
+			`didUpdateArguments:\nelement: `,
+			this?.element,
+			`\nargs: `,
+			this?.args
+		);
+
+		this?._addEventListener?.();
+	}
+	// #endregion
+
+	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Computed Properties
+	// #endregion
+
+	// #region Private Methods
+	_addEventListener() {
 		// eslint-disable-next-line curly
 		if (this.#event && this.#eventHandler) {
 			document.removeEventListener(
@@ -40,15 +64,7 @@ export default class CaptureOnModifier extends Modifier {
 			this.#defaultOptions
 		);
 	}
-	// #endregion
 
-	// #region DOM Event Handlers
-	// #endregion
-
-	// #region Computed Properties
-	// #endregion
-
-	// #region Private Methods
 	_eventHandler(event) {
 		const isEventOutsideElement =
 			event.target !== this.element &&
