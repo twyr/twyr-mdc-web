@@ -57,6 +57,9 @@ export default class NotOnModifier extends Modifier {
 			);
 		}
 
+		this.#event = this?.args?.positional?.[0];
+		this.#eventHandler = this?.args?.positional?.[1];
+
 		document.addEventListener(
 			this.#event,
 			this?._eventHandler?.bind?.(this),
