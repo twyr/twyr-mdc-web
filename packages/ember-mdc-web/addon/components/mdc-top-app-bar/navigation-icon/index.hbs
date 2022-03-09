@@ -3,6 +3,8 @@
 	class='mdc-icon-button mdc-top-app-bar__navigation-icon mdc-ripple-upgraded mdc-ripple-upgraded__unbounded'
 	{{! Tooltip stuff }}
 	title={{@title}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
 	{{! Add styling classes as necessary }}
 	{{has-class-if @toggled 'mdc-icon-button--on'}}
 	{{! Re-calculate colours as necessary }}
@@ -15,9 +17,5 @@
 	...attributes
 >
 	<span class='mdc-icon-button__ripple'></span>
-	<MdcIcon
-		@icon={{@toggledIcon}}
-		class='mdc-icon-button__icon mdc-icon-button__icon--on'
-	/>
 	<MdcIcon @icon={{@icon}} class='mdc-icon-button__icon' />
 </button>

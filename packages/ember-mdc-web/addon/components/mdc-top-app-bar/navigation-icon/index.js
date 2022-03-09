@@ -46,7 +46,7 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 		super.storeElement?.(element);
 
 		this.#element = element;
-		this.#element.sidebarControls = this.#controls;
+		this?._fireEvent?.('init');
 	}
 	// #endregion
 
@@ -58,12 +58,29 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 	_register(sidebarElement, sidebarControls) {
 		this.#debug?.(`_register: `, sidebarElement);
 		this.#sideBars?.set(sidebarElement, sidebarControls);
+
+		sidebarControls?.setControlElement?.(this.#element);
 	}
 
 	@action
 	_unregister(sidebarElement) {
 		this.#debug?.(`_unregister: `, sidebarElement);
 		this.#sideBars?.delete?.(sidebarElement);
+	}
+
+	@action
+	_fireEvent(name) {
+		this.#debug?.(`_fireEvent`);
+		if (!this.#element) return;
+
+		const thisEvent = new CustomEvent(name, {
+			detail: {
+				id: this.#element?.getAttribute?.('id'),
+				controls: this.#controls
+			}
+		});
+
+		this.#element?.dispatchEvent?.(thisEvent);
 	}
 	// #endregion
 
