@@ -9,7 +9,6 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked navIconElement = null;
 	@tracked palette = 'secondary';
 
 	@tracked bufferValue = 59;
@@ -28,15 +27,85 @@ export default class ApplicationController extends Controller {
 
 	// #region DOM Event Handlers
 	@action
-	storeNavigationIconElement(navIconElement) {
-		this.#debug?.('storeNavigationIconElement: ', navIconElement);
-		this.navIconElement = navIconElement;
+	storeNavigationIconControls(event) {
+		this.#debug?.('storeNavigationIconControls: ', event?.detail);
+		this.#navIconControls = event?.detail?.controls;
 
-		// setInterval(() => {
-		// 	this.progress += 0.1;
-		// 	if(this.progress > 100)
-		// 		this.progress = 0;
-		// }, 100);
+		if (!this.#toBeRegisteredDrawers?.length) {
+			this.#debug?.(
+				'storeNavigationIconControls: no deferred sidebars. nothing to do...'
+			);
+			return;
+		}
+
+		this.#debug?.(
+			'storeNavigationIconControls: registering deferred sidebars...'
+		);
+		this.#toBeRegisteredDrawers?.forEach?.(({ drawer, operation }) => {
+			const drawerElement = document?.getElementById?.(drawer?.id);
+			if (!drawerElement) {
+				this.#debug?.(
+					'storeNavigationIconControls::sidebar element not found: ',
+					drawer?.id
+				);
+				return;
+			}
+
+			this.#debug?.(`registerDrawer: registering with navIconcontrol...`);
+			if (operation) {
+				this.#navIconControls?.registerSidebar?.(
+					drawerElement,
+					drawerElement?.controls
+				);
+			} else {
+				this.#navIconControls?.unregisterSidebar?.(drawerElement);
+			}
+		});
+
+		this.#toBeRegisteredDrawers.length = 0;
+	}
+
+	@action
+	registerDrawer(register, event) {
+		this.#debug?.(`registerDrawer::${register}: `, event?.detail);
+		if (!this.#navIconControls) {
+			this.#debug?.(
+				`registerDrawer: navigation icon controls nont there yet. deferring...`
+			);
+			this.#toBeRegisteredDrawers?.push?.({
+				drawer: event?.detail,
+				operation: register
+			});
+
+			return;
+		}
+
+		const drawerElement = document?.getElementById?.(event?.detail?.id);
+		if (!drawerElement) {
+			this.#debug?.(
+				`registerDrawer::sidebar element not found: `,
+				event?.detail?.id
+			);
+			return;
+		}
+
+		if (register) {
+			this.#debug?.(`registerDrawer: registering with navIconcontrol...`);
+			this.#navIconControls?.registerSidebar?.(
+				drawerElement,
+				event?.detail?.controls
+			);
+		} else {
+			this.#debug?.(
+				`registerDrawer: un-registering with navIconcontrol...`
+			);
+			this.#navIconControls?.unregisterSidebar?.(drawerElement);
+		}
+	}
+
+	@action
+	drawerStatusChange(event) {
+		this.#debug?.(`drawerStatusChange: `, event?.detail);
 	}
 
 	@action
@@ -163,6 +232,10 @@ export default class ApplicationController extends Controller {
 
 	// #region Private Attributes
 	#debug = debugLogger?.('application:test-app');
+
 	#alertControls = null;
+	#navIconControls = null;
+
+	#toBeRegisteredDrawers = [];
 	// #endregion
 }

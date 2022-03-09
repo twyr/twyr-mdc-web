@@ -2,10 +2,7 @@
 {{page-title 'Ember Material Components for the Web'}}
 <MdcTopAppBar @fixed={{true}} @palette={{this.palette}}>
 	<:navigationIcon as |NavIcon|>
-		<NavIcon
-			@icon='menu'
-			{{store-element this.storeNavigationIconElement}}
-		/>
+		<NavIcon @icon='menu' {{on 'init' this.storeNavigationIconControls}} />
 	</:navigationIcon>
 
 	<:title>Ember Material Components for the Web</:title>
@@ -13,10 +10,13 @@
 
 <MdcDrawer
 	class='mdc-top-app-bar--fixed-adjust'
-	@modal={{false}}
-	@locked={{true}}
+	@modal={{true}}
+	@locked={{false}}
 	@open={{true}}
-	@controlElement={{this.navIconElement}}
+	@name='Main Sidebar'
+	{{on 'register' (fn this.registerDrawer true)}}
+	{{on 'unregister' (fn this.registerDrawer false)}}
+	{{on 'statuschange' this.drawerStatusChange}}
 >
 	<:header as |Header|>
 		<Header>
