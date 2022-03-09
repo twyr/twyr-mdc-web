@@ -188,6 +188,7 @@
 			"./modifiers/on-resize.js": "./dist/_app_/modifiers/on-resize.js",
 			"./modifiers/requires-id.js": "./dist/_app_/modifiers/requires-id.js",
 			"./modifiers/store-element.js": "./dist/_app_/modifiers/store-element.js",
+			"./services/alert-manager.js": "./dist/_app_/services/alert-manager.js",
 			"./services/colour-utilities.js": "./dist/_app_/services/colour-utilities.js",
 			"./services/element-mutation-watcher.js": "./dist/_app_/services/element-mutation-watcher.js",
 			"./services/element-resize-watcher.js": "./dist/_app_/services/element-resize-watcher.js",
