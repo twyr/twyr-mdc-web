@@ -2,12 +2,14 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 import { MDCRipple } from '@material/ripple/index';
 
 export default class MdcSnackbarComponent extends Component {
 	// #region Accessed Services
+	@service('alertManager') alertManager;
 	// #endregion
 
 	// #region Tracked Attributes
@@ -28,6 +30,16 @@ export default class MdcSnackbarComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this?.alertManager?.register(
+			this.#element?.getAttribute?.('id'),
+			null,
+			false
+		);
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
@@ -37,6 +49,11 @@ export default class MdcSnackbarComponent extends Component {
 		if (!this.#element) return;
 
 		this?._fireEvent?.('action');
+		this.open = false;
+
+		this?.alertManager?.notifyActionClose?.(
+			this.#element?.getAttribute?.('id')
+		);
 	}
 
 	@action
@@ -45,6 +62,11 @@ export default class MdcSnackbarComponent extends Component {
 		if (!this.#element) return;
 
 		this?._fireEvent?.('close');
+		this.open = false;
+
+		this?.alertManager?.notifyActionClose?.(
+			this.#element?.getAttribute?.('id')
+		);
 	}
 
 	@action
@@ -68,6 +90,12 @@ export default class MdcSnackbarComponent extends Component {
 
 		this?.recalcStyles?.();
 		this?._fireEvent?.('init');
+
+		this?.alertManager?.register(
+			this.#element?.getAttribute?.('id'),
+			this.#controls,
+			true
+		);
 	}
 
 	@action
