@@ -2,10 +2,12 @@ import Controller from '@ember/controller';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
 	// #region Accessed Services
+	@service('alertManager') alertManager;
 	// #endregion
 
 	// #region Tracked Attributes
@@ -183,41 +185,68 @@ export default class ApplicationController extends Controller {
 
 		setTimeout(() => {
 			this.#debug?.('setAlertControls: showing alert...');
+			this.#numAlertDisplay++;
+
+			// this.#alertControls?.showAlert?.({
+			// 	open: true,
+			// 	text: `Wassup #${this.#numAlertDisplay}?`,
+			// 	actionLabel: 'Close'
+			// });
+
+			this?.alertManager?.notify?.({
+				id: event?.detail?.id,
+				open: true,
+				text: `Wassup #${this.#numAlertDisplay}?`,
+				actionLabel: 'Close'
+			});
+		}, 1000);
+	}
+
+	@action
+	processAlertDisplay(event) {
+		this.#debug?.('processAlertDisplay: ', event?.detail);
+		if (event?.detail?.status?.open) return;
+
+		setTimeout(() => {
+			this.#debug?.('setAlertControls: showing alert...');
+
+			for (let idx = 0; idx < 5; idx++) {
+				this.#numAlertDisplay++;
+
+				// this.#alertControls?.showAlert?.({
+				// 	open: true,
+				// text: `Wassup #${this.#numAlertDisplay}?`,
+				// 	actionLabel: 'Close'
+				// });
+
+				this?.alertManager?.notify?.({
+					id: event?.detail?.id,
+					open: true,
+					text: `Wassup #${this.#numAlertDisplay}?`,
+					actionLabel: 'Close'
+				});
+			}
+		}, 10000);
+	}
+
+	@action
+	processAlertAction(event) {
+		this.#debug?.('processAlertAction', event?.detail);
+
+		setTimeout(() => {
+			this.#numAlertDisplay++;
+
 			this.#alertControls?.showAlert?.({
 				open: true,
-				text: 'Wassup?',
+				text: `Wassup #${this.#numAlertDisplay}?`,
 				actionLabel: 'Close'
 			});
 		}, 10000);
 	}
 
 	@action
-	processAlertDisplay(event) {
-		this.#debug?.('processAlertDisplay: ', event?.detail);
-	}
-
-	@action
-	processAlertAction(event) {
-		this.#debug?.('processAlertAction', event?.detail);
-		this.#alertControls?.showAlert?.({
-			open: false
-		});
-
-		setTimeout(() => {
-			this.#alertControls?.showAlert?.({
-				open: true,
-				text: 'Wassup?',
-				actionLabel: 'Close'
-			});
-		}, 5000);
-	}
-
-	@action
 	processAlertClose(event) {
 		this.#debug?.('processAlertClose', event?.detail);
-		this.#alertControls?.showAlert?.({
-			open: false
-		});
 	}
 	// #endregion
 
@@ -232,6 +261,7 @@ export default class ApplicationController extends Controller {
 
 	// #region Private Attributes
 	#debug = debugLogger?.('application:test-app');
+	#numAlertDisplay = 0;
 
 	#alertControls = null;
 	#navIconControls = null;
