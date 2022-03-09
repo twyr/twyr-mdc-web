@@ -3,14 +3,19 @@
 {{! template-lint-disable style-concatenation}}
 <div
 	class='mdc-circular-progress'
-	role='progressbar'
 	style='height:{{this.size}}px; width:{{this.size}}px;'
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! Accessibility stuff }}
+	role='progressbar'
 	aria-label={{this.label}}
 	aria-valuemin='0'
 	aria-valuemax='1'
-	aria-valuenow={{@progress}}
+	aria-valuenow={{this.displayValue}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
+	{{! Fire event as necessary }}
+	{{on-args-change this.fireValueChangeEvent @progress}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}

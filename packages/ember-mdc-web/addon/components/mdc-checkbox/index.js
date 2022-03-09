@@ -28,20 +28,27 @@ export default class MdcCheckboxComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	onAttributeMutation() {
+	onAttributeMutation(mutationRecord) {
 		this.#debug?.(`onAttributeMutation:`, arguments);
 		if (!this.#element) return;
 
-		this.inputElementId = this.#element?.getAttribute?.('id');
+		if (mutationRecord?.attributeName === 'id') {
+			this.inputElementId = this.#element?.getAttribute?.('id');
+			return;
+		}
 
-		if (this.#element?.disabled)
-			this.#element
-				?.closest?.('div.mdc-checkbox')
-				?.classList?.add?.('mdc-checkbox--disabled');
-		else
-			this.#element
-				?.closest?.('div.mdc-checkbox')
-				?.classList?.remove?.('mdc-checkbox--disabled');
+		if (mutationRecord?.attributeName === 'disabled') {
+			if (this.#element?.disabled)
+				this.#element
+					?.closest?.('div.mdc-checkbox')
+					?.classList?.add?.('mdc-checkbox--disabled');
+			else
+				this.#element
+					?.closest?.('div.mdc-checkbox')
+					?.classList?.remove?.('mdc-checkbox--disabled');
+		}
+
+		this?._fireEvent?.('statuschange');
 	}
 
 	@action

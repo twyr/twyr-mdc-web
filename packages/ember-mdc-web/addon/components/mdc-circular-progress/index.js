@@ -54,6 +54,13 @@ export default class MdcCircularProgressComponent extends Component {
 		this.#oneRem = Number(remSize?.replace?.('px', ''));
 
 		this?.recalcStyles?.();
+		this?._fireEvent?.('init');
+	}
+
+	@action
+	fireValueChangeEvent() {
+		this.#debug?.(`fireValueChangeEvent: `, this?.args?.progress);
+		this?._fireEvent?.('statuschange');
 	}
 	// #endregion
 
@@ -152,6 +159,39 @@ export default class MdcCircularProgressComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
+	@action
+	_fireEvent(name) {
+		this.#debug?.(`_fireEvent`);
+		if (!this.#element) return;
+
+		const thisEvent = new CustomEvent(name, {
+			detail: {
+				id: this.#element?.getAttribute?.('id'),
+				status: {
+					disabled: this.#element?.hasAttribute?.('disabled'),
+					label: this?.label,
+
+					cx: this?.cxCy,
+					cy: this?.cxCy,
+					radius: this?.radius,
+
+					strokeDashArray: this?.strokeDashArray,
+					strokeDashOffset: this?.strokeDashOffset,
+					strokeWidth: this?.strokeWidth,
+
+					viewBox: this?.viewBox,
+
+					minValue: this?.args?.minValue,
+					maxValue: this?.args?.maxValue,
+					value: this?.args?.progress,
+
+					displayValue: this?.displayValue
+				}
+			}
+		});
+
+		this.#element?.dispatchEvent?.(thisEvent);
+	}
 	// #endregion
 
 	// #region Default Sub-components
@@ -159,6 +199,7 @@ export default class MdcCircularProgressComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-circular-progress');
+
 	#element = null;
 	#oneRem = 16;
 	// #endregion

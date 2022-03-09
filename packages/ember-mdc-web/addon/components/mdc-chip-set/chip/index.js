@@ -26,41 +26,35 @@ export default class MdcChipsetChipComponent extends Component {
 	@action
 	onPrimaryAction(event) {
 		this.#debug?.(`onPrimaryAction:`, event);
+		if (!this.#element) return;
 		if (!this.#primaryActionElement) return;
 
-		const thisEvent = new CustomEvent('action', {
-			detail: {
-				id: this.#element?.getAttribute?.('id')
-			}
-		});
-
-		this.#primaryActionElement?.dispatchEvent?.(thisEvent);
+		this?._fireEvent?.('action');
 	}
 
 	@action
 	onClickToClose(event) {
 		this.#debug?.(`onClickToClose:`, event);
+		if (!this.#element) return;
 		if (!this.#primaryActionElement) return;
 
-		const thisEvent = new CustomEvent('close', {
-			detail: {
-				id: this.#element?.getAttribute?.('id')
-			}
-		});
-
-		this.#primaryActionElement?.dispatchEvent?.(thisEvent);
+		this?._fireEvent?.('close');
 	}
 
 	@action
 	onAttributeMutation(mutationEntry) {
 		this.#debug?.(`onAttributeMutation:`, mutationEntry);
 		if (!this.#element) return;
+		if (!this.#primaryActionElement) return;
 
-		if (mutationEntry?.target?.disabled)
+		if (mutationEntry?.target?.disabled) {
 			this.#element?.classList?.add?.('mdc-evolution-chip--disabled');
-		else this.#element?.classList?.remove?.('mdc-evolution-chip--disabled');
+		} else {
+			this.#element?.classList?.remove?.('mdc-evolution-chip--disabled');
+		}
 
 		this?.recalcStyles?.();
+		this?._fireEvent?.('statuschange');
 	}
 
 	@action
@@ -110,6 +104,7 @@ export default class MdcChipsetChipComponent extends Component {
 		this.#element = element;
 
 		this?.recalcStyles?.();
+		this?._fireEvent?.('init');
 	}
 
 	@action
@@ -132,6 +127,23 @@ export default class MdcChipsetChipComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
+	@action
+	_fireEvent(name) {
+		this.#debug?.(`_fireEvent`);
+		if (!this.#element) return;
+
+		const thisEvent = new CustomEvent(name, {
+			detail: {
+				id: this.#element?.getAttribute?.('id'),
+				status: {
+					disabled:
+						this.#primaryActionElement?.hasAttribute?.('disabled')
+				}
+			}
+		});
+
+		this.#primaryActionElement?.dispatchEvent?.(thisEvent);
+	}
 	// #endregion
 
 	// #region Default Sub-components

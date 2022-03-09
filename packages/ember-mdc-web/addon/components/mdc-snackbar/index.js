@@ -36,8 +36,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.#debug?.(`onAction`);
 		if (!this.#element) return;
 
-		const thisEvent = new CustomEvent('action');
-		this.#element?.dispatchEvent?.(thisEvent);
+		this?._fireEvent?.('action');
 	}
 
 	@action
@@ -45,8 +44,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.#debug?.(`onClose`);
 		if (!this.#element) return;
 
-		const thisEvent = new CustomEvent('close');
-		this.#element?.dispatchEvent?.(thisEvent);
+		this?._fireEvent?.('close');
 	}
 
 	@action
@@ -69,8 +67,26 @@ export default class MdcSnackbarComponent extends Component {
 		this.#element = element;
 
 		this?.recalcStyles?.();
+		this?._fireEvent?.('init');
+	}
 
-		const thisEvent = new CustomEvent('init', {
+	@action
+	storeActionElement(element) {
+		this.#debug?.(`storeActionElement: `, element);
+		MDCRipple?.attachTo?.(element);
+	}
+	// #endregion
+
+	// #region Computed Properties
+	// #endregion
+
+	// #region Private Methods
+	@action
+	_fireEvent(name) {
+		this.#debug?.(`_fireEvent`);
+		if (!this.#element) return;
+
+		const thisEvent = new CustomEvent(name, {
 			detail: {
 				id: this.#element?.getAttribute?.('id'),
 				controls: this.#controls,
@@ -85,17 +101,6 @@ export default class MdcSnackbarComponent extends Component {
 		this.#element?.dispatchEvent?.(thisEvent);
 	}
 
-	@action
-	storeActionElement(element) {
-		this.#debug?.(`storeActionElement: `, element);
-		MDCRipple?.attachTo?.(element);
-	}
-	// #endregion
-
-	// #region Computed Properties
-	// #endregion
-
-	// #region Private Methods
 	@action
 	_showAlert(options) {
 		this.#debug?.(`_showAlert: `, options);
@@ -127,20 +132,7 @@ export default class MdcSnackbarComponent extends Component {
 		}
 
 		if (!shouldFire) return;
-
-		const thisEvent = new CustomEvent('alert', {
-			detail: {
-				id: this.#element?.getAttribute?.('id'),
-				controls: this.#controls,
-				status: {
-					open: this?.open,
-					closeable: this?.closeable,
-					stacked: this?.stacked
-				}
-			}
-		});
-
-		this.#element?.dispatchEvent?.(thisEvent);
+		this?._fireEvent?.('alert');
 	}
 	// #endregion
 

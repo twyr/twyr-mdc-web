@@ -34,20 +34,25 @@ export default class MdcRadioGroupRadioComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	onAttributeMutation() {
-		this.#debug?.(`onAttributeMutation:`, arguments);
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation:`, mutationRecord);
 		if (!this.#element) return;
 
-		this.inputElementId = this.#element?.getAttribute?.('id');
+		if (mutationRecord?.attributeName === 'id') {
+			this.inputElementId = this.#element?.getAttribute?.('id');
+			return;
+		}
 
-		if (this.#element?.disabled)
-			this.#element
-				?.closest?.('div.mdc-radio')
-				?.classList?.add?.('mdc-radio--disabled');
-		else
-			this.#element
-				?.closest?.('div.mdc-radio')
-				?.classList?.remove?.('mdc-radio--disabled');
+		if (mutationRecord?.attributeName === 'disabled') {
+			if (this.#element?.disabled)
+				this.#element
+					?.closest?.('div.mdc-radio')
+					?.classList?.add?.('mdc-radio--disabled');
+			else
+				this.#element
+					?.closest?.('div.mdc-radio')
+					?.classList?.remove?.('mdc-radio--disabled');
+		}
 
 		this?._fireEvent?.('statuschange');
 	}

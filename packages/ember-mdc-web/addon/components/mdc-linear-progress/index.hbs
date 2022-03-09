@@ -5,14 +5,18 @@
 	{{! Add styling classes as necessary }}
 	{{has-class-if @indeterminate 'mdc-linear-progress--indeterminate'}}
 	{{has-class-if @reversed 'mdc-linear-progress--reversed'}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
 	{{! Accessibility }}
 	role='progressbar'
 	aria-label={{this.label}}
 	aria-valuemin='0'
 	aria-valuemax='1'
-	aria-valuenow={{@progress}}
+	aria-valuenow={{this.displayValue}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
+	{{! Fire event as necessary }}
+	{{on-args-change this.fireValueChangeEvent @progress}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}

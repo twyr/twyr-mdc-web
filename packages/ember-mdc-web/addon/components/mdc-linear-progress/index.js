@@ -45,6 +45,13 @@ export default class MdcLinearProgressComponent extends Component {
 		this.#element = element;
 
 		this?.recalcStyles?.();
+		this?._fireEvent?.('init');
+	}
+
+	@action
+	fireValueChangeEvent() {
+		this.#debug?.(`fireValueChangeEvent: `, this?.args?.progress);
+		this?._fireEvent?.('statuschange');
 	}
 	// #endregion
 
@@ -127,6 +134,32 @@ export default class MdcLinearProgressComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
+	@action
+	_fireEvent(name) {
+		this.#debug?.(`_fireEvent`);
+		if (!this.#element) return;
+
+		const thisEvent = new CustomEvent(name, {
+			detail: {
+				id: this.#element?.getAttribute?.('id'),
+				status: {
+					disabled: this.#element?.hasAttribute?.('disabled'),
+					label: this?.label,
+
+					minValue: this?.args?.minValue,
+					maxValue: this?.args?.maxValue,
+
+					value: this?.args?.progress,
+					displayValue: this?.displayValue,
+
+					bufferValue: this?.args?.bufferedValue,
+					bufferDisplayValue: this?.bufferValue
+				}
+			}
+		});
+
+		this.#element?.dispatchEvent?.(thisEvent);
+	}
 	// #endregion
 
 	// #region Default Sub-components
@@ -135,6 +168,5 @@ export default class MdcLinearProgressComponent extends Component {
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-linear-progress');
 	#element = null;
-	#oneRem = 16;
 	// #endregion
 }
