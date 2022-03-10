@@ -194,7 +194,6 @@ export default class ApplicationController extends Controller {
 			// });
 
 			this?.alertManager?.notify?.({
-				id: event?.detail?.id,
 				open: true,
 				text: `Wassup #${this.#numAlertDisplay}?`,
 				actionLabel: 'Close'
@@ -204,14 +203,23 @@ export default class ApplicationController extends Controller {
 
 	@action
 	processAlertDisplay(event) {
-		this.#debug?.('processAlertDisplay: ', event?.detail);
-		if (event?.detail?.status?.open) return;
+		this.#debug?.(`processAlertDisplay: `, event?.detail);
+		if (this.#numAlertDisplay >= 2 && event?.detail?.status?.open) return;
 
 		setTimeout(() => {
-			this.#debug?.('setAlertControls: showing alert...');
-
 			for (let idx = 0; idx < 5; idx++) {
 				this.#numAlertDisplay++;
+				this.#debug?.(
+					`processAlertDisplay: showing alert #${
+						this.#numAlertDisplay
+					}: `,
+					{
+						snackBarId: event?.detail?.snackBarId,
+						open: true,
+						text: `Wassup #${this.#numAlertDisplay}?`,
+						actionLabel: 'Close'
+					}
+				);
 
 				// this.#alertControls?.showAlert?.({
 				// 	open: true,
@@ -220,7 +228,6 @@ export default class ApplicationController extends Controller {
 				// });
 
 				this?.alertManager?.notify?.({
-					id: event?.detail?.id,
 					open: true,
 					text: `Wassup #${this.#numAlertDisplay}?`,
 					actionLabel: 'Close'
@@ -233,15 +240,23 @@ export default class ApplicationController extends Controller {
 	processAlertAction(event) {
 		this.#debug?.('processAlertAction', event?.detail);
 
-		setTimeout(() => {
-			this.#numAlertDisplay++;
+		this.#numAlertDisplay++;
 
-			this.#alertControls?.showAlert?.({
+		this.#debug?.(
+			`processAlertAction: showing alert #${this.#numAlertDisplay}: `,
+			{
+				snackBarId: event?.detail?.snackBarId,
 				open: true,
 				text: `Wassup #${this.#numAlertDisplay}?`,
 				actionLabel: 'Close'
-			});
-		}, 10000);
+			}
+		);
+
+		this?.alertManager?.notify?.({
+			open: true,
+			text: `Wassup #${this.#numAlertDisplay}?`,
+			actionLabel: 'Close'
+		});
 	}
 
 	@action
