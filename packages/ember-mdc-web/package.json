@@ -135,6 +135,7 @@
 		"main": "addon-main.js",
 		"app-js": {
 			"./components/mdc-backdrop/index.js": "./dist/_app_/components/mdc-backdrop/index.js",
+			"./components/mdc-banner/index.js": "./dist/_app_/components/mdc-banner/index.js",
 			"./components/mdc-button/index.js": "./dist/_app_/components/mdc-button/index.js",
 			"./components/mdc-card/content/index.js": "./dist/_app_/components/mdc-card/content/index.js",
 			"./components/mdc-card/content/media/index.js": "./dist/_app_/components/mdc-card/content/media/index.js",

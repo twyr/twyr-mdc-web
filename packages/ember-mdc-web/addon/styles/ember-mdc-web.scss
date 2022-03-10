@@ -58,6 +58,10 @@
 /* TODO: Backdrop component - put in the actual styles */
 @use './emdc-backdrop.css';
 
+/* Banner component */
+@use '@material/banner/styles' as banner-styles;
+@use './emdc-banner.css';
+
 /* Button component(s) - button, fab, icon-button, etc. */
 @use '@material/button/mdc-button';
 @use '@material/fab/mdc-fab';

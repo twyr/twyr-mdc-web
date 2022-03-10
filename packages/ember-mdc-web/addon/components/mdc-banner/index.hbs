@@ -1,0 +1,68 @@
+{{! template-lint-disable require-presentational-children}}
+<div
+	class='mdc-banner'
+	{{! Add styling classes as necessary }}
+	{{has-class-if this.centered 'mdc-banner--centered'}}
+	{{has-class-if this.stacked 'mdc-banner--mobile-stacked'}}
+	{{has-class-if this.open 'mdc-banner--open'}}
+	{{! Ensure id is present - we need it for the label }}
+	{{requires-id ignore=true}}
+	{{! Accessibility }}
+	role='banner'
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<div class='mdc-banner__content' role='alertdialog' aria-live='assertive'>
+		{{#if (or this.text this.icon)}}
+			<div class='mdc-banner__graphic-text-wrapper'>
+				{{#if this.icon}}
+					<div
+						class='mdc-banner__graphic'
+						role='img'
+						alt={{this.text}}
+					>
+						<MdcIcon
+							class='mdc-banner__icon'
+							@icon={{this.icon}}
+							@palette={{@palette}}
+						/>
+					</div>
+				{{/if}}
+
+				{{#if this.text}}
+					<div class='mdc-banner__text'>
+						{{this.text}}
+					</div>
+				{{/if}}
+			</div>
+		{{/if}}
+		{{#if (or this.primaryActionLabel this.secondaryActionLabel)}}
+			<div class='mdc-banner__actions'>
+				{{#if this.secondaryActionLabel}}
+					<MdcButton
+						class='mdc-banner__secondary-action'
+						@text={{this.secondaryActionLabel}}
+						@palette={{@palette}}
+						{{on
+							'click'
+							(fn this.fireActionEvent 'secondaryAction')
+						}}
+					/>
+				{{/if}}
+
+				{{#if this.primaryActionLabel}}
+					<MdcButton
+						class='mdc-banner__primary-action'
+						@text={{this.primaryActionLabel}}
+						@palette={{@palette}}
+						{{on 'click' (fn this.fireActionEvent 'primaryAction')}}
+					/>
+				{{/if}}
+			</div>
+		{{/if}}
+	</div>
+</div>
