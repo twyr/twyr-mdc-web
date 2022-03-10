@@ -10,8 +10,8 @@
 
 <MdcDrawer
 	class='mdc-top-app-bar--fixed-adjust'
-	@modal={{true}}
-	@locked={{false}}
+	@modal={{false}}
+	@locked={{true}}
 	@open={{true}}
 	@name='Main Sidebar'
 	{{on 'register' (fn this.registerDrawer true)}}
@@ -89,6 +89,18 @@
 <div
 	class='mdc-drawer-app-content mdc-top-app-bar--fixed-adjust mdc-theme--surface'
 >
+	<MdcBanner
+		@text='This is a banner message'
+		@icon='crowd'
+		@primaryActionLabel='Hello'
+		@secondaryActionLabel='World'
+		@palette={{this.palette}}
+		{{on 'init' this.storeBannerControls}}
+		{{on 'statuschange' this.processBannerEvent}}
+		{{on 'primaryAction' this.processBannerEvent}}
+		{{on 'secondaryAction' this.processBannerEvent}}
+	/>
+
 	<MdcCheckbox
 		@palette={{this.palette}}
 		{{on 'statuschange' this.processCheckboxEvent}}
@@ -117,6 +129,7 @@
 		@selectedLabel='On'
 		@unselectedLabel='Off'
 		{{on 'statuschange' this.processSwitchEvent}}
+		selected
 	/>
 
 	<MdcChipSet @palette={{this.palette}} as |Chipset|>

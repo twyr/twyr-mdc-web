@@ -68,6 +68,27 @@ export default class ApplicationController extends Controller {
 	}
 
 	@action
+	storeBannerControls(event) {
+		this.#debug?.(`storeBannerControls: `, event?.detail);
+		this.#bannerControls = event?.detail?.controls;
+
+		setTimeout(() => {
+			this.#bannerControls?.open?.({
+				open: !event?.detail?.status?.open,
+
+				centered: false,
+				stacked: false,
+
+				icon: 'crowd',
+				text: 'This is the banner text',
+
+				secondaryActionLabel: 'Hello',
+				primaryActionLabel: 'World'
+			});
+		}, 100);
+	}
+
+	@action
 	registerDrawer(register, event) {
 		this.#debug?.(`registerDrawer::${register}: `, event?.detail);
 		if (!this.#navIconControls) {
@@ -113,6 +134,19 @@ export default class ApplicationController extends Controller {
 	@action
 	closeChip(event) {
 		this.#debug?.('closeChip', event?.detail);
+	}
+
+	@action
+	processBannerEvent(event) {
+		this.#debug?.('processBannerEvent', event?.detail);
+
+		setTimeout(() => {
+			const newStatus = Object?.assign?.({}, event?.detail?.status);
+			const bannerControls = event?.detail?.controls;
+
+			newStatus.open = false;
+			bannerControls?.open?.(newStatus);
+		}, 7500);
 	}
 
 	@action
@@ -204,36 +238,35 @@ export default class ApplicationController extends Controller {
 	@action
 	processAlertDisplay(event) {
 		this.#debug?.(`processAlertDisplay: `, event?.detail);
-		if (this.#numAlertDisplay >= 2 && event?.detail?.status?.open) return;
 
-		setTimeout(() => {
-			for (let idx = 0; idx < 5; idx++) {
-				this.#numAlertDisplay++;
-				this.#debug?.(
-					`processAlertDisplay: showing alert #${
-						this.#numAlertDisplay
-					}: `,
-					{
-						snackBarId: event?.detail?.snackBarId,
-						open: true,
-						text: `Wassup #${this.#numAlertDisplay}?`,
-						actionLabel: 'Close'
-					}
-				);
+		// setTimeout(() => {
+		// 	for (let idx = 0; idx < 5; idx++) {
+		// 		this.#numAlertDisplay++;
+		// 		this.#debug?.(
+		// 			`processAlertDisplay: showing alert #${
+		// 				this.#numAlertDisplay
+		// 			}: `,
+		// 			{
+		// 				snackBarId: event?.detail?.snackBarId,
+		// 				open: true,
+		// 				text: `Wassup #${this.#numAlertDisplay}?`,
+		// 				actionLabel: 'Close'
+		// 			}
+		// 		);
 
-				// this.#alertControls?.showAlert?.({
-				// 	open: true,
-				// text: `Wassup #${this.#numAlertDisplay}?`,
-				// 	actionLabel: 'Close'
-				// });
+		// 		// this.#alertControls?.showAlert?.({
+		// 		// 	open: true,
+		// 		// text: `Wassup #${this.#numAlertDisplay}?`,
+		// 		// 	actionLabel: 'Close'
+		// 		// });
 
-				this?.alertManager?.notify?.({
-					open: true,
-					text: `Wassup #${this.#numAlertDisplay}?`,
-					actionLabel: 'Close'
-				});
-			}
-		}, 10000);
+		// 		this?.alertManager?.notify?.({
+		// 			open: true,
+		// 			text: `Wassup #${this.#numAlertDisplay}?`,
+		// 			actionLabel: 'Close'
+		// 		});
+		// 	}
+		// }, 10000);
 	}
 
 	@action
@@ -279,6 +312,7 @@ export default class ApplicationController extends Controller {
 	#numAlertDisplay = 0;
 
 	#alertControls = null;
+	#bannerControls = null;
 	#navIconControls = null;
 
 	#toBeRegisteredDrawers = [];
