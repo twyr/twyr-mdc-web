@@ -48,12 +48,17 @@ export default class MdcSnackbarComponent extends Component {
 		this.#debug?.(`onAction`);
 		if (!this.#element) return;
 
-		this?._fireEvent?.('action');
-		this.open = false;
+		if (this.#alertTimeout) {
+			clearTimeout(this.#alertTimeout);
+			this.#alertTimeout = null;
+		}
 
+		this.open = false;
 		this?.alertManager?.notifyActionClose?.(
 			this.#element?.getAttribute?.('id')
 		);
+
+		this?._fireEvent?.('action');
 	}
 
 	@action
@@ -61,12 +66,17 @@ export default class MdcSnackbarComponent extends Component {
 		this.#debug?.(`onClose`);
 		if (!this.#element) return;
 
-		this?._fireEvent?.('close');
-		this.open = false;
+		if (this.#alertTimeout) {
+			clearTimeout(this.#alertTimeout);
+			this.#alertTimeout = null;
+		}
 
+		this.open = false;
 		this?.alertManager?.notifyActionClose?.(
 			this.#element?.getAttribute?.('id')
 		);
+
+		this?._fireEvent?.('close');
 	}
 
 	@action
@@ -116,12 +126,13 @@ export default class MdcSnackbarComponent extends Component {
 
 		const thisEvent = new CustomEvent(name, {
 			detail: {
-				id: this.#element?.getAttribute?.('id'),
+				snackBarId: this.#element?.getAttribute?.('id'),
 				controls: this.#controls,
 				status: {
 					open: this?.open,
 					closeable: this?.closeable,
-					stacked: this?.stacked
+					stacked: this?.stacked,
+					actionLabel: this?.actionLabel
 				}
 			}
 		});
@@ -132,6 +143,10 @@ export default class MdcSnackbarComponent extends Component {
 	@action
 	_showAlert(options) {
 		this.#debug?.(`_showAlert: `, options);
+		if (this.#alertTimeout) {
+			this?.onClose?.();
+		}
+
 		let shouldFire = false;
 
 		if (this?.open !== options?.open) {
@@ -161,6 +176,12 @@ export default class MdcSnackbarComponent extends Component {
 
 		if (!shouldFire) return;
 		this?._fireEvent?.('alert');
+
+		if (this.open) {
+			const timeout = options?.timeout ?? 5000;
+			// TODO: Replace with run.later...
+			this.#alertTimeout = setTimeout?.(this?.onClose, timeout);
+		}
 	}
 	// #endregion
 
@@ -172,5 +193,7 @@ export default class MdcSnackbarComponent extends Component {
 
 	#element = null;
 	#controls = {};
+
+	#alertTimeout = null;
 	// #endregion
 }

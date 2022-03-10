@@ -19,7 +19,7 @@ export default class AlertManagerService extends Service {
 	willDestroy() {
 		this.#debug(`willDestroy`);
 
-		this.#queuedAlerts.length = 0;
+		this.#queuedAlerts?.clear?.();
 		this.#snackBars?.clear?.();
 
 		super.willDestroy(...arguments);
@@ -43,12 +43,18 @@ export default class AlertManagerService extends Service {
 
 	notify(options) {
 		this.#debug(`notify: `, options);
-		if (!options?.id) {
-			this.#debug(`notify: snackbar element id not given. ignoring...`);
-			return;
+		if (!options?.snackBarId) {
+			if (this.#snackBars?.size === 1) {
+				options.snackBarId = this.#snackBars?.keys?.()?.next?.()?.value;
+			} else {
+				this.#debug(
+					`notify: snackbar element id not given. ignoring...`
+				);
+				return;
+			}
 		}
 
-		if (!this.#snackBars?.has?.(options?.id)) {
+		if (!this.#snackBars?.has?.(options?.snackBarId)) {
 			this.#debug(`notify: snackbar element id not found. ignoring...`);
 			return;
 		}
@@ -58,8 +64,17 @@ export default class AlertManagerService extends Service {
 			return;
 		}
 
-		this.#queuedAlerts?.push?.(options);
-		this?._showAlert?.();
+		if (!this.#queuedAlerts?.has?.(options?.snackBarId)) {
+			this.#queuedAlerts?.set?.(options?.snackBarId, []);
+		}
+
+		this.#queuedAlerts?.get?.(options?.snackBarId)?.push?.(options);
+		this.#debug(
+			`notify::queued alert list: `,
+			JSON?.stringify?.([...this.#queuedAlerts], null, '\t')
+		);
+
+		this?._showAlert?.(options.snackBarId);
 	}
 
 	notifyActionClose(snackBarId) {
@@ -71,63 +86,41 @@ export default class AlertManagerService extends Service {
 			return;
 		}
 
-		if (this.#currentAlert?.id === snackBarId) {
-			this.#debug(`notifyActionClose: closing current alert`);
-			this.#currentAlert = null;
-		}
+		this.#debug(
+			`notifyActionClose: clearing current alert in the snackbar`
+		);
+		this.#currentAlerts[snackBarId] = null;
 
-		if (this.#currentAlertTimeout) {
-			this.#debug(`notifyActionClose: clearing current timeout`);
-
-			clearTimeout?.(this.#currentAlertTimeout);
-			this.#currentAlertTimeout = null;
-
-			this?._showAlert?.();
-			return;
-		}
-
-		let alertIdx = 0;
-		this.#queuedAlerts?.forEach?.((queuedAlert, idx) => {
-			if (queuedAlert?.id === snackBarId) alertIdx = idx;
-		});
-
-		this.#debug(`notifyActionClose: removing queued alert`);
-		this.#queuedAlerts?.splice?.(alertIdx, 1);
+		this.#debug(`notifyActionClose: displaying next queued alert`);
+		this?._showAlert?.(snackBarId);
 	}
 	// #endregion
 
 	// #region Private Methods
-	_showAlert() {
+	_showAlert(snackBarId) {
 		this.#debug(`_showAlert`);
-		if (this.#currentAlert) {
+		if (this.#currentAlerts[snackBarId]) {
 			this.#debug(
-				`_showAlert: current alert already present. ignoring...`
+				`_showAlert: current alert already present for ${snackBarId}. ignoring...`
 			);
 			return;
 		}
 
-		this.#currentAlert = this.#queuedAlerts?.shift?.();
-		if (!this.#currentAlert) {
+		this.#debug(
+			`_showAlert::queued alert list: `,
+			JSON?.stringify?.([...this.#queuedAlerts], null, '\t')
+		);
+		let nextAlert = this.#queuedAlerts?.get?.(snackBarId)?.shift?.();
+		if (!nextAlert) {
 			this.#debug(`_showAlert: no more alerts to be shown...`);
 			return;
 		}
 
-		const timeout = this.#currentAlert?.timeout ?? 5000;
-		const snackBar = this.#snackBars?.get?.(this.#currentAlert?.id);
+		this.#debug(`_showAlert: showing next queued alert: `, nextAlert);
+		this.#currentAlerts[snackBarId] = nextAlert;
 
-		this.#currentAlert.open = true;
-		snackBar?.showAlert?.(this.#currentAlert);
-
-		this.#currentAlertTimeout = setTimeout?.(() => {
-			snackBar?.showAlert?.({
-				open: false
-			});
-
-			this.#currentAlert = null;
-			this.#currentAlertTimeout = null;
-
-			this?._showAlert?.();
-		}, timeout);
+		const snackBar = this.#snackBars?.get?.(snackBarId);
+		snackBar?.showAlert?.(nextAlert);
 	}
 	// #endregion
 
@@ -135,8 +128,7 @@ export default class AlertManagerService extends Service {
 	#debug = debugLogger('service:alert-manager');
 	#snackBars = new Map();
 
-	#queuedAlerts = [];
-	#currentAlert = null;
-	#currentAlertTimeout = null;
+	#queuedAlerts = new Map();
+	#currentAlerts = {};
 	// #endregion
 }
