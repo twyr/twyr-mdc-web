@@ -44,14 +44,14 @@ export default class AlertManagerService extends Service {
 	notify(options) {
 		this.#debug(`notify: `, options);
 		if (!options?.snackBarId) {
-			if (this.#snackBars?.size === 1) {
-				options.snackBarId = this.#snackBars?.keys?.()?.next?.()?.value;
-			} else {
-				this.#debug(
-					`notify: snackbar element id not given. ignoring...`
-				);
-				return;
-			}
+			options.snackBarId = this.#snackBars?.keys?.()?.next?.()?.value;
+		}
+
+		if (!options?.snackBarId) {
+			this.#debug(
+				`notify: snackbar element id not given, and no element found. ignoring...`
+			);
+			return;
 		}
 
 		if (!this.#snackBars?.has?.(options?.snackBarId)) {

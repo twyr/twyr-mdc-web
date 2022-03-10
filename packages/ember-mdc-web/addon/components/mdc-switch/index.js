@@ -161,6 +161,8 @@ export default class MdcSwitchComponent extends Component {
 		this.inputElementId = this.#element?.getAttribute?.('id');
 		this?.recalcStyles?.();
 
+		if (this.#element?.hasAttribute?.('selected')) this.selected = true;
+
 		this?._fireEvent?.('init');
 	}
 	// #endregion
