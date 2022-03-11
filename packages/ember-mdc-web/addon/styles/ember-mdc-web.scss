@@ -119,6 +119,10 @@
 @use '@material/radio/mdc-radio';
 @use './emdc-radio.css';
 
+/* Slider component */
+@use '@material/slider/styles' as slider-styles;
+@use './emdc-slider.css';
+
 /* Snackbar component */
 @use '@material/snackbar/mdc-snackbar';
 @use './emdc-snackbar.css';

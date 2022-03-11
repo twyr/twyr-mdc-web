@@ -1,0 +1,76 @@
+{{! template-lint-disable no-down-event-binding }}
+{{! template-lint-disable no-invalid-interactive }}
+<div
+	class='mdc-slider'
+	{{! Add styling classes as necessary }}
+	{{has-class-if @discrete 'mdc-slider--discrete'}}
+	{{has-class-if @tickMarks 'mdc-slider--tick-marks'}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Re-calculate slider value }}
+	{{on-args-change this.recalcValue @minValue @maxValue @value}}
+	{{! React to clicks }}
+	{{on 'click' this.onClick}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+>
+	<input
+		type='range'
+		class='mdc-slider__input'
+		min={{this.rangeLower}}
+		max={{this.rangeUpper}}
+		value={{this.displayValue}}
+		{{! Accessibility }}
+		aria-label={{this.label}}
+		aria-valuemin={{this.rangeLower}}
+		aria-valuemax={{this.rangeUpper}}
+		aria-valuenow={{this.displayValue}}
+		{{! Monitor changes to disabled status }}
+		{{on-mutation
+			this.onAttributeMutation
+			attributeFilter=(array 'disabled')
+		}}
+		{{! HTML attributes added in the calling template }}
+		...attributes
+	/>
+	<div class='mdc-slider__track'>
+		<div class='mdc-slider__track--inactive'></div>
+		<div class='mdc-slider__track--active'>
+			<div class='mdc-slider__track--active_fill'></div>
+		</div>
+		{{#if (and @discrete @tickMarks)}}
+			<div class='mdc-slider__tick-marks'>
+				{{#each (repeat this.numActiveTicks)}}
+					<div class='mdc-slider__tick-mark--active'></div>
+				{{/each}}
+
+				{{#each (repeat this.numInactiveTicks)}}
+					<div class='mdc-slider__tick-mark--inactive'></div>
+				{{/each}}
+			</div>
+		{{/if}}
+	</div>
+	<div
+		class='mdc-slider__thumb'
+		{{on 'mouseenter' (fn this.setThumbHoverClass true)}}
+		{{on 'mouseleave' (fn this.setThumbHoverClass false)}}
+		{{on 'pointerdown' this.startSliding}}
+		{{on 'pointerup' this.stopSliding}}
+	>
+		{{#if @discrete}}
+			<div
+				class='mdc-slider__value-indicator-container'
+				aria-hidden='true'
+			>
+				<div class='mdc-slider__value-indicator'>
+					<span class='mdc-slider__value-indicator-text'>
+						{{this.displayValue}}
+					</span>
+				</div>
+			</div>
+		{{/if}}
+		<div class='mdc-slider__thumb-knob'></div>
+	</div>
+</div>
