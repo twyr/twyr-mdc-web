@@ -132,6 +132,17 @@
 		selected
 	/>
 
+	<MdcSlider
+		@discrete={{true}}
+		@tickMarks={{true}}
+		@step='5'
+		@minValue='0'
+		@maxValue='100'
+		@value={{this.sliderValue}}
+		@palette={{this.palette}}
+		{{on 'statuschange' this.processSliderEvent}}
+	/>
+
 	<MdcChipSet @palette={{this.palette}} as |Chipset|>
 		<Chipset.Chip
 			@icon='abacus'
@@ -155,7 +166,7 @@
 	</MdcSegmentedButton>
 
 	<MdcCircularProgress
-		@size='3'
+		@size='8'
 		@minValue='0'
 		@maxValue='100'
 		@progress={{this.progress}}

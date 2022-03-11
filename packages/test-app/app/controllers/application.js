@@ -11,10 +11,12 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked palette = 'secondary';
+	@tracked palette = 'error';
 
 	@tracked bufferValue = 59;
 	@tracked progress = 59;
+
+	@tracked sliderValue = 65;
 	// #endregion
 
 	// #region Constructor
@@ -210,6 +212,12 @@ export default class ApplicationController extends Controller {
 		// 	newStatus.on = !newStatus?.on;
 		// 	event?.detail?.controls?.setState?.(newStatus);
 		// }, 3000);
+	}
+
+	@action
+	processSliderEvent(event) {
+		this.#debug?.('processSliderEvent', event?.detail);
+		this.sliderValue = event?.detail?.status?.newValue;
 	}
 
 	@action
