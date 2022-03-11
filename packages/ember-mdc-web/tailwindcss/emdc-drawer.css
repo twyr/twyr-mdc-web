@@ -1,4 +1,7 @@
-.mdc-drawer__header {
-	@apply pt-2;
+.mdc-drawer {
 	@apply overflow-y-auto;
+
+	& .mdc-drawer__header {
+		@apply pt-2;
+	}
 }

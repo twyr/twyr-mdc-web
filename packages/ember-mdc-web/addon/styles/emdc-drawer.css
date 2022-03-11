@@ -1,4 +1,6 @@
-.mdc-drawer__header {
-    padding-top: 0.5rem;
+.mdc-drawer {
     overflow-y: auto
+}
+.mdc-drawer .mdc-drawer__header {
+    padding-top: 0.5rem
 }

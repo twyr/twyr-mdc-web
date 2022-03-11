@@ -29,7 +29,7 @@ export default class MdcCheckboxComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	onAttributeMutation(mutationRecord) {
-		this.#debug?.(`onAttributeMutation:`, arguments);
+		this.#debug?.(`onAttributeMutation: `, arguments);
 		if (!this.#element) return;
 
 		if (mutationRecord?.attributeName === 'id') {
@@ -53,7 +53,7 @@ export default class MdcCheckboxComponent extends Component {
 
 	@action
 	onChange(event) {
-		this.#debug?.(`onChange:`, event);
+		this.#debug?.(`onChange: `, event);
 		this?._fireEvent?.('statuschange');
 	}
 
@@ -138,7 +138,7 @@ export default class MdcCheckboxComponent extends Component {
 
 	@action
 	_setState(status) {
-		this.#debug?.(`_setState:`, status);
+		this.#debug?.(`_setState: `, status);
 
 		let shouldFireEvent = false;
 

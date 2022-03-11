@@ -25,7 +25,7 @@ export default class MdcChipsetChipComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	onPrimaryAction(event) {
-		this.#debug?.(`onPrimaryAction:`, event);
+		this.#debug?.(`onPrimaryAction: `, event);
 		if (!this.#element) return;
 		if (!this.#primaryActionElement) return;
 
@@ -34,7 +34,7 @@ export default class MdcChipsetChipComponent extends Component {
 
 	@action
 	onClickToClose(event) {
-		this.#debug?.(`onClickToClose:`, event);
+		this.#debug?.(`onClickToClose: `, event);
 		if (!this.#element) return;
 		if (!this.#primaryActionElement) return;
 
@@ -43,7 +43,7 @@ export default class MdcChipsetChipComponent extends Component {
 
 	@action
 	onAttributeMutation(mutationEntry) {
-		this.#debug?.(`onAttributeMutation:`, mutationEntry);
+		this.#debug?.(`onAttributeMutation: `, mutationEntry);
 		if (!this.#element) return;
 		if (!this.#primaryActionElement) return;
 

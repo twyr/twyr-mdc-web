@@ -35,7 +35,7 @@ export default class MdcRadioGroupRadioComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	onAttributeMutation(mutationRecord) {
-		this.#debug?.(`onAttributeMutation:`, mutationRecord);
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
 		if (mutationRecord?.attributeName === 'id') {
@@ -59,7 +59,7 @@ export default class MdcRadioGroupRadioComponent extends Component {
 
 	@action
 	onChange(event) {
-		this.#debug?.(`onChange:`, event);
+		this.#debug?.(`onChange: `, event);
 		this?._fireEvent?.('statuschange');
 	}
 
@@ -158,7 +158,7 @@ export default class MdcRadioGroupRadioComponent extends Component {
 
 	@action
 	_setState(status) {
-		this.#debug?.(`_setState:`, status);
+		this.#debug?.(`_setState: `, status);
 
 		let shouldFireEvent = false;
 
