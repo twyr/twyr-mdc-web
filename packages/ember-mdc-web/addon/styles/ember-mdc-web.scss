@@ -130,6 +130,12 @@
 /* Switch component */
 @use '@material/switch/styles' as switch-styles;
 
+/* Tab Bar / Tab component */
+@use '@material/tab-bar/mdc-tab-bar';
+@use '@material/tab-scroller/mdc-tab-scroller';
+@use '@material/tab-indicator/mdc-tab-indicator';
+@use '@material/tab/mdc-tab';
+
 /* Top Bar component */
 @use '@material/top-app-bar/mdc-top-app-bar';
 @use './emdc-top-app-bar.css';

@@ -1,0 +1,29 @@
+<div
+	class='mdc-tab-bar'
+	role='tablist'
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<div
+		class='mdc-tab-scroller'
+		{{has-class-if @alignStart 'mdc-tab-scroller--align-start'}}
+		{{has-class-if @alignCenter 'mdc-tab-scroller--align-center'}}
+		{{has-class-if @alignEnd 'mdc-tab-scroller--align-end'}}
+	>
+		<div class='mdc-tab-scroller__scroll-area'>
+			<div class='mdc-tab-scroller__scroll-content'>
+				{{yield
+					(hash
+						Tab=(component
+							this.tabComponent
+							palette=@palette
+							tabbarControls=this.controls
+						)
+					)
+				}}
+			</div>
+		</div>
+	</div>
+</div>

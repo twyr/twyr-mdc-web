@@ -180,6 +180,8 @@
 			"./components/mdc-snackbar/index.js": "./dist/_app_/components/mdc-snackbar/index.js",
 			"./components/mdc-sub-headline/index.js": "./dist/_app_/components/mdc-sub-headline/index.js",
 			"./components/mdc-switch/index.js": "./dist/_app_/components/mdc-switch/index.js",
+			"./components/mdc-tab-bar/index.js": "./dist/_app_/components/mdc-tab-bar/index.js",
+			"./components/mdc-tab-bar/tab/index.js": "./dist/_app_/components/mdc-tab-bar/tab/index.js",
 			"./components/mdc-top-app-bar/action-icon/index.js": "./dist/_app_/components/mdc-top-app-bar/action-icon/index.js",
 			"./components/mdc-top-app-bar/index.js": "./dist/_app_/components/mdc-top-app-bar/index.js",
 			"./components/mdc-top-app-bar/navigation-icon/index.js": "./dist/_app_/components/mdc-top-app-bar/navigation-icon/index.js",

@@ -34,3 +34,7 @@
 .rounded-full {
     border-radius: 9999px
 }
+.underline {
+    -webkit-text-decoration-line: underline;
+            text-decoration-line: underline
+}
