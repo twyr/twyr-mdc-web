@@ -1,4 +1,5 @@
 {{! template-lint-disable require-presentational-children}}
+{{! template-lint-disable simple-unless}}
 <button
 	type='button'
 	class='mdc-tab'
@@ -12,6 +13,8 @@
 	{{has-class-if this.selected 'mdc-tab--active'}}
 	{{! Ensure id is present - we need it for the events }}
 	{{requires-id ignore=true}}
+	{{! Monitor changes to id and disabled status }}
+	{{on-mutation this.onAttributeMutation attributeFilter=(array 'selected')}}
 	{{! React to clicks }}
 	{{on 'click' this.onClick}}
 	{{! Re-calculate colours as necessary }}
@@ -29,25 +32,56 @@
 		{{#if @label}}
 			<span class='mdc-tab__text-label'>{{@label}}</span>
 		{{/if}}
-	</span>
-	<span
-		class='mdc-tab-indicator'
-		{{has-class-if this.selected 'mdc-tab-indicator--active'}}
-		{{has-class-if (eq @transitionType 'fade') 'mdc-tab-indicator--fade'}}
-	>
-		{{#if (eq this.selectedTabIndicator 'underline')}}
-			<span
-				class='mdc-tab-indicator__content mdc-tab-indicator__content--underline'
-			></span>
-		{{/if}}
 
-		{{#if (eq this.selectedTabIndicator 'icon')}}
-			<MdcIcon
-				class='mdc-tab-indicator__content mdc-tab-indicator__content--icon'
-				@icon={{@indicatorIcon}}
-				aria-hidden='true'
-			/>
+		{{#if (eq this.indicatorLength 'content')}}
+			<span
+				class='mdc-tab-indicator'
+				{{has-class-if this.selected 'mdc-tab-indicator--active'}}
+				{{has-class-if
+					(eq @transitionType 'fade')
+					'mdc-tab-indicator--fade'
+				}}
+			>
+				{{#if (eq this.selectedTabIndicator 'underline')}}
+					<span
+						class='mdc-tab-indicator__content mdc-tab-indicator__content--underline'
+					></span>
+				{{/if}}
+
+				{{#if (eq this.selectedTabIndicator 'icon')}}
+					<MdcIcon
+						class='mdc-tab-indicator__content mdc-tab-indicator__content--icon'
+						@icon={{@indicatorIcon}}
+						aria-hidden='true'
+					/>
+				{{/if}}
+			</span>
 		{{/if}}
 	</span>
+
+	{{#unless (eq this.indicatorLength 'content')}}
+		<span
+			class='mdc-tab-indicator'
+			{{has-class-if this.selected 'mdc-tab-indicator--active'}}
+			{{has-class-if
+				(eq @transitionType 'fade')
+				'mdc-tab-indicator--fade'
+			}}
+		>
+			{{#if (eq this.selectedTabIndicator 'underline')}}
+				<span
+					class='mdc-tab-indicator__content mdc-tab-indicator__content--underline'
+				></span>
+			{{/if}}
+
+			{{#if (eq this.selectedTabIndicator 'icon')}}
+				<MdcIcon
+					class='mdc-tab-indicator__content mdc-tab-indicator__content--icon'
+					@icon={{@indicatorIcon}}
+					aria-hidden='true'
+				/>
+			{{/if}}
+		</span>
+	{{/unless}}
 	<span class='mdc-tab__ripple'></span>
 </button>

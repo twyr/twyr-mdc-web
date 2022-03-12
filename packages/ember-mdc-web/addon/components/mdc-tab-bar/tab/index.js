@@ -34,8 +34,24 @@ export default class MdcTabBarTabComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	onClick() {
+	onClick(event) {
+		this.#debug?.(`onClick: `, event);
 		this?.args?.tabbarControls?.selectItem?.(this.#element, true);
+	}
+
+	@action
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation: `, arguments);
+		if (!this.#element) return;
+
+		if (mutationRecord?.attributeName !== 'selected') return;
+
+		if (!this.#element?.hasAttribute?.('selected')) {
+			this?._select?.(false);
+			return;
+		}
+
+		this?._select?.(true);
 	}
 
 	@action
@@ -57,12 +73,23 @@ export default class MdcTabBarTabComponent extends Component {
 			this.#controls,
 			true
 		);
+
+		if (!this.#element?.hasAttribute?.('selected')) {
+			this?._select?.(false);
+			return;
+		}
+
+		this?._select?.(true);
 	}
 	// #endregion
 
 	// #region Computed Properties
 	get selectedTabIndicator() {
 		return this?.args?.selectedTabIndicator ?? 'underline';
+	}
+
+	get indicatorLength() {
+		return this?.args?.indicatorLength ?? 'full';
 	}
 	// #endregion
 
