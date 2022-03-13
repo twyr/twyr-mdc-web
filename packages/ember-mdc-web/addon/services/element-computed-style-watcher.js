@@ -122,6 +122,7 @@ export default class ElementComputedStyleWatcherService extends Service {
 			element,
 			`last callback removed. unobserving...`
 		);
+
 		this.#elementCallback?.delete?.(element);
 	}
 	// #endregion

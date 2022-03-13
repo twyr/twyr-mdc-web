@@ -42,12 +42,13 @@ export default class OnMutationModifier extends Modifier {
 
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-		super.willDestroy(...arguments);
 
 		this?.mutationWatcher?.unwatchElement(
 			this?.element,
 			this.#currentCallback
 		);
+
+		super.willDestroy(...arguments);
 	}
 	// #endregion
 

@@ -42,12 +42,13 @@ export default class OnResizeModifier extends Modifier {
 
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-		super.willDestroy(...arguments);
 
 		this?.resizeWatcher?.unwatchElement?.(
 			this?.element,
 			this.#currentCallback
 		);
+
+		super.willDestroy(...arguments);
 	}
 	// #endregion
 

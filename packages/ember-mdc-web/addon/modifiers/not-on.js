@@ -38,6 +38,24 @@ export default class NotOnModifier extends Modifier {
 
 		this?._addEventListener?.();
 	}
+
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		// eslint-disable-next-line curly
+		if (this.#event && this.#eventHandler) {
+			document.removeEventListener(
+				this.#event,
+				this?._eventHandler?.bind?.(this),
+				this.#defaultOptions
+			);
+		}
+
+		this.#event = null;
+		this.#eventHandler = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
