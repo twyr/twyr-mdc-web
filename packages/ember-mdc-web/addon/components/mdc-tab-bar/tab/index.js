@@ -58,6 +58,16 @@ export default class MdcTabBarTabComponent extends Component {
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
+
+		// Step 1: Reset
+		this.#element?.style?.removeProperty?.('--mdc-active-tab-color');
+
+		// Step 2: Style / Palette
+		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
+		this.#element?.style?.setProperty?.(
+			'--mdc-active-tab-color',
+			`var(${paletteColour})`
+		);
 	}
 
 	@action

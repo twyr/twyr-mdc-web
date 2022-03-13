@@ -2,12 +2,14 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class MdcTabBarComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked scrollEnabled = false;
 	controls = {};
 	// #endregion
 
@@ -36,6 +38,7 @@ export default class MdcTabBarComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
+		this?._shouldEmableScroll?.();
 		this?._fireEvent?.('init');
 	}
 	// #endregion
@@ -53,10 +56,11 @@ export default class MdcTabBarComponent extends Component {
 
 		if (!register) {
 			this.#items?.delete?.(item);
-			return;
+		} else {
+			this.#items?.set?.(item, controls);
 		}
 
-		this.#items?.set?.(item, controls);
+		this?._shouldEmableScroll?.();
 	}
 
 	@action
@@ -85,6 +89,29 @@ export default class MdcTabBarComponent extends Component {
 			selected: item?.getAttribute?.('id'),
 			unselected: selectedTab?.getAttribute?.('id')
 		});
+	}
+
+	@action
+	_shouldEmableScroll() {
+		this.#debug?.(`_shouldEmableScroll`);
+		if (!this.#element) return;
+
+		const scrollAreaDimensions = this.#element
+			?.querySelector?.('div.mdc-tab-scroller__scroll-area')
+			?.getBoundingClientRect?.();
+		const scrollContentDimensions = this.#element
+			?.querySelector?.('div.mdc-tab-scroller__scroll-content')
+			?.getBoundingClientRect?.();
+
+		this.#debug?.(
+			`_shouldEmableScroll:\nScroll Area Width ${scrollAreaDimensions?.width}\nScroll Content Width ${scrollContentDimensions?.width}`
+		);
+		if (scrollAreaDimensions?.width >= scrollContentDimensions?.width) {
+			this.#debug?.(`_shouldEmableScroll: No need for scrolling`);
+			return;
+		}
+
+		this.#debug?.(`_shouldEmableScroll: ENABLE: TAB SCROLL`);
 	}
 
 	@action
