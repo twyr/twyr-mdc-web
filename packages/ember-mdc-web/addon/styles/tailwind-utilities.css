@@ -1,8 +1,23 @@
+.pointer-events-none {
+    pointer-events: none
+}
+.pointer-events-auto {
+    pointer-events: auto
+}
 .fixed {
     position: fixed
 }
 .absolute {
     position: absolute
+}
+.relative {
+    position: relative
+}
+.inset-0 {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px
 }
 .flex {
     display: -webkit-box;
@@ -28,11 +43,20 @@
         -ms-flex-direction: column;
             flex-direction: column
 }
+.justify-between {
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between
+}
 .rounded {
     border-radius: 0.25rem
 }
 .rounded-full {
     border-radius: 9999px
+}
+.px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem
 }
 .underline {
     -webkit-text-decoration-line: underline;

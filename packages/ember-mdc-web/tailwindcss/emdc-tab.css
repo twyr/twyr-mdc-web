@@ -1,3 +1,11 @@
+.mdc-tab {
+	flex: unset;
+
+	&.stretch {
+		flex: 1 0 auto;
+	}
+}
+
 .mdc-tab--active {
 	& .mdc-tab__icon {
 		color: var(--mdc-active-tab-color, var(--mdc-theme-primary), #01579b);
@@ -23,4 +31,8 @@
 		var(--mdc-theme-primary),
 		#01579b
 	);
+}
+
+.mdc-tab-indicator .mdc-tab-indicator__content--icon {
+	color: var(--mdc-active-tab-color, var(--mdc-theme-secondary), #f57f17);
 }

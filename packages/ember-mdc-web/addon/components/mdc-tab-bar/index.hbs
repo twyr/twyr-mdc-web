@@ -1,5 +1,5 @@
 <div
-	class='mdc-tab-bar'
+	class='mdc-tab-bar relative'
 	role='tablist'
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
@@ -8,16 +8,24 @@
 >
 	<div
 		class='mdc-tab-scroller'
-		{{has-class-if @alignStart 'mdc-tab-scroller--align-start'}}
-		{{has-class-if @alignCenter 'mdc-tab-scroller--align-center'}}
-		{{has-class-if @alignEnd 'mdc-tab-scroller--align-end'}}
+		{{has-class-if (eq @align 'start') 'mdc-tab-scroller--align-start'}}
+		{{has-class-if (eq @align 'center') 'mdc-tab-scroller--align-center'}}
+		{{has-class-if (eq @align 'end') 'mdc-tab-scroller--align-end'}}
+		{{has-class-if this.scrollEnabled 'px-12'}}
 	>
-		<div class='mdc-tab-scroller__scroll-area'>
-			<div class='mdc-tab-scroller__scroll-content'>
+		<div
+			class='mdc-tab-scroller__scroll-area'
+			{{on-resize this.shouldEnableScroll}}
+		>
+			<div
+				class='mdc-tab-scroller__scroll-content'
+				{{on-resize this.shouldEnableScroll}}
+			>
 				{{yield
 					(hash
 						Tab=(component
 							this.tabComponent
+							fill=@fill
 							palette=@palette
 							selectedTabIndicator=@selectedTabIndicator
 							indicatorLength=@indicatorLength
@@ -29,4 +37,23 @@
 			</div>
 		</div>
 	</div>
+
+	{{#if this.scrollEnabled}}
+		<div
+			class='absolute inset-0 pointer-events-none flex flex-row justify-between'
+		>
+			<MdcIconButton
+				class='pointer-events-auto'
+				@icon='chevron-left'
+				@palette={{@palette}}
+				{{on 'click' (fn this.handleScroll 'left')}}
+			/>
+			<MdcIconButton
+				class='pointer-events-auto'
+				@icon='chevron-right'
+				@palette={{@palette}}
+				{{on 'click' (fn this.handleScroll 'right')}}
+			/>
+		</div>
+	{{/if}}
 </div>
