@@ -129,40 +129,61 @@ export default class ElementComputedStyleWatcherService extends Service {
 
 	// #region Private Methods
 	_notifyStyleChange() {
-		this.#debug?.(`_notifyStyleChange`);
+		// this.#debug?.(`_notifyStyleChange`);
 
 		if (this.#isCheckRunning) return;
 
-		this.#isCheckRunning = true;
+		try {
+			this.#isCheckRunning = true;
 
-		this.#elementCallback?.forEach?.((currentElementCallbacks, element) => {
-			const elementStyle = window?.getComputedStyle?.(element);
+			this.#elementCallback?.forEach?.(
+				(currentElementCallbacks, element) => {
+					const elementStyle = window?.getComputedStyle?.(element);
 
-			currentElementCallbacks?.forEach?.((styleAttributes) => {
-				const elementChange = {
-					element: element
-				};
-
-				styleAttributes?.['stylesToMonitor']?.forEach?.(
-					(styleProperty) => {
-						elementChange[styleProperty] = {
-							currentValue: elementStyle?.[styleProperty],
-							previousValue:
-								styleAttributes?.['currentValues']?.[
-									styleProperty
-								]
+					currentElementCallbacks?.forEach?.((styleAttributes) => {
+						const elementChange = {
+							element: element
 						};
 
-						styleAttributes['currentValues'][styleProperty] =
-							elementStyle?.[styleProperty];
-					}
-				);
+						styleAttributes?.['stylesToMonitor']?.forEach?.(
+							(styleProperty) => {
+								if (
+									elementStyle?.[styleProperty] ===
+									styleAttributes?.['currentValues']?.[
+										styleProperty
+									]
+								)
+									return;
 
-				styleAttributes?.['callback']?.(elementChange);
-			});
-		});
+								elementChange[styleProperty] = {
+									currentValue: elementStyle?.[styleProperty],
+									previousValue:
+										styleAttributes?.['currentValues']?.[
+											styleProperty
+										]
+								};
 
-		this.#isCheckRunning = false;
+								styleAttributes['currentValues'][
+									styleProperty
+								] = elementStyle?.[styleProperty];
+							}
+						);
+
+						if (Object?.keys?.(elementChange)?.length <= 1) return;
+
+						this.#debug?.(
+							`_notifyStyleChange::elementChange: `,
+							elementChange
+						);
+						styleAttributes?.['callback']?.(elementChange);
+					});
+				}
+			);
+		} catch (err) {
+			console?.error?.(err);
+		} finally {
+			this.#isCheckRunning = false;
+		}
 	}
 	// #endregion
 
