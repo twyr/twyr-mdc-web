@@ -181,6 +181,31 @@
 		@progress={{this.progress}}
 		@palette={{this.palette}}
 	/>
+
+	<MdcTabBar
+		class='mt-4'
+		@fill={{false}}
+		@align='center'
+		@indicatorLength='content'
+		@selectedTabIndicator='underline'
+		@indicatorIcon='thumb-up'
+		@transitionType='fade'
+		@palette={{this.palette}}
+		as |TabBar|
+	>
+		<TabBar.Tab @icon='crowd' @label='Tab #1' />
+		<TabBar.Tab @icon='crowd' @label='Tab #2' selected />
+		<TabBar.Tab @icon='crowd' @label='Tab #3' />
+		<TabBar.Tab @icon='crowd' @label='Tab #4' />
+		<TabBar.Tab @icon='crowd' @label='Tab #5' />
+		<TabBar.Tab @icon='crowd' @label='Tab #6' />
+		<TabBar.Tab @icon='crowd' @label='Tab #7' />
+		<TabBar.Tab @icon='crowd' @label='Tab #8' />
+		<TabBar.Tab @icon='crowd' @label='Tab #9' />
+		<TabBar.Tab @icon='crowd' @label='Tab #10' />
+		<TabBar.Tab @icon='crowd' @label='Tab #11' />
+		<TabBar.Tab @icon='crowd' @label='Tab #12' />
+	</MdcTabBar>
 	{{outlet}}
 </div>
 
