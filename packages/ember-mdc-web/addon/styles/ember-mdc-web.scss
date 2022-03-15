@@ -37,9 +37,9 @@
 );
 
 @use '@material/shape/shape' with (
-	$small-component-radius: 0.375rem,
-	$medium-component-radius: 0.25rem,
-	$large-component-radius: 0.125rem
+	$small-component-radius: 6px,
+	$medium-component-radius: 4px,
+	$large-component-radius: 2px
 );
 
 /*
@@ -67,6 +67,7 @@
 @use '@material/fab/mdc-fab';
 @use '@material/icon-button/mdc-icon-button';
 
+/* Button Group component */
 @use '@material/segmented-button/styles' as segmented-button-styles;
 @use './emdc-segmented-button.css';
 
@@ -86,18 +87,12 @@
 @use '@material/circular-progress/mdc-circular-progress';
 @use './emdc-circular-progress.css';
 
-/* Table component */
-@use '@material/data-table/mdc-data-table';
-
 /* Dialog component */
 @use '@material/dialog/mdc-dialog';
 
 /* Drawer component - aka sidebar */
 @use '@material/drawer/mdc-drawer';
 @use './emdc-drawer.css';
-
-/* Floating label component - aka labels on input / select components */
-@use '@material/floating-label/mdc-floating-label';
 
 /* Form field component - standard stuff used by all form fields */
 @use '@material/form-field/mdc-form-field';
@@ -136,6 +131,12 @@
 @use '@material/tab-indicator/mdc-tab-indicator';
 @use '@material/tab/mdc-tab';
 @use './emdc-tab.css';
+
+/* Text Field component */
+@use '@material/floating-label/mdc-floating-label';
+@use '@material/line-ripple/mdc-line-ripple';
+@use '@material/notched-outline/mdc-notched-outline';
+@use '@material/textfield/mdc-text-field';
 
 /* Top Bar component */
 @use '@material/top-app-bar/mdc-top-app-bar';

@@ -1,0 +1,120 @@
+{{! template-lint-disable no-nested-interactive }}
+<div class='text-field-container'>
+	<label
+		class='mdc-text-field relative w-full'
+		{{! Add styling classes as necessary }}
+		{{has-class-if
+			@outlined
+			'mdc-text-field--outlined'
+			'mdc-text-field--filled'
+		}}
+		{{has-class-if (not @label) 'mdc-text-field--no-label'}}
+		{{has-class-if @leadingIcon 'mdc-text-field--with-leading-icon'}}
+		{{has-class-if @trailingIcon 'mdc-text-field--with-trailing-icon'}}
+	>
+		{{#if @outlined}}
+			<span class='mdc-notched-outline'>
+				<span class='mdc-notched-outline__leading'></span>
+				{{#if @label}}
+					<span class='mdc-notched-outline__notch'>
+						<span
+							class='mdc-floating-label'
+							{{! Ensure id is present }}
+							{{requires-id ignore=true}}
+						>{{@label}}</span>
+					</span>
+				{{/if}}
+				<span class='mdc-notched-outline__trailing'></span>
+			</span>
+		{{else}}
+			<span class='mdc-text-field__ripple'></span>
+			{{#if @label}}
+				<span
+					class='mdc-floating-label'
+					{{! Ensure id is present }}
+					{{requires-id ignore=true}}
+				>{{@label}}</span>
+			{{/if}}
+		{{/if}}
+
+		{{#if @prefixText}}
+			<span
+				class='mdc-text-field__affix mdc-text-field__affix--prefix'
+			>{{@prefixText}}</span>
+		{{/if}}
+
+		{{#if @leadingIcon}}
+			<MdcIcon
+				class='mdc-text-field__icon mdc-text-field__icon--leading'
+				tabindex='0'
+				role='button'
+				@icon={{@leadingIcon}}
+			/>
+		{{/if}}
+
+		<input
+			type='text'
+			class='mdc-text-field__input'
+			placeholder={{@placeholder}}
+			{{! Accessibility stuff }}
+			aria-labelledby={{this.inputElementId}}
+			{{! Ensure id is present - we need it for the events }}
+			{{requires-id ignore=true}}
+			{{! Monitor changes to disabled status }}
+			{{on-mutation
+				this.onAttributeMutation
+				attributeFilter=(array 'disabled' 'id' 'maxlength')
+			}}
+			{{! Re-calculate colours as necessary }}
+			{{on-args-change this.recalcStyles @palette}}
+			{{on-args-change this.setupLineRipple @outlined}}
+			{{! React to input }}
+			{{on 'input' this.onInput}}
+			{{! Store reference to the element for DOM manipulation }}
+			{{store-element this.storeElement}}
+			{{! HTML attributes added in the calling template }}
+			...attributes
+		/>
+
+		{{#if @trailingIcon}}
+			<MdcIcon
+				class='mdc-text-field__icon mdc-text-field__icon--trailing'
+				tabindex='0'
+				role='button'
+				@icon={{@trailingIcon}}
+			/>
+		{{/if}}
+
+		{{#if @suffixText}}
+			<span
+				class='mdc-text-field__affix mdc-text-field__affix--suffix'
+			>{{@suffixText}}</span>
+		{{/if}}
+
+		{{#unless @outlined}}
+			<span class='mdc-line-ripple'></span>
+		{{/unless}}
+	</label>
+	{{#if (or @status this.characterCount)}}
+		<div class='mdc-text-field-helper-line'>
+			{{#if @status}}
+				<div
+					class='mdc-text-field-helper-text'
+					{{! Ensure id is present }}
+					{{requires-id ignore=true}}
+					aria-hidden='true'
+				>
+					{{@status}}
+				</div>
+			{{/if}}
+
+			{{#if this.characterCount}}
+				<div
+					class='mdc-text-field-character-counter'
+				>{{this.numCharacters}}
+					/
+					{{this.characterCount}}</div>
+			{{/if}}
+		</div>
+	{{/if}}
+</div>
