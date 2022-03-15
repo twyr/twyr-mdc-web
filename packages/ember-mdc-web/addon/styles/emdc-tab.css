@@ -19,16 +19,20 @@
 	}
 
 .mdc-tab-indicator .mdc-tab-indicator__content--underline {
-	border-color: var(--mdc-active-tab-color,
-			var(--mdc-theme-primary),
-			#01579b);
+	border-color: var(
+		--mdc-active-tab-color,
+		var(--mdc-theme-primary),
+		#01579b
+	);
 }
 
 .mdc-tab .mdc-tab__ripple::before,
 .mdc-tab .mdc-tab__ripple::after {
-	background-color: var(--mdc-active-tab-color,
-			var(--mdc-theme-primary),
-			#01579b);
+	background-color: var(
+		--mdc-active-tab-color,
+		var(--mdc-theme-primary),
+		#01579b
+	);
 }
 
 .mdc-tab-indicator .mdc-tab-indicator__content--icon {
