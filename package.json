@@ -34,7 +34,7 @@
 		"url": "https://github.com/twyr/twyr-mdc-web/issues"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "16.2.1",
+		"@commitlint/cli": "16.2.3",
 		"@commitlint/config-conventional": "16.2.1",
 		"commitizen": "4.2.4",
 		"cz-customizable": "6.3.0",
