@@ -12,9 +12,12 @@ export default class MdcTextFieldComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked inputElementId = 'xyz';
+
 	@tracked characterCount = 0;
 	@tracked numCharacters = 0;
-	@tracked inputElementId = 'xyz';
+
+	@tracked isFocused = false;
 	// #endregion
 
 	// #region Constructor
@@ -69,6 +72,12 @@ export default class MdcTextFieldComponent extends Component {
 
 		this.numCharacters = this.#element?.value?.length;
 		this?._fireEvent?.('statuschange');
+	}
+
+	@action
+	setFocus(focused) {
+		this.#debug?.(`setFocus: `, focused);
+		this.isFocused = focused;
 	}
 
 	@action

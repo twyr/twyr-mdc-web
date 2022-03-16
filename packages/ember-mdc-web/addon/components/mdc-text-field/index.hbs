@@ -8,17 +8,28 @@
 			'mdc-text-field--outlined'
 			'mdc-text-field--filled'
 		}}
+		{{has-class-if this.isFocused 'mdc-text-field--focused'}}
 		{{has-class-if (not @label) 'mdc-text-field--no-label'}}
 		{{has-class-if @leadingIcon 'mdc-text-field--with-leading-icon'}}
 		{{has-class-if @trailingIcon 'mdc-text-field--with-trailing-icon'}}
 	>
 		{{#if @outlined}}
-			<span class='mdc-notched-outline'>
+			<span
+				class='mdc-notched-outline'
+				{{has-class-if
+					(or this.isFocused this.numCharacters)
+					'mdc-notched-outline--notched'
+				}}
+			>
 				<span class='mdc-notched-outline__leading'></span>
 				{{#if @label}}
 					<span class='mdc-notched-outline__notch'>
 						<span
 							class='mdc-floating-label'
+							{{has-class-if
+								(or this.isFocused this.numCharacters)
+								'mdc-floating-label--float-above'
+							}}
 							{{! Ensure id is present }}
 							{{requires-id ignore=true}}
 						>{{@label}}</span>
@@ -31,6 +42,10 @@
 			{{#if @label}}
 				<span
 					class='mdc-floating-label'
+					{{has-class-if
+						(or this.isFocused this.numCharacters)
+						'mdc-floating-label--float-above'
+					}}
 					{{! Ensure id is present }}
 					{{requires-id ignore=true}}
 				>{{@label}}</span>
@@ -70,6 +85,9 @@
 			{{on-args-change this.setupLineRipple @outlined}}
 			{{! React to input }}
 			{{on 'input' this.onInput}}
+			{{! React to focus / blur events }}
+			{{on 'focus' (fn this.setFocus true)}}
+			{{on 'blur' (fn this.setFocus false)}}
 			{{! Store reference to the element for DOM manipulation }}
 			{{store-element this.storeElement}}
 			{{! HTML attributes added in the calling template }}
@@ -92,29 +110,30 @@
 		{{/if}}
 
 		{{#unless @outlined}}
-			<span class='mdc-line-ripple'></span>
+			<span
+				class='mdc-line-ripple'
+				{{has-class-if this.isFocused 'mdc-line-ripple--active'}}
+			></span>
 		{{/unless}}
 	</label>
-	{{#if (or @status this.characterCount)}}
-		<div class='mdc-text-field-helper-line'>
-			{{#if @status}}
-				<div
-					class='mdc-text-field-helper-text'
-					{{! Ensure id is present }}
-					{{requires-id ignore=true}}
-					aria-hidden='true'
-				>
-					{{@status}}
-				</div>
-			{{/if}}
-
-			{{#if this.characterCount}}
-				<div
-					class='mdc-text-field-character-counter'
-				>{{this.numCharacters}}
-					/
-					{{this.characterCount}}</div>
-			{{/if}}
+	<div class='mdc-text-field-helper-line'>
+		<div
+			class='mdc-text-field-helper-text'
+			{{has-class-if
+				@status
+				'mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg'
+			}}
+			{{! Ensure id is present }}
+			{{requires-id ignore=true}}
+			aria-hidden='true'
+		>
+			{{@status}}
 		</div>
-	{{/if}}
+
+		{{#if this.characterCount}}
+			<div class='mdc-text-field-character-counter'>{{this.numCharacters}}
+				/
+				{{this.characterCount}}</div>
+		{{/if}}
+	</div>
 </div>

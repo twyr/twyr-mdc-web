@@ -1,0 +1,5 @@
+
+	.mdc-notched-outline.mdc-notched-outline--notched .mdc-notched-outline__notch {
+		border-right: 0;
+		border-left: 0;
+	}

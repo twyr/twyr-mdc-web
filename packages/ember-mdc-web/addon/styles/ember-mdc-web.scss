@@ -137,6 +137,7 @@
 @use '@material/line-ripple/mdc-line-ripple';
 @use '@material/notched-outline/mdc-notched-outline';
 @use '@material/textfield/mdc-text-field';
+@use './emdc-text-field.css';
 
 /* Top Bar component */
 @use '@material/top-app-bar/mdc-top-app-bar';
