@@ -183,7 +183,7 @@
 	/>
 
 	<MdcTabBar
-		class='mt-4'
+		class='my-4'
 		@fill={{false}}
 		@align='center'
 		@indicatorLength='content'
@@ -206,6 +206,19 @@
 		<TabBar.Tab @icon='crowd' @label='Tab #11' />
 		<TabBar.Tab @icon='crowd' @label='Tab #12' />
 	</MdcTabBar>
+
+	<MdcTextField
+		@outlined={{true}}
+		@fullWidth={{false}}
+		@label='Hello, world'
+		@palette={{this.palette}}
+		@status='Testing the text field'
+		@leadingIcon='crowd'
+		@trailingIcon='thumb-up'
+		maxlength='20'
+		value='Yoo, hoo, hoo'
+		required
+	/>
 	{{outlet}}
 </div>
 
