@@ -19,6 +19,12 @@
     bottom: 0px;
     left: 0px
 }
+.block {
+    display: block
+}
+.inline-block {
+    display: inline-block
+}
 .flex {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -60,6 +66,10 @@
 .px-12 {
     padding-left: 3rem;
     padding-right: 3rem
+}
+.px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem
 }
 .underline {
     -webkit-text-decoration-line: underline;

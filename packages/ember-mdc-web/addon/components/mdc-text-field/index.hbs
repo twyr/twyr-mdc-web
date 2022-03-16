@@ -1,14 +1,22 @@
 {{! template-lint-disable no-nested-interactive }}
-<div class='text-field-container'>
+<div
+	class='text-field-container'
+	{{has-class-if @fullWidth 'block' 'inline-block'}}
+>
 	<label
-		class='mdc-text-field relative w-full'
+		class='mdc-text-field'
 		{{! Add styling classes as necessary }}
 		{{has-class-if
 			@outlined
 			'mdc-text-field--outlined'
 			'mdc-text-field--filled'
 		}}
+		{{has-class-if @fullWidth 'w-full mdc-text-field--fullwidth'}}
 		{{has-class-if this.isFocused 'mdc-text-field--focused'}}
+		{{has-class-if
+			(or this.isFocused this.numCharacters)
+			'mdc-text-field--label-floating px-2'
+		}}
 		{{has-class-if (not @label) 'mdc-text-field--no-label'}}
 		{{has-class-if @leadingIcon 'mdc-text-field--with-leading-icon'}}
 		{{has-class-if @trailingIcon 'mdc-text-field--with-trailing-icon'}}
@@ -78,7 +86,7 @@
 			{{! Monitor changes to disabled status }}
 			{{on-mutation
 				this.onAttributeMutation
-				attributeFilter=(array 'disabled' 'id' 'maxlength')
+				attributeFilter=(array 'disabled' 'id' 'maxlength' 'required')
 			}}
 			{{! Re-calculate colours as necessary }}
 			{{on-args-change this.recalcStyles @palette}}
@@ -117,7 +125,7 @@
 		{{/unless}}
 	</label>
 	<div class='mdc-text-field-helper-line'>
-		<div
+		<p
 			class='mdc-text-field-helper-text'
 			{{has-class-if
 				@status
@@ -128,7 +136,7 @@
 			aria-hidden='true'
 		>
 			{{@status}}
-		</div>
+		</p>
 
 		{{#if this.characterCount}}
 			<div class='mdc-text-field-character-counter'>{{this.numCharacters}}

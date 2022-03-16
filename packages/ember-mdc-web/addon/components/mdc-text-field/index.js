@@ -63,6 +63,19 @@ export default class MdcTextFieldComponent extends Component {
 			}
 		}
 
+		if (mutationRecord?.attributeName === 'required') {
+			if (this.#element?.hasAttribute?.('required'))
+				this.#element
+					?.closest?.('label.mdc-text-field')
+					?.querySelector?.('span.mdc-floating-label')
+					?.classList?.add?.('mdc-floating-label--required');
+			else
+				this.#element
+					?.closest?.('label.mdc-text-field')
+					?.querySelector?.('span.mdc-floating-label')
+					?.classList?.remove?.('mdc-floating-label--required');
+		}
+
 		this?._fireEvent?.('statuschange');
 	}
 
@@ -143,6 +156,17 @@ export default class MdcTextFieldComponent extends Component {
 		} else {
 			this.characterCount = 0;
 		}
+
+		if (this.#element?.hasAttribute?.('required'))
+			this.#element
+				?.closest?.('label.mdc-text-field')
+				?.querySelector?.('span.mdc-floating-label')
+				?.classList?.add?.('mdc-floating-label--required');
+		else
+			this.#element
+				?.closest?.('label.mdc-text-field')
+				?.querySelector?.('span.mdc-floating-label')
+				?.classList?.remove?.('mdc-floating-label--required');
 
 		this.numCharacters = this.#element?.value?.length;
 		this?._fireEvent?.('init');
