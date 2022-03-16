@@ -85,8 +85,20 @@ export default class MdcTextFieldComponent extends Component {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
-		const rootElement = this.#element?.closest?.('label.mdc-text-field');
+		const rootElement = this.#element?.closest?.(
+			'div.text-field-container'
+		);
 		if (!rootElement) return;
+
+		// Step 1: Reset
+		rootElement?.style?.removeProperty?.('--mdc-text-field-color');
+
+		// Step 2: Style / Palette
+		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
+		rootElement?.style?.setProperty?.(
+			'--mdc-text-field-color',
+			`var(${paletteColour})`
+		);
 	}
 
 	@action
