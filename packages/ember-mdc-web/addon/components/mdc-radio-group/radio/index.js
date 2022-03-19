@@ -124,7 +124,7 @@ export default class MdcRadioGroupRadioComponent extends Component {
 				?.closest?.('div.mdc-radio')
 				?.classList?.remove?.('mdc-radio--disabled');
 
-			this.#mdcRipple?.activate?.();
+			// this.#mdcRipple?.activate?.();
 		}
 	}
 	// #endregion

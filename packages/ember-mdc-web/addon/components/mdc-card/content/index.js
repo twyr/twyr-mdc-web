@@ -43,7 +43,7 @@ export default class MdcCardContentComponent extends Component {
 		if (!this.#mdcRipple) return;
 
 		if (this?.args?.primaryAction) {
-			this.#mdcRipple?.activate?.();
+			// this.#mdcRipple?.activate?.();
 		} else {
 			this.#mdcRipple?.deactivate?.();
 		}

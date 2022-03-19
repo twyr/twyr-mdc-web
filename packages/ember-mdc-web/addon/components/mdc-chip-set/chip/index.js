@@ -147,7 +147,7 @@ export default class MdcChipsetChipComponent extends Component {
 				?.closest?.('span.mdc-evolution-chip')
 				?.classList?.remove?.('mdc-evolution-chip--disabled');
 
-			this.#mdcRipple?.activate?.();
+			// this.#mdcRipple?.activate?.();
 		}
 	}
 	// #endregion

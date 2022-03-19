@@ -94,7 +94,7 @@ export default class MdcTabBarComponent extends Component {
 		if (!this.#element) return;
 
 		if (!this.#tabs?.has?.(tab)) {
-			this.#debug?.(`Tab not registered: `, tab);
+			this.#debug?.(`_selectTab::Tab not registered: `, tab);
 			return;
 		}
 
@@ -109,6 +109,26 @@ export default class MdcTabBarComponent extends Component {
 
 		const tabControls = this.#tabs?.get?.(tab);
 		tabControls?.select?.(true);
+
+		// See if we need to bring this tab into the viewport
+		// And if we do, scroll appropriately
+		const scrollAreaElement = this.#element?.querySelector?.(
+			'div.mdc-tab-scroller__scroll-area'
+		);
+		const scrollAreaRect = scrollAreaElement?.getBoundingClientRect?.();
+		const tabRect = tab?.getBoundingClientRect?.();
+
+		// TODO: What do we do if both conditions are right?
+		// Small screen, and a huge tab???
+		if (tabRect?.left < scrollAreaRect?.left) {
+			scrollAreaElement.scrollLeft -= tabRect.width;
+			this?._setupInitState?.();
+		}
+
+		if (tabRect?.right > scrollAreaRect?.right) {
+			scrollAreaElement.scrollLeft += tabRect.width;
+			this?._setupInitState?.();
+		}
 
 		this?._fireEvent?.('statuschange', {
 			selected: tab?.getAttribute?.('id'),

@@ -130,7 +130,7 @@ export default class MdcCheckboxComponent extends Component {
 				?.closest?.('div.mdc-checkbox')
 				?.classList?.remove?.('mdc-checkbox--disabled');
 
-			this.#mdcRipple?.activate?.();
+			// this.#mdcRipple?.activate?.();
 		}
 	}
 	// #endregion

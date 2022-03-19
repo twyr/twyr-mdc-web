@@ -144,8 +144,8 @@ export default class MdcTextFieldComponent extends Component {
 				?.closest?.('label.mdc-text-field')
 				?.classList?.remove?.('mdc-text-field--disabled');
 
-			this.#mdcLineRipple?.activate?.();
-			this.#mdcRipple?.activate?.();
+			// this.#mdcLineRipple?.activate?.();
+			// this.#mdcRipple?.activate?.();
 		}
 
 		this.characterCount = 0;

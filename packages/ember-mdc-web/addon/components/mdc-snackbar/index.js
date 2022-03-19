@@ -187,8 +187,8 @@ export default class MdcSnackbarComponent extends Component {
 			this.#mdcActionRipple?.deactivate?.();
 			this.#mdcRipple?.deactivate?.();
 		} else {
-			this.#mdcRipple?.activate?.();
-			this.#mdcActionRipple?.activate?.();
+			// this.#mdcRipple?.activate?.();
+			// this.#mdcActionRipple?.activate?.();
 		}
 	}
 	// #endregion

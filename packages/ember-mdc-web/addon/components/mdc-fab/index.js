@@ -112,7 +112,7 @@ export default class MdcFabComponent extends Component {
 		if (this.#element?.disabled) {
 			this.#mdcRipple?.deactivate?.();
 		} else {
-			this.#mdcRipple?.activate?.();
+			// this.#mdcRipple?.activate?.();
 		}
 	}
 	// #endregion

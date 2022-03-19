@@ -30,7 +30,7 @@ export default class MdcTabBarTabComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 
-		this?.args?.tabbarControls?.registerItem?.(this.#element, null, false);
+		this?.args?.tabbarControls?.registerTab?.(this.#element, null, false);
 		this.#controls = {};
 
 		this.#mdcRipple = null;
@@ -44,7 +44,7 @@ export default class MdcTabBarTabComponent extends Component {
 	@action
 	onClick(event) {
 		this.#debug?.(`onClick: `, event);
-		this?.args?.tabbarControls?.selectItem?.(this.#element, true);
+		this?.args?.tabbarControls?.selectTab?.(this.#element, true);
 	}
 	// #endregion
 
@@ -87,7 +87,7 @@ export default class MdcTabBarTabComponent extends Component {
 		this?._setupInitState?.();
 		this?.recalcStyles?.();
 
-		this?.args?.tabbarControls?.registerItem?.(
+		this?.args?.tabbarControls?.registerTab?.(
 			this.#element,
 			this.#controls,
 			true
@@ -95,7 +95,10 @@ export default class MdcTabBarTabComponent extends Component {
 
 		if (!this.#element?.hasAttribute?.('selected')) return;
 
-		this?.args?.tabbarControls?.selectItem?.(this.#element, true);
+		// TODO: Replace with run.later
+		setTimeout(() => {
+			this?.args?.tabbarControls?.selectTab?.(this.#element, true);
+		}, 1000);
 	}
 	// #endregion
 
@@ -122,7 +125,7 @@ export default class MdcTabBarTabComponent extends Component {
 		if (this.#element?.disabled) {
 			this.#mdcRipple?.deactivate?.();
 		} else {
-			this.#mdcRipple?.activate?.();
+			// this.#mdcRipple?.activate?.();
 		}
 	}
 	// #endregion
