@@ -8,6 +8,9 @@ export default class MdcBackdropComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -21,10 +24,15 @@ export default class MdcBackdropComponent extends Component {
 	// #region DOM Event Handlers
 	// #endregion
 
+	// #region Modifier Callbacks
+	// #endregion
+
+	// #region Controls
+	// #endregion
+
 	// #region Computed Properties
 	get positionClass() {
-		const posClass = this?.args?.fullScreen ? 'fixed' : 'absolute';
-		return posClass;
+		return this?.args?.fullScreen ? 'fixed' : 'absolute';
 	}
 	// #endregion
 

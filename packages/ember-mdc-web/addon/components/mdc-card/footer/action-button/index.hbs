@@ -1,8 +1,6 @@
 <button
 	type='button'
 	class='mdc-button mdc-card__action mdc-card__action--button'
-	{{! Tooltip stuff }}
-	title={{@title}}
 	{{! Add styling classes as necessary }}
 	{{has-class-if @dense 'mdc-button--dense'}}
 	{{has-class-if (eq @style 'outlined') 'mdc-button--outlined'}}
@@ -11,6 +9,8 @@
 	{{has-class-if @startIcon 'mdc-button--icon-leading'}}
 	{{has-class-if @endIcon 'mdc-button--icon-trailing'}}
 	{{has-class-if (eq @shape 'rounded') 'rounded-full'}}
+	{{! Tooltip stuff }}
+	title={{@title}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette @style @shape}}
 	{{! Store reference to the element for DOM manipulation }}

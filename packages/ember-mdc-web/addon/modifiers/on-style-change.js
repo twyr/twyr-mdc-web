@@ -1,7 +1,7 @@
 import Modifier from 'ember-modifier';
 import debugLogger from 'ember-debug-logger';
 
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 
 export default class OnStyleChangeModifier extends Modifier {
 	// #region Accessed Services

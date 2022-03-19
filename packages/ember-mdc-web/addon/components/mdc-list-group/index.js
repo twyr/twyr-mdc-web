@@ -8,6 +8,9 @@ export default class MdcListGroupComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
 	controls = {};
 	// #endregion
 
@@ -26,33 +29,27 @@ export default class MdcListGroupComponent extends Component {
 		this.#debug?.(`willDestroy`);
 
 		this.#items?.clear?.();
+		this.controls = {};
+
+		this.#element = null;
 		super.willDestroy(...arguments);
 	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?._fireEvent?.({
-			name: 'init'
-		});
+		this?._fireEvent?.('init');
 	}
 	// #endregion
 
-	// #region Computed Properties
-	get headerComponent() {
-		return this?._getComputedSubcomponent?.('header');
-	}
-
-	get listComponent() {
-		return this?._getComputedSubcomponent?.('list');
-	}
-	// #endregion
-
-	// #region Private Methods
+	// #region Controls
 	@action
 	_registerItem(item, controls, register) {
 		this.#debug?.(`_registerItem: `, item, controls, register);
@@ -86,28 +83,36 @@ export default class MdcListGroupComponent extends Component {
 		listItemControls?.select?.(selected);
 
 		const eventData = {
-			name: 'select',
 			selected: selected ? item?.getAttribute?.('id') : null,
 			unselected: selectedItem?.getAttribute?.('id')
 		};
-		this?._fireEvent?.(eventData);
+		this?._fireEvent?.('select', eventData);
+	}
+	// #endregion
+
+	// #region Computed Properties
+	get headerComponent() {
+		return this?._getComputedSubcomponent?.('header');
 	}
 
-	@action
-	_fireEvent(data) {
-		this.#debug?.(`_fireEvent`);
+	get listComponent() {
+		return this?._getComputedSubcomponent?.('list');
+	}
+	// #endregion
+
+	// #region Private Methods
+	_fireEvent(name, options) {
+		this.#debug?.(`_fireEvent::${name}: `, options);
 		if (!this.#element) return;
 
-		const thisEvent = new CustomEvent(data?.name, {
+		const status = Object?.assign?.({}, options);
+		const thisEvent = new CustomEvent(name, {
 			detail: {
 				id: this.#element?.getAttribute?.('id'),
 				controls: {
 					selectItem: this?._selectItem
 				},
-				status: {
-					selected: data?.selected,
-					unselected: data?.unselected
-				}
+				status: status
 			}
 		});
 
@@ -119,7 +124,10 @@ export default class MdcListGroupComponent extends Component {
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(`${componentName}-component`, subComponent);
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
 	}
 	// #endregion

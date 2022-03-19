@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import debugLogger from 'ember-debug-logger';
 
-export default class AlertManagerService extends Service {
+export default class SnackbarManagerService extends Service {
 	// #region Accessed Services
 	// #endregion
 
@@ -31,7 +31,7 @@ export default class AlertManagerService extends Service {
 
 	// #region Public Methods
 	register(snackbar, controls, register) {
-		this.#debug(`register`);
+		this.#debug(`register: ${register}`);
 
 		if (!register) {
 			this.#snackBars?.delete?.(snackbar);
@@ -74,7 +74,7 @@ export default class AlertManagerService extends Service {
 			JSON?.stringify?.([...this.#queuedAlerts], null, '\t')
 		);
 
-		this?._showAlert?.(options.snackBarId);
+		this?._showAlert?.(options?.snackBarId);
 	}
 
 	notifyActionClose(snackBarId) {
@@ -125,7 +125,7 @@ export default class AlertManagerService extends Service {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('service:alert-manager');
+	#debug = debugLogger('service:snackbar-manager');
 	#snackBars = new Map();
 
 	#queuedAlerts = new Map();

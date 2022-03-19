@@ -12,6 +12,9 @@ export default class MdcChipsetChipComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -20,41 +23,34 @@ export default class MdcChipsetChipComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#mdcRipple = null;
+		this.#element = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
 	@action
-	onPrimaryAction(event) {
-		this.#debug?.(`onPrimaryAction: `, event);
-		if (!this.#element) return;
-		if (!this.#primaryActionElement) return;
-
-		this?._fireEvent?.('action');
-	}
-
-	@action
 	onClickToClose(event) {
 		this.#debug?.(`onClickToClose: `, event);
 		if (!this.#element) return;
-		if (!this.#primaryActionElement) return;
 
 		this?._fireEvent?.('close');
 	}
+	// #endregion
 
+	// #region Modifier Callbacks
 	@action
 	onAttributeMutation(mutationEntry) {
 		this.#debug?.(`onAttributeMutation: `, mutationEntry);
 		if (!this.#element) return;
-		if (!this.#primaryActionElement) return;
 
-		if (mutationEntry?.target?.disabled) {
-			this.#element?.classList?.add?.('mdc-evolution-chip--disabled');
-		} else {
-			this.#element?.classList?.remove?.('mdc-evolution-chip--disabled');
-		}
-
+		this?._setupInitState?.();
 		this?.recalcStyles?.();
-		this?._fireEvent?.('statuschange');
 	}
 
 	@action
@@ -62,21 +58,29 @@ export default class MdcChipsetChipComponent extends Component {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
-		this.#element?.style?.removeProperty?.(
+		const rootElement = this.#element?.closest?.('span.mdc-evolution-chip');
+		if (!rootElement) {
+			this.#debug?.(`recalcStyles: root element not found... aborting`);
+			return;
+		}
+
+		// Step 1: Reset
+		// TODO: Optimize this by unsetting only those properties that have not been utilitized
+		// in the current scenario
+
+		rootElement?.style?.removeProperty?.(
 			'--mdc-evolution-chip-ripple-color'
 		);
-		this.#element?.style?.removeProperty?.(
+		rootElement?.style?.removeProperty?.(
 			'--mdc-evolution-chip-background-color'
 		);
-		this.#element?.style?.removeProperty?.('--mdc-evolution-chip-color');
+		rootElement?.style?.removeProperty?.('--mdc-evolution-chip-color');
 
-		if (
-			this.#element?.classList?.contains?.('mdc-evolution-chip--disabled')
-		)
+		// Stop if the element is disabled
+		if (rootElement?.classList?.contains?.('mdc-evolution-chip--disabled'))
 			return;
 
-		if (!this?.args?.palette) return;
-
+		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${
 			this?.args?.palette ?? 'secondary'
 		}`;
@@ -84,15 +88,15 @@ export default class MdcChipsetChipComponent extends Component {
 			this?.args?.palette ?? 'secondary'
 		}`;
 
-		this.#element?.style?.setProperty?.(
+		rootElement?.style?.setProperty?.(
 			'--mdc-evolution-chip-ripple-color',
 			`var(${textColour})`
 		);
-		this.#element?.style?.setProperty?.(
+		rootElement?.style?.setProperty?.(
 			'--mdc-evolution-chip-background-color',
 			`var(${paletteColour})`
 		);
-		this.#element?.style?.setProperty?.(
+		rootElement?.style?.setProperty?.(
 			'--mdc-evolution-chip-color',
 			`var(${textColour})`
 		);
@@ -101,19 +105,16 @@ export default class MdcChipsetChipComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
+
 		this.#element = element;
+		this.#mdcRipple = new MDCRipple(this.#element);
 
+		this?._setupInitState?.();
 		this?.recalcStyles?.();
-		this?._fireEvent?.('init');
 	}
+	// #endregion
 
-	@action
-	storePrimaryActionElement(actionElement) {
-		this.#debug?.(`storePrimaryActionElement: `, actionElement);
-		this.#primaryActionElement = actionElement;
-
-		MDCRipple?.attachTo?.(this.#primaryActionElement);
-	}
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
@@ -127,22 +128,27 @@ export default class MdcChipsetChipComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
 	_fireEvent(name) {
-		this.#debug?.(`_fireEvent`);
+		this.#debug?.(`_fireEvent: ${name}`);
 		if (!this.#element) return;
 
-		const thisEvent = new CustomEvent(name, {
-			detail: {
-				id: this.#element?.getAttribute?.('id'),
-				status: {
-					disabled:
-						this.#primaryActionElement?.hasAttribute?.('disabled')
-				}
-			}
-		});
+		const thisEvent = new CustomEvent(name);
+		this.#element?.dispatchEvent?.(thisEvent);
+	}
 
-		this.#primaryActionElement?.dispatchEvent?.(thisEvent);
+	_setupInitState() {
+		if (this.#element?.hasAttribute?.('disabled')) {
+			this.#mdcRipple?.deactivate?.();
+			this.#element
+				?.closest?.('span.mdc-evolution-chip')
+				?.classList?.add?.('mdc-evolution-chip--disabled');
+		} else {
+			this.#element
+				?.closest?.('span.mdc-evolution-chip')
+				?.classList?.remove?.('mdc-evolution-chip--disabled');
+
+			this.#mdcRipple?.activate?.();
+		}
 	}
 	// #endregion
 
@@ -151,7 +157,8 @@ export default class MdcChipsetChipComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-chip-set-chip');
+
 	#element = null;
-	#primaryActionElement = null;
+	#mdcRipple = null;
 	// #endregion
 }

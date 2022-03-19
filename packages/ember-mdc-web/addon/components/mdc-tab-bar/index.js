@@ -10,9 +10,11 @@ export default class MdcTabBarComponent extends Component {
 
 	// #region Tracked Attributes
 	@tracked scrollEnabled = false;
-	@tracked rightScrollDisabled = false;
-	@tracked leftScrollDisabled = false;
+	@tracked leftScrollEnabled = false;
+	@tracked rightScrollEnabled = false;
+	// #endregion
 
+	// #region Untracked Public Fields
 	controls = {};
 	// #endregion
 
@@ -21,8 +23,8 @@ export default class MdcTabBarComponent extends Component {
 		super(...arguments);
 		this.#debug?.(`constructor`);
 
-		this.controls.registerItem = this?._registerItem;
-		this.controls.selectItem = this?._selectItem;
+		this.controls.registerTab = this?._registerTab;
+		this.controls.selectTab = this?._selectTab;
 	}
 	// #endregion
 
@@ -30,43 +32,38 @@ export default class MdcTabBarComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 
-		this.#items?.clear?.();
+		this.#tabs?.clear?.();
+		this.#element = null;
+
 		super.willDestroy(...arguments);
 	}
 	// #endregion
 
 	// #region DOM Event Handlers
 	@action
-	shouldEnableScroll() {
-		this.#debug?.(`shouldEnableScroll`);
-		if (!this.#element) return;
-
-		const scrollAreaDimensions = this.#element
-			?.querySelector?.('div.mdc-tab-scroller__scroll-area')
-			?.getBoundingClientRect?.();
-
-		const scrollContentDimensions = this.#element
-			?.querySelector?.('div.mdc-tab-scroller__scroll-content')
-			?.getBoundingClientRect?.();
-
-		const scrollEnabled =
-			scrollAreaDimensions?.width < scrollContentDimensions?.width;
-		if (scrollEnabled === this.scrollEnabled) return;
-
-		this.#debug?.(
-			`shouldEnableScroll:\nScroll Area Width ${scrollAreaDimensions?.width}\nScroll Content Width ${scrollContentDimensions?.width}`
-		);
-
-		this.scrollEnabled = scrollEnabled;
-		this.#debug?.(`shouldEnableScroll: ${this.scrollEnabled}`);
-	}
-
-	@action
 	handleScroll(direction) {
 		this.#debug?.(`handleScroll: ${direction}`);
 
-		if (direction === 'left') this?._scrollLeft?.();
-		else this?._scrollRight?.();
+		if (direction === 'left') {
+			this?._scrollLeft?.();
+		} else {
+			this?._scrollRight?.();
+		}
+	}
+	// #endregion
+
+	// #region Modifier Callbacks
+	@action
+	shouldEnableScroll() {
+		if (!this.#element) return;
+
+		this.scrollEnabled = this?._shouldEnableScrollArea?.();
+		this.leftScrollEnabled = this?._shouldEnableScrollLeft?.();
+		this.rightScrollEnabled = this?._shouldEnableScrollRight?.();
+
+		this.#debug?.(
+			`shouldEnableScroll: ${this.scrollEnabled}, LeftScroll Enabled: ${this?.leftScrollEnabled}, Right Scroll Enabled: ${this?.rightScrollEnabled}`
+		);
 	}
 
 	@action
@@ -74,7 +71,49 @@ export default class MdcTabBarComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
+		this?._setupInitState?.();
 		this?._fireEvent?.('init');
+	}
+	// #endregion
+
+	// #region Controls
+	@action
+	_registerTab(tab, controls, register) {
+		this.#debug?.(`_registerTab: `, tab, controls, register);
+
+		if (!register) {
+			this.#tabs?.delete?.(tab);
+		} else {
+			this.#tabs?.set?.(tab, controls);
+		}
+	}
+
+	@action
+	_selectTab(tab) {
+		this.#debug?.(`_selectTab: `, tab);
+		if (!this.#element) return;
+
+		if (!this.#tabs?.has?.(tab)) {
+			this.#debug?.(`Tab not registered: `, tab);
+			return;
+		}
+
+		const selectedTab = this.#element?.querySelector?.(
+			'button.mdc-tab--active'
+		);
+
+		if (selectedTab) {
+			const selectedTabControls = this.#tabs?.get?.(selectedTab);
+			selectedTabControls?.select?.(false);
+		}
+
+		const tabControls = this.#tabs?.get?.(tab);
+		tabControls?.select?.(true);
+
+		this?._fireEvent?.('statuschange', {
+			selected: tab?.getAttribute?.('id'),
+			unselected: selectedTab?.getAttribute?.('id')
+		});
 	}
 	// #endregion
 
@@ -85,64 +124,16 @@ export default class MdcTabBarComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_registerItem(item, controls, register) {
-		this.#debug?.(`_registerItem: `, item, controls, register);
-
-		if (!register) {
-			this.#items?.delete?.(item);
-		} else {
-			this.#items?.set?.(item, controls);
-		}
-	}
-
-	@action
-	_selectItem(item) {
-		this.#debug?.(`_selectItem: `, item);
-		if (!this.#element) return;
-
-		if (!this.#items?.has?.(item)) {
-			this.#debug?.(`Item not registered: `, item);
-			return;
-		}
-
-		const selectedTab = this.#element?.querySelector?.(
-			'button.mdc-tab--active'
-		);
-
-		if (selectedTab) {
-			const selectedTabControls = this.#items?.get?.(selectedTab);
-			selectedTabControls?.select?.(false);
-		}
-
-		const tabControls = this.#items?.get?.(item);
-		tabControls?.select?.(true);
-
-		this?._fireEvent?.('statuschange', {
-			selected: item?.getAttribute?.('id'),
-			unselected: selectedTab?.getAttribute?.('id')
-		});
-	}
-
-	@action
 	_fireEvent(name, options) {
-		this.#debug?.(`_fireEvent`);
+		this.#debug?.(`_fireEvent::${name}: `, options);
 		if (!this.#element) return;
 
-		const status = Object?.assign?.(
-			{},
-			{
-				selected: options?.selected,
-				unselected: options?.unselected
-			},
-			options
-		);
-
+		const status = Object?.assign?.({}, options);
 		const thisEvent = new CustomEvent(name, {
 			detail: {
 				id: this.#element?.getAttribute?.('id'),
 				controls: {
-					selectItem: this?._selectItem
+					selectTab: this?._selectTab
 				},
 				status: status
 			}
@@ -152,6 +143,64 @@ export default class MdcTabBarComponent extends Component {
 	}
 
 	_scrollLeft() {
+		this.#debug?.(`_scrollLeft`);
+
+		const lastInvisibleTabRect = this?._shouldEnableScrollLeft?.();
+		this.leftScrollEnabled = !!lastInvisibleTabRect;
+
+		this.#debug?.(`_scrollLeft: ${this?.leftScrollEnabled}`);
+		if (!this?.leftScrollEnabled) return;
+
+		const scrollAreaElement = this.#element?.querySelector?.(
+			'div.mdc-tab-scroller__scroll-area'
+		);
+		scrollAreaElement.scrollLeft -= lastInvisibleTabRect.width;
+
+		this?._setupInitState?.();
+	}
+
+	_scrollRight() {
+		this.#debug?.(`_scrollRight`);
+
+		const firstInvisibleTabRect = this?._shouldEnableScrollRight?.();
+		this.rightScrollEnabled = !!firstInvisibleTabRect;
+
+		this.#debug?.(`_scrollRight: ${this?.rightScrollEnabled}`);
+		if (!this?.rightScrollEnabled) return;
+
+		const scrollAreaElement = this.#element?.querySelector?.(
+			'div.mdc-tab-scroller__scroll-area'
+		);
+		scrollAreaElement.scrollLeft += firstInvisibleTabRect.width;
+
+		this?._setupInitState?.();
+	}
+
+	_setupInitState() {
+		this.#debug?.(`_setupInitState`);
+
+		this.scrollEnabled = this?._shouldEnableScrollArea?.();
+		this.leftScrollEnabled = this?._shouldEnableScrollLeft?.();
+		this.rightScrollEnabled = this?._shouldEnableScrollRight?.();
+	}
+
+	_shouldEnableScrollArea() {
+		const scrollAreaDimensions = this.#element
+			?.querySelector?.('div.mdc-tab-scroller__scroll-area')
+			?.getBoundingClientRect?.();
+
+		const scrollContentDimensions = this.#element
+			?.querySelector?.('div.mdc-tab-scroller__scroll-content')
+			?.getBoundingClientRect?.();
+
+		const shouldEnable =
+			scrollAreaDimensions?.width < scrollContentDimensions?.width;
+		this.#debug?.(`_shouldEnableScrollArea: ${shouldEnable}`);
+
+		return shouldEnable;
+	}
+
+	_shouldEnableScrollLeft() {
 		const scrollAreaElement = this.#element?.querySelector?.(
 			'div.mdc-tab-scroller__scroll-area'
 		);
@@ -164,19 +213,16 @@ export default class MdcTabBarComponent extends Component {
 			const thisTab = tabs[idx];
 			const tabRect = thisTab?.getBoundingClientRect?.();
 
-			if (tabRect?.left <= scrollAreaRect?.left) {
-				lastInvisibleTabRect = tabRect;
-				continue;
-			}
+			if (tabRect?.left >= scrollAreaRect?.left) break;
 
-			break;
+			lastInvisibleTabRect = tabRect;
 		}
 
-		if (!lastInvisibleTabRect) return;
-		scrollAreaElement.scrollLeft -= lastInvisibleTabRect.width;
+		this.#debug?.(`_shouldEnableScrollLeft: ${!!lastInvisibleTabRect}`);
+		return lastInvisibleTabRect;
 	}
 
-	_scrollRight() {
+	_shouldEnableScrollRight() {
 		const scrollAreaElement = this.#element?.querySelector?.(
 			'div.mdc-tab-scroller__scroll-area'
 		);
@@ -185,18 +231,17 @@ export default class MdcTabBarComponent extends Component {
 		let firstInvisibleTabRect = null;
 
 		const tabs = scrollAreaElement?.querySelectorAll?.('button.mdc-tab');
-		for (let idx = 0; idx < tabs?.length; idx++) {
+		for (let idx = tabs?.length - 1; idx >= 0; idx--) {
 			const thisTab = tabs[idx];
 			const tabRect = thisTab?.getBoundingClientRect?.();
 
-			if (tabRect?.right <= scrollAreaRect?.right) continue;
+			if (tabRect?.right <= scrollAreaRect?.right) break;
 
 			firstInvisibleTabRect = tabRect;
-			break;
 		}
 
-		if (!firstInvisibleTabRect) return;
-		scrollAreaElement.scrollLeft += firstInvisibleTabRect.width;
+		this.#debug?.(`_shouldEnableScrollRight: ${!!firstInvisibleTabRect}`);
+		return firstInvisibleTabRect;
 	}
 
 	_getComputedSubcomponent(componentName) {
@@ -204,7 +249,10 @@ export default class MdcTabBarComponent extends Component {
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(`${componentName}-component`, subComponent);
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
 	}
 	// #endregion
@@ -219,6 +267,6 @@ export default class MdcTabBarComponent extends Component {
 	#debug = debugLogger('component:mdc-tab-bar');
 
 	#element = null;
-	#items = new Map();
+	#tabs = new Map();
 	// #endregion
 }

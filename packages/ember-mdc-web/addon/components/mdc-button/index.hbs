@@ -1,79 +1,37 @@
-{{#if @href}}
-	<a
-		type='button'
-		class='mdc-button'
-		{{! Tooltip stuff }}
-		title={{@title}}
-		{{! Navigation stuff }}
-		href={{@href}}
-		{{! Add styling classes as necessary }}
-		{{has-class-if @dense 'mdc-button--dense'}}
-		{{has-class-if (eq @style 'outlined') 'mdc-button--outlined'}}
-		{{has-class-if (eq @style 'raised') 'mdc-button--raised'}}
-		{{has-class-if (eq @style 'flat') 'mdc-button--unelevated'}}
-		{{has-class-if @startIcon 'mdc-button--icon-leading'}}
-		{{has-class-if @endIcon 'mdc-button--icon-trailing'}}
-		{{has-class-if (eq @shape 'rounded') 'rounded-full'}}
-		{{! Re-calculate colours as necessary }}
-		{{on-args-change this.recalcStyles @palette @style @shape}}
-		{{! Store reference to the element for DOM manipulation }}
-		{{store-element this.storeElement}}
-		{{! HTML attributes added in the calling template }}
-		...attributes
-	>
-		<span class='mdc-button__ripple'></span>
-		{{#if @startIcon}}
-			<MdcIcon
-				class='mdc-button__icon'
-				@icon={{@startIcon}}
-				aria-hidden='true'
-			/>
-		{{/if}}
-		<span class='mdc-button__label'>{{@text}}</span>
-		{{#if @endIcon}}
-			<MdcIcon
-				class='mdc-button__icon'
-				@icon={{@endIcon}}
-				aria-hidden='true'
-			/>
-		{{/if}}
-	</a>
-{{else}}
-	<button
-		type='button'
-		class='mdc-button'
-		{{! Tooltip stuff }}
-		title={{@title}}
-		{{! Add styling classes as necessary }}
-		{{has-class-if @dense 'mdc-button--dense'}}
-		{{has-class-if (eq @style 'outlined') 'mdc-button--outlined'}}
-		{{has-class-if (eq @style 'raised') 'mdc-button--raised'}}
-		{{has-class-if (eq @style 'flat') 'mdc-button--unelevated'}}
-		{{has-class-if @startIcon 'mdc-button--icon-leading'}}
-		{{has-class-if @endIcon 'mdc-button--icon-trailing'}}
-		{{has-class-if (eq @shape 'rounded') 'rounded-full'}}
-		{{! Re-calculate colours as necessary }}
-		{{on-args-change this.recalcStyles @palette @style @shape}}
-		{{! Store reference to the element for DOM manipulation }}
-		{{store-element this.storeElement}}
-		{{! HTML attributes added in the calling template }}
-		...attributes
-	>
-		<span class='mdc-button__ripple'></span>
-		{{#if @startIcon}}
-			<MdcIcon
-				class='mdc-button__icon'
-				@icon={{@startIcon}}
-				aria-hidden='true'
-			/>
-		{{/if}}
-		<span class='mdc-button__label'>{{@text}}</span>
-		{{#if @endIcon}}
-			<MdcIcon
-				class='mdc-button__icon'
-				@icon={{@endIcon}}
-				aria-hidden='true'
-			/>
-		{{/if}}
-	</button>
-{{/if}}
+<button
+	type='button'
+	class='mdc-button'
+	{{! Add styling classes as necessary }}
+	{{has-class-if @dense 'mdc-button--dense'}}
+	{{has-class-if (eq @style 'outlined') 'mdc-button--outlined'}}
+	{{has-class-if (eq @style 'raised') 'mdc-button--raised'}}
+	{{has-class-if (eq @style 'flat') 'mdc-button--unelevated'}}
+	{{has-class-if @leadingIcon 'mdc-button--icon-leading'}}
+	{{has-class-if @trailingIcon 'mdc-button--icon-trailing'}}
+	{{has-class-if (eq @shape 'rounded') 'rounded-full'}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation this.onAttributeMutation attributeFilter=(array 'disabled')}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette @style @shape}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<span class='mdc-button__ripple'></span>
+	{{#if @leadingIcon}}
+		<MdcIcon
+			class='mdc-button__icon'
+			@icon={{@leadingIcon}}
+			aria-hidden='true'
+		/>
+	{{/if}}
+	<span class='mdc-button__label'>{{@text}}</span>
+	{{#if @trailingIcon}}
+		<MdcIcon
+			class='mdc-button__icon'
+			@icon={{@trailingIcon}}
+			aria-hidden='true'
+		/>
+	{{/if}}
+</button>

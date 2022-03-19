@@ -2,10 +2,12 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class MdcBannerComponent extends Component {
 	// #region Accessed Services
+	@service('bannerManager') bannerManager;
 	// #endregion
 
 	// #region Tracked Attributes
@@ -19,6 +21,11 @@ export default class MdcBannerComponent extends Component {
 
 	@tracked primaryActionLabel = null;
 	@tracked secondaryActionLabel = null;
+
+	@tracked palette = null;
+	// #endregion
+
+	// #region Untracked Public Fields
 	// #endregion
 
 	// #region Constructor
@@ -26,25 +33,51 @@ export default class MdcBannerComponent extends Component {
 		super(...arguments);
 		this.#debug?.(`constructor`);
 
-		this.#controls.open = this?._open;
+		this.#controls.show = this?._open;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#controls = {};
+		this.#primaryActionHandler = null;
+		this.#secondaryActionHandler = null;
+
+		this?.bannerManager?.register(
+			this.#element?.getAttribute?.('id'),
+			null,
+			false
+		);
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
 	@action
-	fireActionEvent(action) {
+	async fireActionEvent(action) {
 		this.#debug?.(`fireActionEvent: ${action}`);
+		this.open = false;
 
-		this?._open?.({
-			open: false
-		});
+		if (action === 'primary') {
+			await this.#primaryActionHandler?.();
+		}
 
-		this?._fireEvent?.(action);
+		if (action === 'secondary') {
+			await this.#secondaryActionHandler?.();
+		}
+
+		this.#primaryActionHandler = null;
+		this.#secondaryActionHandler = null;
+
+		this?.bannerManager?.notifyBannerClose?.(
+			this.#element?.getAttribute?.('id')
+		);
 	}
+	// #endregion
 
+	// #region Modifier Callbacks
 	@action
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
@@ -78,7 +111,35 @@ export default class MdcBannerComponent extends Component {
 		this.#element = element;
 
 		this?.recalcStyles?.();
-		this?._fireEvent?.('init');
+		this?.bannerManager?.register(
+			this.#element?.getAttribute?.('id'),
+			this.#controls,
+			true
+		);
+	}
+	// #endregion
+
+	// #region Controls
+	@action
+	_open(options) {
+		this.#debug?.(`_open: `, options);
+
+		this.centered = options?.centered ?? false;
+		this.stacked = options?.stacked ?? false;
+
+		this.text = options?.text;
+		this.icon = options?.icon;
+
+		this.primaryActionLabel = options?.primaryActionLabel;
+		this.secondaryActionLabel = options?.secondaryActionLabel;
+
+		this.palette = options?.palette;
+
+		this.#primaryActionHandler = options?.primaryActionHandler;
+		this.#secondaryActionHandler = options?.secondaryActionHandler;
+
+		this.open = options?.open ?? false;
+		this?.recalcStyles?.();
 	}
 	// #endregion
 
@@ -86,88 +147,18 @@ export default class MdcBannerComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_fireEvent(name) {
-		this.#debug?.(`_fireEvent`);
-		if (!this.#element) return;
-
-		const thisEvent = new CustomEvent(name, {
-			detail: {
-				id: this.#element?.getAttribute?.('id'),
-				controls: this.#controls,
-				status: {
-					open: this?.open,
-
-					centered: this?.centered,
-					stacked: this?.stacked,
-
-					text: this?.text,
-					icon: this?.icon,
-
-					primaryActionLabel: this?.primaryActionLabel,
-					secondaryActionLabel: this?.secondaryActionLabel
-				}
-			}
-		});
-
-		this.#element?.dispatchEvent?.(thisEvent);
-	}
-
-	@action
-	_open(options) {
-		this.#debug?.(`_open: `, options);
-
-		let shouldFire = false;
-
-		if (this?.centered !== options?.centered) {
-			this.centered = options?.centered ?? false;
-			shouldFire ||= true;
-		}
-
-		if (this?.stacked !== options?.stacked) {
-			this.stacked = options?.stacked ?? false;
-			shouldFire ||= true;
-		}
-
-		if (this?.text !== options?.text) {
-			this.text = options?.text;
-			shouldFire ||= true;
-		}
-
-		if (this?.icon !== options?.icon) {
-			this.icon = options?.icon;
-			shouldFire ||= true;
-		}
-
-		if (this?.primaryActionLabel !== options?.primaryActionLabel) {
-			this.primaryActionLabel = options?.primaryActionLabel;
-			shouldFire ||= true;
-		}
-
-		if (this?.secondaryActionLabel !== options?.secondaryActionLabel) {
-			this.secondaryActionLabel = options?.secondaryActionLabel;
-			shouldFire ||= true;
-		}
-
-		if (this?.open !== options?.open) {
-			this.open = options?.open ?? false;
-			shouldFire ||= true;
-		}
-
-		if (!shouldFire) return;
-
-		this?.recalcStyles?.();
-		this?._fireEvent?.('statuschange');
-	}
 	// #endregion
 
 	// #region Default Sub-components
 	// #endregion
 
-	// #region Private Attributes
+	// #region Private Fields
 	#debug = debugLogger('component:mdc-banner');
 
 	#element = null;
 	#controls = {};
+
+	#primaryActionHandler = null;
+	#secondaryActionHandler = null;
 	// #endregion
 }

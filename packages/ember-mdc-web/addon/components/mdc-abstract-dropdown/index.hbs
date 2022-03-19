@@ -1,0 +1,40 @@
+<div
+	class='mdc-abstract-dropdown'
+	{{requires-id}}
+	{{store-element this.storeElement}}
+	{{on-mutation this.didMutate attributeFilter=(array 'id' 'disabled')}}
+	...attributes
+>
+	{{#if (has-block 'trigger')}}
+		{{yield
+			(component
+				this.triggerComponent
+				dropdownControls=this.dropdownControls
+				dropdownStatus=this.status
+				registerWithDropdown=this.registerTriggerElement
+				reactEvent=@reactEvent
+			)
+			to='trigger'
+		}}
+	{{/if}}
+
+	{{#if
+		(and this.status.open (not this.status.disabled) (has-block 'content'))
+	}}
+		{{yield
+			(component
+				this.contentComponent
+				dropdownControls=this.dropdownControls
+				dropdownStatus=this.status
+				xAlign=@xAlign
+				xOffset=@xOffset
+				yAlign=@yAlign
+				yOffset=@yOffset
+				reactEvent=@reactEvent
+				matchTriggerWidth=@equalTriggerContentWidth
+				registerWithDropdown=this.registerContentElement
+			)
+			to='content'
+		}}
+	{{/if}}
+</div>

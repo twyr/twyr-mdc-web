@@ -11,6 +11,9 @@ export default class MdcButtonComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -19,9 +22,29 @@ export default class MdcButtonComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#mdcRipple = null;
+		this.#element = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
+	@action
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
+		if (!this.#element) return;
+
+		this?._setupInitState?.();
+		this?.recalcStyles?.();
+	}
+
 	@action
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
@@ -72,6 +95,9 @@ export default class MdcButtonComponent extends Component {
 		this.#element?.style?.removeProperty?.(
 			'--mdc-filled-button-container-color'
 		);
+
+		// Stop if the element is disabled
+		if (this.#element?.disabled) return;
 
 		// Step 2: Style / Palette for each button type
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -148,17 +174,29 @@ export default class MdcButtonComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		this.#element = element;
 
+		this.#element = element;
+		this.#mdcRipple = new MDCRipple(this.#element);
+
+		this?._setupInitState?.();
 		this?.recalcStyles?.();
-		MDCRipple?.attachTo?.(this.#element);
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
 	// #endregion
 
 	// #region Private Methods
+	_setupInitState() {
+		if (this.#element?.disabled) {
+			this.#mdcRipple?.deactivate?.();
+		} else {
+			this.#mdcRipple?.activate?.();
+		}
+	}
 	// #endregion
 
 	// #region Default Sub-components
@@ -166,6 +204,8 @@ export default class MdcButtonComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger?.('component:mdc-button');
+
 	#element = null;
+	#mdcRipple = null;
 	// #endregion
 }

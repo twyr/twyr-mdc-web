@@ -14,6 +14,8 @@
 	aria-checked={{this.checked}}
 	{{! React to clicks }}
 	{{on 'click' this.onClick}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation this.onAttributeMutation attributeFilter=(array 'disabled')}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
 	{{on-args-change this.recalcAria @singleSelect}}

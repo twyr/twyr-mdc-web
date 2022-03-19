@@ -10,6 +10,9 @@ export default class MdcSliderComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -18,9 +21,70 @@ export default class MdcSliderComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#element = null;
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	@action
+	onClick(event) {
+		this.#debug?.(`onClick: `, event);
+
+		this?._fireEvent?.('statuschange', {
+			newValue: this?._calcNewValue?.(event)
+		});
+	}
+
+	@action
+	startSliding(event) {
+		this.#debug?.(`startSliding: `, event);
+		if (!this.#element) return;
+
+		event.target.onpointermove = this?._onSlide?.bind?.(this);
+		event?.target?.setPointerCapture?.(event?.pointerId);
+	}
+
+	@action
+	stopSliding(event) {
+		this.#debug?.(`stopSliding: `, event);
+		if (!this.#element) return;
+
+		event?.target?.releasePointerCapture?.(event?.pointerId);
+		event.target.onpointermove = null;
+
+		this?._fireEvent?.('statuschange', {
+			newValue: this?._calcNewValue?.(event)
+		});
+	}
+
+	@action
+	setThumbHoverClass(enter, event) {
+		this.#debug?.(`setThumbHoverClass: ${enter}`);
+		if (enter)
+			event?.target?.classList?.add?.(
+				'mdc-slider__thumb--with-indicator'
+			);
+		else
+			event?.target?.classList?.remove?.(
+				'mdc-slider__thumb--with-indicator'
+			);
+	}
+	// #endregion
+
+	// #region Modifier Callbacks
+	@action
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
+		if (!this.#element) return;
+
+		this?._setupInitState?.();
+		this?.recalcStyles?.();
+	}
+
 	@action
 	recalcValue() {
 		this.#debug?.(`recalcValue`);
@@ -35,58 +99,6 @@ export default class MdcSliderComponent extends Component {
 			'--mdc-slider-value',
 			`${sliderValue}%`
 		);
-	}
-
-	@action
-	startSliding(event) {
-		this.#debug?.(`startSliding: `, event);
-		if (!this.#element) return;
-
-		event.target.onpointermove = this?._onSlide;
-		event?.target?.setPointerCapture?.(event?.pointerId);
-	}
-
-	@action
-	stopSliding(event) {
-		this.#debug?.(`stopSliding: `, event);
-		if (!this.#element) return;
-
-		event?.target?.releasePointerCapture?.(event?.pointerId);
-		event.target.onpointermove = null;
-	}
-
-	@action
-	onClick(event) {
-		this.#debug?.(`onClick: `, event);
-
-		this?._fireEvent?.('statuschange', {
-			newValue: this?._calcNewValue?.(event)
-		});
-	}
-
-	@action
-	onAttributeMutation(mutationRecord) {
-		this.#debug?.(`onAttributeMutation: `, mutationRecord);
-		if (!this.#element) return;
-
-		if (this.#element?.querySelector?.('input.mdc-slider__input')?.disabled)
-			this.#element?.classList?.add?.('mdc-slider--disabled');
-		else this.#element?.classList?.remove?.('mdc-slider--disabled');
-
-		this?._fireEvent?.('statuschange');
-	}
-
-	@action
-	setThumbHoverClass(enter, event) {
-		this.#debug?.(`setThumbHoverClass: ${enter}`);
-		if (enter)
-			event?.target?.classList?.add?.(
-				'mdc-slider__thumb--with-indicator'
-			);
-		else
-			event?.target?.classList?.remove?.(
-				'mdc-slider__thumb--with-indicator'
-			);
 	}
 
 	@action
@@ -106,6 +118,9 @@ export default class MdcSliderComponent extends Component {
 		this.#element?.style?.removeProperty?.(
 			'--mdc-slider-inactive-tick-color'
 		);
+
+		// Stop if the element is disabled
+		if (this.#element?.disabled) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -141,11 +156,13 @@ export default class MdcSliderComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
+		this?._setupInitState?.();
 		this?.recalcStyles?.();
 		this?.recalcValue?.();
-
-		this?._fireEvent?.('init');
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
@@ -156,10 +173,8 @@ export default class MdcSliderComponent extends Component {
 		if (value < this?.rangeLower) value = this?.rangeLower;
 		if (value > this?.rangeUpper) value = this?.rangeUpper;
 
-		const displayValue = value;
-
-		this.#debug?.(`displayValue: ${displayValue}`);
-		return displayValue;
+		this.#debug?.(`displayValue: ${value}`);
+		return value;
 	}
 
 	get maxValue() {
@@ -220,21 +235,58 @@ export default class MdcSliderComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_onSlide(event) {
-		this.#debug?.(`_onSlide: `, event);
+	_calcNewValue(event) {
+		this.#debug?.(`_calcNewValue: `, event);
 
-		event?.preventDefault?.();
-		event?.stopPropagation?.();
+		const boundingRect = this.#element?.getBoundingClientRect?.();
+		const currentX = event?.clientX;
 
-		this?._fireEvent?.('statuschange', {
-			newValue: this?._calcNewValue?.(event)
-		});
+		if (currentX <= boundingRect?.left) return this?.rangeLower;
+
+		if (currentX >= boundingRect?.right) return this?.rangeUpper;
+
+		const percentage =
+			(currentX - boundingRect?.left) / boundingRect?.width;
+		const differential = (this?.rangeUpper - this?.rangeLower) * percentage;
+		const newValue = this?.rangeLower + differential;
+
+		if (!this?.args?.discrete) return newValue;
+
+		const numStepsFromMinimum = Math?.floor?.(
+			(newValue - this?.rangeLower) / this?.step
+		);
+
+		let lowerNewValue = this?.rangeLower + numStepsFromMinimum * this?.step;
+		if (lowerNewValue < this?.rangeLower) lowerNewValue = this?.rangeLower;
+
+		let upperNewValue = lowerNewValue + this?.step;
+		if (upperNewValue > this?.rangeUpper) upperNewValue = this?.rangeUpper;
+
+		let discreteNewValue = newValue;
+		if (newValue - lowerNewValue <= upperNewValue - newValue) {
+			discreteNewValue = lowerNewValue;
+		} else {
+			discreteNewValue = upperNewValue;
+		}
+
+		// this.#debug?.(`_calcNewValue: `, {
+		// 	newValue: newValue,
+		// 	numStepsFromMinimum: numStepsFromMinimum,
+
+		// 	lowerNewValue: lowerNewValue,
+		// 	upperNewValue: upperNewValue,
+
+		// 	distFromLower: newValue - lowerNewValue,
+		// 	distFromUpper: upperNewValue - newValue,
+
+		// 	discreteNewValue: discreteNewValue
+		// });
+
+		return discreteNewValue;
 	}
 
-	@action
 	_fireEvent(name, options) {
-		this.#debug?.(`_fireEvent`);
+		this.#debug?.(`_fireEvent::${name}: `, options);
 		if (!this.#element) return;
 
 		const status = Object?.assign?.(
@@ -267,52 +319,25 @@ export default class MdcSliderComponent extends Component {
 			?.dispatchEvent?.(thisEvent);
 	}
 
-	_calcNewValue(event) {
-		this.#debug?.(`_calcNewValue: `, event);
+	_onSlide(event) {
+		this.#debug?.(`_onSlide: `, event);
 
-		const boundingRect = this.#element?.getBoundingClientRect?.();
-		const currentX = event?.clientX;
+		event?.preventDefault?.();
+		event?.stopPropagation?.();
 
-		if (currentX <= boundingRect?.left) return this?.rangeLower;
+		this?._fireEvent?.('statuschange', {
+			newValue: this?._calcNewValue?.(event)
+		});
+	}
 
-		if (currentX >= boundingRect?.right) return this?.rangeUpper;
-
-		const percentage =
-			(currentX - boundingRect?.left) / boundingRect?.width;
-		const differential = (this?.rangeUpper - this?.rangeLower) * percentage;
-		const newValue = this?.rangeLower + differential;
-
-		if (!this?.args?.discrete) return newValue;
-
-		const numStepsFromMinimum = Math?.floor?.(
-			(newValue - this?.rangeLower) / this?.step
-		);
-
-		let lowerNewValue = this?.rangeLower + numStepsFromMinimum * this?.step;
-		if (lowerNewValue < this?.rangeLower) lowerNewValue = this?.rangeLower;
-
-		let upperNewValue = lowerNewValue + this?.step;
-		if (upperNewValue > this?.rangeUpper) upperNewValue = this?.rangeUpper;
-
-		let discreteNewValue = newValue;
-		if (newValue - lowerNewValue <= upperNewValue - newValue)
-			discreteNewValue = lowerNewValue;
-		else discreteNewValue = upperNewValue;
-
-		// this.#debug?.(`_calcNewValue: `, {
-		// 	newValue: newValue,
-		// 	numStepsFromMinimum: numStepsFromMinimum,
-
-		// 	lowerNewValue: lowerNewValue,
-		// 	upperNewValue: upperNewValue,
-
-		// 	distFromLower: newValue - lowerNewValue,
-		// 	distFromUpper: upperNewValue - newValue,
-
-		// 	discreteNewValue: discreteNewValue
-		// });
-
-		return discreteNewValue;
+	_setupInitState() {
+		if (
+			this.#element?.querySelector?.('input.mdc-slider__input')?.disabled
+		) {
+			this.#element?.classList?.add?.('mdc-slider--disabled');
+		} else {
+			this.#element?.classList?.remove?.('mdc-slider--disabled');
+		}
 	}
 	// #endregion
 

@@ -40,13 +40,20 @@ export default class ElementMutationWatcherService extends Service {
 		this.#debug?.(`watchElement:`, element, options);
 		if (!this.#observer) return;
 
-		if (!this.#elementCallback?.has?.(element))
+		if (!this.#elementCallback?.has?.(element)) {
+			this.#elementCallback?.set?.(element, [callback]);
 			this.#observer?.observe?.(element, options);
 
+			return;
+		}
+
 		const currentElementCallbacks = this.#elementCallback?.get?.(element);
-		if (!currentElementCallbacks)
+		if (!currentElementCallbacks) {
 			this.#elementCallback?.set?.(element, [callback]);
-		else currentElementCallbacks?.push?.(callback);
+			return;
+		}
+
+		currentElementCallbacks?.push?.(callback);
 	}
 
 	unwatchElement(element, callback) {
@@ -63,24 +70,20 @@ export default class ElementMutationWatcherService extends Service {
 		}
 
 		const currentElementCallbacks = this.#elementCallback?.get?.(element);
-		const callbackIndex = currentElementCallbacks?.indexOf?.(callback);
-		if (callbackIndex < 0) {
-			this.#debug?.(
-				`unwatchElement:`,
-				element,
-				`callback not registered. aborting...`
-			);
-			return;
-		}
+		if (!currentElementCallbacks) return;
 
-		currentElementCallbacks?.splice?.(callbackIndex, 1);
-		if (currentElementCallbacks?.length) return;
+		const callbackIndex = currentElementCallbacks?.indexOf?.(callback);
+		if (callbackIndex >= 0) {
+			currentElementCallbacks?.splice?.(callbackIndex, 1);
+			if (currentElementCallbacks?.length) return;
+		}
 
 		this.#debug?.(
 			`unwatchElement:`,
 			element,
 			`last callback removed. unobserving...`
 		);
+
 		this.#observer?.unobserve?.(element);
 		this.#elementCallback?.delete?.(element);
 	}

@@ -8,6 +8,9 @@ export default class MdcSegmentedButtonComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
 	controls = {};
 	// #endregion
 
@@ -26,35 +29,25 @@ export default class MdcSegmentedButtonComponent extends Component {
 		this.#debug?.(`willDestroy`);
 
 		this.#segments?.clear?.();
+		this.controls = {};
+
+		this.#element = null;
 		super.willDestroy(...arguments);
 	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
-
-		this?._fireEvent?.({
-			name: 'init'
-		});
 	}
 	// #endregion
 
-	// #region Computed Properties
-	get role() {
-		const role = this?.args?.singleSelect ? 'radiogroup' : 'group';
-
-		this.#debug?.(`role: ${role}`);
-		return role;
-	}
-	get segmentComponent() {
-		return this?._getComputedSubcomponent?.('segment');
-	}
-	// #endregion
-
-	// #region Private Methods
+	// #region Controls
 	@action
 	_registerSegment(segment, controls, register) {
 		this.#debug?.(`_registerSegment: `, segment, controls, register);
@@ -68,7 +61,7 @@ export default class MdcSegmentedButtonComponent extends Component {
 	}
 
 	@action
-	_selectSegment(segment) {
+	_selectSegment(segment, selected) {
 		this.#debug?.(`_selectSegment: `, segment);
 
 		if (!this.#segments?.has?.(segment)) {
@@ -76,63 +69,42 @@ export default class MdcSegmentedButtonComponent extends Component {
 			return;
 		}
 
-		let selectedSegment = null;
-		if (this?.args?.singleSelect) {
-			selectedSegment = this.#element?.querySelector?.(
-				'button.mdc-segmented-button__segment--selected'
-			);
-
-			if (selectedSegment) {
-				const selectedSegmentControls =
-					this.#segments?.get?.(selectedSegment);
-				selectedSegmentControls?.select?.(false);
-			}
-		}
-
 		const segmentControls = this.#segments?.get?.(segment);
-		const isSegmentSelected = segment?.classList?.contains?.(
-			'mdc-segmented-button__segment--selected'
+		segmentControls?.select?.(selected);
+
+		if (!this?.args?.singleSelect) return;
+
+		const selectedSegment = this.#element?.querySelector?.(
+			'button.mdc-segmented-button__segment--selected'
 		);
-		segmentControls?.select?.(!isSegmentSelected);
 
-		const eventData = {
-			name: 'select',
-			selected: isSegmentSelected ? segment?.getAttribute?.('id') : null,
-			unselected: isSegmentSelected
-				? null
-				: selectedSegment?.getAttribute?.('id')
-		};
+		if (!selectedSegment) return;
 
-		this?._fireEvent?.(eventData);
+		const selectedSegmentControls = this.#segments?.get?.(selectedSegment);
+		selectedSegmentControls?.select?.(false);
+	}
+	// #endregion
+
+	// #region Computed Properties
+	get role() {
+		return this?.args?.singleSelect ? 'radiogroup' : 'group';
 	}
 
-	@action
-	_fireEvent(data) {
-		this.#debug?.(`_fireEvent`);
-		if (!this.#element) return;
-
-		const thisEvent = new CustomEvent(data?.name, {
-			detail: {
-				id: this.#element?.getAttribute?.('id'),
-				controls: {
-					selectSegment: this?._selectSegment
-				},
-				status: {
-					selected: data?.selected,
-					unselected: data?.unselected
-				}
-			}
-		});
-
-		this.#element?.dispatchEvent?.(thisEvent);
+	get segmentComponent() {
+		return this?._getComputedSubcomponent?.('segment');
 	}
+	// #endregion
 
+	// #region Private Methods
 	_getComputedSubcomponent(componentName) {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(`${componentName}-component`, subComponent);
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
 	}
 	// #endregion

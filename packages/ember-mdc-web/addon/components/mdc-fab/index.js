@@ -11,6 +11,9 @@ export default class MdcFabComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -19,14 +22,54 @@ export default class MdcFabComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#mdcRipple = null;
+		this.#element = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
+	@action
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
+		if (!this.#element) return;
+
+		this?._setupInitState?.();
+		this?.recalcStyles?.();
+	}
+
 	@action
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
+		const iconElement = this.#element?.querySelector?.('i.mdc-fab__icon');
+		const labelElement = this.#element?.querySelector?.(
+			'span.mdc-fab__label'
+		);
+
+		// Step 1: Reset
+		// TODO: Optimize this by unsetting only those properties that have not been utilitized
+		// in the current scenario
+
+		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
+		this.#element.style.backgroundColor = null;
+		this.#element.style.color = null;
+
+		if (iconElement) iconElement.style.color = null;
+		if (labelElement) labelElement.style.color = null;
+
+		// Stop if the element is disabled
+		if (this.#element?.disabled) return;
+
+		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${
 			this?.args?.palette ?? 'secondary'
 		}`;
@@ -37,12 +80,7 @@ export default class MdcFabComponent extends Component {
 		this.#element.style.backgroundColor = `var(${paletteColour})`;
 		this.#element.style.color = `var(${textColour})`;
 
-		const iconElement = this.#element?.querySelector?.('i.mdc-fab__icon');
 		if (iconElement) iconElement.style.color = `var(${textColour})`;
-
-		const labelElement = this.#element?.querySelector?.(
-			'span.mdc-fab__label'
-		);
 		if (labelElement) labelElement.style.color = `var(${textColour})`;
 
 		this.#element?.style?.setProperty?.(
@@ -54,17 +92,29 @@ export default class MdcFabComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		this.#element = element;
 
+		this.#element = element;
+		this.#mdcRipple = new MDCRipple(this.#element);
+
+		this?._setupInitState?.();
 		this?.recalcStyles?.();
-		MDCRipple?.attachTo?.(this.#element);
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
 	// #endregion
 
 	// #region Private Methods
+	_setupInitState() {
+		if (this.#element?.disabled) {
+			this.#mdcRipple?.deactivate?.();
+		} else {
+			this.#mdcRipple?.activate?.();
+		}
+	}
 	// #endregion
 
 	// #region Default Sub-components
@@ -72,6 +122,8 @@ export default class MdcFabComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger?.('component:mdc-fab');
+
 	#element = null;
+	#mdcRipple = null;
 	// #endregion
 }

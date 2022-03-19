@@ -8,6 +8,8 @@
 	{{requires-id ignore=true}}
 	{{! React to clicks }}
 	{{on 'click' this.onClick}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation this.onAttributeMutation attributeFilter=(array 'disabled')}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette @shaped @selected}}
 	{{! Store reference to the element for DOM manipulation }}

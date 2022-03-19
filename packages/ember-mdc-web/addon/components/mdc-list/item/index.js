@@ -14,6 +14,9 @@ export default class MdcListItemComponent extends Component {
 	@tracked selected = false;
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -28,6 +31,11 @@ export default class MdcListItemComponent extends Component {
 		this.#debug?.(`willDestroy`);
 
 		this?.args?.listControls?.registerItem?.(this.#element, null, false);
+		this.#controls = {};
+
+		this.#mdcRipple = null;
+		this.#element = null;
+
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -37,11 +45,25 @@ export default class MdcListItemComponent extends Component {
 	onClick() {
 		this?.args?.listControls?.selectItem?.(this.#element, !this?.selected);
 	}
+	// #endregion
+
+	// #region Modifier Callbacks
+	@action
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
+		if (!this.#element) return;
+
+		this?._setupInitState?.();
+		this?.recalcStyles?.();
+	}
 
 	@action
 	recalcStyles() {
 		if (!this.#element) return;
 
+		// Step 1: Reset
+		// TODO: Optimize this by unsetting only those properties that have not been utilitized
+		// in the current scenario
 		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
 		this.#element?.style?.removeProperty?.(
 			'--mdc-theme-text-primary-on-background'
@@ -49,6 +71,10 @@ export default class MdcListItemComponent extends Component {
 
 		this.#element.style.borderRadius = null;
 
+		// Stop if the element is disabled
+		if (this.#element?.disabled) return;
+
+		// Step 2: Style / Palette
 		if (this?.args?.shaped) {
 			this.#element.style.borderRadius = '0 2rem 2rem 0';
 		}
@@ -80,16 +106,30 @@ export default class MdcListItemComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		this.#element = element;
 
+		this.#element = element;
+		this.#mdcRipple = new MDCRipple(this.#element);
+
+		this?._setupInitState?.();
 		this?.recalcStyles?.();
-		MDCRipple?.attachTo?.(this.#element);
 
 		this?.args?.listControls?.registerItem?.(
 			this.#element,
 			this.#controls,
 			true
 		);
+
+		if (!this.#element?.hasAttribute?.('selected')) return;
+
+		this?.args?.listControls?.selectItem?.(this.#element, true);
+	}
+	// #endregion
+
+	// #region Controls
+	@action
+	_select(selected) {
+		this.#debug?.(`_select: `, selected);
+		this.selected = selected;
 	}
 	// #endregion
 
@@ -100,19 +140,24 @@ export default class MdcListItemComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_select(selected) {
-		this.#debug?.(`_select: `, selected);
-		this.selected = selected;
-	}
-
 	_getComputedSubcomponent(componentName) {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(`${componentName}-component`, subComponent);
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
+	}
+
+	_setupInitState() {
+		if (this.#element?.disabled) {
+			this.#mdcRipple?.deactivate?.();
+		} else {
+			this.#mdcRipple?.activate?.();
+		}
 	}
 	// #endregion
 
@@ -126,6 +171,8 @@ export default class MdcListItemComponent extends Component {
 	#debug = debugLogger('component:mdc-list-item');
 
 	#element = null;
+	#mdcRipple = null;
+
 	#controls = {};
 	// #endregion
 }

@@ -1,0 +1,25 @@
+<button
+	type='button'
+	class='mdc-icon-button'
+	{{! Add styling classes as necessary }}
+	{{has-class-if this.toggled 'mdc-icon-button--on'}}
+	{{! Tooltip stuff }}
+	title={{@title}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! Default Event Handlers }}
+	{{on 'click' this.onClick}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<span class='mdc-icon-button__ripple'></span>
+	<MdcIcon
+		@icon={{this.toggledIcon}}
+		class='mdc-icon-button__icon mdc-icon-button__icon--on'
+	/>
+	<MdcIcon @icon={{@icon}} class='mdc-icon-button__icon' />
+</button>

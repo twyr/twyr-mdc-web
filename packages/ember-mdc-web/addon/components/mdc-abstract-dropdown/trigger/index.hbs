@@ -1,0 +1,18 @@
+<div
+	id={{this.triggerId}}
+	class='mdc-abstract-dropdown-trigger'
+	{{store-element this.storeElement}}
+	{{can-receive-focus
+		stopPropagation=this.stopPropagation
+		onKeyDown=this.handleKeyDown
+		onMouseEnter=this.handleMouseEnter
+		onMouseLeave=this.handleMouseLeave
+		onMouseDown=this.handleMouseDown
+		onMouseUp=this.handleMouseUp
+		onTouchEnd=this.handleTouchEnd
+	}}
+	disabled={{this.isDisabled}}
+	...attributes
+>
+	{{yield @dropdownControls @dropdownStatus}}
+</div>

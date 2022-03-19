@@ -78,7 +78,10 @@
 		<input
 			type='text'
 			class='mdc-text-field__input'
-			placeholder={{@placeholder}}
+			placeholder={{if
+				(and this.isFocused (not this.numCharacters))
+				@placeholder
+			}}
 			{{! Accessibility stuff }}
 			aria-labelledby={{this.inputElementId}}
 			{{! Ensure id is present - we need it for the events }}

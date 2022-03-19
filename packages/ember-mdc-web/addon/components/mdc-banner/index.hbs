@@ -5,12 +5,12 @@
 	{{has-class-if this.centered 'mdc-banner--centered'}}
 	{{has-class-if this.stacked 'mdc-banner--mobile-stacked'}}
 	{{has-class-if this.open 'mdc-banner--open'}}
-	{{! Ensure id is present - we need it for the label }}
+	{{! Ensure id is present - we need it for the events }}
 	{{requires-id ignore=true}}
-	{{! Accessibility }}
+	{{! Accessibility stuff }}
 	role='banner'
 	{{! Re-calculate colours as necessary }}
-	{{on-args-change this.recalcStyles @palette}}
+	{{on-args-change this.recalcStyles this.palette}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
@@ -28,7 +28,7 @@
 						<MdcIcon
 							class='mdc-banner__icon'
 							@icon={{this.icon}}
-							@palette={{@palette}}
+							@palette={{this.palette}}
 						/>
 					</div>
 				{{/if}}
@@ -46,11 +46,8 @@
 					<MdcButton
 						class='mdc-banner__secondary-action'
 						@text={{this.secondaryActionLabel}}
-						@palette={{@palette}}
-						{{on
-							'click'
-							(fn this.fireActionEvent 'secondaryAction')
-						}}
+						@palette={{this.palette}}
+						{{on 'click' (fn this.fireActionEvent 'secondary')}}
 					/>
 				{{/if}}
 
@@ -58,8 +55,8 @@
 					<MdcButton
 						class='mdc-banner__primary-action'
 						@text={{this.primaryActionLabel}}
-						@palette={{@palette}}
-						{{on 'click' (fn this.fireActionEvent 'primaryAction')}}
+						@palette={{this.palette}}
+						{{on 'click' (fn this.fireActionEvent 'primary')}}
 					/>
 				{{/if}}
 			</div>

@@ -10,6 +10,9 @@ export default class MdcCardContentMediaComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -18,9 +21,18 @@ export default class MdcCardContentMediaComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#element = null;
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
@@ -28,6 +40,9 @@ export default class MdcCardContentMediaComponent extends Component {
 
 		this.#element.style.backgroundImage = `url(${this?.args?.src})`;
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties

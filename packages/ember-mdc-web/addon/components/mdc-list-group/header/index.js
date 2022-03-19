@@ -8,6 +8,9 @@ export default class MdcListGroupHeaderComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -19,6 +22,12 @@ export default class MdcListGroupHeaderComponent extends Component {
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties

@@ -15,6 +15,9 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	@tracked pressed = false;
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -33,6 +36,11 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 			null,
 			false
 		);
+		this.#controls = {};
+
+		this.#mdcRipple = null;
+		this.#element = null;
+
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -41,15 +49,34 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	@action
 	onClick(event) {
 		this.#debug?.(`onClick: `, event);
-		this?.args?.segmentedButtonControls?.select?.(this.#element);
+		this?.args?.segmentedButtonControls?.select?.(
+			this.#element,
+			!this.#selected
+		);
+	}
+	// #endregion
+
+	// #region Modifier Callbacks
+	@action
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
+		if (!this.#element) return;
+
+		this?._setupInitState?.();
+		this?.recalcAria?.();
+		this?.recalcStyles?.();
 	}
 
 	@action
 	recalcAria() {
 		this.#debug?.(`recalcAria: re-calculating aria`);
 
-		this.checked = this?.args?.singleSelect ? this.#checked ?? false : null;
-		this.pressed = this?.args?.singleSelect ? null : this.#pressed ?? false;
+		this.checked = this?.args?.singleSelect
+			? this.#selected ?? false
+			: null;
+		this.pressed = this?.args?.singleSelect
+			? null
+			: this.#selected ?? false;
 	}
 
 	@action
@@ -70,6 +97,9 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 		this.#element?.style?.removeProperty?.(
 			'--mdc-segmented-button-ripple-color'
 		);
+
+		// Stop if the element is disabled
+		if (this.#element?.disabled) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -94,16 +124,29 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		this.#element = element;
 
+		this.#element = element;
+		this.#mdcRipple = new MDCRipple(this.#element);
+
+		this?._setupInitState?.();
+		this?.recalcAria?.();
 		this?.recalcStyles?.();
-		MDCRipple?.attachTo?.(this.#element);
 
 		this?.args?.segmentedButtonControls?.register?.(
 			this.#element,
 			this.#controls,
 			true
 		);
+	}
+	// #endregion
+
+	// #region Controls
+	@action
+	_setSelected(selected) {
+		this.#debug?.(`_setSelected: `, selected);
+		this.#selected = selected;
+
+		this?.recalcAria?.();
 	}
 	// #endregion
 
@@ -117,13 +160,12 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_setSelected(selected) {
-		this.#debug?.(`_setSelected: `, selected);
-		this.#checked = selected;
-		this.#pressed = selected;
-
-		this?.recalcAria?.();
+	_setupInitState() {
+		if (this.#element?.disabled) {
+			this.#mdcRipple?.deactivate?.();
+		} else {
+			this.#mdcRipple?.activate?.();
+		}
 	}
 	// #endregion
 
@@ -134,9 +176,10 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	#debug = debugLogger('component:mdc-segmented-button-segment');
 
 	#element = null;
+	#mdcRipple = null;
+
 	#controls = {};
 
-	#checked = false;
-	#pressed = false;
+	#selected = false;
 	// #endregion
 }

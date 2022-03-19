@@ -1,5 +1,10 @@
 {{! template-lint-disable require-presentational-children}}
-<div class='mdc-form-field'>
+<div
+	class='mdc-form-field'
+	{{! Add styling classes as necessary }}
+	{{has-class-if @leadingLabel 'mdc-form-field--align-end'}}
+	{{has-class-if @nowrap 'mdc-form-field--nowrap'}}
+>
 	{{#if @leadingLabel}}
 		<label for={{this.inputElementId}}>
 			{{this.label}}

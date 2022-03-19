@@ -9,6 +9,7 @@
 >
 	<div
 		class='mdc-tab-scroller'
+		{{! Add styling classes as necessary }}
 		{{has-class-if (eq @align 'start') 'mdc-tab-scroller--align-start'}}
 		{{has-class-if (eq @align 'center') 'mdc-tab-scroller--align-center'}}
 		{{has-class-if (eq @align 'end') 'mdc-tab-scroller--align-end'}}
@@ -27,10 +28,10 @@
 						Tab=(component
 							this.tabComponent
 							fill=@fill
-							palette=@palette
-							selectedTabIndicator=@selectedTabIndicator
 							indicatorLength=@indicatorLength
 							indicatorIcon=@indicatorIcon
+							palette=@palette
+							selectedTabIndicator=@selectedTabIndicator
 							tabbarControls=this.controls
 						)
 					)
@@ -48,12 +49,14 @@
 				@icon='chevron-left'
 				@palette={{@palette}}
 				{{on 'click' (fn this.handleScroll 'left')}}
+				disabled={{not this.leftScrollEnabled}}
 			/>
 			<MdcIconButton
 				class='pointer-events-auto'
 				@icon='chevron-right'
 				@palette={{@palette}}
 				{{on 'click' (fn this.handleScroll 'right')}}
+				disabled={{not this.rightScrollEnabled}}
 			/>
 		</div>
 	{{/if}}

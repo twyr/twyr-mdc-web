@@ -12,6 +12,9 @@ export default class MdcDrawerComponent extends Component {
 	@tracked isOpen = false;
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -30,6 +33,11 @@ export default class MdcDrawerComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 		this?._fireEvent?.('unregister');
+
+		this.#controlElement = null;
+		this.#element = null;
+
+		this.#controls = {};
 
 		super.willDestroy(...arguments);
 	}
@@ -53,13 +61,60 @@ export default class MdcDrawerComponent extends Component {
 
 		this?._close?.();
 	}
+	// #endregion
 
+	// #region Modifier Callbacks
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?._fireEvent?.('register');
+		this?._fireEvent?.('init');
+	}
+	// #endregion
+
+	// #region Controls
+	@action
+	_open() {
+		this.#debug?.(`_open`);
+
+		this.isOpen = true;
+		this?._fireEvent?.('statuschange');
+
+		return this?.isOpen;
+	}
+
+	@action
+	_close() {
+		this.#debug?.(`_close`);
+
+		if (this?.args?.locked) {
+			this.#debug?.(`_close: sidebar is locked. aborting...`);
+			return;
+		}
+
+		this.isOpen = false;
+		this?._fireEvent?.('statuschange');
+
+		return this?.isOpen;
+	}
+
+	@action
+	_toggle() {
+		this.#debug?.(`_toggle`);
+		if (this?.isOpen) {
+			this?._close?.();
+		} else {
+			this?._open?.();
+		}
+
+		return this?.isOpen;
+	}
+
+	@action
+	_setControlElement(controlElement) {
+		this.#debug?.(`_setControlElement: `, controlElement);
+		this.#controlElement = controlElement;
 	}
 	// #endregion
 
@@ -74,46 +129,8 @@ export default class MdcDrawerComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_open() {
-		this.#debug?.(`_open`);
-
-		this.isOpen = true;
-		this?._fireEvent?.('statuschange');
-	}
-
-	@action
-	_close() {
-		this.#debug?.(`_close`);
-
-		if (this?.args?.locked) {
-			this.#debug?.(`_close: sidebar is locked. aborting...`);
-			return;
-		}
-
-		this.isOpen = false;
-		this?._fireEvent?.('statuschange');
-	}
-
-	@action
-	_toggle() {
-		this.#debug?.(`_toggle`);
-		if (this?.isOpen) {
-			this?._close?.();
-		} else {
-			this?._open?.();
-		}
-	}
-
-	@action
-	_setControlElement(controlElement) {
-		this.#debug?.(`_setControlElement: `, controlElement);
-		this.#controlElement = controlElement;
-	}
-
-	@action
 	_fireEvent(name) {
-		this.#debug?.(`_fireEvent`);
+		this.#debug?.(`_fireEvent: ${name}`);
 		if (!this.#element) return;
 
 		const thisEvent = new CustomEvent(name, {
@@ -136,8 +153,11 @@ export default class MdcDrawerComponent extends Component {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
-		this.#debug?.(`${componentName}-component`, subComponent);
 
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
 	}
 	// #endregion

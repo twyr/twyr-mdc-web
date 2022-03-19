@@ -1,13 +1,10 @@
 {{! template-lint-disable no-invalid-interactive }}
 <span
 	class='mdc-evolution-chip'
+	{{! Accessibility stuff }}
 	role={{@role}}
-	{{! Ensure id is present - we need it for the events }}
-	{{requires-id ignore=true}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
-	{{! Store reference to the element for DOM manipulation }}
-	{{store-element this.storeElement}}
 >
 	{{#if (eq @role 'row')}}
 		<span
@@ -17,15 +14,13 @@
 			<button
 				type='button'
 				class='mdc-evolution-chip__action mdc-evolution-chip__action--primary'
-				{{! Monitor changes to id and disabled status }}
+				{{! Monitor changes to disabled status }}
 				{{on-mutation
 					this.onAttributeMutation
 					attributeFilter=(array 'disabled')
 				}}
-				{{! React to clicks }}
-				{{on 'click' this.onPrimaryAction}}
 				{{! Store reference to the element for DOM manipulation }}
-				{{store-element this.storePrimaryActionElement}}
+				{{store-element this.storeElement}}
 				{{! HTML attributes added in the calling template }}
 				...attributes
 			>
@@ -44,15 +39,13 @@
 		<span
 			class='mdc-evolution-chip__action mdc-evolution-chip__action--primary'
 			role={{this.primaryActionRole}}
-			{{! Monitor changes to id and disabled status }}
+			{{! Monitor changes to disabled status }}
 			{{on-mutation
 				this.onAttributeMutation
 				attributeFilter=(array 'disabled')
 			}}
-			{{! React to clicks }}
-			{{on 'click' this.onPrimaryAction}}
 			{{! Store reference to the element for DOM manipulation }}
-			{{store-element this.storePrimaryActionElement}}
+			{{store-element this.storeElement}}
 			{{! HTML attributes added in the calling template }}
 			...attributes
 		>

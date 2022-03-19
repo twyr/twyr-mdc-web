@@ -1,51 +1,25 @@
-{{#if @href}}
-	<a
-		type='button'
-		class='mdc-fab'
-		{{! Tooltip stuff }}
-		title={{@title}}
-		{{! Navigation stuff }}
-		href={{@href}}
-		{{! Add styling classes as necessary }}
-		{{has-class-if @mini 'mdc-fab--mini'}}
-		{{has-class-if @extended 'mdc-fab--extended'}}
-		{{! Re-calculate colours as necessary }}
-		{{on-args-change this.recalcStyles @palette}}
-		{{! Store reference to the element for DOM manipulation }}
-		{{store-element this.storeElement}}
-		{{! HTML attributes added in the calling template }}
-		...attributes
-	>
-		<span class='mdc-fab__ripple'></span>
-		{{#if @icon}}
-			<MdcIcon @icon={{@icon}} class='mdc-fab__icon' />
-		{{/if}}
-		{{#if @extended}}
-			<span class='mdc-fab__label'>{{yield}}</span>
-		{{/if}}
-	</a>
-{{else}}
-	<button
-		type='button'
-		class='mdc-fab'
-		{{! Tooltip stuff }}
-		title={{@title}}
-		{{! Add styling classes as necessary }}
-		{{has-class-if @mini 'mdc-fab--mini'}}
-		{{has-class-if @extended 'mdc-fab--extended'}}
-		{{! Re-calculate colours as necessary }}
-		{{on-args-change this.recalcStyles @palette}}
-		{{! Store reference to the element for DOM manipulation }}
-		{{store-element this.storeElement}}
-		{{! HTML attributes added in the calling template }}
-		...attributes
-	>
-		<span class='mdc-fab__ripple'></span>
-		{{#if @icon}}
-			<MdcIcon @icon={{@icon}} class='mdc-fab__icon' />
-		{{/if}}
-		{{#if @extended}}
-			<span class='mdc-fab__label'>{{yield}}</span>
-		{{/if}}
-	</button>
-{{/if}}
+<button
+	type='button'
+	class='mdc-fab'
+	{{! Add styling classes as necessary }}
+	{{has-class-if @mini 'mdc-fab--mini'}}
+	{{has-class-if @extended 'mdc-fab--extended'}}
+	{{! Tooltip stuff }}
+	title={{@title}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation this.onAttributeMutation attributeFilter=(array 'disabled')}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<span class='mdc-fab__ripple'></span>
+	{{#if @icon}}
+		<MdcIcon @icon={{@icon}} class='mdc-fab__icon' />
+	{{/if}}
+	{{#if @extended}}
+		<span class='mdc-fab__label'>{{yield}}</span>
+	{{/if}}
+</button>

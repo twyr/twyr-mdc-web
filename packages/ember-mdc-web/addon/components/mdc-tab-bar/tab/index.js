@@ -14,6 +14,9 @@ export default class MdcTabBarTabComponent extends Component {
 	@tracked selected = false;
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -28,6 +31,11 @@ export default class MdcTabBarTabComponent extends Component {
 		this.#debug?.(`willDestroy`);
 
 		this?.args?.tabbarControls?.registerItem?.(this.#element, null, false);
+		this.#controls = {};
+
+		this.#mdcRipple = null;
+		this.#element = null;
+
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -38,20 +46,16 @@ export default class MdcTabBarTabComponent extends Component {
 		this.#debug?.(`onClick: `, event);
 		this?.args?.tabbarControls?.selectItem?.(this.#element, true);
 	}
+	// #endregion
 
+	// #region Modifier Callbacks
 	@action
 	onAttributeMutation(mutationRecord) {
-		this.#debug?.(`onAttributeMutation: `, arguments);
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		if (mutationRecord?.attributeName !== 'selected') return;
-
-		if (!this.#element?.hasAttribute?.('selected')) {
-			this?._select?.(false);
-			return;
-		}
-
-		this?._select?.(true);
+		this?._setupInitState?.();
+		this?.recalcStyles?.();
 	}
 
 	@action
@@ -61,6 +65,9 @@ export default class MdcTabBarTabComponent extends Component {
 
 		// Step 1: Reset
 		this.#element?.style?.removeProperty?.('--mdc-active-tab-color');
+
+		// Stop if the element is disabled
+		if (this.#element?.disabled) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -73,9 +80,11 @@ export default class MdcTabBarTabComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		this.#element = element;
 
-		MDCRipple?.attachTo?.(this.#element);
+		this.#element = element;
+		this.#mdcRipple = new MDCRipple(this.#element);
+
+		this?._setupInitState?.();
 		this?.recalcStyles?.();
 
 		this?.args?.tabbarControls?.registerItem?.(
@@ -84,12 +93,17 @@ export default class MdcTabBarTabComponent extends Component {
 			true
 		);
 
-		if (!this.#element?.hasAttribute?.('selected')) {
-			this?._select?.(false);
-			return;
-		}
+		if (!this.#element?.hasAttribute?.('selected')) return;
 
-		this?._select?.(true);
+		this?.args?.tabbarControls?.selectItem?.(this.#element, true);
+	}
+	// #endregion
+
+	// #region Controls
+	@action
+	_select(selected) {
+		this.#debug?.(`_select: `, selected);
+		this.selected = selected;
 	}
 	// #endregion
 
@@ -104,10 +118,12 @@ export default class MdcTabBarTabComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_select(selected) {
-		this.#debug?.(`_select: `, selected);
-		this.selected = selected;
+	_setupInitState() {
+		if (this.#element?.disabled) {
+			this.#mdcRipple?.deactivate?.();
+		} else {
+			this.#mdcRipple?.activate?.();
+		}
 	}
 	// #endregion
 
@@ -118,6 +134,8 @@ export default class MdcTabBarTabComponent extends Component {
 	#debug = debugLogger('component:mdc-tab-bar-tab');
 
 	#element = null;
+	#mdcRipple = null;
+
 	#controls = {};
 	// #endregion
 }

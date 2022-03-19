@@ -11,6 +11,9 @@ export default class MdcCardContentComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -19,17 +22,31 @@ export default class MdcCardContentComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#mdcRipple = null;
+		this.#element = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 		if (!this.#mdcRipple) return;
 
-		if (this?.args?.primaryAction) this.#mdcRipple?.activate?.();
-		else this.#mdcRipple?.deactivate?.();
+		if (this?.args?.primaryAction) {
+			this.#mdcRipple?.activate?.();
+		} else {
+			this.#mdcRipple?.deactivate?.();
+		}
 	}
 
 	@action
@@ -37,9 +54,12 @@ export default class MdcCardContentComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this.#mdcRipple = new MDCRipple(this.#element);
 		this?.recalcStyles?.();
+		this.#mdcRipple = new MDCRipple(this.#element);
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
@@ -67,8 +87,11 @@ export default class MdcCardContentComponent extends Component {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
-		this.#debug?.(`${componentName}-component`, subComponent);
 
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
 	}
 	// #endregion

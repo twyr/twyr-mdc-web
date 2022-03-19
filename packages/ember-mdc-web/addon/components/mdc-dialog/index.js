@@ -10,6 +10,9 @@ export default class MdcDialogComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -18,6 +21,12 @@ export default class MdcDialogComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#element = null;
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
@@ -41,11 +50,12 @@ export default class MdcDialogComponent extends Component {
 
 		this?.args?.onClose?.(event);
 	}
+	// #endregion
 
+	// #region Modifier Callbacks
 	@action
 	positionModal() {
 		this.#debug?.(`positionModal`);
-
 		if (!this.#element) return;
 
 		const containerElement = this.#element?.closest?.('div.mdc-dialog');
@@ -63,6 +73,9 @@ export default class MdcDialogComponent extends Component {
 
 		this?.positionModal?.();
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
@@ -84,8 +97,11 @@ export default class MdcDialogComponent extends Component {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
-		this.#debug?.(`${componentName}-component`, subComponent);
 
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
 	}
 	// #endregion

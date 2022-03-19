@@ -8,6 +8,9 @@ export default class MdcCardHeaderComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -19,6 +22,12 @@ export default class MdcCardHeaderComponent extends Component {
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
@@ -42,8 +51,11 @@ export default class MdcCardHeaderComponent extends Component {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
-		this.#debug?.(`${componentName}-component`, subComponent);
 
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
 	}
 	// //#endregion

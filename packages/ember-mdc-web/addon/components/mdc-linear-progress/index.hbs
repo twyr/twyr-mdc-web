@@ -15,8 +15,6 @@
 	aria-valuenow={{this.displayValue}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
-	{{! Fire event as necessary }}
-	{{on-args-change this.fireValueChangeEvent @progress}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}

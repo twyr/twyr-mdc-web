@@ -10,6 +10,9 @@ export default class MdcListItemIconComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -18,17 +21,25 @@ export default class MdcListItemIconComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#element = null;
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	recalcStyles() {
 		if (!this.#element) return;
 
-		this.#element.style.color = null;
-		if (!this?.args?.palette) return;
-
-		this.#element.style.color = `var(--mdc-theme-${this?.args?.palette})`;
+		this.#element.style.color = this?.args?.palette
+			? `var(--mdc-theme-${this?.args?.palette})`
+			: null;
 	}
 
 	@action
@@ -38,6 +49,9 @@ export default class MdcListItemIconComponent extends Component {
 
 		this?.recalcStyles?.();
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties

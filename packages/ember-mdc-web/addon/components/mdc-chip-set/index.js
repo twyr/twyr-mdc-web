@@ -10,6 +10,9 @@ export default class MdcChipSetComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -18,9 +21,18 @@ export default class MdcChipSetComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#element = null;
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
@@ -47,6 +59,9 @@ export default class MdcChipSetComponent extends Component {
 	}
 	// #endregion
 
+	// #region Controls
+	// #endregion
+
 	// #region Computed Properties
 	get chipsetType() {
 		return this?.args?.role ?? 'grid';
@@ -67,7 +82,10 @@ export default class MdcChipSetComponent extends Component {
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(`${componentName}-component`, subComponent);
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
 		return subComponent;
 	}
 	// #endregion

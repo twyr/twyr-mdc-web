@@ -1,0 +1,16 @@
+<div
+	id={{this.contentId}}
+	class='mdc-abstract-dropdown-content'
+	{{on-args-change
+		this.setNewPosition
+		@xAlign
+		@xOffset
+		@yAlign
+		@yOffset
+		@matchTriggerWidth
+	}}
+	{{store-element this.storeElement}}
+	...attributes
+>
+	{{yield @dropdownControls @dropdownStatus}}
+</div>

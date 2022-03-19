@@ -14,47 +14,38 @@ export default class MdcCheckboxComponent extends Component {
 	@tracked inputElementId = 'xyz';
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
-
-		this.#controls.setState = this?._setState;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#mdcRipple = null;
+		this.#element = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	onAttributeMutation(mutationRecord) {
-		this.#debug?.(`onAttributeMutation: `, arguments);
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		if (mutationRecord?.attributeName === 'id') {
-			this.inputElementId = this.#element?.getAttribute?.('id');
-			return;
-		}
-
-		if (mutationRecord?.attributeName === 'disabled') {
-			if (this.#element?.disabled)
-				this.#element
-					?.closest?.('div.mdc-checkbox')
-					?.classList?.add?.('mdc-checkbox--disabled');
-			else
-				this.#element
-					?.closest?.('div.mdc-checkbox')
-					?.classList?.remove?.('mdc-checkbox--disabled');
-		}
-
-		this?._fireEvent?.('statuschange');
-	}
-
-	@action
-	onChange(event) {
-		this.#debug?.(`onChange: `, event);
-		this?._fireEvent?.('statuschange');
+		this?._setupInitState?.();
+		this?.recalcStyles?.();
 	}
 
 	@action
@@ -71,7 +62,11 @@ export default class MdcCheckboxComponent extends Component {
 
 		rootElement?.style?.removeProperty?.('--mdc-checkbox-ink-color');
 		rootElement?.style?.removeProperty?.('--mdc-checkbox-checked-color');
+		rootElement?.style?.removeProperty?.('--mdc-checkbox-unchecked-color');
 		rootElement?.style?.removeProperty?.('--mdc-checkbox-ripple-color');
+
+		// Stop if the element is disabled
+		if (this.#element?.disabled) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -90,6 +85,11 @@ export default class MdcCheckboxComponent extends Component {
 		);
 
 		rootElement?.style?.setProperty?.(
+			'--mdc-checkbox-unchecked-color',
+			`var(${paletteColour})`
+		);
+
+		rootElement?.style?.setProperty?.(
 			'--mdc-checkbox-ripple-color',
 			`var(${paletteColour})`
 		);
@@ -100,78 +100,38 @@ export default class MdcCheckboxComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?.recalcStyles?.();
-
-		const checkboxRipple = new MDCRipple(
+		this.#mdcRipple = new MDCRipple(
 			this.#element?.closest?.('div.mdc-checkbox')
 		);
-		checkboxRipple.unbounded = true;
+		this.#mdcRipple.unbounded = true;
 
-		this.inputElementId = this.#element?.getAttribute?.('id');
-		this?._fireEvent?.('init');
+		this?._setupInitState?.();
+		this?.recalcStyles?.();
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_fireEvent(name) {
-		this.#debug?.(`_fireEvent`);
-		if (!this.#element) return;
+	_setupInitState() {
+		this.inputElementId = this.#element?.getAttribute?.('id');
 
-		const thisEvent = new CustomEvent(name, {
-			detail: {
-				id: this.#element?.getAttribute?.('id'),
-				controls: this.#controls,
-				status: {
-					checked: this.#element?.checked,
-					indeterminate: this.#element?.indeterminate,
-					disabled: this.#element?.disabled
-				}
-			}
-		});
+		if (this.#element?.disabled) {
+			this.#mdcRipple?.deactivate?.();
+			this.#element
+				?.closest?.('div.mdc-checkbox')
+				?.classList?.add?.('mdc-checkbox--disabled');
+		} else {
+			this.#element
+				?.closest?.('div.mdc-checkbox')
+				?.classList?.remove?.('mdc-checkbox--disabled');
 
-		this.#element?.dispatchEvent?.(thisEvent);
-	}
-
-	@action
-	_setState(status) {
-		this.#debug?.(`_setState: `, status);
-
-		let shouldFireEvent = false;
-
-		if (
-			status?.indeterminate !== null &&
-			status?.indeterminate !== undefined &&
-			this.#element.indeterminate !== status?.indeterminate
-		) {
-			this.#element.indeterminate = status?.indeterminate;
-			shouldFireEvent ||= true;
+			this.#mdcRipple?.activate?.();
 		}
-
-		if (
-			status?.checked !== null &&
-			status?.checked !== undefined &&
-			this.#element.checked !== status?.checked
-		) {
-			this.#element.checked = status?.checked;
-			shouldFireEvent ||= true;
-		}
-
-		if (
-			status?.disabled !== null &&
-			status?.disabled !== undefined &&
-			this.#element.disabled !== status?.disabled
-		) {
-			this.#element.disabled = status?.disabled;
-			shouldFireEvent ||= true;
-		}
-
-		if (!shouldFireEvent) return;
-
-		this?._fireEvent?.('statuschange');
 	}
 	// #endregion
 
@@ -180,8 +140,8 @@ export default class MdcCheckboxComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-checkbox');
-	#element = null;
 
-	#controls = {};
+	#element = null;
+	#mdcRipple = null;
 	// #endregion
 }

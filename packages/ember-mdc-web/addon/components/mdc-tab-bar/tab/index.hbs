@@ -14,10 +14,10 @@
 	tabindex='0'
 	{{! Ensure id is present - we need it for the events }}
 	{{requires-id ignore=true}}
-	{{! Monitor changes to id and disabled status }}
-	{{on-mutation this.onAttributeMutation attributeFilter=(array 'selected')}}
 	{{! React to clicks }}
 	{{on 'click' this.onClick}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation this.onAttributeMutation attributeFilter=(array 'disabled')}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
 	{{! Store reference to the element for DOM manipulation }}

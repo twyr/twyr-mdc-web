@@ -2,13 +2,13 @@
 <div
 	class='mdc-form-field'
 	{{! Add styling classes as necessary }}
-	{{has-class-if @labelBefore 'mdc-form-field--align-end'}}
+	{{has-class-if @leadingLabel 'mdc-form-field--align-end'}}
 	{{has-class-if @nowrap 'mdc-form-field--nowrap'}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
 >
 	<div
-		class='mdc-radio mdc-radio--upgraded'
+		class='mdc-radio'
 		{{! Re-calculate colours as necessary }}
 		{{on-args-change this.recalcStyles @palette}}
 	>
@@ -23,8 +23,6 @@
 				this.onAttributeMutation
 				attributeFilter=(array 'id' 'disabled')
 			}}
-			{{! React to clicks }}
-			{{on 'change' this.onChange}}
 			{{! Store reference to the element for DOM manipulation }}
 			{{store-element this.storeElement}}
 			{{! HTML attributes added in the calling template }}

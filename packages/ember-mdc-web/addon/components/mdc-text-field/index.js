@@ -20,6 +20,9 @@ export default class MdcTextFieldComponent extends Component {
 	@tracked isFocused = false;
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -28,69 +31,41 @@ export default class MdcTextFieldComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#mdcLineRipple = null;
+		this.#mdcRipple = null;
+		this.#element = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
-	@action
-	onAttributeMutation(mutationRecord) {
-		this.#debug?.(`onAttributeMutation: `, mutationRecord);
-		if (!this.#element) return;
-
-		if (mutationRecord?.attributeName === 'id') {
-			this.inputElementId = this.#element?.getAttribute?.('id');
-			return;
-		}
-
-		if (mutationRecord?.attributeName === 'disabled') {
-			if (this.#element?.disabled)
-				this.#element
-					?.closest?.('label.mdc-text-field')
-					?.classList?.add?.('mdc-text-field--disabled');
-			else
-				this.#element
-					?.closest?.('label.mdc-text-field')
-					?.classList?.remove?.('mdc-text-field--disabled');
-		}
-
-		if (mutationRecord?.attributeName === 'maxlength') {
-			if (this.#element?.hasAttribute?.('maxlength')) {
-				this.characterCount = Number(
-					this.#element?.getAttribute?.('maxlength')
-				);
-				if (Number?.isNaN?.(this.characterCount))
-					this.characterCount = 0;
-			} else {
-				this.characterCount = 0;
-			}
-		}
-
-		if (mutationRecord?.attributeName === 'required') {
-			if (this.#element?.hasAttribute?.('required'))
-				this.#element
-					?.closest?.('label.mdc-text-field')
-					?.querySelector?.('span.mdc-floating-label')
-					?.classList?.add?.('mdc-floating-label--required');
-			else
-				this.#element
-					?.closest?.('label.mdc-text-field')
-					?.querySelector?.('span.mdc-floating-label')
-					?.classList?.remove?.('mdc-floating-label--required');
-		}
-
-		this?._fireEvent?.('statuschange');
-	}
-
+	// #region DOM Event Handlers
 	@action
 	onInput(event) {
 		this.#debug?.(`onInput: `, event);
-
 		this.numCharacters = this.#element?.value?.length;
-		this?._fireEvent?.('statuschange');
 	}
 
 	@action
 	setFocus(focused) {
 		this.#debug?.(`setFocus: `, focused);
 		this.isFocused = focused;
+	}
+	// #endregion
+
+	// #region Modifier Callbacks
+	@action
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
+		if (!this.#element) return;
+
+		this?._setupInitState?.();
+		this?.recalcStyles?.();
+
+		this?.setupLineRipple?.();
 	}
 
 	@action
@@ -106,6 +81,9 @@ export default class MdcTextFieldComponent extends Component {
 		// Step 1: Reset
 		rootElement?.style?.removeProperty?.('--mdc-text-field-color');
 
+		// Stop if the element is disabled
+		if (this.#element?.disabled) return;
+
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
 		rootElement?.style?.setProperty?.(
@@ -116,6 +94,7 @@ export default class MdcTextFieldComponent extends Component {
 
 	@action
 	setupLineRipple() {
+		this.#mdcLineRipple = null;
 		if (this?.args?.outlined) return;
 
 		const lineRippleElement = this.#element
@@ -124,37 +103,57 @@ export default class MdcTextFieldComponent extends Component {
 
 		if (!lineRippleElement) return;
 
-		new MDCLineRipple(lineRippleElement);
+		this.#mdcLineRipple = new MDCLineRipple(lineRippleElement);
 	}
 
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		this.#element = element;
 
+		this.#element = element;
+		this.#mdcRipple = new MDCRipple(
+			this.#element?.closest?.('label.mdc-text-field')
+		);
+
+		this?._setupInitState?.();
 		this?.recalcStyles?.();
 
-		MDCRipple?.attachTo?.(this.#element?.closest?.('label.mdc-text-field'));
 		this?.setupLineRipple?.();
+	}
+	// #endregion
 
+	// #region Controls
+	// #endregion
+
+	// #region Computed Properties
+	// #endregion
+
+	// #region Private Methods
+	_setupInitState() {
 		this.inputElementId = this.#element?.getAttribute?.('id');
 
-		if (this.#element?.disabled)
+		if (this.#element?.disabled) {
+			this.#mdcRipple?.deactivate?.();
+			this.#mdcLineRipple?.deactivate?.();
+
 			this.#element
 				?.closest?.('label.mdc-text-field')
 				?.classList?.add?.('mdc-text-field--disabled');
-		else
+		} else {
 			this.#element
 				?.closest?.('label.mdc-text-field')
 				?.classList?.remove?.('mdc-text-field--disabled');
 
+			this.#mdcLineRipple?.activate?.();
+			this.#mdcRipple?.activate?.();
+		}
+
+		this.characterCount = 0;
 		if (this.#element?.hasAttribute?.('maxlength')) {
 			this.characterCount = Number(
 				this.#element?.getAttribute?.('maxlength')
 			);
 			if (Number?.isNaN?.(this.characterCount)) this.characterCount = 0;
-		} else {
-			this.characterCount = 0;
 		}
 
 		if (this.#element?.hasAttribute?.('required'))
@@ -169,40 +168,17 @@ export default class MdcTextFieldComponent extends Component {
 				?.classList?.remove?.('mdc-floating-label--required');
 
 		this.numCharacters = this.#element?.value?.length;
-		this?._fireEvent?.('init');
 	}
 	// #endregion
-
-	// #region Computed Properties
-	// #endregion
-
-	// #region Private Methods
-	@action
-	_fireEvent(name) {
-		this.#debug?.(`_fireEvent`);
-		if (!this.#element) return;
-
-		if (!this?.args?.groupControls) {
-			const thisEvent = new CustomEvent(name, {
-				detail: {
-					id: this.#element?.getAttribute?.('id'),
-					status: {
-						value: this.#element?.value,
-						disabled: this.#element?.disabled
-					}
-				}
-			});
-
-			this.#element?.dispatchEvent?.(thisEvent);
-			return;
-		}
-	}
 
 	// #region Default Sub-components
 	// #endregion
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-text-field');
+
 	#element = null;
+	#mdcRipple = null;
+	#mdcLineRipple = null;
 	// #endregion
 }

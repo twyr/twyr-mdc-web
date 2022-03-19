@@ -10,6 +10,9 @@ export default class MdcListDividerComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -18,18 +21,24 @@ export default class MdcListDividerComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#element = null;
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	recalcStyles() {
 		if (!this.#element) return;
-
-		this.#element.style.backgroundColor = null;
-
-		if (!this?.args?.palette) return;
-
-		this.#element.style.backgroundColor = `var(--mdc-theme-${this?.args?.palette})`;
+		this.#element.style.backgroundColor = this?.args?.palette
+			? `var(--mdc-theme-${this?.args?.palette})`
+			: null;
 	}
 
 	@action
@@ -39,6 +48,9 @@ export default class MdcListDividerComponent extends Component {
 
 		this?.recalcStyles?.();
 	}
+	// #endregion
+
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties

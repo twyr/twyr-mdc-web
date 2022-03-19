@@ -10,6 +10,9 @@ export default class MdcLinearProgressComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
@@ -18,9 +21,18 @@ export default class MdcLinearProgressComponent extends Component {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#element = null;
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
@@ -45,14 +57,10 @@ export default class MdcLinearProgressComponent extends Component {
 		this.#element = element;
 
 		this?.recalcStyles?.();
-		this?._fireEvent?.('init');
 	}
+	// #endregion
 
-	@action
-	fireValueChangeEvent() {
-		this.#debug?.(`fireValueChangeEvent: `, this?.args?.progress);
-		this?._fireEvent?.('statuschange');
-	}
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
@@ -134,32 +142,6 @@ export default class MdcLinearProgressComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_fireEvent(name) {
-		this.#debug?.(`_fireEvent`);
-		if (!this.#element) return;
-
-		const thisEvent = new CustomEvent(name, {
-			detail: {
-				id: this.#element?.getAttribute?.('id'),
-				status: {
-					disabled: this.#element?.hasAttribute?.('disabled'),
-					label: this?.label,
-
-					minValue: this?.args?.minValue,
-					maxValue: this?.args?.maxValue,
-
-					value: this?.args?.progress,
-					displayValue: this?.displayValue,
-
-					bufferValue: this?.args?.bufferedValue,
-					bufferDisplayValue: this?.bufferValue
-				}
-			}
-		});
-
-		this.#element?.dispatchEvent?.(thisEvent);
-	}
 	// #endregion
 
 	// #region Default Sub-components

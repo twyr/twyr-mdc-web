@@ -7,6 +7,8 @@
 	{{on-args-change this.recalcStyles @palette}}
 	{{! Ensure id is present - we need it for the events }}
 	{{requires-id ignore=true}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation this.onAttributeMutation attributeFilter=(array 'disabled')}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
@@ -23,7 +25,7 @@
 						type='button'
 						class='mdc-button mdc-snackbar__action'
 						{{! React to clicks }}
-						{{on 'click' this.onAction}}
+						{{on 'click' (fn this.fireActionEvent 'action')}}
 						{{! Store reference to the element for DOM manipulation }}
 						{{store-element this.storeActionElement}}
 					>
@@ -40,7 +42,7 @@
 						@icon='close'
 						@title='Dismiss'
 						{{! React to clicks }}
-						{{on 'click' this.onClose}}
+						{{on 'click' (fn this.fireActionEvent 'close')}}
 					/>
 				{{/if}}
 			</div>

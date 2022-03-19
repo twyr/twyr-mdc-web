@@ -1,7 +1,5 @@
-import Component from '../../mdc-icon-button/index';
+import Component from './../../mdc-icon-button/index';
 import debugLogger from 'ember-debug-logger';
-
-import { action } from '@ember/object';
 
 export default class MdcTopAppBarNavigationIconComponent extends Component {
 	// #region Accessed Services
@@ -10,78 +8,32 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 	// #region Tracked Attributes
 	// #endregion
 
+	// #region Untracked Public Fields
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
-
-		this.#controls.registerSidebar = this?._register;
-		this.#controls.unregisterSidebar = this?._unregister;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-
-		this.#sideBars?.clear?.();
-		super.willDestroy(...arguments);
-	}
 	// #endregion
 
 	// #region DOM Event Handlers
-	@action
-	onClick(event) {
-		this.#debug?.(`onClick: `, event);
+	// #endregion
 
-		this.#sideBars?.forEach?.((value) => {
-			const sidebarControls = value;
-			sidebarControls?.toggle?.();
-		});
-	}
+	// #region Modifier Callbacks
+	// #endregion
 
-	@action
-	storeElement(element) {
-		this.#debug?.(`storeElement: `, element);
-		super.storeElement?.(element);
-
-		this.#element = element;
-		this?._fireEvent?.('init');
-	}
+	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_register(sidebarElement, sidebarControls) {
-		this.#debug?.(`_register: `, sidebarElement);
-		this.#sideBars?.set(sidebarElement, sidebarControls);
-
-		sidebarControls?.setControlElement?.(this.#element);
-	}
-
-	@action
-	_unregister(sidebarElement) {
-		this.#debug?.(`_unregister: `, sidebarElement);
-		this.#sideBars?.delete?.(sidebarElement);
-	}
-
-	@action
-	_fireEvent(name) {
-		this.#debug?.(`_fireEvent`);
-		if (!this.#element) return;
-
-		const thisEvent = new CustomEvent(name, {
-			detail: {
-				id: this.#element?.getAttribute?.('id'),
-				controls: this.#controls
-			}
-		});
-
-		this.#element?.dispatchEvent?.(thisEvent);
-	}
 	// #endregion
 
 	// #region Default Sub-components
@@ -89,9 +41,5 @@ export default class MdcTopAppBarNavigationIconComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-top-app-bar-navigation-icon');
-	#element = null;
-
-	#controls = {};
-	#sideBars = new Map();
 	// #endregion
 }
