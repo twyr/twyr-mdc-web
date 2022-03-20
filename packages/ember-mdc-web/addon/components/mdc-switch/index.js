@@ -193,7 +193,7 @@ export default class MdcSwitchComponent extends Component {
 
 	// #region Private Methods
 	_setupInitState() {
-		this.inputElementId = this.#element?.getAttribute?.('id');
+		this.inputElementId = this.#element?.id;
 
 		if (this.#element?.disabled) {
 			this.#mdcRipple?.deactivate?.();

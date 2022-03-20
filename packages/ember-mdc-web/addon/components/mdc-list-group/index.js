@@ -83,8 +83,8 @@ export default class MdcListGroupComponent extends Component {
 		listItemControls?.select?.(selected);
 
 		const eventData = {
-			selected: selected ? item?.getAttribute?.('id') : null,
-			unselected: selectedItem?.getAttribute?.('id')
+			selected: selected ? item?.id : null,
+			unselected: selectedItem?.id
 		};
 		this?._fireEvent?.('select', eventData);
 	}
@@ -108,7 +108,7 @@ export default class MdcListGroupComponent extends Component {
 		const status = Object?.assign?.({}, options);
 		const thisEvent = new CustomEvent(name, {
 			detail: {
-				id: this.#element?.getAttribute?.('id'),
+				id: this.#element?.id,
 				controls: {
 					selectItem: this?._selectItem
 				},

@@ -3,21 +3,21 @@
 	<div
 		class='mdc-dialog mdc-dialog--scrollable'
 		{{! Add styling classes as necessary }}
-		{{has-class-if @fullScreen ' mdc-dialog--fullscreen'}}
-		{{has-class-if @open 'mdc-dialog--open'}}
+		{{has-class-if this.fullScreen ' mdc-dialog--fullscreen'}}
+		{{has-class-if this.open 'mdc-dialog--open'}}
 		{{! Re-calculate as necessary }}
 		{{on-args-change this.positionModal @parentElement}}
 	>
 		<div class='mdc-dialog__container'>
 			<div
 				class='mdc-dialog__surface'
+				{{! Accessibility stuff }}
+				role='alertdialog'
+				aria-modal='true'
 				{{! React to clicks outside the dialog box area }}
 				{{not-on 'click' this.onClickOutside}}
 				{{! Store reference to the element for DOM manipulation }}
 				{{store-element this.storeElement}}
-				{{! Accessibility stuff }}
-				role='alertdialog'
-				aria-modal='true'
 				{{! HTML attributes added in the calling template }}
 				...attributes
 			>

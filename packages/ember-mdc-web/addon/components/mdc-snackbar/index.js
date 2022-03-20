@@ -39,11 +39,7 @@ export default class MdcSnackbarComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 
-		this?.snackbarManager?.register(
-			this.#element?.getAttribute?.('id'),
-			null,
-			false
-		);
+		this?.snackbarManager?.register(this.#element?.id, null, false);
 		this.#controls = {};
 
 		if (this.#alertTimeout) {
@@ -86,9 +82,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.#actionHandler = null;
 		this.#closeHandler = null;
 
-		this?.snackbarManager?.notifyActionClose?.(
-			this.#element?.getAttribute?.('id')
-		);
+		this?.snackbarManager?.notifyActionClose?.(this.#element?.id);
 	}
 	// #endregion
 
@@ -132,7 +126,7 @@ export default class MdcSnackbarComponent extends Component {
 		this?.recalcStyles?.();
 
 		this?.snackbarManager?.register(
-			this.#element?.getAttribute?.('id'),
+			this.#element?.id,
 			this.#controls,
 			true
 		);

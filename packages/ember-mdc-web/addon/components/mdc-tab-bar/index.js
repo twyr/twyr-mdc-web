@@ -140,8 +140,8 @@ export default class MdcTabBarComponent extends Component {
 		}
 
 		this?._fireEvent?.('statuschange', {
-			selected: tab?.getAttribute?.('id'),
-			unselected: selectedTab?.getAttribute?.('id')
+			selected: tab?.id,
+			unselected: selectedTab?.id
 		});
 	}
 	// #endregion
@@ -160,7 +160,7 @@ export default class MdcTabBarComponent extends Component {
 		const status = Object?.assign?.({}, options);
 		const thisEvent = new CustomEvent(name, {
 			detail: {
-				id: this.#element?.getAttribute?.('id'),
+				id: this.#element?.id,
 				controls: {
 					selectTab: this?._selectTab
 				},

@@ -309,7 +309,7 @@ export default class MdcSliderComponent extends Component {
 
 		const thisEvent = new CustomEvent(name, {
 			detail: {
-				id: this.#element?.getAttribute?.('id'),
+				id: this.#element?.id,
 				status: status
 			}
 		});

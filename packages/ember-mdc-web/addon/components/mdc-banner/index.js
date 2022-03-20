@@ -45,11 +45,7 @@ export default class MdcBannerComponent extends Component {
 		this.#primaryActionHandler = null;
 		this.#secondaryActionHandler = null;
 
-		this?.bannerManager?.register(
-			this.#element?.getAttribute?.('id'),
-			null,
-			false
-		);
+		this?.bannerManager?.register(this.#element?.id, null, false);
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -71,9 +67,7 @@ export default class MdcBannerComponent extends Component {
 		this.#primaryActionHandler = null;
 		this.#secondaryActionHandler = null;
 
-		this?.bannerManager?.notifyBannerClose?.(
-			this.#element?.getAttribute?.('id')
-		);
+		this?.bannerManager?.notifyBannerClose?.(this.#element?.id);
 	}
 	// #endregion
 
@@ -111,11 +105,7 @@ export default class MdcBannerComponent extends Component {
 		this.#element = element;
 
 		this?.recalcStyles?.();
-		this?.bannerManager?.register(
-			this.#element?.getAttribute?.('id'),
-			this.#controls,
-			true
-		);
+		this?.bannerManager?.register(this.#element?.id, this.#controls, true);
 	}
 	// #endregion
 

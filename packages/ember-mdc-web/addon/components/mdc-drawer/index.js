@@ -9,7 +9,7 @@ export default class MdcDrawerComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked isOpen = false;
+	@tracked open = false;
 	// #endregion
 
 	// #region Untracked Public Fields
@@ -25,7 +25,7 @@ export default class MdcDrawerComponent extends Component {
 		this.#controls.close = this?._close;
 		this.#controls.toggle = this?._toggle;
 
-		if (this?.args?.open || this?.args?.locked) this.isOpen = true;
+		if (this?.args?.open || this?.args?.locked) this.open = true;
 	}
 	// #endregion
 
@@ -69,6 +69,9 @@ export default class MdcDrawerComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
+		this.open = this.#element?.hasAttribute?.('open');
+		this.#controlElement?.controls?.setState?.(this?.open);
+
 		this?._fireEvent?.('register');
 	}
 	// #endregion
@@ -77,10 +80,9 @@ export default class MdcDrawerComponent extends Component {
 	@action
 	_open() {
 		this.#debug?.(`_open`);
+		this.open = true;
 
-		this.isOpen = true;
-
-		this.#controlElement?.controls?.setState?.(this?.isOpen);
+		this.#controlElement?.controls?.setState?.(this?.open);
 		this?._fireEvent?.('statuschange');
 	}
 
@@ -90,19 +92,20 @@ export default class MdcDrawerComponent extends Component {
 
 		if (this?.args?.locked) {
 			this.#debug?.(`_close: sidebar is locked. aborting...`);
-			this.#controlElement?.controls?.setState?.(this?.isOpen);
+
+			this.#controlElement?.controls?.setState?.(this?.open);
+			return;
 		}
 
-		this.isOpen = false;
-
-		this.#controlElement?.controls?.setState?.(this?.isOpen);
+		this.open = false;
+		this.#controlElement?.controls?.setState?.(this?.open);
 		this?._fireEvent?.('statuschange');
 	}
 
 	@action
 	_toggle() {
 		this.#debug?.(`_toggle`);
-		if (this?.isOpen) {
+		if (this?.open) {
 			this?._close?.();
 		} else {
 			this?._open?.();
@@ -114,7 +117,7 @@ export default class MdcDrawerComponent extends Component {
 		this.#debug?.(`_setControlElement: `, controlElement);
 		this.#controlElement = controlElement;
 
-		this.#controlElement?.controls?.setState?.(this?.isOpen);
+		this.#controlElement?.controls?.setState?.(this?.open);
 	}
 	// #endregion
 
@@ -135,11 +138,11 @@ export default class MdcDrawerComponent extends Component {
 
 		const thisEvent = new CustomEvent(name, {
 			detail: {
-				id: this.#element?.getAttribute?.('id'),
+				id: this.#element?.id,
 				controls: this.#controls,
 				status: {
 					name: this?.args?.name ?? 'mdc-sidebar',
-					open: this?.isOpen,
+					open: this?.open,
 					locked: this?.args?.locked,
 					modal: this?.args?.modal
 				}

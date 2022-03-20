@@ -2,12 +2,14 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 export default class MdcDialogComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked open = false;
 	// #endregion
 
 	// #region Untracked Public Fields
@@ -32,15 +34,17 @@ export default class MdcDialogComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	onClickOutside(event) {
-		const shouldClose = this?.args?.clickOutsideToClose ?? true;
-		if (!shouldClose) {
-			this.#debug?.(`onClickOutside: ${shouldClose}. aborting...`);
+		if (!this?.clickOutsideToClose) {
+			this.#debug?.(
+				`onClickOutside: ${this?.clickOutsideToClose}. aborting...`
+			);
 			return;
 		}
 
 		const isEventInsideElement =
 			event?.target === this.#element ||
 			this.#element?.contains?.(event?.target);
+
 		if (isEventInsideElement) {
 			this.#debug?.(
 				`onClickOutside: click is inside this element. aborting...`
@@ -48,7 +52,7 @@ export default class MdcDialogComponent extends Component {
 			return;
 		}
 
-		this?.args?.onClose?.(event);
+		this.open = false;
 	}
 	// #endregion
 
@@ -61,9 +65,9 @@ export default class MdcDialogComponent extends Component {
 		const containerElement = this.#element?.closest?.('div.mdc-dialog');
 		if (!containerElement) return;
 
-		if (this?.args?.parentElement)
-			containerElement.style.position = 'absolute';
-		else containerElement.style.position = 'fixed';
+		containerElement.style.position = this?.args?.parentElement
+			? 'absolute'
+			: 'fixed';
 	}
 
 	@action
@@ -71,6 +75,7 @@ export default class MdcDialogComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
+		this.open = this.#element?.hasAttribute?.('open');
 		this?.positionModal?.();
 	}
 	// #endregion
@@ -79,6 +84,14 @@ export default class MdcDialogComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
+	get fullScreen() {
+		return this?.args?.fullScreen ?? false;
+	}
+
+	get clickOutsideToClose() {
+		return this?.args?.clickOutsideToClose ?? true;
+	}
+
 	get headerComponent() {
 		return this?._getComputedSubcomponent?.('header');
 	}
