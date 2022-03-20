@@ -66,9 +66,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 		this.#element = element;
 
 		this.open = this.#element?.hasAttribute?.('open');
-
 		this?._setupInitState?.();
-		this?._fireEvent?.('init');
 	}
 	// #endregion
 

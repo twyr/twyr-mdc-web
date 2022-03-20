@@ -26,7 +26,15 @@
 			aria-hidden='true'
 		/>
 	{{/if}}
-	<span class='mdc-button__label'>{{@text}}</span>
+
+	<span class='mdc-button__label'>
+		{{#if (has-block)}}
+			{{yield}}
+		{{else}}
+			{{@text}}
+		{{/if}}
+	</span>
+
 	{{#if @trailingIcon}}
 		<MdcIcon
 			class='mdc-button__icon'

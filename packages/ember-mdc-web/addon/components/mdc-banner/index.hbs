@@ -45,19 +45,21 @@
 				{{#if this.secondaryActionLabel}}
 					<MdcButton
 						class='mdc-banner__secondary-action'
-						@text={{this.secondaryActionLabel}}
 						@palette={{this.palette}}
 						{{on 'click' (fn this.fireActionEvent 'secondary')}}
-					/>
+					>
+						{{this.secondaryActionLabel}}
+					</MdcButton>
 				{{/if}}
 
 				{{#if this.primaryActionLabel}}
 					<MdcButton
 						class='mdc-banner__primary-action'
-						@text={{this.primaryActionLabel}}
 						@palette={{this.palette}}
 						{{on 'click' (fn this.fireActionEvent 'primary')}}
-					/>
+					>
+						{{this.primaryActionLabel}}
+					</MdcButton>
 				{{/if}}
 			</div>
 		{{/if}}

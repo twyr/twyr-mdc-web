@@ -31,7 +31,13 @@
 			@icon={{@icon}}
 		/>
 	{{/if}}
-	{{#if @label}}
-		<div class='mdc-segmented-button__label'>{{@label}}</div>
+	{{#if (or @text (has-block))}}
+		<div class='mdc-segmented-button__label'>
+			{{#if (has-block)}}
+				{{yield}}
+			{{else}}
+				{{@text}}
+			{{/if}}
+		</div>
 	{{/if}}
 </button>
