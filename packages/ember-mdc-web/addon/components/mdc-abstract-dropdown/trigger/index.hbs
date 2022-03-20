@@ -1,18 +1,20 @@
+{{! template-lint-disable no-down-event-binding }}
+{{! template-lint-disable no-invalid-interactive }}
 <div
-	id={{this.triggerId}}
 	class='mdc-abstract-dropdown-trigger'
+	id={{this.triggerId}}
+	{{! React to events }}
+	{{on 'mouseenter' this.onMouseEnter}}
+	{{on 'mouseleave' this.onMouseLeave}}
+	{{on 'mousedown' this.onMouseDown}}
+	{{on 'mouseup' this.onMouseUp}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
-	{{can-receive-focus
-		stopPropagation=this.stopPropagation
-		onKeyDown=this.handleKeyDown
-		onMouseEnter=this.handleMouseEnter
-		onMouseLeave=this.handleMouseLeave
-		onMouseDown=this.handleMouseDown
-		onMouseUp=this.handleMouseUp
-		onTouchEnd=this.handleTouchEnd
-	}}
-	disabled={{this.isDisabled}}
+	{{! HTML attributes added in the calling template }}
 	...attributes
+	disabled={{this.disabled}}
 >
-	{{yield @dropdownControls @dropdownStatus}}
+	{{yield}}
 </div>

@@ -11,144 +11,164 @@ export default class MdcAbstractDropdownComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked disabled = false;
+	@tracked open = false;
+	// #endregion
+
+	// #region Untracked Public Fields
 	controls = {};
-	status = tracked({
-		id: null,
-		disabled: false,
-		open: false
-	});
 	// #endregion
 
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
 
-		this.controls.isOpen = this._getIsOpen;
-		this.controls.close = this._close;
-		this.controls.open = this._open;
-		this.controls.toggle = this._toggle;
-		this.controls.calcContentPosition = this._calcContentPosition;
+		this.controls.open = this?._open;
+		this.controls.close = this?._close;
+		this.controls.toggle = this?._toggle;
 
-		this?.args?.setControls?.(this.controls);
-		this?.args?.setStatus?.(this.status);
+		this.controls.register = this?._registerElement;
+		this.controls.calcContentPosition = this?._calcContentPosition;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	willDestroy() {
-		this.#debug(`willDestroy`);
-		this._close();
+		this.#debug?.(`willDestroy`);
 
 		this.#triggerElement = null;
 		this.#contentElement = null;
 
-		this.controls.calcContentPosition = null;
-		this.controls.toggle = null;
-		this.controls.open = null;
-		this.controls.close = null;
-
-		this?.args?.setStatus?.(this.status);
-		this?.args?.setControls?.(this.controls);
+		this.controls = {};
+		this.#element = null;
 
 		super.willDestroy(...arguments);
 	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
 	@action
-	didMutate(entries) {
-		this.#debug(`didMutate: `, entries);
+	onAttributeMutation(mutationRecord) {
+		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this.status.id = this.#element?.getAttribute?.('id');
-		this.status.disabled = this.#element?.hasAttribute?.('disabled');
-
-		if (this.status.disabled) this?._close?.();
-	}
-
-	@action
-	registerContentElement(contentElement) {
-		this.#debug(`registerContentElement: `, contentElement);
-		this.#contentElement = contentElement;
-	}
-
-	@action
-	registerTriggerElement(triggerElement) {
-		this.#debug(`registerTriggerElement: `, triggerElement);
-		this.#triggerElement = triggerElement;
+		this?._setupInitState?.();
+		this?._fireEvent?.('statuschange');
 	}
 
 	@action
 	storeElement(element) {
-		this.#debug(`storeElement: `, element);
+		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this.status.id = this.#element?.getAttribute?.('id');
+		this.open = this.#element?.hasAttribute?.('open');
+
+		this?._setupInitState?.();
+		this?._fireEvent?.('init');
+	}
+	// #endregion
+
+	// #region Controls
+	@action
+	_open() {
+		this.#debug?.(`_open: `, arguments);
+		if (!this.#element) {
+			this.open = false;
+			return;
+		}
+
+		if (this.#element?.disabled) {
+			this.open = false;
+			return;
+		}
+
+		this.open = true;
+
+		this?._setupInitState?.();
+		this?._fireEvent?.('statuschange');
+	}
+
+	@action
+	_close() {
+		this.#debug?.(`_close: `, arguments);
+		this.open = false;
+
+		if (!this.#element) return;
+
+		if (this.#element?.disabled) return;
+
+		this?._setupInitState?.();
+		this?._fireEvent?.('statuschange');
+	}
+
+	@action
+	_toggle() {
+		this.#debug?.(`_toggle: `, arguments);
+		if (!this.#element) {
+			this.open = false;
+			return;
+		}
+
+		if (this.#element?.disabled) {
+			this.open = false;
+			return;
+		}
+
+		this.open = !this?.open;
+
+		this?._setupInitState?.();
+		this?._fireEvent?.('statuschange');
+	}
+
+	@action
+	_registerElement(position, element) {
+		this.#debug?.(`registerElement::${position}: `, element);
+
+		if (position == 'trigger') {
+			this.#triggerElement = element;
+		}
+
+		if (position == 'content') {
+			this.#contentElement = element;
+		}
+
+		this?._setupInitState?.();
+	}
+
+	@action
+	async _calcContentPosition(options) {
+		this.#debug?.(`_calcContentPosition::options: `, options);
+		const posCalcFunc =
+			this?.args?.contentPositionCalculator ||
+			this?._contentPositionCalculator?.bind?.(this);
+
+		const contentPosition = await posCalcFunc?.(
+			this.#triggerElement,
+			this.#contentElement,
+			options
+		);
+
+		return contentPosition;
 	}
 	// #endregion
 
 	// #region Computed Properties
-	get dropdownControls() {
-		return this.controls;
+	get triggerComponent() {
+		return this?._getComputedSubcomponent?.('trigger');
 	}
 
 	get contentComponent() {
 		return this?._getComputedSubcomponent?.('content');
 	}
-
-	get triggerComponent() {
-		return this?._getComputedSubcomponent?.('trigger');
-	}
 	// #endregion
 
 	// #region Private Methods
-	@action
-	_calcContentPosition(options) {
-		this.#debug(`_calcContentPosition::options: `, options);
-		const posCalcFunc =
-			this?.args?.contentPositionCalculator ||
-			this?._contentPositionCalculator?.bind?.(this);
-
-		const contentPosition = posCalcFunc?.(
-			this.#triggerElement,
-			this.#contentElement,
-			options
-		);
-		return contentPosition;
-	}
-
-	@action
-	_close() {
-		this.#debug(`_close`);
-
-		this.status.open = false;
-		this?.args?.setStatus?.(this.status);
-	}
-
-	@action
-	_getIsOpen() {
-		this.#debug(`_getIsOpen`);
-		return this?.status?.open && !this?.status?.disabled;
-	}
-
-	@action
-	_open() {
-		this.#debug(`_open`);
-
-		this.status.open = true;
-		this?.args?.setStatus?.(this.status);
-	}
-
-	@action
-	_toggle() {
-		this.#debug(`_toggle`);
-		if (this.status.open) this._close();
-		else this._open();
-	}
-
 	async _contentPositionCalculator(triggerElement, contentElement, options) {
-		this.#debug(`_contentPositionCalculator::options: `, options);
+		this.#debug?.(`_contentPositionCalculator::options: `, options);
 		const position = {
 			left: null,
 			right: null,
@@ -169,21 +189,19 @@ export default class MdcAbstractDropdownComponent extends Component {
 			triggerElement?.getBoundingClientRect?.();
 		let contentElementDimensions =
 			contentElement?.getBoundingClientRect?.();
-		let contentElementStyle = window.getComputedStyle(contentElement);
 
 		// Init stuff - if we're matching widths, do it now, wait for height to settle, then measure
 		// height. We need this to correctly set middle if that's how the yAlign rolls
+		let contentElementStyle = window?.getComputedStyle?.(contentElement);
 		if (options?.matchTriggerWidth) {
-			contentElement.style[
-				'width'
-			] = `${triggerElementDimensions?.width}px`;
+			contentElement.style.width = `${triggerElementDimensions?.width}px`;
 
-			await nextBrowserTick();
-			await nextBrowserTick();
+			await nextBrowserTick?.();
+			await nextBrowserTick?.();
 
 			contentElementDimensions =
 				contentElement?.getBoundingClientRect?.();
-			contentElementStyle = window.getComputedStyle(contentElement);
+			contentElementStyle = window?.getComputedStyle?.(contentElement);
 		}
 
 		// Step 1: Set width according to input parameters
@@ -195,8 +213,8 @@ export default class MdcAbstractDropdownComponent extends Component {
 		if (xAlign === 'right') position['right'] = 0;
 		if (xAlign === 'center') {
 			position['left'] =
-				(triggerElementDimensions?.width - position['width']) / 2.0;
-			position['right'] = position['left'] + position['width'];
+				(triggerElementDimensions?.width - position?.['width']) / 2.0;
+			position['right'] = position?.['left'] + position?.['width'];
 		}
 
 		const offsetX = (triggerElementDimensions?.width * xOffset) / 100.0;
@@ -211,10 +229,12 @@ export default class MdcAbstractDropdownComponent extends Component {
 				Number(contentElementStyle?.top?.replace('px', '')) -
 				(triggerElementDimensions?.height +
 					contentElementDimensions?.height);
+
 		if (yAlign === 'bottom')
 			position['top'] = Number(
 				contentElementStyle?.top?.replace('px', '')
 			);
+
 		if (yAlign === 'middle') {
 			position['top'] =
 				Number(contentElementStyle?.top?.replace('px', '')) -
@@ -223,11 +243,12 @@ export default class MdcAbstractDropdownComponent extends Component {
 		}
 
 		const offsetY = (triggerElementDimensions?.height * yOffset) / 100.0;
-		if (position['top'] || position['middle']) position['top'] += offsetY;
-		if (position['bottom'] || position['middle'])
+		if (yAlign == 'top' || yAlign == 'middle') position['top'] += offsetY;
+
+		if (yAlign == 'bottom' || yAlign == 'middle')
 			position['bottom'] += offsetY;
 
-		this.#debug(
+		this.#debug?.(
 			`_contentPositionCalculator::options: `,
 			options,
 			` position: `,
@@ -238,6 +259,45 @@ export default class MdcAbstractDropdownComponent extends Component {
 		if (!options?.matchTriggerWidth) delete position['width'];
 
 		return position;
+	}
+
+	_fireEvent(name) {
+		this.#debug?.(`_fireEvent: ${name}`);
+		if (!this.#element) return;
+
+		const thisEvent = new CustomEvent(name, {
+			detail: {
+				id: this.#element?.id,
+				status: {
+					open: this?.open,
+					disabled: this?.disabled
+				}
+			}
+		});
+
+		this.#element?.dispatchEvent?.(thisEvent);
+	}
+
+	_setupInitState() {
+		if (this.#element?.disabled) {
+			this.open = false;
+		}
+
+		if (this.#triggerElement) {
+			this.#triggerElement?.controls?.setDropdownStatus?.({
+				id: this.#element?.id,
+				disabled: this?.disabled,
+				open: this?.open
+			});
+		}
+
+		if (this.#contentElement) {
+			this.#contentElement?.controls?.setDropdownStatus?.({
+				id: this.#element?.id,
+				disabled: this?.disabled,
+				open: this?.open
+			});
+		}
 	}
 
 	_getComputedSubcomponent(componentName) {

@@ -2,64 +2,44 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
-
-const KEYCODE = {
-	ENTER: 13,
-	ESCAPE: 27,
-	SPACE: 32,
-
-	LEFT_ARROW: 37,
-	UP_ARROW: 38,
-	RIGHT_ARROW: 39,
-	DOWN_ARROW: 40,
-
-	TAB: 9
-};
+import { tracked } from '@glimmer/tracking';
 
 export default class MdcAbstractDropdownTriggerComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked dropdownId = null;
+	@tracked disabled = false;
+	// #endregion
+
+	// #region Untracked Public Fields
 	// #endregion
 
 	// #region Constructor
 	constructor() {
 		super(...arguments);
-		this.#debug(`constructor`);
+		this.#debug?.(`constructor`);
+
+		this.#controls.setDropdownstatus = this?._setDropdownStatus;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.controls = {};
+		this.#element = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers
 	@action
-	handleKeyDown(event) {
-		this.#debug(`handleKeyDown: `, event);
-
-		if (
-			event?.keyCode !== KEYCODE.ENTER &&
-			event?.keyCode !== KEYCODE.SPACE &&
-			event?.keyCode !== KEYCODE.ESCAPE
-		)
-			return;
-
-		if (event?.keyCode === KEYCODE.SPACE) event?.preventDefault?.();
-
-		if (
-			event?.keyCode === KEYCODE.ENTER ||
-			event?.keyCode === KEYCODE.SPACE
-		)
-			this?.args?.dropdownControls?.toggle?.(event);
-
-		if (event?.keyCode === KEYCODE.ESCAPE)
-			this?.args?.dropdownControls?.close?.(event);
-	}
-
-	@action
-	handleMouseEnter(event) {
-		this.#debug(`handleMouseEnter: `, event);
+	onMouseEnter(event) {
+		this.#debug?.(`onMouseEnter: `, event);
 		if (this?.reactEvent !== 'hover' && this?.reactEvent !== 'mouseenter')
 			return;
 
@@ -67,8 +47,8 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 	}
 
 	@action
-	handleMouseLeave(event) {
-		this.#debug(`handleMouseLeave: `, event);
+	onMouseLeave(event) {
+		this.#debug?.(`onMouseLeave: `, event);
 		if (this?.reactEvent !== 'hover' && this?.reactEvent !== 'mouseleave')
 			return;
 
@@ -76,42 +56,55 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 	}
 
 	@action
-	handleMouseDown(event) {
-		this.#debug(`handleMouseDown: `, event);
+	onMouseDown(event) {
+		this.#debug?.(`onMouseDown: `, event);
 		if (this?.reactEvent !== 'mousedown') return;
 
 		this?.args?.dropdownControls?.toggle?.(event);
 	}
 
 	@action
-	handleMouseUp(event) {
-		this.#debug(`handleMouseUp: `, event);
+	onMouseUp(event) {
+		this.#debug?.(`onMouseUp: `, event);
 		if (this?.reactEvent !== 'mouseup' && this?.reactEvent !== 'click')
 			return;
 
 		this?.args?.dropdownControls?.toggle?.(event);
 	}
+	// #endregion
 
+	// #region Modifier Callbacks
 	@action
-	handleTouchEnd(event) {
-		this.#debug(`handleTouchEnd: `, event);
-		this?.args?.dropdownControls?.toggle?.(event);
+	recalcStyles() {
+		this.#debug?.(`recalcStyles: re-calculating styling`);
+		if (!this.#element) return;
 	}
 
 	@action
 	storeElement(element) {
-		this.#debug(`storeElement: `, element);
+		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?.args?.registerWithDropdown?.(this.#element);
+		this?.recalcStyles?.();
+		this?.args?.dropdownControls?.register?.('trigger', {
+			element: this.#element,
+			controls: this.#controls
+		});
+	}
+	// #endregion
+
+	// #region Controls
+	_setDropdownStatus(dropdownStatus) {
+		this.#debug?.(`_setDropdownStatus: `, dropdownStatus);
+
+		this.dropdownId = dropdownStatus?.id;
+		this.disabled = dropdownStatus?.disabled;
+
+		this?.recalcStyles?.();
 	}
 	// #endregion
 
 	// #region Computed Properties
-	get isDisabled() {
-		return this?.args?.dropdownStatus?.disabled ?? false;
-	}
-
 	get reactEvent() {
 		return this?.args?.reactEvent ?? 'mouseup';
 	}
@@ -121,7 +114,7 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 	}
 
 	get triggerId() {
-		return [this?.args?.dropdownStatus?.id, 'trigger'].join('-');
+		return `${this?.dropdownId}-trigger`;
 	}
 	// #endregion
 
@@ -133,6 +126,8 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-abstract-dropdown-trigger');
+
 	#element = null;
+	#controls = {};
 	// #endregion
 }

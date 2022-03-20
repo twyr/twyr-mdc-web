@@ -1,38 +1,39 @@
 <div
 	class='mdc-abstract-dropdown'
-	{{requires-id}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation
+		this.onAttributeMutation
+		attributeFilter=(array 'id' 'disabled')
+	}}
+	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
-	{{on-mutation this.didMutate attributeFilter=(array 'id' 'disabled')}}
+	{{! HTML attributes added in the calling template }}
 	...attributes
 >
 	{{#if (has-block 'trigger')}}
 		{{yield
 			(component
 				this.triggerComponent
-				dropdownControls=this.dropdownControls
-				dropdownStatus=this.status
-				registerWithDropdown=this.registerTriggerElement
-				reactEvent=@reactEvent
+				dropdownControls=this.controls
+				palette=@palette
 			)
 			to='trigger'
 		}}
 	{{/if}}
 
-	{{#if
-		(and this.status.open (not this.status.disabled) (has-block 'content'))
-	}}
+	{{#if (and this.open (not this.disabled) (has-block 'content'))}}
 		{{yield
 			(component
 				this.contentComponent
-				dropdownControls=this.dropdownControls
-				dropdownStatus=this.status
+				dropdownControls=this.controls
 				xAlign=@xAlign
 				xOffset=@xOffset
 				yAlign=@yAlign
 				yOffset=@yOffset
-				reactEvent=@reactEvent
 				matchTriggerWidth=@equalTriggerContentWidth
-				registerWithDropdown=this.registerContentElement
+				palette=@palette
 			)
 			to='content'
 		}}
