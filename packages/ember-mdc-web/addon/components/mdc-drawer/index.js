@@ -49,8 +49,8 @@ export default class MdcDrawerComponent extends Component {
 		this.#debug?.(`onClickOutside: `, event);
 
 		const isEventOnControl =
-			event.target === this.#controlElement ||
-			this.#controlElement?.contains?.(event.target);
+			event.target === this.#controlElement?.element ||
+			this.#controlElement?.element?.contains?.(event.target);
 
 		if (isEventOnControl) {
 			this.#debug?.(
@@ -69,7 +69,7 @@ export default class MdcDrawerComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?._fireEvent?.('init');
+		this?._fireEvent?.('register');
 	}
 	// #endregion
 
@@ -79,9 +79,9 @@ export default class MdcDrawerComponent extends Component {
 		this.#debug?.(`_open`);
 
 		this.isOpen = true;
-		this?._fireEvent?.('statuschange');
 
-		return this?.isOpen;
+		this.#controlElement?.controls?.setState?.(this?.isOpen);
+		this?._fireEvent?.('statuschange');
 	}
 
 	@action
@@ -90,13 +90,13 @@ export default class MdcDrawerComponent extends Component {
 
 		if (this?.args?.locked) {
 			this.#debug?.(`_close: sidebar is locked. aborting...`);
-			return;
+			this.#controlElement?.controls?.setState?.(this?.isOpen);
 		}
 
 		this.isOpen = false;
-		this?._fireEvent?.('statuschange');
 
-		return this?.isOpen;
+		this.#controlElement?.controls?.setState?.(this?.isOpen);
+		this?._fireEvent?.('statuschange');
 	}
 
 	@action
@@ -107,14 +107,14 @@ export default class MdcDrawerComponent extends Component {
 		} else {
 			this?._open?.();
 		}
-
-		return this?.isOpen;
 	}
 
 	@action
 	_setControlElement(controlElement) {
 		this.#debug?.(`_setControlElement: `, controlElement);
 		this.#controlElement = controlElement;
+
+		this.#controlElement?.controls?.setState?.(this?.isOpen);
 	}
 	// #endregion
 

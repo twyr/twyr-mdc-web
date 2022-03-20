@@ -22,6 +22,7 @@ export default class MdcDrawerControlComponent extends Component {
 
 		this.#controls.registerSidebar = this?._register;
 		this.#controls.unregisterSidebar = this?._unregister;
+		this.#controls.setState = this?._setSidebarState;
 	}
 	// #endregion
 
@@ -29,8 +30,8 @@ export default class MdcDrawerControlComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 
-		this.#sideBars?.clear?.();
 		this.#controls = {};
+		this.#sideBar = null;
 
 		this.#element = null;
 		super.willDestroy(...arguments);
@@ -40,12 +41,8 @@ export default class MdcDrawerControlComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	onClick(event) {
-		this.#debug?.(`onClick: `, event);
-
-		this.#sideBars?.forEach?.((value) => {
-			const sidebarControls = value;
-			this.toggled ||= sidebarControls?.toggle?.();
-		});
+		this.#debug?.('onClick: ', event);
+		this.#sideBar?.toggle?.();
 	}
 	// #endregion
 
@@ -64,15 +61,24 @@ export default class MdcDrawerControlComponent extends Component {
 	@action
 	_register(sidebarElement, sidebarControls) {
 		this.#debug?.(`_register: `, sidebarElement);
-		this.#sideBars?.set(sidebarElement, sidebarControls);
 
-		sidebarControls?.setControlElement?.(this.#element);
+		this.#sideBar = sidebarControls;
+		sidebarControls?.setControlElement?.({
+			element: this.#element,
+			controls: this.#controls
+		});
 	}
 
 	@action
 	_unregister(sidebarElement) {
 		this.#debug?.(`_unregister: `, sidebarElement);
-		this.#sideBars?.delete?.(sidebarElement);
+		this.#sideBar = null;
+	}
+
+	@action
+	_setSidebarState(status) {
+		this.#debug?.(`_setSidebarState: `, status);
+		this.toggled = status;
 	}
 	// #endregion
 
@@ -103,6 +109,6 @@ export default class MdcDrawerControlComponent extends Component {
 	#element = null;
 
 	#controls = {};
-	#sideBars = new Map();
+	#sideBar = null;
 	// #endregion
 }
