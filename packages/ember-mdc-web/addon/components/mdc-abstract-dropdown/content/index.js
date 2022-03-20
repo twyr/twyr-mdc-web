@@ -13,18 +13,23 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	@tracked disabled = false;
 	// #endregion
 
+	// #region Untracked Public Fields
+	controls = {};
+	// #endregion
+
 	// #region Constructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
 
-		this.#controls.setDropdownstatus = this?._setDropdownStatus;
+		this.controls.setDropdownStatus = this?._setDropdownStatus;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
+		this?.args?.dropdownControls?.register?.('content', null, false);
 
 		this.controls = {};
 		this.#element = null;
@@ -93,22 +98,26 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		await this?.setNewPosition();
-		this?.recalcStyles?.();
-
-		this?.args?.dropdownControls?.register?.('content', {
-			element: this.#element,
-			controls: this.#controls
-		});
+		this?.args?.dropdownControls?.register?.(
+			'content',
+			{
+				element: this.#element,
+				controls: this.controls
+			},
+			true
+		);
 	}
 	// #endregion
 
 	// #region Controls
+	@action
 	async _setDropdownStatus(dropdownStatus) {
 		this.#debug?.(`_setDropdownStatus: `, dropdownStatus);
 
 		this.dropdownId = dropdownStatus?.id;
 		this.disabled = dropdownStatus?.disabled;
+
+		if (!dropdownStatus?.open) return;
 
 		await this?.setNewPosition();
 		this?.recalcStyles?.();
@@ -129,7 +138,10 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	}
 
 	get xOffset() {
-		return Number(this?.args?.xOffset) ?? 0;
+		let xOffset = Number(this?.args?.xOffset);
+		if (Number?.isNaN?.(xOffset)) xOffset = 0;
+
+		return xOffset;
 	}
 
 	get yAlign() {
@@ -137,7 +149,10 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	}
 
 	get yOffset() {
-		return Number(this?.args?.yOffset) ?? 0;
+		let yOffset = Number(this?.args?.yOffset);
+		if (Number?.isNaN?.(yOffset)) yOffset = 0;
+
+		return yOffset;
 	}
 	// #endregion
 
@@ -149,8 +164,6 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-abstract-dropdown-content');
-
 	#element = null;
-	#controls = {};
 	// #endregion
 }

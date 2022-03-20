@@ -123,15 +123,15 @@ export default class MdcAbstractDropdownComponent extends Component {
 	}
 
 	@action
-	_registerElement(position, element) {
-		this.#debug?.(`registerElement::${position}: `, element);
+	_registerElement(position, element, register) {
+		this.#debug?.(`_registerElement::${position}: `, element);
 
-		if (position == 'trigger') {
-			this.#triggerElement = element;
+		if (position === 'trigger') {
+			this.#triggerElement = register ? element : null;
 		}
 
-		if (position == 'content') {
-			this.#contentElement = element;
+		if (position === 'content') {
+			this.#contentElement = register ? element : null;
 		}
 
 		this?._setupInitState?.();
@@ -145,8 +145,8 @@ export default class MdcAbstractDropdownComponent extends Component {
 			this?._contentPositionCalculator?.bind?.(this);
 
 		const contentPosition = await posCalcFunc?.(
-			this.#triggerElement,
-			this.#contentElement,
+			this.#triggerElement?.element,
+			this.#contentElement?.element,
 			options
 		);
 
@@ -169,12 +169,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 		this.#debug?.(`_contentPositionCalculator::options: `, options);
 		const position = {
 			left: null,
-			right: null,
-			top: null,
-			bottom: null,
-
-			height: null,
-			width: null
+			top: null
 		};
 
 		const xAlign = options?.xAlign;
@@ -185,76 +180,64 @@ export default class MdcAbstractDropdownComponent extends Component {
 
 		const triggerElementDimensions =
 			triggerElement?.getBoundingClientRect?.();
-		let contentElementDimensions =
-			contentElement?.getBoundingClientRect?.();
 
-		// Init stuff - if we're matching widths, do it now, wait for height to settle, then measure
-		// height. We need this to correctly set middle if that's how the yAlign rolls
-		let contentElementStyle = window?.getComputedStyle?.(contentElement);
+		// Step 1: Set width according to input parameters
+		// Init stuff - if we're matching widths, do it now, wait for height to settle
 		if (options?.matchTriggerWidth) {
 			contentElement.style.width = `${triggerElementDimensions?.width}px`;
 
 			await nextBrowserTick?.();
 			await nextBrowserTick?.();
-
-			contentElementDimensions =
-				contentElement?.getBoundingClientRect?.();
-			contentElementStyle = window?.getComputedStyle?.(contentElement);
 		}
 
-		// Step 1: Set width according to input parameters
-		position['width'] = contentElementDimensions?.width;
-		position['height'] = contentElementDimensions?.height;
+		const contentElementDimensions =
+			contentElement?.getBoundingClientRect?.();
 
-		// Step 2: Based on the required x-alignment, set style
-		if (xAlign === 'left') position['left'] = 0;
-		if (xAlign === 'right') position['right'] = 0;
+		// Step 2: Based on the required x-alignment, set horizontal style
+		if (xAlign === 'left') {
+			position['left'] = 0;
+		}
+
+		if (xAlign === 'right') {
+			position['left'] =
+				triggerElementDimensions?.width -
+				contentElementDimensions?.width;
+		}
+
 		if (xAlign === 'center') {
 			position['left'] =
-				(triggerElementDimensions?.width - position?.['width']) / 2.0;
-			position['right'] = position?.['left'] + position?.['width'];
+				(triggerElementDimensions?.width -
+					contentElementDimensions?.width) /
+				2.0;
 		}
 
-		const offsetX = (triggerElementDimensions?.width * xOffset) / 100.0;
-		if (xAlign === 'left' || xAlign === 'center')
-			position['left'] += offsetX;
-		if (xAlign === 'right' || xAlign === 'center')
-			position['right'] += offsetX;
+		const offsetX = triggerElementDimensions?.width * (xOffset / 100.0);
+		position['left'] += offsetX;
 
-		// Step 3: Based on required y-alignment, set style
+		// Step 3: Based on required y-alignment, set vertical style
 		if (yAlign === 'top')
-			position['top'] =
-				Number(contentElementStyle?.top?.replace('px', '')) -
-				(triggerElementDimensions?.height +
-					contentElementDimensions?.height);
+			position['top'] = 0 - contentElementDimensions?.height;
 
-		if (yAlign === 'bottom')
-			position['top'] = Number(
-				contentElementStyle?.top?.replace('px', '')
-			);
+		if (yAlign === 'bottom') {
+			position['top'] = triggerElementDimensions?.height;
+		}
 
 		if (yAlign === 'middle') {
 			position['top'] =
-				Number(contentElementStyle?.top?.replace('px', '')) -
-				triggerElementDimensions?.height / 2.0;
-			position['bottom'] = position['top'] + position['height'];
+				(triggerElementDimensions?.height -
+					contentElementDimensions?.height) /
+				2.0;
 		}
 
-		const offsetY = (triggerElementDimensions?.height * yOffset) / 100.0;
-		if (yAlign == 'top' || yAlign == 'middle') position['top'] += offsetY;
-
-		if (yAlign == 'bottom' || yAlign == 'middle')
-			position['bottom'] += offsetY;
+		const offsetY = triggerElementDimensions?.height * (yOffset / 100.0);
+		position['top'] += offsetY;
 
 		this.#debug?.(
 			`_contentPositionCalculator::options: `,
 			options,
-			` position: `,
+			`\n_contentPositionCalculator::position: `,
 			position
 		);
-
-		delete position['height'];
-		if (!options?.matchTriggerWidth) delete position['width'];
 
 		return position;
 	}
@@ -277,24 +260,24 @@ export default class MdcAbstractDropdownComponent extends Component {
 	}
 
 	_setupInitState() {
+		const status = {
+			id: this.#element?.id,
+			disabled: this?.disabled,
+			open: this?.open
+		};
+
+		this.#debug?.(`_setupInitState: `, status);
+
 		if (this.#element?.disabled) {
 			this.open = false;
 		}
 
 		if (this.#triggerElement) {
-			this.#triggerElement?.controls?.setDropdownStatus?.({
-				id: this.#element?.id,
-				disabled: this?.disabled,
-				open: this?.open
-			});
+			this.#triggerElement?.controls?.setDropdownStatus?.(status);
 		}
 
 		if (this.#contentElement) {
-			this.#contentElement?.controls?.setDropdownStatus?.({
-				id: this.#element?.id,
-				disabled: this?.disabled,
-				open: this?.open
-			});
+			this.#contentElement?.controls?.setDropdownStatus?.(status);
 		}
 	}
 
