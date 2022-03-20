@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { cancel, later } from '@ember/runloop';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
@@ -46,7 +47,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.#controls = {};
 
 		if (this.#alertTimeout) {
-			clearTimeout(this.#alertTimeout);
+			cancel(this.#alertTimeout);
 			this.#alertTimeout = null;
 		}
 
@@ -70,7 +71,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.open = false;
 
 		if (this.#alertTimeout) {
-			clearTimeout(this.#alertTimeout);
+			cancel(this.#alertTimeout);
 			this.#alertTimeout = null;
 		}
 
@@ -152,7 +153,7 @@ export default class MdcSnackbarComponent extends Component {
 	_showAlert(options) {
 		this.#debug?.(`_showAlert: `, options);
 		if (this.#alertTimeout) {
-			clearTimeout(this.#alertTimeout);
+			cancel(this.#alertTimeout);
 			this.#alertTimeout = null;
 		}
 
@@ -172,8 +173,12 @@ export default class MdcSnackbarComponent extends Component {
 
 		if (this.open) {
 			const timeout = options?.timeout ?? 5000;
-			// TODO: Replace with run.later...
-			this.#alertTimeout = setTimeout?.(this?.onClose, timeout);
+			this.#alertTimeout = later?.(
+				this,
+				this?.fireActionEvent,
+				'close',
+				timeout
+			);
 		}
 	}
 	// #endregion

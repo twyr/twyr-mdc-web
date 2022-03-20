@@ -72,6 +72,11 @@ export default class MdcTabBarComponent extends Component {
 		this.#element = element;
 
 		this?._setupInitState?.();
+
+		this.#tabs?.forEach?.((tabControls) => {
+			tabControls?.barReady?.();
+		});
+
 		this?._fireEvent?.('init');
 	}
 	// #endregion
@@ -83,9 +88,13 @@ export default class MdcTabBarComponent extends Component {
 
 		if (!register) {
 			this.#tabs?.delete?.(tab);
-		} else {
-			this.#tabs?.set?.(tab, controls);
+			return;
 		}
+
+		this.#tabs?.set?.(tab, controls);
+		if (!this.#element) return;
+
+		controls?.barReady?.();
 	}
 
 	@action

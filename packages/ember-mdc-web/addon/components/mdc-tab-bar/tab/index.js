@@ -23,6 +23,7 @@ export default class MdcTabBarTabComponent extends Component {
 		this.#debug?.(`constructor`);
 
 		this.#controls.select = this?._select;
+		this.#controls.barReady = this?._onBarReady;
 	}
 	// #endregion
 
@@ -92,17 +93,18 @@ export default class MdcTabBarTabComponent extends Component {
 			this.#controls,
 			true
 		);
-
-		if (!this.#element?.hasAttribute?.('selected')) return;
-
-		// TODO: Replace with run.later
-		setTimeout(() => {
-			this?.args?.tabbarControls?.selectTab?.(this.#element, true);
-		}, 1000);
 	}
 	// #endregion
 
 	// #region Controls
+	@action
+	_onBarReady() {
+		this.#debug?.(`_onBarReady`);
+
+		if (!this.#element?.hasAttribute?.('selected')) return;
+		this?.args?.tabbarControls?.selectTab?.(this.#element, true);
+	}
+
 	@action
 	_select(selected) {
 		this.#debug?.(`_select: `, selected);
