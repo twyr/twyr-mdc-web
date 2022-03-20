@@ -1,8 +1,13 @@
 {{! template-lint-disable no-inline-styles }}
 {{page-title 'Ember Material Components for the Web'}}
 <MdcTopAppBar @fixed={{true}} @palette={{this.palette}}>
-	<:navigationIcon as |NavIcon|>
-		<NavIcon @icon='menu' {{on 'init' this.storeNavigationIconControls}} />
+	<:navigationIcon>
+		<MdcDrawer::Control
+			@icon='chevron-triple-right'
+			@toggledIcon='chevron-triple-left'
+			@palette={{this.palette}}
+			{{on 'init' this.storeNavigationIconControls}}
+		/>
 	</:navigationIcon>
 
 	<:title>Ember Material Components for the Web</:title>
@@ -10,8 +15,8 @@
 
 <MdcDrawer
 	class='mdc-top-app-bar--fixed-adjust'
-	@modal={{false}}
-	@locked={{true}}
+	@modal={{true}}
+	@locked={{false}}
 	@open={{true}}
 	@name='Main Sidebar'
 	{{on 'register' (fn this.registerDrawer true)}}
@@ -103,8 +108,7 @@
 
 	<MdcCheckbox
 		@palette={{this.palette}}
-		{{on 'statuschange' this.processCheckboxEvent}}
-		checked
+		{{on 'change' this.processCheckboxEvent}}
 	>
 		Checkbox
 	</MdcCheckbox>
@@ -112,14 +116,13 @@
 	<MdcRadioGroup
 		@groupName='Test Group 1'
 		@palette={{this.palette}}
-		{{on 'statuschange' this.processRadioGroupEvent}}
 		as |RadioGroup|
 	>
-		<RadioGroup.Radio>
+		<RadioGroup.Radio {{on 'change' this.processRadioGroupEvent}}>
 			Radio 1
 		</RadioGroup.Radio>
 
-		<RadioGroup.Radio checked>
+		<RadioGroup.Radio {{on 'change' this.processRadioGroupEvent}} checked>
 			Radio 2
 		</RadioGroup.Radio>
 	</MdcRadioGroup>
@@ -133,7 +136,7 @@
 	/>
 
 	<MdcSlider
-		@discrete={{true}}
+		@discrete={{false}}
 		@tickMarks={{true}}
 		@step='5'
 		@minValue='0'
@@ -156,7 +159,7 @@
 
 	<MdcSegmentedButton
 		@palette={{this.palette}}
-		@singleSelect={{true}}
+		@singleSelect={{false}}
 		{{on 'select' this.onButtonGroupSelectionChange}}
 		as |SegmentedButton|
 	>
@@ -186,7 +189,7 @@
 		class='my-4'
 		@fill={{false}}
 		@align='center'
-		@indicatorLength='content'
+		@indicatorLength='full'
 		@selectedTabIndicator='underline'
 		@indicatorIcon='thumb-up'
 		@transitionType='fade'
@@ -205,6 +208,10 @@
 		<TabBar.Tab @icon='crowd' @label='Tab #10' />
 		<TabBar.Tab @icon='crowd' @label='Tab #11' />
 		<TabBar.Tab @icon='crowd' @label='Tab #12' />
+		<TabBar.Tab @icon='crowd' @label='Tab #13' />
+		<TabBar.Tab @icon='crowd' @label='Tab #14' />
+		<TabBar.Tab @icon='crowd' @label='Tab #15' />
+		<TabBar.Tab @icon='crowd' @label='Tab #16' />
 	</MdcTabBar>
 
 	<MdcTextField

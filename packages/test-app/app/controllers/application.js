@@ -7,7 +7,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
 	// #region Accessed Services
-	@service('alertManager') alertManager;
+	@service('snackbarManager') alertManager;
 	// #endregion
 
 	// #region Tracked Attributes
@@ -115,14 +115,14 @@ export default class ApplicationController extends Controller {
 		}
 
 		if (register) {
-			this.#debug?.(`registerDrawer: registering with navIconcontrol...`);
+			this.#debug?.(`registerDrawer: registering with navIconControl...`);
 			this.#navIconControls?.registerSidebar?.(
 				drawerElement,
 				event?.detail?.controls
 			);
 		} else {
 			this.#debug?.(
-				`registerDrawer: un-registering with navIconcontrol...`
+				`registerDrawer: un-registering with navIconControl...`
 			);
 			this.#navIconControls?.unregisterSidebar?.(drawerElement);
 		}
@@ -135,7 +135,7 @@ export default class ApplicationController extends Controller {
 
 	@action
 	closeChip(event) {
-		this.#debug?.('closeChip', event?.detail);
+		this.#debug?.('closeChip', event);
 	}
 
 	@action
@@ -153,33 +153,12 @@ export default class ApplicationController extends Controller {
 
 	@action
 	processCheckboxEvent(event) {
-		this.#debug?.('processCheckboxEvent', event?.detail);
-
-		// setTimeout(() => {
-		// 	const newStatus = Object?.assign?.({}, event?.detail?.status);
-		// 	const checkboxControls = event?.detail?.controls;
-
-		// 	newStatus.checked = !newStatus.checked;
-		// 	checkboxControls?.setState?.(newStatus);
-		// }, 2000);
+		this.#debug?.('processCheckboxEvent', event);
 	}
 
 	@action
 	processRadioGroupEvent(event) {
-		this.#debug?.('processRadioGroupEvent', event?.detail);
-
-		// setTimeout(() => {
-		// 	const newStatus = Object?.assign?.({}, event?.detail?.status);
-		// 	delete newStatus.radio;
-
-		// 	const radio = document?.getElementById?.(
-		// 		event?.detail?.status?.radio
-		// 	);
-		// 	const radioGroupControls = event?.detail?.controls;
-
-		// 	newStatus.checked = !newStatus.checked;
-		// 	radioGroupControls?.selectRadio?.(radio, newStatus);
-		// }, 3000);
+		this.#debug?.('processRadioGroupEvent', event);
 	}
 
 	@action
