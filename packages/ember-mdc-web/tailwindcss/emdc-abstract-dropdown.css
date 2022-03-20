@@ -1,0 +1,17 @@
+.mdc-abstract-dropdown {
+	@apply relative bg-transparent;
+
+	&[disabled] {
+		@apply pointer-events-none;
+	}
+
+	&:not([disabled]) {
+		& .mdc-abstract-dropdown-trigger {
+			@apply cursor-pointer;
+		}
+	}
+
+	& .mdc-abstract-dropdown-content {
+		@apply absolute overflow-ellipsis z-10;
+	}
+}

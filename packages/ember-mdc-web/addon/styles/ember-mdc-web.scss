@@ -55,7 +55,10 @@
  * MDC Web Component Styles
  */
 
-/* TODO: Backdrop component - put in the actual styles */
+/* Abstract dropdown component */
+@use './emdc-abstract-dropdown.css';
+
+/* Backdrop component */
 @use './emdc-backdrop.css';
 
 /* Banner component */

@@ -1,0 +1,15 @@
+.mdc-abstract-dropdown {
+    position: relative;
+    background-color: transparent
+}
+.mdc-abstract-dropdown[disabled] {
+    pointer-events: none
+}
+.mdc-abstract-dropdown:not([disabled]) .mdc-abstract-dropdown-trigger {
+    cursor: pointer
+}
+.mdc-abstract-dropdown .mdc-abstract-dropdown-content {
+    position: absolute;
+    z-index: 10;
+    text-overflow: ellipsis
+}
