@@ -245,10 +245,24 @@
 
 		<MdcMenu @palette={{this.palette}} as |Menu|>
 			<Menu.Item>This</Menu.Item>
-			<Menu.Item>Is</Menu.Item>
+			<Menu.Item>
+				<:trigger>Is</:trigger>
+				<:items as |Items|>
+					<Items>
+						<span>This is the only Menu Item</span>
+					</Items>
+				</:items>
+			</Menu.Item>
 			<Menu.Item>The</Menu.Item>
 			<Menu.Item>First</Menu.Item>
-			<Menu.Item>Menu</Menu.Item>
+			<Menu.Item>
+				<:trigger>Menu</:trigger>
+				<:items as |Items|>
+					<Items>
+						<span>This is the only Menu Item</span>
+					</Items>
+				</:items>
+			</Menu.Item>
 		</MdcMenu>
 	</div>
 	{{outlet}}
