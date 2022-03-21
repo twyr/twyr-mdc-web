@@ -40,37 +40,8 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	onMouseEnter(event) {
-		this.#debug?.(`onMouseEnter: `, event);
-		if (this?.reactEvent !== 'hover' && this?.reactEvent !== 'mouseenter')
-			return;
-
-		this?.args?.dropdownControls?.toggle?.(event);
-	}
-
-	@action
-	onMouseLeave(event) {
-		this.#debug?.(`onMouseLeave: `, event);
-		if (this?.reactEvent !== 'hover' && this?.reactEvent !== 'mouseleave')
-			return;
-
-		this?.args?.dropdownControls?.toggle?.(event);
-	}
-
-	@action
-	onMouseDown(event) {
-		this.#debug?.(`onMouseDown: `, event);
-		if (this?.reactEvent !== 'mousedown') return;
-
-		this?.args?.dropdownControls?.toggle?.(event);
-	}
-
-	@action
-	onMouseUp(event) {
-		this.#debug?.(`onMouseUp: `, event);
-		if (this?.reactEvent !== 'mouseup' && this?.reactEvent !== 'click')
-			return;
-
+	onTriggerEvent(event) {
+		this.#debug?.(`onTriggerEvent::${this?.triggerEvent} `, event);
 		this?.args?.dropdownControls?.toggle?.(event);
 	}
 	// #endregion
@@ -112,12 +83,8 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
-	get reactEvent() {
-		return this?.args?.reactEvent ?? 'mouseup';
-	}
-
-	get stopPropagation() {
-		return this?.args?.stopPropagation ?? false;
+	get triggerEvent() {
+		return this?.args?.triggerEvent ?? 'mouseup';
 	}
 	// #endregion
 

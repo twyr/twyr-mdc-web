@@ -4,10 +4,7 @@
 	class='mdc-abstract-dropdown-trigger'
 	id='{{this.dropdownId}}-trigger'
 	{{! React to events }}
-	{{on 'mouseenter' this.onMouseEnter}}
-	{{on 'mouseleave' this.onMouseLeave}}
-	{{on 'mousedown' this.onMouseDown}}
-	{{on 'mouseup' this.onMouseUp}}
+	{{on this.triggerEvent this.onTriggerEvent}}
 	{{! Re-calculate colours as necessary }}
 	{{on-args-change this.recalcStyles @palette}}
 	{{! Store reference to the element for DOM manipulation }}
