@@ -1,0 +1,16 @@
+{{#if (has-block 'items')}}
+	{{! MdcAbstractDropdown comes here with Custom Components for Trigger / Content}}
+{{else}}
+	<MdcList::Item
+		class='mdc-list-item'
+		@palette={{@palette}}
+		{{! React to clicks }}
+		{{on 'click' this.onClick}}
+		{{! Store reference to the element for DOM manipulation }}
+		{{store-element this.storeElement}}
+		{{! HTML attributes added in the calling template }}
+		...attributes
+	>
+		{{yield}}
+	</MdcList::Item>
+{{/if}}

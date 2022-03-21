@@ -69,6 +69,7 @@
 @use '@material/button/mdc-button';
 @use '@material/fab/mdc-fab';
 @use '@material/icon-button/mdc-icon-button';
+@use './emdc-button.css';
 
 /* Button Group component */
 @use '@material/segmented-button/styles' as segmented-button-styles;
@@ -112,6 +113,11 @@
 /* List component */
 @use '@material/list/mdc-list';
 @use './emdc-list.css';
+
+/* Menu component */
+@use '@material/menu-surface/mdc-menu-surface';
+@use '@material/menu/mdc-menu';
+@use './emdc-menu.css';
 
 /* Radio Button component */
 @use '@material/radio/mdc-radio';

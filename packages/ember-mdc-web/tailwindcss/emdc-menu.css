@@ -1,0 +1,5 @@
+.emdc-menu {
+	@apply flex flex-row content-center items-center;
+	@apply list-none;
+	@apply whitespace-nowrap;
+}
