@@ -1,0 +1,17 @@
+<MdcList::Item
+	class='mdc-abstract-dropdown-trigger'
+	id='{{this.dropdownId}}-trigger'
+	@doubleLine={{@doubleLine}}
+	@palette={{@palette}}
+	{{! React to events }}
+	{{on this.triggerEvent this.onTriggerEvent}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+	disabled={{this.disabled}}
+>
+	{{yield}}
+</MdcList::Item>

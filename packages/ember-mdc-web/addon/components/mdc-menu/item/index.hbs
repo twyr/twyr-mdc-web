@@ -1,11 +1,40 @@
 {{#if (has-block 'items')}}
-	{{! MdcAbstractDropdown comes here with Custom Components for Trigger / Content}}
+	<MdcAbstractDropdown
+		@customComponents={{(hash trigger=(component this.triggerComponent))}}
+		@xAlign='left'
+		@xOffset='0'
+		@yAlign='bottom'
+		@yOffset='0'
+		@equalTriggerContentWidth={{false}}
+		@triggerEvent={{@triggerEvent}}
+		@palette={{@palette}}
+		{{! Store reference to the element for DOM manipulation }}
+		{{store-element this.storeElement}}
+		{{! HTML attributes added in the calling template }}
+		...attributes
+	>
+		<:trigger as |Trigger|>
+			<Trigger
+				class='mdc-list-item'
+				@doubleLine={{@doubleLine}}
+				@itemControls={{this.itemControls}}
+			>
+				{{yield to='trigger'}}
+			</Trigger>
+		</:trigger>
+
+		<:content as |Content|>
+			{{yield Content to='items'}}
+		</:content>
+	</MdcAbstractDropdown>
 {{else}}
 	<MdcList::Item
 		class='mdc-list-item'
+		@doubleLine={{@doubleLine}}
 		@palette={{@palette}}
 		{{! React to clicks }}
-		{{on 'click' this.onClick}}
+		{{on @triggerEvent (fn this.onTriggerEvent (not this.open))}}
+		{{on 'click' (fn this.onClick (not this.open))}}
 		{{! Store reference to the element for DOM manipulation }}
 		{{store-element this.storeElement}}
 		{{! HTML attributes added in the calling template }}

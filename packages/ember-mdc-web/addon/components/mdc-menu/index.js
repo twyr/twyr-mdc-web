@@ -76,7 +76,7 @@ export default class MdcMenuComponent extends Component {
 
 	@action
 	_openItem(item, open) {
-		this.#debug?.(`_selectItem::${open}: `, item);
+		this.#debug?.(`_openItem::${open}: `, item);
 
 		if (!this.#menuItems?.has?.(item)) {
 			this.#debug?.(`Item not registered: `, item);
@@ -85,14 +85,17 @@ export default class MdcMenuComponent extends Component {
 
 		let isMenuOpen = false;
 		this.#menuItems?.forEach((menuItemControl, menuItem) => {
-			if (item !== menuItem) menuItemControl?.open?.(false);
+			if (item === menuItem) return;
+
+			menuItemControl?.open?.(false);
 			isMenuOpen ||= menuItemControl?.status?.()?.['open'];
 		});
 
-		this.open = isMenuOpen || open;
-
 		const menuItemControls = this.#menuItems?.get?.(item);
 		menuItemControls?.open?.(open);
+
+		this.open = isMenuOpen || open;
+		this.#debug?.(`_openItem::isMenuOpen: ${this?.open}`);
 
 		const eventData = {
 			menuItem: item,
@@ -108,7 +111,7 @@ export default class MdcMenuComponent extends Component {
 	}
 
 	get triggerEvent() {
-		const triggerEvent = this?.open ? 'hover' : 'click';
+		const triggerEvent = this?.open ? 'mouseenter' : 'click';
 		this.#debug(`triggerEvent: `, triggerEvent);
 
 		return triggerEvent;

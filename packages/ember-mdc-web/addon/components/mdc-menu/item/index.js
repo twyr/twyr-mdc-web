@@ -10,11 +10,13 @@ export default class MdcMenuItemComponent extends Component {
 
 	// #region Tracked Attributes
 	@tracked disabled = false;
-	@tracked open = false;
 	// #endregion
 
 	// #region Untracked Public Fields
 	controls = {};
+	itemControls = {};
+
+	open = false;
 	// #endregion
 
 	// #region Constructor
@@ -24,26 +26,40 @@ export default class MdcMenuItemComponent extends Component {
 
 		this.controls.open = this?._openItem;
 		this.controls.status = this?._getStatus;
+
+		this.itemControls.onTriggerEvent = this?.onTriggerEvent;
+		this.itemControls.setControls = this?._setControls;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug(`willDestroy`);
+
 		this?.args?.menuControls?.registerItem?.(this.#element, null, false);
+		this.#triggerControls = null;
 
+		this.itemControls = {};
 		this.controls = {};
-		this.#element = null;
 
+		this.#element = null;
 		super.willDestroy(...arguments);
 	}
 	// #endregion
 
 	// #region DOM Event Handlers
 	@action
-	onClick(event) {
+	onTriggerEvent(open, event) {
 		this.#debug(`onClick: `, event);
-		this?.args?.menuControls?.openItem?.(this.#element, !this?.open);
+		this?.args?.menuControls?.openItem?.(this.#element, open);
+	}
+
+	@action
+	onClick(open, event) {
+		this.#debug(`onClick: `, event);
+		if (this?.args?.triggerEvent === 'click') return;
+
+		this?.args?.menuControls?.openItem?.(this.#element, false);
 	}
 	// #endregion
 
@@ -67,6 +83,8 @@ export default class MdcMenuItemComponent extends Component {
 	_openItem(open) {
 		this.#debug(`_openItem: ${open}`);
 		this.open = open;
+
+		this.#triggerControls?.openItem?.(open);
 	}
 
 	@action
@@ -77,9 +95,18 @@ export default class MdcMenuItemComponent extends Component {
 			disabled: this.disabled
 		};
 	}
+
+	@action
+	_setControls(controls) {
+		this.#debug(`_setDropdownControls: `, controls);
+		this.#triggerControls = controls;
+	}
 	// #endregion
 
 	// #region Computed Properties
+	get triggerComponent() {
+		return this?._getComputedSubcomponent?.('trigger');
+	}
 	// #endregion
 
 	// #region Private Methods
@@ -98,13 +125,15 @@ export default class MdcMenuItemComponent extends Component {
 
 	// #region Default Sub-components
 	#subComponents = {
-		itemList: 'twyr-menu/item/list',
-		itemTrigger: 'twyr-menu/item/trigger'
+		list: 'mdc-menu/item/list',
+		trigger: 'mdc-menu/item/trigger'
 	};
 	// #endregion
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-menu-item');
+
 	#element = null;
+	#triggerControls = null;
 	// #endregion
 }
