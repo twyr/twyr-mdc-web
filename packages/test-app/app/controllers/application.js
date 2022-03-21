@@ -225,35 +225,6 @@ export default class ApplicationController extends Controller {
 	@action
 	processAlertDisplay(event) {
 		this.#debug?.(`processAlertDisplay: `, event?.detail);
-
-		// setTimeout(() => {
-		// 	for (let idx = 0; idx < 5; idx++) {
-		// 		this.#numAlertDisplay++;
-		// 		this.#debug?.(
-		// 			`processAlertDisplay: showing alert #${
-		// 				this.#numAlertDisplay
-		// 			}: `,
-		// 			{
-		// 				snackBarId: event?.detail?.snackBarId,
-		// 				open: true,
-		// 				text: `Wassup #${this.#numAlertDisplay}?`,
-		// 				actionLabel: 'Close'
-		// 			}
-		// 		);
-
-		// 		// this.#alertControls?.showAlert?.({
-		// 		// 	open: true,
-		// 		// text: `Wassup #${this.#numAlertDisplay}?`,
-		// 		// 	actionLabel: 'Close'
-		// 		// });
-
-		// 		this?.alertManager?.notify?.({
-		// 			open: true,
-		// 			text: `Wassup #${this.#numAlertDisplay}?`,
-		// 			actionLabel: 'Close'
-		// 		});
-		// 	}
-		// }, 10000);
 	}
 
 	@action
