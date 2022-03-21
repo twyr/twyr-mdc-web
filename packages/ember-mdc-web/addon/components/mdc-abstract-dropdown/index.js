@@ -67,6 +67,8 @@ export default class MdcAbstractDropdownComponent extends Component {
 
 		this.open = this.#element?.hasAttribute?.('open');
 		this?._setupInitState?.();
+
+		this?._fireEvent?.('init');
 	}
 	// #endregion
 
@@ -173,10 +175,12 @@ export default class MdcAbstractDropdownComponent extends Component {
 		};
 
 		const xAlign = options?.xAlign;
-		const xOffset = options?.xOffset;
+		let xOffset = options?.xOffset;
+		if (xAlign === 'right') xOffset = -xOffset;
 
 		const yAlign = options?.yAlign;
-		const yOffset = options?.yOffset;
+		let yOffset = options?.yOffset;
+		if (yAlign === 'top') yOffset = -yOffset;
 
 		const triggerElementDimensions =
 			triggerElement?.getBoundingClientRect?.();

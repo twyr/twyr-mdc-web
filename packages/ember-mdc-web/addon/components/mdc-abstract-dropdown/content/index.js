@@ -50,13 +50,6 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 			return;
 		}
 
-		this.#element?.style?.removeProperty('top');
-		this.#element?.style?.removeProperty('right');
-		this.#element?.style?.removeProperty('bottom');
-		this.#element?.style?.removeProperty('left');
-		this.#element?.style?.removeProperty('width');
-		this.#element?.style?.removeProperty('height');
-
 		const positionOptions = {
 			xAlign: this?.xAlign,
 			xOffset: this?.xOffset,
