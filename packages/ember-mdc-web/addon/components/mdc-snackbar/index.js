@@ -39,11 +39,11 @@ export default class MdcSnackbarComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 
-		this?.snackbarManager?.register(this.#element?.id, null, false);
+		this?.snackbarManager?.register?.(this.#element?.id, null, false);
 		this.#controls = {};
 
 		if (this.#alertTimeout) {
-			cancel(this.#alertTimeout);
+			cancel?.(this.#alertTimeout);
 			this.#alertTimeout = null;
 		}
 
@@ -125,7 +125,7 @@ export default class MdcSnackbarComponent extends Component {
 		this?._setupInitState?.();
 		this?.recalcStyles?.();
 
-		this?.snackbarManager?.register(
+		this?.snackbarManager?.register?.(
 			this.#element?.id,
 			this.#controls,
 			true
@@ -147,7 +147,7 @@ export default class MdcSnackbarComponent extends Component {
 	_showAlert(options) {
 		this.#debug?.(`_showAlert: `, options);
 		if (this.#alertTimeout) {
-			cancel(this.#alertTimeout);
+			cancel?.(this.#alertTimeout);
 			this.#alertTimeout = null;
 		}
 
