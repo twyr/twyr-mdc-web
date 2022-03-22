@@ -92,15 +92,22 @@ export default class MdcMenuComponent extends Component {
 		});
 
 		const menuItemControls = this.#menuItems?.get?.(item);
-		menuItemControls?.open?.(open);
+		const currentStatus = menuItemControls?.status?.()?.['open'];
+
+		if (open !== currentStatus) {
+			menuItemControls?.open?.(open);
+		}
+
+		if (this?.open === (isMenuOpen || open)) return;
 
 		this.open = isMenuOpen || open;
 		this.#debug?.(`_openItem::isMenuOpen: ${this?.open}`);
 
 		const eventData = {
 			menuItem: item,
-			selected: open
+			open: open
 		};
+
 		this?._fireEvent?.('statuschange', eventData);
 	}
 	// #endregion

@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { cancel, later } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
 
 export default class MdcMenuItemComponent extends Component {
@@ -36,6 +37,11 @@ export default class MdcMenuItemComponent extends Component {
 	willDestroy() {
 		this.#debug(`willDestroy`);
 
+		if (this.#tempAddListenerTimeout) {
+			cancel?.(this.#tempAddListenerTimeout);
+			this.#tempAddListenerTimeout = null;
+		}
+
 		this?.args?.menuControls?.registerItem?.(this.#element, null, false);
 		this.#triggerControls = null;
 
@@ -50,20 +56,51 @@ export default class MdcMenuItemComponent extends Component {
 	// #region DOM Event Handlers
 	@action
 	onTriggerEvent(open, event) {
-		this.#debug(`onClick: `, event);
+		this.#debug(`onTriggerEvent::${open}`, event);
 		this?.args?.menuControls?.openItem?.(this.#element, open);
 	}
 
 	@action
-	onClick(open, event) {
+	onClick(event) {
 		this.#debug(`onClick: `, event);
-		if (this?.args?.triggerEvent === 'click') return;
-
-		this?.args?.menuControls?.openItem?.(this.#element, false);
+		this?.args?.menuControls?.openItem?.(this.#element, !this?.open);
 	}
 	// #endregion
 
 	// #region Modifier Callbacks
+	@action
+	listenToClicks() {
+		this.#debug(`listenToClicks::triggerEvent: ${this?.triggerEvent}`);
+		if (!this.#element) return;
+
+		if (this?.triggerEvent === 'click' && this.#tempEventListenerAdded) {
+			this.#debug(
+				`listenToClicks::triggerEvent::${this?.triggerEvent}: removing event listener`
+			);
+
+			this.#element?.removeEventListener?.('click', this?.onClick);
+			this.#tempEventListenerAdded = false;
+
+			return;
+		}
+
+		if (this.#tempEventListenerAdded) return;
+
+		this.#debug(
+			`listenToClicks::triggerEvent::${this?.triggerEvent}: adding event listener`
+		);
+		this.#tempAddListenerTimeout = later?.(
+			this,
+			() => {
+				this.#tempAddListenerTimeout = null;
+				this.#tempEventListenerAdded = true;
+
+				this.#element?.addEventListener?.('click', this?.onClick);
+			},
+			1
+		);
+	}
+
 	@action
 	storeElement(element) {
 		this.#debug(`storeElement: `, element);
@@ -104,6 +141,10 @@ export default class MdcMenuItemComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
+	get triggerEvent() {
+		return this?.args?.triggerEvent ?? 'mouseup';
+	}
+
 	get triggerComponent() {
 		return this?._getComputedSubcomponent?.('trigger');
 	}
@@ -135,5 +176,8 @@ export default class MdcMenuItemComponent extends Component {
 
 	#element = null;
 	#triggerControls = null;
+
+	#tempEventListenerAdded = false;
+	#tempAddListenerTimeout = null;
 	// #endregion
 }

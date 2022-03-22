@@ -8,6 +8,8 @@
 		@equalTriggerContentWidth={{false}}
 		@triggerEvent={{@triggerEvent}}
 		@palette={{@palette}}
+		{{! Attach/detach event handler as necessary }}
+		{{on-args-change this.listenToClicks this.triggerEvent}}
 		{{! Store reference to the element for DOM manipulation }}
 		{{store-element this.storeElement}}
 		{{! HTML attributes added in the calling template }}
@@ -32,9 +34,10 @@
 		class='mdc-list-item'
 		@doubleLine={{@doubleLine}}
 		@palette={{@palette}}
-		{{! React to clicks }}
-		{{on @triggerEvent (fn this.onTriggerEvent (not this.open))}}
-		{{on 'click' (fn this.onClick (not this.open))}}
+		{{! React to trigger events }}
+		{{on this.triggerEvent (fn this.onTriggerEvent (not this.open))}}
+		{{! Attach/detach event handler as necessary }}
+		{{on-args-change this.listenToClicks this.triggerEvent}}
 		{{! Store reference to the element for DOM manipulation }}
 		{{store-element this.storeElement}}
 		{{! HTML attributes added in the calling template }}

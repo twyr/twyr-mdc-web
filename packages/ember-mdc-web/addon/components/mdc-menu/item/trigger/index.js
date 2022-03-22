@@ -57,9 +57,6 @@ export default class MdcMenuItemTriggerComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
-	get triggerEvent() {
-		return this?.args?.triggerEvent ?? 'mouseup';
-	}
 	// #endregion
 
 	// #region Private Methods
