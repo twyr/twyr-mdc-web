@@ -137,6 +137,10 @@ export default class MdcAbstractDropdownComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
+	get tag() {
+		return this?.args?.tag ?? 'div';
+	}
+
 	get triggerComponent() {
 		return this?._getComputedSubcomponent?.('trigger');
 	}

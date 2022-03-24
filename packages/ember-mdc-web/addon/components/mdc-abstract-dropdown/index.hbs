@@ -1,42 +1,44 @@
-<div
-	class='mdc-abstract-dropdown'
-	{{! Ensure id is present - we need it for the events }}
-	{{requires-id ignore=true}}
-	{{! Monitor changes to disabled status }}
-	{{on-mutation
-		this.onAttributeMutation
-		attributeFilter=(array 'id' 'disabled')
-	}}
-	{{! Store reference to the element for DOM manipulation }}
-	{{store-element this.storeElement}}
-	{{! HTML attributes added in the calling template }}
-	...attributes
->
-	{{#if (has-block 'trigger')}}
-		{{yield
-			(component
-				this.triggerComponent
-				dropdownControls=this.controls
-				triggerEvent=@triggerEvent
-				palette=@palette
-			)
-			to='trigger'
+{{#let (element this.tag) as |Tag|}}
+	<Tag
+		class='mdc-abstract-dropdown'
+		{{! Ensure id is present - we need it for the events }}
+		{{requires-id ignore=true}}
+		{{! Monitor changes to disabled status }}
+		{{on-mutation
+			this.onAttributeMutation
+			attributeFilter=(array 'id' 'disabled')
 		}}
-	{{/if}}
+		{{! Store reference to the element for DOM manipulation }}
+		{{store-element this.storeElement}}
+		{{! HTML attributes added in the calling template }}
+		...attributes
+	>
+		{{#if (has-block 'trigger')}}
+			{{yield
+				(component
+					this.triggerComponent
+					dropdownControls=this.controls
+					triggerEvent=@triggerEvent
+					palette=@palette
+				)
+				to='trigger'
+			}}
+		{{/if}}
 
-	{{#if (and this.open (not this.disabled) (has-block 'content'))}}
-		{{yield
-			(component
-				this.contentComponent
-				dropdownControls=this.controls
-				xAlign=@xAlign
-				xOffset=@xOffset
-				yAlign=@yAlign
-				yOffset=@yOffset
-				matchTriggerWidth=@equalTriggerContentWidth
-				palette=@palette
-			)
-			to='content'
-		}}
-	{{/if}}
-</div>
+		{{#if (and this.open (not this.disabled) (has-block 'content'))}}
+			{{yield
+				(component
+					this.contentComponent
+					dropdownControls=this.controls
+					xAlign=@xAlign
+					xOffset=@xOffset
+					yAlign=@yAlign
+					yOffset=@yOffset
+					matchTriggerWidth=@equalTriggerContentWidth
+					palette=@palette
+				)
+				to='content'
+			}}
+		{{/if}}
+	</Tag>
+{{/let}}
