@@ -1,6 +1,9 @@
+{{! template-lint-disable no-invalid-interactive }}
 {{#if (has-block 'items')}}
 	<MdcAbstractDropdown
+		class='mdc-list-item overflow-visible'
 		@customComponents={{(hash trigger=(component this.triggerComponent))}}
+		@tag='li'
 		@xAlign='left'
 		@xOffset='0'
 		@yAlign='bottom'
@@ -8,21 +11,29 @@
 		@equalTriggerContentWidth={{false}}
 		@triggerEvent={{@triggerEvent}}
 		@palette={{@palette}}
+		{{! Ensure id is present - we need it for the events }}
+		{{requires-id ignore=true}}
+		{{! React to trigger events }}
+		{{on this.triggerEvent (fn this.onTriggerEvent (not this.open))}}
+		{{! Monitor changes to disabled status }}
+		{{on-mutation
+			this.onAttributeMutation
+			attributeFilter=(array 'disabled')
+		}}
 		{{! Attach/detach event handler as necessary }}
 		{{on-args-change this.listenToClicks this.triggerEvent}}
+		{{! Re-calculate colours as necessary }}
+		{{on-args-change this.recalcStyles @palette}}
 		{{! Store reference to the element for DOM manipulation }}
 		{{store-element this.storeElement}}
 		{{! HTML attributes added in the calling template }}
 		...attributes
 	>
 		<:trigger as |Trigger|>
-			<Trigger
-				class='mdc-list-item'
-				@doubleLine={{@doubleLine}}
-				@itemControls={{this.itemControls}}
-			>
-				{{yield to='trigger'}}
-			</Trigger>
+			{{yield
+				(component Trigger itemControls=this.itemControls)
+				to='trigger'
+			}}
 		</:trigger>
 
 		<:content as |Content|>
@@ -30,19 +41,38 @@
 		</:content>
 	</MdcAbstractDropdown>
 {{else}}
-	<MdcList::Item
+	<li
 		class='mdc-list-item'
-		@doubleLine={{@doubleLine}}
-		@palette={{@palette}}
+		{{! Add styling classes as necessary }}
+		{{has-class-if this.open 'mdc-list-item--selected'}}
+		{{! Ensure id is present - we need it for the events }}
+		{{requires-id ignore=true}}
 		{{! React to trigger events }}
 		{{on this.triggerEvent (fn this.onTriggerEvent (not this.open))}}
+		{{! Monitor changes to disabled status }}
+		{{on-mutation
+			this.onAttributeMutation
+			attributeFilter=(array 'disabled')
+		}}
 		{{! Attach/detach event handler as necessary }}
 		{{on-args-change this.listenToClicks this.triggerEvent}}
+		{{! Re-calculate colours as necessary }}
+		{{on-args-change this.recalcStyles @palette}}
 		{{! Store reference to the element for DOM manipulation }}
 		{{store-element this.storeElement}}
 		{{! HTML attributes added in the calling template }}
 		...attributes
 	>
-		{{yield}}
-	</MdcList::Item>
+		<div class='ripple-container mdc-list-item absolute inset-0'>
+			<span class='mdc-list-item__ripple'></span>
+		</div>
+
+		{{#if (has-block 'icon')}}
+			{{yield (component this.iconComponent palette=@palette) to='icon'}}
+		{{/if}}
+
+		<span class='mdc-list-item__text'>
+			{{yield}}
+		</span>
+	</li>
 {{/if}}

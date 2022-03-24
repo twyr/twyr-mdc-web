@@ -1,4 +1,4 @@
-import Component from '@glimmer/component';
+import Component from './../../mdc-list/item/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
@@ -63,6 +63,8 @@ export default class MdcMenuItemComponent extends Component {
 	@action
 	onClick(event) {
 		this.#debug(`onClick: `, event);
+
+		super.onClick?.(event);
 		this?.args?.menuControls?.openItem?.(this.#element, !this?.open);
 	}
 	// #endregion
@@ -104,9 +106,9 @@ export default class MdcMenuItemComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug(`storeElement: `, element);
-		this.#element = element;
+		super.storeElement?.(element);
 
-		this.disabled = this.#element?.disabled;
+		this.#element = element;
 		this?.args?.menuControls?.registerItem?.(
 			this.#element,
 			this.controls,

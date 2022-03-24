@@ -1,17 +1,24 @@
-<MdcList::Item
-	class='mdc-abstract-dropdown-trigger'
+{{! template-lint-disable no-invalid-interactive }}
+<div class='ripple-container mdc-list-item absolute inset-0'>
+	<span class='mdc-list-item__ripple'></span>
+</div>
+
+{{#if (has-block 'icon')}}
+	{{yield (component this.iconComponent palette=@palette) to='icon'}}
+{{/if}}
+
+<span
+	class='mdc-abstract-dropdown-trigger mdc-list-item__text'
 	id='{{this.dropdownId}}-trigger'
-	@doubleLine={{@doubleLine}}
-	@palette={{@palette}}
-	{{! React to events }}
-	{{on this.triggerEvent this.onTriggerEvent}}
-	{{! Re-calculate colours as necessary }}
-	{{on-args-change this.recalcStyles @palette}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
 	...attributes
 	disabled={{this.disabled}}
 >
-	{{yield}}
-</MdcList::Item>
+	{{#if (has-block 'icon')}}
+		{{yield to='text'}}
+	{{else}}
+		{{yield}}
+	{{/if}}
+</span>

@@ -26,11 +26,6 @@ export default class MdcMenuItemTriggerComponent extends Component {
 	// #endregion
 
 	// #region DOM Event Handlers
-	@action
-	onTriggerEvent(event) {
-		this.#debug?.(`onTriggerEvent::${this?.triggerEvent} `, event);
-		this?.args?.itemControls?.onTriggerEvent?.(true, event);
-	}
 	// #endregion
 
 	// #region Modifier Callbacks
@@ -57,12 +52,29 @@ export default class MdcMenuItemTriggerComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
+	get iconComponent() {
+		return this?._getComputedSubcomponent?.('icon');
+	}
 	// #endregion
 
 	// #region Private Methods
+	_getComputedSubcomponent(componentName) {
+		const subComponent =
+			this?.args?.customComponents?.[componentName] ??
+			this.#subComponents?.[componentName];
+
+		this.#debug?.(
+			`_getComputedSubcomponent::${componentName}-component`,
+			subComponent
+		);
+		return subComponent;
+	}
 	// #endregion
 
 	// #region Default Sub-components
+	#subComponents = {
+		icon: 'mdc-list/item/icon'
+	};
 	// #endregion
 
 	// #region Private Attributes
