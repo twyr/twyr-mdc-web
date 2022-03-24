@@ -82,7 +82,7 @@ export default class MdcTextFieldComponent extends Component {
 		rootElement?.style?.removeProperty?.('--mdc-text-field-color');
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -132,7 +132,7 @@ export default class MdcTextFieldComponent extends Component {
 	_setupInitState() {
 		this.inputElementId = this.#element?.id;
 
-		if (this.#element?.disabled) {
+		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 			this.#mdcLineRipple?.deactivate?.();
 

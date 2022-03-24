@@ -6,12 +6,12 @@
 	}
 
 	&:not([disabled]) {
-		& .mdc-abstract-dropdown-trigger {
+		& .mdc-abstract-dropdown__trigger {
 			@apply cursor-pointer;
 		}
-	}
 
-	& .mdc-abstract-dropdown-content {
-		@apply absolute overflow-ellipsis z-10;
+		& .mdc-abstract-dropdown__content {
+			@apply absolute overflow-ellipsis z-10;
+		}
 	}
 }

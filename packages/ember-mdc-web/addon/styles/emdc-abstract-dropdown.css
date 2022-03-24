@@ -5,10 +5,10 @@
 .mdc-abstract-dropdown[disabled] {
     pointer-events: none
 }
-.mdc-abstract-dropdown:not([disabled]) .mdc-abstract-dropdown-trigger {
+.mdc-abstract-dropdown:not([disabled]) .mdc-abstract-dropdown__trigger {
     cursor: pointer
 }
-.mdc-abstract-dropdown .mdc-abstract-dropdown-content {
+.mdc-abstract-dropdown:not([disabled]) .mdc-abstract-dropdown__content {
     position: absolute;
     z-index: 10;
     text-overflow: ellipsis

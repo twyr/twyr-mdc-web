@@ -67,7 +67,7 @@ export default class MdcFabComponent extends Component {
 		if (labelElement) labelElement.style.color = null;
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${
@@ -109,7 +109,7 @@ export default class MdcFabComponent extends Component {
 
 	// #region Private Methods
 	_setupInitState() {
-		if (this.#element?.disabled) {
+		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 		} else {
 			// this.#mdcRipple?.activate?.();

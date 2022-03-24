@@ -37,6 +37,9 @@ export default class MdcListItemIconComponent extends Component {
 	recalcStyles() {
 		if (!this.#element) return;
 
+		this.#element.style.color = null;
+		if (this?.args?.disabled) return;
+
 		this.#element.style.color = this?.args?.palette
 			? `var(--mdc-theme-${this?.args?.palette})`
 			: null;

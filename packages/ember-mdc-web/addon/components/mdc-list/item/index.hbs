@@ -24,7 +24,10 @@
 	{{#if (has-block 'icon')}}
 		{{yield
 			(component
-				this.iconComponent doubleLine=@doubleLine palette=@palette
+				this.iconComponent
+				disabled=this.disabled
+				doubleLine=@doubleLine
+				palette=@palette
 			)
 			to='icon'
 		}}
@@ -39,7 +42,11 @@
 				{{yield to='secondaryText'}}
 			</span>
 		{{else}}
-			{{yield}}
+			{{#if (has-block 'icon')}}
+				{{yield to='text'}}
+			{{else}}
+				{{yield}}
+			{{/if}}
 		{{/if}}
 	</span>
 

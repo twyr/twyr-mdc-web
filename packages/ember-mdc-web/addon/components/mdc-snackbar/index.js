@@ -105,7 +105,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.#element?.style?.removeProperty?.('--mdc-snackbar-action-color');
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
 		const textColour = `--mdc-theme-on-${this?.args?.palette ?? 'primary'}`;
@@ -182,7 +182,7 @@ export default class MdcSnackbarComponent extends Component {
 
 	// #region Private Methods
 	_setupInitState() {
-		if (this.#element?.disabled) {
+		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcActionRipple?.deactivate?.();
 			this.#mdcRipple?.deactivate?.();
 		} else {

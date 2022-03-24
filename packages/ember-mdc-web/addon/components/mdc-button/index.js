@@ -97,7 +97,7 @@ export default class MdcButtonComponent extends Component {
 		);
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette for each button type
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -191,7 +191,7 @@ export default class MdcButtonComponent extends Component {
 
 	// #region Private Methods
 	_setupInitState() {
-		if (this.#element?.disabled) {
+		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 		} else {
 			// this.#mdcRipple?.activate?.();

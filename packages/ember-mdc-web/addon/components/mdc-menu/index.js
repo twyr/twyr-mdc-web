@@ -58,6 +58,10 @@ export default class MdcMenuComponent extends Component {
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
+
+		this.#menuItems?.forEach((menuItemControl) => {
+			menuItemControl?.barReady?.();
+		});
 	}
 	// #endregion
 
@@ -71,7 +75,15 @@ export default class MdcMenuComponent extends Component {
 			return;
 		}
 
+		if (this.#menuItems?.has?.(item)) {
+			this.#menuItems?.set?.(item, controls);
+			return;
+		}
+
 		this.#menuItems?.set?.(item, controls);
+
+		if (!this.#element) return;
+		controls?.barReady?.();
 	}
 
 	@action
@@ -92,12 +104,15 @@ export default class MdcMenuComponent extends Component {
 
 		const thisItemControl = this.#menuItems?.get?.(item);
 		const currentStatus = thisItemControl?.status?.()?.['open'];
-		if (open !== currentStatus) thisItemControl?.open?.(open);
+		if (open !== currentStatus) {
+			this.#debug?.(`_openItem::opening: `, item);
+			thisItemControl?.open?.(open);
+		}
 
 		if (this?.open === open) return;
 
+		this.#debug?.(`_openItem::isMenuOpen: ${open}`);
 		this.open = open;
-		this.#debug?.(`_openItem::isMenuOpen: ${this?.open}`);
 
 		const eventData = {
 			menuItem: item,

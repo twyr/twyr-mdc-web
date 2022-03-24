@@ -63,16 +63,27 @@
 		{{! HTML attributes added in the calling template }}
 		...attributes
 	>
-		<div class='ripple-container mdc-list-item absolute inset-0'>
+		<div
+			class='ripple-container absolute inset-0 pointer-events-none overflow-hidden'
+		>
 			<span class='mdc-list-item__ripple'></span>
 		</div>
 
 		{{#if (has-block 'icon')}}
-			{{yield (component this.iconComponent palette=@palette) to='icon'}}
+			{{yield
+				(component
+					this.iconComponent disabled=this.disabled palette=@palette
+				)
+				to='icon'
+			}}
 		{{/if}}
 
 		<span class='mdc-list-item__text'>
-			{{yield}}
+			{{#if (has-block 'icon')}}
+				{{yield to='text'}}
+			{{else}}
+				{{yield}}
+			{{/if}}
 		</span>
 	</li>
 {{/if}}

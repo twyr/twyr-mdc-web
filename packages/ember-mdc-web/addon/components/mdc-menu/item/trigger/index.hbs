@@ -1,14 +1,19 @@
 {{! template-lint-disable no-invalid-interactive }}
-<div class='ripple-container mdc-list-item absolute inset-0'>
+<div
+	class='ripple-container absolute inset-0 pointer-events-none overflow-hidden'
+>
 	<span class='mdc-list-item__ripple'></span>
 </div>
 
 {{#if (has-block 'icon')}}
-	{{yield (component this.iconComponent palette=@palette) to='icon'}}
+	{{yield
+		(component this.iconComponent disabled=this.disabled palette=@palette)
+		to='icon'
+	}}
 {{/if}}
 
 <span
-	class='mdc-abstract-dropdown-trigger mdc-list-item__text'
+	class='mdc-abstract-dropdown__trigger mdc-list-item__text'
 	id='{{this.dropdownId}}-trigger'
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}

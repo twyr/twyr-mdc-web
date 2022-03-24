@@ -100,7 +100,7 @@ export default class MdcSwitchComponent extends Component {
 		);
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -195,7 +195,7 @@ export default class MdcSwitchComponent extends Component {
 	_setupInitState() {
 		this.inputElementId = this.#element?.id;
 
-		if (this.#element?.disabled) {
+		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 		} else {
 			// this.#mdcRipple?.activate?.();

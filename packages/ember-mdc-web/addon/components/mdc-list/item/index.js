@@ -11,6 +11,7 @@ export default class MdcListItemComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked disabled = false;
 	@tracked selected = false;
 	// #endregion
 
@@ -74,16 +75,13 @@ export default class MdcListItemComponent extends Component {
 		// TODO: Optimize this by unsetting only those properties that have not been utilitized
 		// in the current scenario
 		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
-		this.#element?.style?.removeProperty?.(
-			'--mdc-theme-text-primary-on-background'
-		);
 
 		this.#element.style.borderRadius = null;
 		if (textElement) textElement.style.color = null;
 		if (primaryTextElement) primaryTextElement.style.color = null;
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
 		if (this?.args?.shaped) {
@@ -93,10 +91,6 @@ export default class MdcListItemComponent extends Component {
 		if (this?.args?.palette) {
 			this.#element?.style?.setProperty?.(
 				'--mdc-ripple-color',
-				`var(--mdc-theme-${this?.args?.palette})`
-			);
-			this.#element?.style?.setProperty?.(
-				'--mdc-theme-text-primary-on-background',
 				`var(--mdc-theme-${this?.args?.palette})`
 			);
 
@@ -160,10 +154,19 @@ export default class MdcListItemComponent extends Component {
 	}
 
 	_setupInitState() {
-		if (this.#element?.disabled) {
+		this.#debug?.(
+			`__setupInitState::disabled: ${this.#element?.hasAttribute?.(
+				'disabled'
+			)}`
+		);
+		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
+			this.#element?.classList?.add?.('mdc-list-item--disabled');
+			this.disabled = true;
 		} else {
 			// this.#mdcRipple?.activate?.();
+			this.#element?.classList?.remove?.('mdc-list-item--disabled');
+			this.disabled = false;
 		}
 	}
 	// #endregion

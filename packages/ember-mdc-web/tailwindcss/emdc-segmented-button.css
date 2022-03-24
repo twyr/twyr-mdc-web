@@ -17,5 +17,9 @@
 				var(--mdc-theme-primary)
 			);
 		}
+
+		&.mdc-segmented-button__segment--disabled {
+			cursor: unset;
+		}
 	}
 }

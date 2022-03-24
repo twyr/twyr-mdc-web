@@ -57,7 +57,7 @@ export default class MdcIconButtonComponent extends Component {
 		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -96,7 +96,7 @@ export default class MdcIconButtonComponent extends Component {
 
 	// #region Private Methods
 	_setupInitState() {
-		if (this.#element?.disabled) {
+		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 		} else {
 			// this.#mdcRipple?.activate?.();

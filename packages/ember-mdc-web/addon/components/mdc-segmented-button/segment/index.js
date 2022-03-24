@@ -99,7 +99,7 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 		);
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -161,10 +161,16 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 
 	// #region Private Methods
 	_setupInitState() {
-		if (this.#element?.disabled) {
+		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
+			this.#element?.classList?.add?.(
+				'mdc-segmented-button__segment--disabled'
+			);
 		} else {
 			// this.#mdcRipple?.activate?.();
+			this.#element?.classList?.remove?.(
+				'mdc-segmented-button__segment--disabled'
+			);
 		}
 	}
 	// #endregion

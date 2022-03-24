@@ -65,8 +65,6 @@ export default class MdcAbstractDropdownComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this.open = this.#element?.hasAttribute?.('open');
-
 		this?._setupInitState?.();
 		this?._fireEvent?.('init');
 	}
@@ -75,11 +73,10 @@ export default class MdcAbstractDropdownComponent extends Component {
 	// #region Controls
 	@action
 	_open() {
-		this.#debug?.(`_open: `, arguments);
+		this.#debug?.(`_open`);
 		if (this?.open) return;
 
-		if (!this.#element || this.#element?.disabled) return;
-
+		if (!this.#element || this.#element?.hasAttribute?.('disabled')) return;
 		this.open = true;
 
 		this?._setupInitState?.();
@@ -88,7 +85,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 
 	@action
 	_close() {
-		this.#debug?.(`_close: `, arguments);
+		this.#debug?.(`_close`);
 		if (!this?.open) return;
 
 		this.open = false;
@@ -99,7 +96,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 
 	@action
 	_toggle() {
-		this.#debug?.(`_toggle: `, arguments);
+		this.#debug?.(`_toggle`);
 		if (this?.open) this?._close?.();
 		else this?._open?.();
 	}
@@ -239,7 +236,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 				id: this.#element?.id,
 				status: {
 					open: this?.open,
-					disabled: this?.disabled
+					disabled: this?.hasAttribute?.('disabled')
 				}
 			}
 		});
@@ -250,7 +247,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 	_setupInitState() {
 		const status = {
 			id: this.#element?.id,
-			disabled: this?.disabled,
+			disabled: this.#element?.hasAttribute?.('disabled'),
 			open: this?.open
 		};
 

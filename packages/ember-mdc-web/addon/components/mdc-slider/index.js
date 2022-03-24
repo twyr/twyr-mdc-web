@@ -120,7 +120,7 @@ export default class MdcSliderComponent extends Component {
 		);
 
 		// Stop if the element is disabled
-		if (this.#element?.disabled) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
@@ -332,7 +332,9 @@ export default class MdcSliderComponent extends Component {
 
 	_setupInitState() {
 		if (
-			this.#element?.querySelector?.('input.mdc-slider__input')?.disabled
+			this.#element
+				?.querySelector?.('input.mdc-slider__input')
+				?.hasAttribute?.('disabled')
 		) {
 			this.#element?.classList?.add?.('mdc-slider--disabled');
 		} else {

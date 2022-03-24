@@ -16,3 +16,6 @@
 				var(--mdc-theme-primary)
 			);
 		}
+.mdc-segmented-button .mdc-segmented-button__segment.mdc-segmented-button__segment--disabled {
+			cursor: unset;
+		}

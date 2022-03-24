@@ -3,7 +3,7 @@
 	{{! Add styling classes as necessary }}
 	{{has-class-if @doubleLine 'double'}}
 	{{! Re-calculate colours as necessary }}
-	{{on-args-change this.recalcStyles @palette}}
+	{{on-args-change this.recalcStyles @disabled @palette}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 >
