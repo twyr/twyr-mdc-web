@@ -246,20 +246,31 @@
 		<MdcMenu @palette={{this.palette}} as |Menu|>
 			<Menu.Item>This</Menu.Item>
 			<Menu.Item>
-				<:trigger>Is</:trigger>
+				<:trigger as |Trigger|>
+					<Trigger>
+						<:icon as |Icon|>
+							<Icon @icon='thumb-up' />
+						</:icon>
+						<:text>
+							Is
+						</:text>
+					</Trigger>
+				</:trigger>
 				<:items as |Items|>
 					<Items>
-						<span>This is the only Menu Item</span>
+						<span>This is the first Menu Item</span>
 					</Items>
 				</:items>
 			</Menu.Item>
 			<Menu.Item>The</Menu.Item>
 			<Menu.Item>First</Menu.Item>
 			<Menu.Item>
-				<:trigger>Menu</:trigger>
+				<:trigger as |Trigger|>
+					<Trigger>Menu</Trigger>
+				</:trigger>
 				<:items as |Items|>
 					<Items>
-						<span>This is the only Menu Item</span>
+						<span>This is the second Menu Item</span>
 					</Items>
 				</:items>
 			</Menu.Item>
