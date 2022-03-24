@@ -59,7 +59,16 @@ export default class MdcListItemComponent extends Component {
 
 	@action
 	recalcStyles() {
+		this.#debug?.(`recalcStyles`);
 		if (!this.#element) return;
+
+		const textElement = this.#element?.querySelector?.(
+			'span.mdc-list-item__text'
+		);
+
+		const primaryTextElement = this.#element?.querySelector?.(
+			'span.mdc-list-item__primary-text'
+		);
 
 		// Step 1: Reset
 		// TODO: Optimize this by unsetting only those properties that have not been utilitized
@@ -70,6 +79,8 @@ export default class MdcListItemComponent extends Component {
 		);
 
 		this.#element.style.borderRadius = null;
+		if (textElement) textElement.style.color = null;
+		if (primaryTextElement) primaryTextElement.style.color = null;
 
 		// Stop if the element is disabled
 		if (this.#element?.disabled) return;
@@ -89,15 +100,9 @@ export default class MdcListItemComponent extends Component {
 				`var(--mdc-theme-${this?.args?.palette})`
 			);
 
-			const textElement = this.#element?.querySelector?.(
-				'span.mdc-list-item__text'
-			);
 			if (textElement)
 				textElement.style.color = `var(--mdc-theme-${this?.args?.palette})`;
 
-			const primaryTextElement = this.#element?.querySelector?.(
-				'span.mdc-list-item__primary-text'
-			);
 			if (primaryTextElement)
 				primaryTextElement.style.color = `var(--mdc-theme-${this?.args?.palette})`;
 		}
@@ -108,7 +113,9 @@ export default class MdcListItemComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 
 		this.#element = element;
-		this.#mdcRipple = new MDCRipple(this.#element);
+		this.#mdcRipple = new MDCRipple(
+			this.#element?.querySelector?.('div.ripple-container')
+		);
 
 		this?._setupInitState?.();
 		this?.recalcStyles?.();
