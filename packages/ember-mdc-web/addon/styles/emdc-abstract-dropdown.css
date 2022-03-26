@@ -10,6 +10,5 @@
 }
 .mdc-abstract-dropdown:not([disabled]) .mdc-abstract-dropdown__content {
     position: absolute;
-    z-index: 10;
     text-overflow: ellipsis
 }

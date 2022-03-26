@@ -11,7 +11,7 @@
 		}
 
 		& .mdc-abstract-dropdown__content {
-			@apply absolute overflow-ellipsis z-10;
+			@apply absolute overflow-ellipsis;
 		}
 	}
 }

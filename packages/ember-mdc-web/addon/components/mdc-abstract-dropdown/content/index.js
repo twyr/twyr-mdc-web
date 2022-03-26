@@ -65,18 +65,22 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 			)) ?? {};
 		this.#debug?.(`setNewPosition::position: `, position);
 
-		const currentCSS = this.#element.style;
-		Object.keys(position).forEach((positionKey) => {
-			if (
-				position?.[positionKey] === null ||
-				position?.[positionKey] === undefined
-			) {
-				currentCSS?.removeProperty?.(positionKey);
-				return;
-			}
+		const currentCSS = this.#element?.style;
+		currentCSS['left'] = `${position?.['left']}px`;
+		currentCSS['top'] = `${position?.['top']}px`;
 
-			currentCSS[positionKey] = `${position?.[positionKey]}px`;
-		});
+		const containerElementCss = this?.contentContainerElement?.style;
+		this.#debug?.(
+			`setNewPosition::containerElement: `,
+			containerElementCss
+		);
+
+		containerElementCss['top'] = `${
+			position?.dropdownRect?.['top'] + window?.scrollY
+		}px`;
+		containerElementCss['left'] = `${
+			position?.dropdownRect?.['left'] + window?.scrollX
+		}px`;
 	}
 
 	@action
@@ -119,6 +123,12 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	// #region Computed Properties
 	get contentId() {
 		return `${this?.dropdownId}-content`;
+	}
+
+	get contentContainerElement() {
+		return document?.querySelector?.(
+			'div#mdc-abstract-dropdown--content-container'
+		);
 	}
 
 	get matchTriggerWidth() {

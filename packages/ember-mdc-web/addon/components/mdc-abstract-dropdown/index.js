@@ -124,6 +124,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 			this?._contentPositionCalculator?.bind?.(this);
 
 		const contentPosition = await posCalcFunc?.(
+			this.#element,
 			this.#triggerElement?.element,
 			this.#contentElement?.element,
 			options
@@ -148,9 +149,15 @@ export default class MdcAbstractDropdownComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	async _contentPositionCalculator(triggerElement, contentElement, options) {
+	async _contentPositionCalculator(
+		element,
+		triggerElement,
+		contentElement,
+		options
+	) {
 		this.#debug?.(`_contentPositionCalculator::options: `, options);
 		const position = {
+			dropdownRect: null,
 			left: null,
 			top: null
 		};
@@ -223,6 +230,9 @@ export default class MdcAbstractDropdownComponent extends Component {
 			`\n_contentPositionCalculator::position: `,
 			position
 		);
+
+		// Finally, pass on the current position of the dropdown itself
+		position.dropdownRect = element?.getBoundingClientRect?.();
 
 		return position;
 	}
