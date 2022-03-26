@@ -2,6 +2,7 @@ import Component from './../../mdc-abstract-dropdown/content/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { cancel, scheduleOnce } from '@ember/runloop';
 
 export default class MdcMenuListComponent extends Component {
 	// #region Accessed Services
@@ -25,6 +26,11 @@ export default class MdcMenuListComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug(`willDestroy`);
+
+		if (this.initOpenPositionSchedule) {
+			cancel?.(this.#initOpenPositionSchedule);
+			this.#initOpenPositionSchedule = null;
+		}
 
 		this.#controls = {};
 		this.#element = null;
@@ -60,6 +66,20 @@ export default class MdcMenuListComponent extends Component {
 
 		this.#element?.classList?.remove?.('mdc-menu-surface--open');
 	}
+
+	@action
+	async _setDropdownStatus(dropdownStatus) {
+		this.#debug?.(`_setDropdownStatus: `, dropdownStatus);
+		super._setDropdownStatus?.();
+
+		if (!dropdownStatus?.open) return;
+
+		this.#initOpenPositionSchedule = scheduleOnce?.(
+			'afterRender',
+			this,
+			this?._initOpenPositionSchedule
+		);
+	}
 	// #endregion
 
 	// #region Computed Properties
@@ -84,6 +104,13 @@ export default class MdcMenuListComponent extends Component {
 		);
 		return subComponent;
 	}
+
+	_initOpenPositionSchedule() {
+		this.initOpenPositionSchedule = null;
+
+		this?.setNewPosition?.();
+		this?.recalcStyles?.();
+	}
 	// #endregion
 
 	// #region Default Sub-components
@@ -98,5 +125,7 @@ export default class MdcMenuListComponent extends Component {
 
 	#element = null;
 	#controls = {};
+
+	#initOpenPositionSchedule = null;
 	// #endregion
 }

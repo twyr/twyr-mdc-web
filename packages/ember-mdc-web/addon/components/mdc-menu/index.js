@@ -219,8 +219,14 @@ export default class MdcMenuComponent extends Component {
 
 	// #region Private Methods
 	_setupInitOpenState() {
-		this?.args?.menuControls?.openItem?.(this.#element, true);
 		this.#initOpenListenerTimeout = null;
+
+		if (this?.args?.menuControls) {
+			this?.args?.menuControls?.openItem?.(this.#element, true);
+			return;
+		}
+
+		this?._openItem?.(true);
 	}
 
 	_getComputedSubcomponent(componentName) {

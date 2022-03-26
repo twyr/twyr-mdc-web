@@ -1,28 +1,30 @@
-<span
-	class='mdc-abstract-dropdown__content mdc-menu mdc-menu-surface'
-	id='{{this.dropdownId}}-content'
-	{{! React to argument changes }}
-	{{on-args-change
-		this.setNewPosition
-		@xAlign
-		@xOffset
-		@yAlign
-		@yOffset
-		@matchTriggerWidth
-	}}
-	{{! Re-calculate colours as necessary }}
-	{{on-args-change this.recalcStyles @palette}}
-	{{! Store reference to the element for DOM manipulation }}
-	{{store-element this.storeElement}}
-	{{! HTML attributes added in the calling template }}
-	...attributes
->
-	<ul class='mdc-list'>
-		{{yield
-			(hash
-				Divider=(component this.dividerComponent palette=@palette)
-				Item=(component this.listItemComponent palette=@palette)
-			)
+{{#in-element this.contentContainerElement}}
+	<span
+		class='mdc-abstract-dropdown__content mdc-menu mdc-menu-surface'
+		id='{{this.dropdownId}}-content'
+		{{! React to argument changes }}
+		{{on-args-change
+			this.setNewPosition
+			@xAlign
+			@xOffset
+			@yAlign
+			@yOffset
+			@matchTriggerWidth
 		}}
-	</ul>
-</span>
+		{{! Re-calculate colours as necessary }}
+		{{on-args-change this.recalcStyles @palette}}
+		{{! Store reference to the element for DOM manipulation }}
+		{{store-element this.storeElement}}
+		{{! HTML attributes added in the calling template }}
+		...attributes
+	>
+		<ul class='mdc-list'>
+			{{yield
+				(hash
+					Divider=(component this.dividerComponent palette=@palette)
+					Item=(component this.listItemComponent palette=@palette)
+				)
+			}}
+		</ul>
+	</span>
+{{/in-element}}
