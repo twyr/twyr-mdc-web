@@ -1,9 +1,12 @@
 {{! template-lint-disable no-invalid-interactive }}
 {{#if (has-block 'items')}}
 	<MdcAbstractDropdown
-		class='mdc-list-item overflow-visible'
-		@customComponents={{(hash trigger=(component this.triggerComponent))}}
 		@tag='li'
+		class='mdc-list-item overflow-visible'
+		@customComponents={{(hash
+			trigger=(component this.triggerComponent)
+			content=(component this.listComponent)
+		)}}
 		@xAlign='left'
 		@xOffset='0'
 		@yAlign='bottom'
@@ -14,7 +17,7 @@
 		{{! Ensure id is present - we need it for the events }}
 		{{requires-id ignore=true}}
 		{{! React to trigger events }}
-		{{on this.triggerEvent (fn this.onTriggerEvent (not this.open))}}
+		{{on this.triggerEvent this.onTriggerEvent}}
 		{{! Monitor changes to disabled status }}
 		{{on-mutation
 			this.onAttributeMutation
@@ -37,7 +40,10 @@
 		</:trigger>
 
 		<:content as |Content|>
-			{{yield Content to='items'}}
+			{{yield
+				(component Content itemControls=this.itemControls)
+				to='items'
+			}}
 		</:content>
 	</MdcAbstractDropdown>
 {{else}}
@@ -48,7 +54,7 @@
 		{{! Ensure id is present - we need it for the events }}
 		{{requires-id ignore=true}}
 		{{! React to trigger events }}
-		{{on this.triggerEvent (fn this.onTriggerEvent (not this.open))}}
+		{{on this.triggerEvent this.onTriggerEvent}}
 		{{! Monitor changes to disabled status }}
 		{{on-mutation
 			this.onAttributeMutation

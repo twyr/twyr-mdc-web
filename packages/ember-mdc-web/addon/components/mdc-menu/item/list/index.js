@@ -1,9 +1,9 @@
-import Component from '../../../mdc-abstract-dropdown/trigger/index';
+import Component from './../../../mdc-abstract-dropdown/content/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
 
-export default class MdcMenuItemTriggerComponent extends Component {
+export default class MdcMenuItemListComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
@@ -27,6 +27,8 @@ export default class MdcMenuItemTriggerComponent extends Component {
 		this.#debug(`willDestroy`);
 
 		this.#controls = {};
+		this.#element = null;
+
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -36,11 +38,12 @@ export default class MdcMenuItemTriggerComponent extends Component {
 
 	// #region Modifier Callbacks
 	@action
-	storeElement(element) {
+	async storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		super.storeElement?.(element);
+		super.storeElement(element);
 
-		this?.args?.itemControls?.setControls?.('trigger', this.#controls);
+		this.#element = element;
+		this?.args?.itemControls?.setControls?.('content', this.#controls);
 	}
 	// #endregion
 
@@ -48,18 +51,24 @@ export default class MdcMenuItemTriggerComponent extends Component {
 	@action
 	_openItem(open) {
 		this.#debug?.(`_openItem: `, open);
+		if (!this.#element) return;
+
 		if (open) {
-			this?.args?.dropdownControls?.open?.();
+			this.#element?.classList?.add?.('mdc-menu-surface--open');
 			return;
 		}
 
-		this?.args?.dropdownControls?.close?.();
+		this.#element?.classList?.remove?.('mdc-menu-surface--open');
 	}
 	// #endregion
 
 	// #region Computed Properties
-	get iconComponent() {
-		return this?._getComputedSubcomponent?.('icon');
+	get dividerComponent() {
+		return this?._getComputedSubcomponent?.('divider');
+	}
+
+	get listItemComponent() {
+		return this?._getComputedSubcomponent?.('listItem');
 	}
 	// #endregion
 
@@ -79,12 +88,15 @@ export default class MdcMenuItemTriggerComponent extends Component {
 
 	// #region Default Sub-components
 	#subComponents = {
-		icon: 'mdc-list/item/icon'
+		divider: 'mdc-list/divider',
+		listItem: 'mdc-list/item'
 	};
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('component:mdc-menu-item-trigger');
+	#debug = debugLogger('component:mdc-menu-item-list');
+
+	#element = null;
 	#controls = {};
 	// #endregion
 }

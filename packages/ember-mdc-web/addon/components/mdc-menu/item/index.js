@@ -2,20 +2,19 @@ import Component from './../../mdc-list/item/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
-import { cancel, later } from '@ember/runloop';
+import { cancel, later, scheduleOnce } from '@ember/runloop';
+import { tracked } from '@glimmer/tracking';
 
 export default class MdcMenuItemComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked open = false;
 	// #endregion
 
 	// #region Untracked Public Fields
-	controls = {};
 	itemControls = {};
-
-	open = false;
 	// #endregion
 
 	// #region Constructor
@@ -23,12 +22,12 @@ export default class MdcMenuItemComponent extends Component {
 		super(...arguments);
 		this.#debug?.(`constructor`);
 
-		this.controls.barReady = this?._onBarReady;
-		this.controls.open = this?._openItem;
-		this.controls.status = this?._getStatus;
+		this.#controls.barReady = this?._onBarReady;
+		this.#controls.open = this?._openItem;
+		this.#controls.status = this?._getStatus;
 
 		this.itemControls.onTriggerEvent = this?.onTriggerEvent;
-		this.itemControls.setControls = this?._setControls;
+		this.itemControls.setControls = this?._setDropdownControls;
 	}
 	// #endregion
 
@@ -46,11 +45,18 @@ export default class MdcMenuItemComponent extends Component {
 			this.#initOpenListenerTimeout = null;
 		}
 
+		if (this.#tempEventListenerAdded) {
+			this.#element?.removeEventListener?.('click', this?.onClick);
+			this.#tempEventListenerAdded = false;
+		}
+
 		this?.args?.menuControls?.registerItem?.(this.#element, null, false);
+
+		this.#contentControls = null;
 		this.#triggerControls = null;
 
 		this.itemControls = {};
-		this.controls = {};
+		this.#controls = {};
 
 		this.#element = null;
 		super.willDestroy(...arguments);
@@ -59,12 +65,12 @@ export default class MdcMenuItemComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	onTriggerEvent(open, event) {
-		this.#debug(`onTriggerEvent::${open}`, event);
+	onTriggerEvent(event) {
+		this.#debug(`onTriggerEvent: `, event);
 		if (!this.#element) return;
 		if (this.#element?.hasAttribute?.('disabled')) return;
 
-		this?.args?.menuControls?.openItem?.(this.#element, open);
+		this?.args?.menuControls?.openItem?.(this.#element, true);
 	}
 
 	@action
@@ -121,7 +127,7 @@ export default class MdcMenuItemComponent extends Component {
 		this.#element = element;
 		this?.args?.menuControls?.registerItem?.(
 			this.#element,
-			this.controls,
+			this.#controls,
 			true
 		);
 	}
@@ -133,16 +139,14 @@ export default class MdcMenuItemComponent extends Component {
 		this.#debug(`_onBarReady`);
 
 		if (!this.#element?.hasAttribute?.('open')) return;
+		// this?.args?.menuControls?.openItem?.(this.#element, true);
 
 		// TODO: Why is this timeout needed? Where are we setting
 		// open twice in this sequence??
-		this.#initOpenListenerTimeout = later?.(
+		this.#initOpenListenerTimeout = scheduleOnce?.(
+			'afterRender',
 			this,
-			() => {
-				this?.args?.menuControls?.openItem?.(this.#element, true);
-				this.#initOpenListenerTimeout = null;
-			},
-			5
+			this?._setupInitOpenState
 		);
 	}
 
@@ -164,9 +168,17 @@ export default class MdcMenuItemComponent extends Component {
 	}
 
 	@action
-	_setControls(controls) {
-		this.#debug(`_setDropdownControls: `, controls);
-		this.#triggerControls = controls;
+	_setDropdownControls(position, controls) {
+		this.#debug(`_setDropdownControls::${position}`, controls);
+		if (position === 'trigger') {
+			this.#triggerControls = controls;
+			return;
+		}
+
+		if (position === 'content') {
+			this.#contentControls = controls;
+			this.#contentControls?.openItem?.(true);
+		}
 	}
 	// #endregion
 
@@ -178,9 +190,18 @@ export default class MdcMenuItemComponent extends Component {
 	get triggerComponent() {
 		return this?._getComputedSubcomponent?.('trigger');
 	}
+
+	get listComponent() {
+		return this?._getComputedSubcomponent?.('list');
+	}
 	// #endregion
 
 	// #region Private Methods
+	_setupInitOpenState() {
+		this?.args?.menuControls?.openItem?.(this.#element, true);
+		this.#initOpenListenerTimeout = null;
+	}
+
 	_getComputedSubcomponent(componentName) {
 		const subComponent =
 			this?.args?.customComponents?.[componentName] ??
@@ -205,7 +226,10 @@ export default class MdcMenuItemComponent extends Component {
 	#debug = debugLogger('component:mdc-menu-item');
 
 	#element = null;
+	#controls = {};
+
 	#triggerControls = null;
+	#contentControls = null;
 
 	#tempEventListenerAdded = false;
 	#tempAddListenerTimeout = null;

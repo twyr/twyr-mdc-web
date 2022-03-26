@@ -105,7 +105,7 @@ export default class MdcMenuComponent extends Component {
 		const thisItemControl = this.#menuItems?.get?.(item);
 		const currentStatus = thisItemControl?.status?.()?.['open'];
 		if (open !== currentStatus) {
-			this.#debug?.(`_openItem::opening: `, item);
+			this.#debug?.(`_openItem::toggling: `, item);
 			thisItemControl?.open?.(open);
 		}
 
