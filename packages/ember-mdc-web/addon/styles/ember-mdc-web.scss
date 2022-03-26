@@ -125,6 +125,9 @@
 @use '@material/radio/mdc-radio';
 @use './emdc-radio.css';
 
+/* Select component */
+@use '@material/select/styles';
+
 /* Slider component */
 @use '@material/slider/styles' as slider-styles;
 @use './emdc-slider.css';

@@ -204,6 +204,22 @@ export default class MdcMenuComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
+	get xAlign() {
+		return this?.args?.xAlign ?? 'left';
+	}
+
+	get xOffset() {
+		return this?.args?.xOffset ?? '0';
+	}
+
+	get yAlign() {
+		return this?.args?.yAlign ?? 'bottom';
+	}
+
+	get yOffset() {
+		return this?.args?.yOffset ?? '0';
+	}
+
 	get triggerEvent() {
 		return this?.args?.triggerEvent ?? 'mouseup';
 	}

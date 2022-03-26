@@ -2,15 +2,15 @@
 {{#if (has-block 'items')}}
 	<MdcAbstractDropdown
 		@tag='li'
-		class='mdc-list-item overflow-visible'
+		class='mdc-list-item'
 		@customComponents={{(hash
 			trigger=(component this.triggerComponent)
 			content=(component this.listComponent)
 		)}}
-		@xAlign='left'
-		@xOffset='0'
-		@yAlign='bottom'
-		@yOffset='0'
+		@xAlign={{this.xAlign}}
+		@xOffset={{this.xOffset}}
+		@yAlign={{this.yAlign}}
+		@yOffset={{this.yOffset}}
 		@equalTriggerContentWidth={{false}}
 		@triggerEvent={{@triggerEvent}}
 		@palette={{@palette}}
@@ -73,11 +73,7 @@
 		{{! HTML attributes added in the calling template }}
 		...attributes
 	>
-		<div
-			class='ripple-container absolute inset-0 pointer-events-none overflow-hidden'
-		>
-			<span class='mdc-list-item__ripple'></span>
-		</div>
+		<span class='mdc-list-item__ripple'></span>
 
 		{{#if (has-block 'icon')}}
 			{{yield

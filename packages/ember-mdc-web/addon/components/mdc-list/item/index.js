@@ -107,9 +107,7 @@ export default class MdcListItemComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 
 		this.#element = element;
-		this.#mdcRipple = new MDCRipple(
-			this.#element?.querySelector?.('div.ripple-container')
-		);
+		this.#mdcRipple = new MDCRipple(this.#element);
 
 		this?._setupInitState?.();
 		this?.recalcStyles?.();
