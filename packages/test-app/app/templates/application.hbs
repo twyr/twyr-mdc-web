@@ -1,5 +1,6 @@
 {{! template-lint-disable no-inline-styles }}
 {{page-title 'Ember Material Components for the Web'}}
+<div id='mdc-abstract-dropdown--content-container'></div>
 <MdcTopAppBar @fixed={{true}} @palette={{this.palette}}>
 	<:navigationIcon>
 		<MdcDrawer::Control
@@ -12,6 +13,29 @@
 	</:navigationIcon>
 
 	<:title>Ember Material Components for the Web</:title>
+
+	<:actionIcons>
+		<MdcMenu @palette={{false}} @xAlign='right' open>
+			<:trigger as |Trigger|>
+				<Trigger>
+					<MdcIcon
+						class='text-3xl'
+						@icon='menu'
+						@palette={{this.palette}}
+					/>
+				</Trigger>
+			</:trigger>
+			<:items as |Items|>
+				<Items as |List|>
+					<List.Item>Single Menu 1</List.Item>
+					<List.Divider />
+					<List.Item>Single Menu 2</List.Item>
+					<List.Divider />
+					<List.Item>Single Menu 3</List.Item>
+				</Items>
+			</:items>
+		</MdcMenu>
+	</:actionIcons>
 </MdcTopAppBar>
 
 <MdcDrawer
@@ -232,7 +256,7 @@
 	<div class='flex flex-row justify-start items-center m-2'>
 		<MdcTextField
 			@outlined={{true}}
-			@fullWidth={{false}}
+			@fullWidth={{true}}
 			@label='Hello, world'
 			@palette={{this.palette}}
 			@status='Testing the text field'
@@ -243,29 +267,9 @@
 			required
 		/>
 
-		<MdcMenu @palette={{this.palette}}>
-			<:trigger as |Trigger|>
-				<Trigger>
-					<:icon as |Icon|>
-						<Icon @icon='kite' />
-					</:icon>
-					<:text>
-						Is
-					</:text>
-				</Trigger>
-			</:trigger>
-			<:items as |Items|>
-				<Items as |List|>
-					<List.Item>Single Menu Button 1</List.Item>
-					<List.Item>Single Menu Button 2</List.Item>
-					<List.Item>Single Menu Button 3</List.Item>
-				</Items>
-			</:items>
-		</MdcMenu>
-
 		<MdcMenuBar @palette={{this.palette}} as |MenuBar|>
 			<MenuBar.Menu>This</MenuBar.Menu>
-			<MenuBar.Menu open>
+			<MenuBar.Menu>
 				<:trigger as |Trigger|>
 					<Trigger>
 						<:icon as |Icon|>
@@ -284,7 +288,7 @@
 					</Items>
 				</:items>
 			</MenuBar.Menu>
-			<MenuBar.Menu>
+			<MenuBar.Menu open>
 				<:trigger as |Trigger|>
 					<Trigger>
 						<:icon as |Icon|>

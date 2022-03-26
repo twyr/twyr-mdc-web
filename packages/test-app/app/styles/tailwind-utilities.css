@@ -30,6 +30,10 @@
     -ms-flex-pack: distribute;
         justify-content: space-around
 }
+.text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem
+}
 .underline {
     -webkit-text-decoration-line: underline;
             text-decoration-line: underline
