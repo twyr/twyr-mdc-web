@@ -6,7 +6,23 @@ const addon = new Addon({
 	destDir: 'dist'
 });
 
+const onWarne = function onWarne(warning) {
+	// Silence warning
+	if (
+		warning.code === 'CIRCULAR_DEPENDENCY' ||
+		warning.code === 'EVAL' ||
+		warning.code === 'UNRESOLVED_IMPORT'
+	) {
+		return;
+	}
+
+	console.warn(`(!) ${warning.message}`);
+};
+
 export default {
+	// Console stuff to debug the build process
+	onwarn: onWarne,
+
 	// This provides defaults that work well alongside `publicEntrypoints` below.
 	// You can augment this if you need to.
 	output: addon.output(),
