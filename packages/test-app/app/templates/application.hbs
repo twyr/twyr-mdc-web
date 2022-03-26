@@ -243,9 +243,29 @@
 			required
 		/>
 
-		<MdcMenu @palette={{this.palette}} as |Menu|>
-			<Menu.Item>This</Menu.Item>
-			<Menu.Item>
+		<MdcMenu @palette={{this.palette}}>
+			<:trigger as |Trigger|>
+				<Trigger>
+					<:icon as |Icon|>
+						<Icon @icon='kite' />
+					</:icon>
+					<:text>
+						Is
+					</:text>
+				</Trigger>
+			</:trigger>
+			<:items as |Items|>
+				<Items as |List|>
+					<List.Item>Single Menu Button 1</List.Item>
+					<List.Item>Single Menu Button 2</List.Item>
+					<List.Item>Single Menu Button 3</List.Item>
+				</Items>
+			</:items>
+		</MdcMenu>
+
+		<MdcMenuBar @palette={{this.palette}} as |MenuBar|>
+			<MenuBar.Menu>This</MenuBar.Menu>
+			<MenuBar.Menu open>
 				<:trigger as |Trigger|>
 					<Trigger>
 						<:icon as |Icon|>
@@ -257,24 +277,54 @@
 					</Trigger>
 				</:trigger>
 				<:items as |Items|>
-					<Items>
-						<span>This is the first Menu Item</span>
+					<Items as |List|>
+						<List.Item>Item 2.1</List.Item>
+						<List.Item>Item 2.2</List.Item>
+						<List.Item>Item 2.3</List.Item>
 					</Items>
 				</:items>
-			</Menu.Item>
-			<Menu.Item>The</Menu.Item>
-			<Menu.Item>First</Menu.Item>
-			<Menu.Item>
+			</MenuBar.Menu>
+			<MenuBar.Menu>
 				<:trigger as |Trigger|>
-					<Trigger>Menu</Trigger>
+					<Trigger>
+						<:icon as |Icon|>
+							<Icon @icon='arrow-up' />
+						</:icon>
+						<:text>
+							The
+						</:text>
+					</Trigger>
 				</:trigger>
 				<:items as |Items|>
-					<Items>
-						<span>This is the second Menu Item</span>
+					<Items as |List|>
+						<List.Item>Item 3.1</List.Item>
+						<List.Item>Item 3.2</List.Item>
 					</Items>
 				</:items>
-			</Menu.Item>
-		</MdcMenu>
+			</MenuBar.Menu>
+			<MenuBar.Menu>First</MenuBar.Menu>
+			<MenuBar.Menu>
+				<:trigger as |Trigger|>
+					<Trigger>
+						<:icon as |Icon|>
+							<Icon @icon='crowd' />
+						</:icon>
+						<:text>
+							Menu
+						</:text>
+					</Trigger>
+				</:trigger>
+				<:items as |Items|>
+					<Items as |List|>
+						<List.Item>Item 5.1</List.Item>
+						<List.Item>Item 5.2</List.Item>
+						<List.Item>Item 5.3</List.Item>
+						<List.Item>Item 5.4</List.Item>
+						<List.Item>Item 5.5</List.Item>
+					</Items>
+				</:items>
+			</MenuBar.Menu>
+		</MdcMenuBar>
 	</div>
 	{{outlet}}
 </div>
