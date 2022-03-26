@@ -1,4 +1,4 @@
-.emdc-menu {
+.mdc-menu-bar {
 	@apply flex flex-row content-center items-center;
 	@apply list-none;
 	@apply whitespace-nowrap;

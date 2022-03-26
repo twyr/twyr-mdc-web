@@ -117,7 +117,9 @@
 /* Menu component */
 @use '@material/menu-surface/mdc-menu-surface';
 @use '@material/menu/mdc-menu';
-@use './emdc-menu.css';
+
+/* Menu Bar component */
+@use './emdc-menu-bar.css';
 
 /* Radio Button component */
 @use '@material/radio/mdc-radio';
