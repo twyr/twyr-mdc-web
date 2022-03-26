@@ -1,6 +1,6 @@
 import debugLogger from 'ember-debug-logger';
 
-export const isDisabled = function isDisabled(element) {
+export default function isDisabled(element) {
 	const debug = debugLogger('util:dom-element-attributes');
 	debug(`checking if disabled: `, element);
 
@@ -16,4 +16,4 @@ export const isDisabled = function isDisabled(element) {
 	} while (element);
 
 	return false;
-};
+}

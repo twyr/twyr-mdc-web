@@ -2,7 +2,7 @@
 /* eslint-disable */
 import debugLogger from 'ember-debug-logger';
 
-export const supportsPassiveEventListeners =
+const supportsPassiveEventListeners =
 	(function supportsPassiveEventListeners() {
 		const debug = debugLogger('util:check-browser-features');
 		let supportsPassiveOption = false;
@@ -24,3 +24,5 @@ export const supportsPassiveEventListeners =
 		debug(`supports passive listener: ${supportsPassiveOption}`);
 		return supportsPassiveOption;
 	})();
+
+export default supportsPassiveEventListeners;

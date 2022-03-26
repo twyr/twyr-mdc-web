@@ -2,7 +2,7 @@ import debugLogger from 'ember-debug-logger';
 
 import { Promise } from 'rsvp';
 
-export const nextBrowserTick = function nextBrowserTick() {
+export default function nextBrowserTick() {
 	const debug = debugLogger('util:next-browser-tick');
 	debug(`Requesting Animation Frame from thhe Window`);
 
@@ -12,4 +12,4 @@ export const nextBrowserTick = function nextBrowserTick() {
 			resolve();
 		});
 	});
-};
+}

@@ -1,8 +1,7 @@
 import Modifier from 'ember-modifier';
 import debugLogger from 'ember-debug-logger';
 
-import { supportsPassiveEventListeners } from './../utils/check-browser-features';
-
+import supportsPassiveEventListeners from './../utils/check-browser-features';
 export default class NotOnModifier extends Modifier {
 	// #region Accessed Services
 	// #endregion
@@ -11,6 +10,10 @@ export default class NotOnModifier extends Modifier {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+		this.#debug?.(
+			`supportsPassiveEventListeners: `,
+			supportsPassiveEventListeners
+		);
 	}
 	// #endregion
 
