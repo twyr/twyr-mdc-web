@@ -103,7 +103,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 
 	@action
 	_registerElement(position, element, register) {
-		this.#debug?.(`_registerElement::${position}: `, element);
+		this.#debug?.(`_registerElement::${position}::${register}: `, element);
 
 		if (position === 'trigger') {
 			this.#triggerElement = register ? element : null;

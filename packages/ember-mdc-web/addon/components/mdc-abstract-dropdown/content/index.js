@@ -14,7 +14,6 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	// #endregion
 
 	// #region Untracked Public Fields
-	controls = {};
 	// #endregion
 
 	// #region Constructor
@@ -22,7 +21,7 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		super(...arguments);
 		this.#debug?.(`constructor`);
 
-		this.controls.setDropdownStatus = this?._setDropdownStatus;
+		this.#controls.setDropdownStatus = this?._setDropdownStatus;
 	}
 	// #endregion
 
@@ -31,7 +30,7 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		this.#debug?.(`willDestroy`);
 		this?.args?.dropdownControls?.register?.('content', null, false);
 
-		this.controls = {};
+		this.#controls = {};
 		this.#element = null;
 
 		super.willDestroy(...arguments);
@@ -95,7 +94,7 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 			'content',
 			{
 				element: this.#element,
-				controls: this.controls
+				controls: this.#controls
 			},
 			true
 		);
@@ -157,6 +156,8 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-abstract-dropdown-content');
+
 	#element = null;
+	#controls = {};
 	// #endregion
 }
