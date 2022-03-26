@@ -7,7 +7,12 @@
 
 {{#if (has-block 'icon')}}
 	{{yield
-		(component this.iconComponent disabled=this.disabled palette=@palette)
+		(component
+			this.iconComponent
+			disabled=this.disabled
+			doubleLine=@doubleLine
+			palette=@palette
+		)
 		to='icon'
 	}}
 {{/if}}
@@ -21,9 +26,18 @@
 	...attributes
 	disabled={{this.disabled}}
 >
-	{{#if (has-block 'icon')}}
-		{{yield to='text'}}
+	{{#if @doubleLine}}
+		<span class='mdc-list-item__primary-text'>
+			{{yield to='primaryText'}}
+		</span>
+		<span class='mdc-list-item__secondary-text'>
+			{{yield to='secondaryText'}}
+		</span>
 	{{else}}
-		{{yield}}
+		{{#if (has-block 'icon')}}
+			{{yield to='text'}}
+		{{else}}
+			{{yield}}
+		{{/if}}
 	{{/if}}
 </span>

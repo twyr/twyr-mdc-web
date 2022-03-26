@@ -70,7 +70,7 @@ export default class MdcMenuListComponent extends Component {
 	@action
 	async _setDropdownStatus(dropdownStatus) {
 		this.#debug?.(`_setDropdownStatus: `, dropdownStatus);
-		super._setDropdownStatus?.();
+		super._setDropdownStatus?.(dropdownStatus);
 
 		if (!dropdownStatus?.open) return;
 

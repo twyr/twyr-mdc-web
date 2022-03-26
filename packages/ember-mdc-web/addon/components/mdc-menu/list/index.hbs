@@ -18,7 +18,14 @@
 		{{! HTML attributes added in the calling template }}
 		...attributes
 	>
-		<ul class='mdc-list'>
+		<ul
+			class='mdc-list'
+			{{! Accessibility stuff }}
+			role='menu'
+			aria-hidden='true'
+			aria-orientation='vertical'
+			tabindex='-1'
+		>
 			{{yield
 				(hash
 					Divider=(component this.dividerComponent palette=@palette)

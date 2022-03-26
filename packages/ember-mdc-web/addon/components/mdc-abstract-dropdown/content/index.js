@@ -66,20 +66,15 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		this.#debug?.(`setNewPosition::position: `, position);
 
 		const currentCSS = this.#element?.style;
-		currentCSS['left'] = `${position?.['left']}px`;
-		currentCSS['top'] = `${position?.['top']}px`;
-
-		const containerElementCss = this?.contentContainerElement?.style;
-		this.#debug?.(
-			`setNewPosition::containerElement: `,
-			containerElementCss
-		);
-
-		containerElementCss['top'] = `${
-			position?.dropdownRect?.['top'] + window?.scrollY
+		currentCSS['left'] = `${
+			position?.dropdownRect?.['left'] +
+			window?.scrollX +
+			position?.['left']
 		}px`;
-		containerElementCss['left'] = `${
-			position?.dropdownRect?.['left'] + window?.scrollX
+		currentCSS['top'] = `${
+			position?.dropdownRect?.['top'] +
+			window?.scrollY +
+			position?.['top']
 		}px`;
 	}
 

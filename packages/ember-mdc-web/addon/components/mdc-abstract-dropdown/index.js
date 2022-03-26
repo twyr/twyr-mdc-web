@@ -4,7 +4,7 @@ import debugLogger from 'ember-debug-logger';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-import { nextBrowserTick } from '../../utils/next-browser-tick';
+import nextBrowserTick from '../../utils/next-browser-tick';
 
 export default class MdcAbstractDropdownComponent extends Component {
 	// #region Accessed Services
