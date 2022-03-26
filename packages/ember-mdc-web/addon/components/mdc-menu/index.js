@@ -1,7 +1,8 @@
-import Component from '@glimmer/component';
+import Component from './../mdc-list/item/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { cancel, later, scheduleOnce } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
 
 export default class MdcMenuComponent extends Component {
@@ -13,7 +14,7 @@ export default class MdcMenuComponent extends Component {
 	// #endregion
 
 	// #region Untracked Public Fields
-	controls = {};
+	itemControls = {};
 	// #endregion
 
 	// #region Constructor
@@ -21,135 +22,205 @@ export default class MdcMenuComponent extends Component {
 		super(...arguments);
 		this.#debug?.(`constructor`);
 
-		this.controls.registerItem = this?._registerItem;
-		this.controls.openItem = this?._openItem;
+		this.#controls.barReady = this?._onBarReady;
+		this.#controls.open = this?._openItem;
+		this.#controls.status = this?._getStatus;
+
+		this.itemControls.onTriggerEvent = this?.onTriggerEvent;
+		this.itemControls.setControls = this?._setDropdownControls;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug(`willDestroy`);
-		this.controls = {};
 
-		this.#menuItems?.clear?.();
+		if (this.#tempAddListenerTimeout) {
+			cancel?.(this.#tempAddListenerTimeout);
+			this.#tempAddListenerTimeout = null;
+		}
+
+		if (this.#initOpenListenerTimeout) {
+			cancel?.(this.#initOpenListenerTimeout);
+			this.#initOpenListenerTimeout = null;
+		}
+
+		if (this.#tempEventListenerAdded) {
+			this.#element?.removeEventListener?.('click', this?.onClick);
+			this.#tempEventListenerAdded = false;
+		}
+
+		this?.args?.menuControls?.registerItem?.(this.#element, null, false);
+
+		this.#contentControls = null;
+		this.#triggerControls = null;
+
+		this.itemControls = {};
+		this.#controls = {};
+
 		this.#element = null;
-
 		super.willDestroy(...arguments);
 	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	@action
+	onTriggerEvent(event) {
+		this.#debug(`onTriggerEvent: `, event);
+		if (!this.#element) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
+
+		if (this?.args?.menuControls) {
+			this?.args?.menuControls?.openItem?.(this.#element, true);
+			return;
+		}
+
+		this?._openItem?.(!this?.open);
+	}
+
+	@action
+	onClick(event) {
+		this.#debug(`onClick: `, event);
+
+		if (!this.#element) return;
+		if (this.#element?.hasAttribute?.('disabled')) return;
+
+		super.onClick?.(event);
+
+		if (this?.args?.menuControls)
+			this?.args?.menuControls?.openItem?.(this.#element, !this?.open);
+		else this?._openItem?.(!this?.open);
+	}
 	// #endregion
 
 	// #region Modifier Callbacks
 	@action
-	closeSubMenus(event) {
+	notOnClick(event) {
 		this.#debug(`closeSubmenus: `, event);
 		if (!this?.open) return;
 
-		this.#menuItems?.forEach?.((menuItemControls) => {
-			menuItemControls?.open?.(false);
-		});
+		if (this?.args?.menuControls) return;
 
-		this.open = false;
+		this?._openItem?.(false);
+	}
+
+	@action
+	listenToClicks() {
+		this.#debug(`listenToClicks::triggerEvent: ${this?.triggerEvent}`);
+		if (!this.#element) return;
+
+		if (this?.triggerEvent === 'click' && this.#tempEventListenerAdded) {
+			this.#debug(
+				`listenToClicks::triggerEvent::${this?.triggerEvent}: removing event listener`
+			);
+
+			this.#element?.removeEventListener?.('click', this?.onClick);
+			this.#tempEventListenerAdded = false;
+
+			return;
+		}
+
+		if (this.#tempEventListenerAdded) return;
+
+		this.#debug(
+			`listenToClicks::triggerEvent::${this?.triggerEvent}: adding event listener`
+		);
+		this.#tempAddListenerTimeout = later?.(
+			this,
+			() => {
+				this.#tempAddListenerTimeout = null;
+				this.#tempEventListenerAdded = true;
+
+				this.#element?.addEventListener?.('click', this?.onClick);
+			},
+			1
+		);
 	}
 
 	@action
 	storeElement(element) {
-		this.#debug?.(`storeElement: `, element);
+		this.#debug(`storeElement: `, element);
+		super.storeElement?.(element);
+
 		this.#element = element;
 
-		this.#menuItems?.forEach((menuItemControl) => {
-			menuItemControl?.barReady?.();
-		});
+		if (this?.args?.menuControls)
+			this?.args?.menuControls?.registerItem?.(
+				this.#element,
+				this.#controls,
+				true
+			);
+		else this?._onBarReady?.();
 	}
 	// #endregion
 
 	// #region Controls
 	@action
-	_registerItem(item, controls, register) {
-		this.#debug?.(`_registerItem: `, item, controls, register);
+	_onBarReady() {
+		this.#debug(`_onBarReady`);
 
-		if (!register) {
-			this.#menuItems?.delete?.(item);
-			return;
-		}
+		if (!this.#element?.hasAttribute?.('open')) return;
+		// this?.args?.menuControls?.openItem?.(this.#element, true);
 
-		if (this.#menuItems?.has?.(item)) {
-			this.#menuItems?.set?.(item, controls);
-			return;
-		}
-
-		this.#menuItems?.set?.(item, controls);
-
-		if (!this.#element) return;
-		controls?.barReady?.();
+		// TODO: Why is this timeout needed? Where are we setting
+		// open twice in this sequence??
+		this.#initOpenListenerTimeout = scheduleOnce?.(
+			'afterRender',
+			this,
+			this?._setupInitOpenState
+		);
 	}
 
 	@action
-	_openItem(item, open) {
-		this.#debug?.(`_openItem::${open}: `, item);
+	_openItem(open) {
+		this.#debug(`_openItem: ${open}`);
+		this.open = open;
 
-		if (!this.#menuItems?.has?.(item)) {
-			this.#debug?.(`Item not registered: `, item);
+		this.#triggerControls?.openItem?.(open);
+	}
+
+	@action
+	_getStatus() {
+		this.#debug(`_getStatus`);
+		return {
+			open: this?.open,
+			disabled: this.#element?.hasAttribute?.('disabled')
+		};
+	}
+
+	@action
+	_setDropdownControls(position, controls) {
+		this.#debug(`_setDropdownControls::${position}`, controls);
+		if (position === 'trigger') {
+			this.#triggerControls = controls;
 			return;
 		}
 
-		this.#menuItems?.forEach((menuItemControl, menuItem) => {
-			if (item === menuItem) return;
-
-			this.#debug?.(`_openItem::closing: `, menuItem);
-			menuItemControl?.open?.(false);
-		});
-
-		const thisItemControl = this.#menuItems?.get?.(item);
-		const currentStatus = thisItemControl?.status?.()?.['open'];
-		if (open !== currentStatus) {
-			this.#debug?.(`_openItem::toggling: `, item);
-			thisItemControl?.open?.(open);
+		if (position === 'content') {
+			this.#contentControls = controls;
+			this.#contentControls?.openItem?.(true);
 		}
-
-		if (this?.open === open) return;
-
-		this.#debug?.(`_openItem::isMenuOpen: ${open}`);
-		this.open = open;
-
-		const eventData = {
-			menuItem: item,
-			open: open
-		};
-
-		this?._fireEvent?.('statuschange', eventData);
 	}
 	// #endregion
 
 	// #region Computed Properties
-	get itemComponent() {
-		return this?._getComputedSubcomponent?.('item');
+	get triggerEvent() {
+		return this?.args?.triggerEvent ?? 'mouseup';
 	}
 
-	get triggerEvent() {
-		const triggerEvent = this?.open ? 'mouseenter' : 'click';
-		this.#debug(`triggerEvent: `, triggerEvent);
+	get triggerComponent() {
+		return this?._getComputedSubcomponent?.('trigger');
+	}
 
-		return triggerEvent;
+	get listComponent() {
+		return this?._getComputedSubcomponent?.('list');
 	}
 	// #endregion
 
 	// #region Private Methods
-	_fireEvent(name, options) {
-		this.#debug?.(`_fireEvent::${name}: `, options);
-		if (!this.#element) return;
-
-		const status = Object?.assign?.({}, options, { open: this?.open });
-		const thisEvent = new CustomEvent(name, {
-			detail: {
-				id: this.#element?.id,
-				status: status
-			}
-		});
-
-		this.#element?.dispatchEvent?.(thisEvent);
+	_setupInitOpenState() {
+		this?.args?.menuControls?.openItem?.(this.#element, true);
+		this.#initOpenListenerTimeout = null;
 	}
 
 	_getComputedSubcomponent(componentName) {
@@ -167,7 +238,8 @@ export default class MdcMenuComponent extends Component {
 
 	// #region Default Sub-components
 	#subComponents = {
-		item: 'mdc-menu/item'
+		list: 'mdc-menu/list',
+		trigger: 'mdc-menu/trigger'
 	};
 	// #endregion
 
@@ -175,6 +247,14 @@ export default class MdcMenuComponent extends Component {
 	#debug = debugLogger('component:mdc-menu');
 
 	#element = null;
-	#menuItems = new Map();
+	#controls = {};
+
+	#triggerControls = null;
+	#contentControls = null;
+
+	#tempEventListenerAdded = false;
+	#tempAddListenerTimeout = null;
+
+	#initOpenListenerTimeout = null;
 	// #endregion
 }

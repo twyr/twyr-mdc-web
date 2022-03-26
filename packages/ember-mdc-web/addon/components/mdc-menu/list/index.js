@@ -1,9 +1,9 @@
-import Component from './../../../mdc-abstract-dropdown/content/index';
+import Component from './../../mdc-abstract-dropdown/content/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
 
-export default class MdcMenuItemListComponent extends Component {
+export default class MdcMenuListComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
@@ -94,7 +94,7 @@ export default class MdcMenuItemListComponent extends Component {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('component:mdc-menu-item-list');
+	#debug = debugLogger('component:mdc-menu-list');
 
 	#element = null;
 	#controls = {};

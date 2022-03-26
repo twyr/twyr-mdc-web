@@ -1,9 +1,9 @@
-import Component from '../../../mdc-abstract-dropdown/trigger/index';
+import Component from '../../mdc-abstract-dropdown/trigger/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
 
-export default class MdcMenuItemTriggerComponent extends Component {
+export default class MdcMenuTriggerComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
@@ -84,7 +84,7 @@ export default class MdcMenuItemTriggerComponent extends Component {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('component:mdc-menu-item-trigger');
+	#debug = debugLogger('component:mdc-menu-trigger');
 	#controls = {};
 	// #endregion
 }
