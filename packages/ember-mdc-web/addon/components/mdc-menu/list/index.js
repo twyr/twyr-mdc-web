@@ -58,13 +58,6 @@ export default class MdcMenuListComponent extends Component {
 	_openItem(open) {
 		this.#debug?.(`_openItem: `, open);
 		if (!this.#element) return;
-
-		if (open) {
-			this.#element?.classList?.add?.('mdc-menu-surface--open');
-			return;
-		}
-
-		this.#element?.classList?.remove?.('mdc-menu-surface--open');
 	}
 
 	@action
