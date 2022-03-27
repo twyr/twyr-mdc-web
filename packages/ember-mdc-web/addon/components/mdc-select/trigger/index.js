@@ -12,9 +12,7 @@ export default class MdcSelectTriggerComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked isOpen = false;
-	@tracked isRequired = false;
-
+	@tracked required = false;
 	@tracked value = null;
 	@tracked text = null;
 	// #endregion
@@ -59,6 +57,7 @@ export default class MdcSelectTriggerComponent extends Component {
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
+
 		const rootElement = this.#element?.closest?.(
 			'div.select-field-container'
 		);
@@ -119,12 +118,9 @@ export default class MdcSelectTriggerComponent extends Component {
 	@action
 	_setDropdownStatus(dropdownStatus) {
 		this.#debug?.(`_setDropdownStatus: `, dropdownStatus);
-
 		super._setDropdownStatus?.(dropdownStatus);
 
-		this.isRequired = dropdownStatus?.required;
-		this.isOpen = dropdownStatus?.open;
-
+		this.required = dropdownStatus?.required;
 		this.value = dropdownStatus?.value;
 		this.text = dropdownStatus?.text;
 
@@ -141,20 +137,10 @@ export default class MdcSelectTriggerComponent extends Component {
 
 	// #region Private Methods
 	_setupInitState() {
-		if (this.disabled) {
-			this.#mdcRipple?.deactivate?.();
-			this.#mdcLineRipple?.deactivate?.();
+		if (!this.disabled) return;
 
-			// this.#element
-			// 	?.querySelector?.('label.mdc-text-field')
-			// 	?.classList?.add?.('mdc-text-field--disabled');
-		} else {
-			// this.#element
-			// 	?.querySelector?.('label.mdc-text-field')
-			// 	?.classList?.remove?.('mdc-text-field--disabled');
-			// this.#mdcLineRipple?.activate?.();
-			// this.#mdcRipple?.activate?.();
-		}
+		this.#mdcRipple?.deactivate?.();
+		this.#mdcLineRipple?.deactivate?.();
 	}
 	// #endregion
 

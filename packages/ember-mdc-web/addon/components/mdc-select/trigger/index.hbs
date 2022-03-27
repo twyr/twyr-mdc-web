@@ -28,7 +28,7 @@
 		<span
 			class='mdc-notched-outline'
 			{{has-class-if
-				(or this.isOpen this.value)
+				(or (and this.open (not this.disabled)) this.value)
 				'mdc-notched-outline--notched'
 			}}
 		>
@@ -38,11 +38,11 @@
 					<span
 						class='mdc-floating-label'
 						{{has-class-if
-							(or this.isOpen this.value)
+							(or (and this.open (not this.disabled)) this.value)
 							'mdc-floating-label--float-above'
 						}}
 						{{has-class-if
-							this.isRequired
+							this.required
 							'mdc-floating-label--required'
 						}}
 					>{{@label}}</span>
@@ -56,10 +56,10 @@
 		<span
 			class='mdc-floating-label'
 			{{has-class-if
-				(or this.isOpen this.value)
+				(or (and this.open (not this.disabled)) this.value)
 				'mdc-floating-label--float-above'
 			}}
-			{{has-class-if this.isRequired 'mdc-floating-label--required'}}
+			{{has-class-if this.required 'mdc-floating-label--required'}}
 		>{{@label}}</span>
 	{{/if}}
 

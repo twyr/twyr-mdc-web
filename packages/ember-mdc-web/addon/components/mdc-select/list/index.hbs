@@ -1,6 +1,11 @@
-{{#in-element this.contentContainerElement}}
+{{#in-element this.contentContainerElement insertBefore=null}}
 	<span
-		class='mdc-abstract-dropdown__content absolute inline-block z-10'
+		class='mdc-abstract-dropdown__content mdc-select__menu mdc-menu mdc-menu-surface'
+		{{! Add styling classes as necessary }}
+		{{has-class-if
+			(and this.open (not this.disabled))
+			'mdc-menu-surface--open'
+		}}
 		id='{{this.dropdownId}}-content'
 		{{! Re-calculate colours as necessary }}
 		{{on-args-change this.recalcStyles @palette}}
@@ -9,6 +14,20 @@
 		{{! HTML attributes added in the calling template }}
 		...attributes
 	>
-		{{yield}}
+		<ul
+			class='mdc-list'
+			{{! Accessibility stuff }}
+			role='menu'
+			aria-hidden='true'
+			aria-orientation='vertical'
+			tabindex='-1'
+		>
+			{{yield
+				(hash
+					Divider=(component this.dividerComponent palette=@palette)
+					Item=(component this.listItemComponent palette=@palette)
+				)
+			}}
+		</ul>
 	</span>
 {{/in-element}}

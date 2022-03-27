@@ -42,14 +42,14 @@
 			}}
 		{{/if}}
 
-		{{#if (and this.open (not this.disabled) (has-block 'content'))}}
+		{{#if (has-block 'optionlist')}}
 			{{yield
 				(component
 					this.listComponent
 					dropdownControls=this.controls
 					palette=@palette
 				)
-				to='content'
+				to='optionlist'
 			}}
 		{{/if}}
 	</div>
