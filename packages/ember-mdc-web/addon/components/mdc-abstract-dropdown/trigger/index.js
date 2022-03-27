@@ -11,6 +11,7 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 	// #region Tracked Attributes
 	@tracked dropdownId = null;
 	@tracked disabled = false;
+	@tracked open = false;
 	// #endregion
 
 	// #region Untracked Public Fields
@@ -69,6 +70,7 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 
 		this.dropdownId = dropdownStatus?.id;
 		this.disabled = dropdownStatus?.disabled;
+		this.open = dropdownStatus?.open;
 	}
 	// #endregion
 

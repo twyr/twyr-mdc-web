@@ -11,6 +11,7 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	// #region Tracked Attributes
 	@tracked dropdownId = null;
 	@tracked disabled = false;
+	@tracked open = false;
 	// #endregion
 
 	// #region Untracked Public Fields
@@ -100,10 +101,11 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		this.#debug?.(`_setDropdownStatus: `, dropdownStatus);
 
 		this.dropdownId = dropdownStatus?.id;
+
 		this.disabled = dropdownStatus?.disabled;
+		this.open = dropdownStatus?.open;
 
-		if (!dropdownStatus?.open) return;
-
+		if (!this?.open) return;
 		await this?.setNewPosition();
 	}
 	// #endregion
@@ -114,9 +116,15 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	}
 
 	get contentContainerElement() {
-		return document?.querySelector?.(
-			'div#mdc-abstract-dropdown--content-container'
-		);
+		const containerId =
+			this?.args?.contentContainer ??
+			'div#mdc-abstract-dropdown--content-container';
+		this.#debug?.('contentContainerElement::containerId: ', containerId);
+
+		const container = document?.querySelector?.(containerId);
+		this.#debug?.('contentContainerElement::container: ', container);
+
+		return container;
 	}
 
 	get matchTriggerWidth() {

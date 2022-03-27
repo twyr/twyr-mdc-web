@@ -27,7 +27,7 @@
 			}}
 		{{/if}}
 
-		{{#if (and this.open (not this.disabled) (has-block 'content'))}}
+		{{#if (has-block 'content')}}
 			{{yield
 				(component
 					this.contentComponent
