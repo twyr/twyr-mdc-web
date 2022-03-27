@@ -79,12 +79,6 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	}
 
 	@action
-	recalcStyles() {
-		this.#debug?.(`recalcStyles: re-calculating styling`);
-		if (!this.#element) return;
-	}
-
-	@action
 	async storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
@@ -111,7 +105,6 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		if (!dropdownStatus?.open) return;
 
 		await this?.setNewPosition();
-		this?.recalcStyles?.();
 	}
 	// #endregion
 

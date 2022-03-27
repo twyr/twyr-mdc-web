@@ -47,17 +47,10 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 
 	// #region Modifier Callbacks
 	@action
-	recalcStyles() {
-		this.#debug?.(`recalcStyles: re-calculating styling`);
-		if (!this.#element) return;
-	}
-
-	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?.recalcStyles?.();
 		this?.args?.dropdownControls?.register?.(
 			'trigger',
 			{
@@ -76,8 +69,6 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 
 		this.dropdownId = dropdownStatus?.id;
 		this.disabled = dropdownStatus?.disabled;
-
-		this?.recalcStyles?.();
 	}
 	// #endregion
 

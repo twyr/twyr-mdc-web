@@ -56,7 +56,9 @@ export default class MdcAbstractDropdownComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		const status = this?._setupStatus?.();
+		this?._informSubComponents?.(status);
+
 		this?._fireEvent?.('statuschange');
 	}
 
@@ -65,7 +67,9 @@ export default class MdcAbstractDropdownComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?._setupInitState?.();
+		const status = this?._setupStatus?.();
+		this?._informSubComponents?.(status);
+
 		this?._fireEvent?.('init');
 	}
 	// #endregion
@@ -79,7 +83,9 @@ export default class MdcAbstractDropdownComponent extends Component {
 		if (!this.#element || this.#element?.hasAttribute?.('disabled')) return;
 		this.open = true;
 
-		this?._setupInitState?.();
+		const status = this?._setupStatus?.();
+		this?._informSubComponents?.(status);
+
 		this?._fireEvent?.('statuschange');
 	}
 
@@ -90,7 +96,9 @@ export default class MdcAbstractDropdownComponent extends Component {
 
 		this.open = false;
 
-		this?._setupInitState?.();
+		const status = this?._setupStatus?.();
+		this?._informSubComponents?.(status);
+
 		this?._fireEvent?.('statuschange');
 	}
 
@@ -113,7 +121,8 @@ export default class MdcAbstractDropdownComponent extends Component {
 			this.#contentElement = register ? element : null;
 		}
 
-		this?._setupInitState?.();
+		const status = this?._setupStatus?.();
+		this?._informSubComponents?.(status);
 	}
 
 	@action
@@ -254,14 +263,8 @@ export default class MdcAbstractDropdownComponent extends Component {
 		this.#element?.dispatchEvent?.(thisEvent);
 	}
 
-	_setupInitState() {
-		const status = {
-			id: this.#element?.id,
-			disabled: this.#element?.hasAttribute?.('disabled'),
-			open: this?.open
-		};
-
-		this.#debug?.(`_setupInitState: `, status);
+	_informSubComponents(status) {
+		this.#debug?.(`_informSubComponents:`, status);
 		if (!this.#element) return;
 
 		if (this.#triggerElement) {
@@ -271,6 +274,17 @@ export default class MdcAbstractDropdownComponent extends Component {
 		if (this.#contentElement) {
 			this.#contentElement?.controls?.setDropdownStatus?.(status);
 		}
+	}
+
+	_setupStatus() {
+		const status = {
+			id: this.#element?.id,
+			disabled: this.#element?.hasAttribute?.('disabled'),
+			open: this?.open
+		};
+
+		this.#debug?.(`_setupStatus: `, status);
+		return status;
 	}
 
 	_getComputedSubcomponent(componentName) {
