@@ -15,7 +15,7 @@
 		{{has-class-if this.isFocused 'mdc-text-field--focused'}}
 		{{has-class-if
 			(or this.isFocused this.numCharacters)
-			'mdc-text-field--label-floating px-2'
+			'mdc-text-field--label-floating'
 		}}
 		{{has-class-if (not @label) 'mdc-text-field--no-label'}}
 		{{has-class-if @leadingIcon 'mdc-text-field--with-leading-icon'}}
@@ -38,8 +38,6 @@
 								(or this.isFocused this.numCharacters)
 								'mdc-floating-label--float-above'
 							}}
-							{{! Ensure id is present }}
-							{{requires-id ignore=true}}
 						>{{@label}}</span>
 					</span>
 				{{/if}}
@@ -54,8 +52,6 @@
 						(or this.isFocused this.numCharacters)
 						'mdc-floating-label--float-above'
 					}}
-					{{! Ensure id is present }}
-					{{requires-id ignore=true}}
 				>{{@label}}</span>
 			{{/if}}
 		{{/if}}
@@ -127,24 +123,26 @@
 			></span>
 		{{/unless}}
 	</label>
-	<div class='mdc-text-field-helper-line'>
-		<p
-			class='mdc-text-field-helper-text'
-			{{has-class-if
-				@status
-				'mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg'
-			}}
-			{{! Ensure id is present }}
-			{{requires-id ignore=true}}
-			aria-hidden='true'
-		>
-			{{@status}}
-		</p>
+	{{#if @statusBar}}
+		<div class='mdc-text-field-helper-line'>
+			<p
+				class='mdc-text-field-helper-text'
+				{{has-class-if
+					@status
+					'mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg'
+				}}
+				aria-hidden='true'
+			>
+				{{@status}}
+			</p>
 
-		{{#if this.characterCount}}
-			<div class='mdc-text-field-character-counter'>{{this.numCharacters}}
-				/
-				{{this.characterCount}}</div>
-		{{/if}}
-	</div>
+			{{#if this.characterCount}}
+				<div
+					class='mdc-text-field-character-counter'
+				>{{this.numCharacters}}
+					/
+					{{this.characterCount}}</div>
+			{{/if}}
+		</div>
+	{{/if}}
 </div>
