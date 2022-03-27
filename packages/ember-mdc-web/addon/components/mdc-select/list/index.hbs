@@ -1,0 +1,14 @@
+{{#in-element this.contentContainerElement}}
+	<span
+		class='mdc-abstract-dropdown__content absolute inline-block z-10'
+		id='{{this.dropdownId}}-content'
+		{{! Re-calculate colours as necessary }}
+		{{on-args-change this.recalcStyles @palette}}
+		{{! Store reference to the element for DOM manipulation }}
+		{{store-element this.storeElement}}
+		{{! HTML attributes added in the calling template }}
+		...attributes
+	>
+		{{yield}}
+	</span>
+{{/in-element}}

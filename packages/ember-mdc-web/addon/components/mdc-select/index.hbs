@@ -1,0 +1,68 @@
+{{! template-lint-disable no-nested-interactive }}
+<div
+	class='select-field-container'
+	{{has-class-if @fullWidth 'block' 'inline-block'}}
+>
+	<div
+		class='mdc-abstract-dropdown mdc-select'
+		{{! Add styling classes as necessary }}
+		{{has-class-if @outlined 'mdc-select--outlined' 'mdc-select--filled'}}
+		{{has-class-if
+			this.open
+			'mdc-abstract-dropdown--open mdc-select--activated mdc-select--focused'
+		}}
+		{{has-class-if this.disabled 'mdc-select--disabled'}}
+		{{has-class-if @leadingIcon 'mdc-select--with-leading-icon'}}
+		{{has-class-if (not @label) 'mdc-select--no-label'}}
+		{{! Ensure id is present - we need it for the events }}
+		{{requires-id ignore=true}}
+		{{! React to clicks }}
+		{{not-on 'click' this.notOnClick}}
+		{{! Monitor changes to disabled status }}
+		{{on-mutation
+			this.onAttributeMutation
+			attributeFilter=(array 'id' 'disabled')
+		}}
+		{{! Store reference to the element for DOM manipulation }}
+		{{store-element this.storeElement}}
+		{{! HTML attributes added in the calling template }}
+		...attributes
+	>
+		{{#if (has-block 'trigger')}}
+			{{yield
+				(component
+					this.triggerComponent
+					dropdownControls=this.controls
+					label=@label
+					leadingIcon=@leadingIcon
+					outlined=@outlined
+					palette=@palette
+				)
+				to='trigger'
+			}}
+		{{/if}}
+
+		{{#if (and this.open (not this.disabled) (has-block 'content'))}}
+			{{yield
+				(component
+					this.listComponent
+					dropdownControls=this.controls
+					palette=@palette
+				)
+				to='content'
+			}}
+		{{/if}}
+	</div>
+	{{#if @statusBar}}
+		<p
+			class='mdc-select-helper-text'
+			{{has-class-if
+				@status
+				'mdc-select-helper-text--validation-msg mdc-select-helper-text--validation-msg-persistent'
+			}}
+			aria-hidden='true'
+		>
+			{{@status}}
+		</p>
+	{{/if}}
+</div>

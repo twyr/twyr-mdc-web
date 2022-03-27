@@ -1,0 +1,98 @@
+.mdc-select:not(.mdc-select--disabled) {
+	& .mdc-floating-label {
+		color: var(
+			--mdc-select-field-color,
+			var(--mdc-theme-primary),
+			rgb(0 0 0 / 0.6)
+		);
+	}
+
+	& + .mdc-select-helper-text {
+		color: var(
+			--mdc-select-field-color,
+			var(--mdc-theme-primary),
+			rgb(0 0 0 / 0.6)
+		);
+	}
+
+	& .mdc-line-ripple::before {
+		border-bottom-color: var(
+			--mdc-select-field-color,
+			var(--mdc-theme-primary),
+			#01579b
+		);
+	}
+
+	& .mdc-line-ripple::after {
+		border-bottom-color: var(
+			--mdc-select-field-color,
+			var(--mdc-theme-primary),
+			#01579b
+		);
+	}
+
+	&:hover .mdc-line-ripple::before {
+		border-bottom-color: var(
+			--mdc-select-field-color,
+			var(--mdc-theme-primary),
+			#01579b
+		);
+	}
+
+	&.mdc-select--focused .mdc-floating-label {
+		color: var(
+			--mdc-select-field-color,
+			var(--mdc-theme-primary),
+			rgb(0 0 0 / 0.6)
+		);
+	}
+}
+
+.mdc-select--outlined:not(.mdc-select--disabled) {
+	& .mdc-notched-outline__leading {
+		border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+	}
+
+	& .mdc-notched-outline__notch {
+		border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+	}
+
+	& .mdc-notched-outline__trailing {
+		border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+	}
+
+	&.mdc-select--focused .mdc-notched-outline {
+		& .mdc-notched-outline__leading {
+			border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+		}
+
+		& .mdc-notched-outline__notch {
+			border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+		}
+
+		& .mdc-notched-outline__trailing {
+			border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+		}
+	}
+
+	&:not(.mdc-select--focused)
+	.mdc-select__anchor:hover
+	.mdc-notched-outline
+	.mdc-notched-outline__leading {
+		border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+	}
+
+	&:not(.mdc-select--focused)
+	.mdc-select__anchor:hover
+	.mdc-notched-outline
+	.mdc-notched-outline__notch {
+		border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+	}
+
+	&:not(.mdc-select--focused)
+	.mdc-select__anchor:hover
+	.mdc-notched-outline
+	.mdc-notched-outline__trailing {
+		border-color: var(--mdc-select-field-color, rgb(0 0 0 / 0.38));
+	}
+}

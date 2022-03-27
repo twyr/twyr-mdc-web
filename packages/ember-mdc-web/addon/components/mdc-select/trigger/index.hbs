@@ -1,0 +1,110 @@
+{{! template-lint-disable no-nested-interactive }}
+{{! template-lint-disable require-presentational-children }}
+<span
+	class='mdc-abstract-dropdown__trigger mdc-select__anchor'
+	id='{{this.dropdownId}}-trigger'
+	{{! Accessibility stuff}}
+	role='button'
+	aria-haspopup='listbox'
+	aria-expanded='false'
+	aria-labelledby='{{this.dropdownId}}-trigger'
+	{{! React to events }}
+	{{on this.triggerEvent this.onTriggerEvent}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation
+		this.onAttributeMutation
+		attributeFilter=(array 'disabled' 'required')
+	}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{on-args-change this.setupLineRipple @outlined}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+	disabled={{this.disabled}}
+>
+	{{#if @outlined}}
+		<span
+			class='mdc-notched-outline'
+			{{has-class-if
+				(or this.isOpen this.value)
+				'mdc-notched-outline--notched'
+			}}
+		>
+			<span class='mdc-notched-outline__leading'></span>
+			{{#if @label}}
+				<span class='mdc-notched-outline__notch'>
+					<span
+						class='mdc-floating-label'
+						{{has-class-if
+							(or this.isOpen this.value)
+							'mdc-floating-label--float-above'
+						}}
+						{{has-class-if
+							this.isRequired
+							'mdc-floating-label--required'
+						}}
+					>{{@label}}</span>
+				</span>
+			{{/if}}
+			<span class='mdc-notched-outline__trailing'></span>
+		</span>
+	{{else}}
+		<span class='mdc-select__ripple'></span>
+
+		<span
+			class='mdc-floating-label'
+			{{has-class-if
+				(or this.isOpen this.value)
+				'mdc-floating-label--float-above'
+			}}
+			{{has-class-if this.isRequired 'mdc-floating-label--required'}}
+		>{{@label}}</span>
+	{{/if}}
+
+	{{#if @leadingIcon}}
+		<MdcIcon
+			class='mdc-select__icon'
+			tabindex='0'
+			role='button'
+			@icon={{@leadingIcon}}
+		/>
+	{{/if}}
+
+	<span class='mdc-select__selected-text-container'>
+		<span class='mdc-select__selected-text hidden'>
+			{{this.value}}
+		</span>
+		<span class='mdc-select__selected-text'>
+			{{this.text}}
+		</span>
+	</span>
+
+	<span class='mdc-select__dropdown-icon'>
+		<svg
+			class='mdc-select__dropdown-icon-graphic'
+			viewBox='7 10 10 5'
+			focusable='false'
+		>
+			<polygon
+				class='mdc-select__dropdown-icon-inactive'
+				stroke='none'
+				fill-rule='evenodd'
+				points='7 10 12 15 17 10'
+			>
+			</polygon>
+			<polygon
+				class='mdc-select__dropdown-icon-active'
+				stroke='none'
+				fill-rule='evenodd'
+				points='7 15 12 10 17 15'
+			>
+			</polygon>
+		</svg>
+	</span>
+
+	{{#unless @outlined}}
+		<span class='mdc-line-ripple'></span>
+	{{/unless}}
+</span>
