@@ -15,7 +15,7 @@
 	<:title>Ember Material Components for the Web</:title>
 
 	<:actionIcons>
-		<MdcMenu @palette={{false}} @xAlign='right' open>
+		<MdcMenu @palette={{false}} @xAlign='right'>
 			<:trigger as |Trigger|>
 				<Trigger>
 					<MdcIcon
@@ -318,7 +318,7 @@
 
 	<div class='flex flex-row justify-around items-center m-2'>
 		<MdcTextField
-			@outlined={{true}}
+			@outlined={{false}}
 			@fullWidth={{false}}
 			@label='Hello, world'
 			@palette={{this.palette}}
@@ -331,7 +331,7 @@
 			required
 		/>
 		<MdcSelect
-			@outlined={{true}}
+			@outlined={{false}}
 			@fullWidth={{false}}
 			@label='Hello, world'
 			@leadingIcon='crowd'
@@ -344,9 +344,16 @@
 				<Trigger>Hello, world</Trigger>
 			</:trigger>
 
-			<:content as |Content|>
-				<Content>TBD: Select Options</Content>
-			</:content>
+			<:optionlist as |OptionList|>
+				<OptionList as |Options|>
+					<Options.Item>Option #1</Options.Item>
+					<Options.Item>Option #2</Options.Item>
+					<Options.Item>Option #3</Options.Item>
+					<Options.Divider />
+					<Options.Item>Option #4</Options.Item>
+					<Options.Item>Option #5</Options.Item>
+				</OptionList>
+			</:optionlist>
 		</MdcSelect>
 	</div>
 	{{outlet}}
