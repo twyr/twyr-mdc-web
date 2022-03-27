@@ -21,11 +21,6 @@
         -ms-flex-align: center;
             align-items: center
 }
-.justify-start {
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start
-}
 .justify-around {
     -ms-flex-pack: distribute;
         justify-content: space-around

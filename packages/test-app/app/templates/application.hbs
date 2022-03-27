@@ -219,53 +219,6 @@
 				@text='Underline'
 			/>
 		</MdcSegmentedButton>
-	</div>
-
-	<div class='m-2'>
-		<MdcSlider
-			@discrete={{true}}
-			@tickMarks={{true}}
-			@step='5'
-			@minValue='0'
-			@maxValue='100'
-			@value={{this.sliderValue}}
-			@palette={{this.palette}}
-			{{on 'statuschange' this.processSliderEvent}}
-		/>
-	</div>
-
-	<div class='flex flex-row justify-around items-center m-2'>
-		<MdcLinearProgress
-			@minValue='0'
-			@maxValue='100'
-			@bufferedValue={{this.bufferValue}}
-			@indeterminate={{false}}
-			@progress={{this.progress}}
-			@palette={{this.palette}}
-		/>
-
-		<MdcCircularProgress
-			@size='8'
-			@minValue='0'
-			@maxValue='100'
-			@progress={{this.progress}}
-			@palette={{this.palette}}
-		/>
-	</div>
-
-	<div class='flex flex-row justify-start items-center m-2'>
-		<MdcTextField
-			@outlined={{true}}
-			@fullWidth={{true}}
-			@label='Hello, world'
-			@palette={{this.palette}}
-			@status='Testing the text field'
-			@leadingIcon='crowd'
-			@trailingIcon='thumb-up'
-			maxlength='20'
-			value='Yoo, hoo, hoo'
-			required
-		/>
 
 		<MdcMenuBar @palette={{this.palette}} as |MenuBar|>
 			<MenuBar.Menu>This</MenuBar.Menu>
@@ -329,6 +282,72 @@
 				</:items>
 			</MenuBar.Menu>
 		</MdcMenuBar>
+	</div>
+
+	<div class='m-2'>
+		<MdcSlider
+			@discrete={{true}}
+			@tickMarks={{true}}
+			@step='5'
+			@minValue='0'
+			@maxValue='100'
+			@value={{this.sliderValue}}
+			@palette={{this.palette}}
+			{{on 'statuschange' this.processSliderEvent}}
+		/>
+	</div>
+
+	<div class='flex flex-row justify-around items-center m-2'>
+		<MdcLinearProgress
+			@minValue='0'
+			@maxValue='100'
+			@bufferedValue={{this.bufferValue}}
+			@indeterminate={{false}}
+			@progress={{this.progress}}
+			@palette={{this.palette}}
+		/>
+
+		<MdcCircularProgress
+			@size='8'
+			@minValue='0'
+			@maxValue='100'
+			@progress={{this.progress}}
+			@palette={{this.palette}}
+		/>
+	</div>
+
+	<div class='flex flex-row justify-around items-center m-2'>
+		<MdcTextField
+			@outlined={{true}}
+			@fullWidth={{false}}
+			@label='Hello, world'
+			@palette={{this.palette}}
+			@status='Testing the text field'
+			@statusBar={{true}}
+			@leadingIcon='crowd'
+			@trailingIcon='thumb-up'
+			maxlength='20'
+			value='Yoo, hoo, hoo'
+			required
+		/>
+		<MdcSelect
+			@outlined={{true}}
+			@fullWidth={{false}}
+			@label='Hello, world'
+			@leadingIcon='crowd'
+			@palette={{this.palette}}
+			@status='Testing the select field'
+			@statusBar={{true}}
+			required
+		>
+			<:trigger as |Trigger|>
+				<Trigger>Hello, world</Trigger>
+			</:trigger>
+
+			<:content as |Content|>
+				<Content>TBD: Select Options</Content>
+			</:content>
+		</MdcSelect>
 	</div>
 	{{outlet}}
 </div>
