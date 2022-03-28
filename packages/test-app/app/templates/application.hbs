@@ -333,11 +333,13 @@
 		<MdcSelect
 			@outlined={{false}}
 			@fullWidth={{false}}
+			@allowEmpty={{true}}
 			@label='Hello, world'
 			@leadingIcon='crowd'
 			@palette={{this.palette}}
 			@status='Testing the select field'
 			@statusBar={{true}}
+			{{on 'change' this.selectValueChange}}
 			required
 		>
 			<:trigger as |Trigger|>
@@ -346,12 +348,12 @@
 
 			<:optionlist as |OptionList|>
 				<OptionList as |Options|>
-					<Options.Item>Option #1</Options.Item>
-					<Options.Item>Option #2</Options.Item>
-					<Options.Item>Option #3</Options.Item>
+					<Options.Option value='option-1'>Option #1</Options.Option>
+					<Options.Option value='option-2'>Option #2</Options.Option>
+					<Options.Option value='option-3'>Option #3</Options.Option>
 					<Options.Divider />
-					<Options.Item>Option #4</Options.Item>
-					<Options.Item>Option #5</Options.Item>
+					<Options.Option value='option-4'>Option #4</Options.Option>
+					<Options.Option value='option-5' selected>Option #5</Options.Option>
 				</OptionList>
 			</:optionlist>
 		</MdcSelect>

@@ -254,6 +254,11 @@ export default class ApplicationController extends Controller {
 	processAlertClose(event) {
 		this.#debug?.('processAlertClose', event?.detail);
 	}
+
+	@action
+	selectValueChange(event) {
+		this.#debug?.('selectValueChange', event?.detail);
+	}
 	// #endregion
 
 	// #region Computed Properties
