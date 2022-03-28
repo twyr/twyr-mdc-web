@@ -191,6 +191,7 @@
 			"./components/mdc-segmented-button/segment/index.js": "./dist/_app_/components/mdc-segmented-button/segment/index.js",
 			"./components/mdc-select/index.js": "./dist/_app_/components/mdc-select/index.js",
 			"./components/mdc-select/list/index.js": "./dist/_app_/components/mdc-select/list/index.js",
+			"./components/mdc-select/option/index.js": "./dist/_app_/components/mdc-select/option/index.js",
 			"./components/mdc-select/trigger/index.js": "./dist/_app_/components/mdc-select/trigger/index.js",
 			"./components/mdc-slider/index.js": "./dist/_app_/components/mdc-slider/index.js",
 			"./components/mdc-snackbar/index.js": "./dist/_app_/components/mdc-snackbar/index.js",

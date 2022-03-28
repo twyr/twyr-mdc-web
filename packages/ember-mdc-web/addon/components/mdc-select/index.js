@@ -17,6 +17,8 @@ export default class MdcSelectComponent extends Component {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		this.controls.setSelectValue = this?._setValue;
 	}
 	// #endregion
 
@@ -51,6 +53,19 @@ export default class MdcSelectComponent extends Component {
 	// #endregion
 
 	// #region Controls
+	@action
+	_setValue(value, text) {
+		this.#debug?.(`_setValue: ${value} [${text}]`);
+		if (!this.#element || this.#element?.hasAttribute?.('disabled')) return;
+
+		this.#value = value;
+		this.#text = text;
+
+		const status = this?._setupStatus?.();
+		this?._informSubComponents?.(status);
+
+		this?._fireEvent?.('change');
+	}
 	// #endregion
 
 	// #region Computed Properties
@@ -104,7 +119,7 @@ export default class MdcSelectComponent extends Component {
 	#debug = debugLogger('component:mdc-select');
 	#element = null;
 
-	#value = '123456';
-	#text = 'Yoo, hoo, hoo...';
+	#value = '';
+	#text = '';
 	// #endregion
 }

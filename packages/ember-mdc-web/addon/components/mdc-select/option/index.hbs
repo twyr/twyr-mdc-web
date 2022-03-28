@@ -1,0 +1,26 @@
+{{! template-lint-disable no-invalid-interactive }}
+<li
+	class='mdc-list-item'
+	{{! Add styling classes as necessary }}
+	{{has-class-if @doubleLine 'mdc-list-item--with-two-lines'}}
+	{{has-class-if this.selected 'mdc-list-item--selected'}}
+	{{has-class-if this.disabled 'mdc-list-item--disabled'}}
+	{{! Ensure id is present - we need it for the events }}
+	{{requires-id ignore=true}}
+	{{! React to clicks }}
+	{{on 'click' this.onClick}}
+	{{! Monitor changes to disabled status }}
+	{{on-mutation this.onAttributeMutation attributeFilter=(array 'disabled')}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette @shaped @selected}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+>
+	<span class='mdc-list-item__ripple'></span>
+
+	<span class='mdc-list-item__text'>
+		{{yield}}
+	</span>
+</li>

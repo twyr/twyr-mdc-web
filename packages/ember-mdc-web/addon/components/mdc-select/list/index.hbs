@@ -22,10 +22,25 @@
 			aria-orientation='vertical'
 			tabindex='-1'
 		>
+			{{#if @allowEmpty}}
+				<this.emptyOptionComponent
+					@selectControls={{this.controls}}
+					@palette={{@palette}}
+					value=''
+				/>
+			{{/if}}
 			{{yield
 				(hash
-					Divider=(component this.dividerComponent palette=@palette)
-					Item=(component this.listItemComponent palette=@palette)
+					Divider=(component
+						this.dividerComponent
+						selectControls=this.controls
+						palette=@palette
+					)
+					Option=(component
+						this.optionComponent
+						selectControls=this.controls
+						palette=@palette
+					)
 				)
 			}}
 		</ul>
