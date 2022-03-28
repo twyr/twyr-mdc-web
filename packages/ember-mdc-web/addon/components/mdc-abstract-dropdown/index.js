@@ -250,13 +250,11 @@ export default class MdcAbstractDropdownComponent extends Component {
 		this.#debug?.(`_fireEvent: ${name}`);
 		if (!this.#element) return;
 
+		const status = this?._setupStatus?.();
 		const thisEvent = new CustomEvent(name, {
 			detail: {
 				id: this.#element?.id,
-				status: {
-					open: this?.open,
-					disabled: this?.hasAttribute?.('disabled')
-				}
+				status: status
 			}
 		});
 
