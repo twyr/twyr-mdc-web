@@ -60,7 +60,7 @@
 		"@glimmer/tracking": "1.0.4",
 		"@material/line-ripple": "13.0.0",
 		"@material/ripple": "13.0.0",
-		"@mdi/font": "6.6.95",
+		"@mdi/font": "6.6.96",
 		"ember-cli-htmlbars": "6.0.1",
 		"ember-cli-sass": "10.0.1",
 		"ember-composable-helpers": "5.0.0",
