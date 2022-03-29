@@ -3,9 +3,12 @@ import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
 import { cancel, scheduleOnce } from '@ember/runloop';
+import { ensureSafeComponent } from '@embroider/util';
 import { tracked } from '@glimmer/tracking';
 
-import { ensureSafeComponent } from '@embroider/util';
+/* Safe Subcomponent Imports */
+import DividerComponent from './../../mdc-list/divider/index';
+import OptionComponent from './../option/index';
 
 export default class MdcSelectListComponent extends Component {
 	// #region Accessed Services
@@ -63,7 +66,7 @@ export default class MdcSelectListComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 
 		this.#element = element;
-		super.storeElement(element);
+		super.storeElement?.(element);
 
 		this?._setupInitState?.();
 		this?.recalcStyles?.();
@@ -241,14 +244,14 @@ export default class MdcSelectListComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		divider: 'mdc-list/divider',
-		option: 'mdc-select/option'
+		divider: DividerComponent,
+		option: OptionComponent
 	};
 	// #endregion
 

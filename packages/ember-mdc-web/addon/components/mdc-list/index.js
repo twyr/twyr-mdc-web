@@ -2,6 +2,11 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import DividerComponent from './divider/index';
+import ListItemComponent from './item/index';
 
 export default class MdcListComponent extends Component {
 	// #region Accessed Services
@@ -144,14 +149,14 @@ export default class MdcListComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		divider: 'mdc-list/divider',
-		listItem: 'mdc-list/item'
+		divider: DividerComponent,
+		listItem: ListItemComponent
 	};
 	// #endregion
 

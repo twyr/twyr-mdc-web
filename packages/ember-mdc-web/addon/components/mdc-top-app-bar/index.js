@@ -1,6 +1,12 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import ActionIconComponent from './action-icon/index';
+import NavigationIconComponent from './navigation-icon/index';
+
 export default class MdcTopAppBarComponent extends Component {
 	// #region Accessed Services
 	// #endregion
@@ -59,14 +65,14 @@ export default class MdcTopAppBarComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// //#endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		navigationIcon: 'mdc-top-app-bar/navigation-icon',
-		actionIcon: 'mdc-top-app-bar/action-icon'
+		navigationIcon: NavigationIconComponent,
+		actionIcon: ActionIconComponent
 	};
 	// #endregion
 

@@ -2,7 +2,11 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
 import { tracked } from '@glimmer/tracking';
+
+/* Safe Subcomponent Imports */
+import TabComponent from './tab/index';
 
 export default class MdcTabBarComponent extends Component {
 	// #region Accessed Services
@@ -282,13 +286,13 @@ export default class MdcTabBarComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		tab: 'mdc-tab-bar/tab'
+		tab: TabComponent
 	};
 	// #endregion
 

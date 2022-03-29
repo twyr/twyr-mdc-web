@@ -1,10 +1,15 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import nextBrowserTick from '../../utils/next-browser-tick';
+
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
 import { tracked } from '@glimmer/tracking';
 
-import nextBrowserTick from '../../utils/next-browser-tick';
+/* Safe Subcomponent Imports */
+import TriggerComponent from './trigger/index';
+import ContentComponent from './content/index';
 
 export default class MdcAbstractDropdownComponent extends Component {
 	// #region Accessed Services
@@ -179,13 +184,12 @@ export default class MdcAbstractDropdownComponent extends Component {
 		let yOffset = options?.yOffset;
 		if (yAlign === 'top') yOffset = -yOffset;
 
-		const triggerElementDimensions =
-			triggerElement?.getBoundingClientRect?.();
+		const elementDimensions = element?.getBoundingClientRect?.();
 
 		// Step 1: Set width according to input parameters
 		// Init stuff - if we're matching widths, do it now, wait for height to settle
 		if (options?.matchTriggerWidth) {
-			contentElement.style.width = `${triggerElementDimensions?.width}px`;
+			contentElement.style.width = `${elementDimensions?.width}px`;
 
 			await nextBrowserTick?.();
 			await nextBrowserTick?.();
@@ -201,18 +205,16 @@ export default class MdcAbstractDropdownComponent extends Component {
 
 		if (xAlign === 'right') {
 			position['left'] =
-				triggerElementDimensions?.width -
-				contentElementDimensions?.width;
+				elementDimensions?.width - contentElementDimensions?.width;
 		}
 
 		if (xAlign === 'center') {
 			position['left'] =
-				(triggerElementDimensions?.width -
-					contentElementDimensions?.width) /
+				(elementDimensions?.width - contentElementDimensions?.width) /
 				2.0;
 		}
 
-		const offsetX = triggerElementDimensions?.width * (xOffset / 100.0);
+		const offsetX = elementDimensions?.width * (xOffset / 100.0);
 		position['left'] += offsetX;
 
 		// Step 3: Based on required y-alignment, set vertical style
@@ -220,29 +222,27 @@ export default class MdcAbstractDropdownComponent extends Component {
 			position['top'] = 0 - contentElementDimensions?.height;
 
 		if (yAlign === 'bottom') {
-			position['top'] = triggerElementDimensions?.height;
+			position['top'] = elementDimensions?.height;
 		}
 
 		if (yAlign === 'middle') {
 			position['top'] =
-				(triggerElementDimensions?.height -
-					contentElementDimensions?.height) /
+				(elementDimensions?.height - contentElementDimensions?.height) /
 				2.0;
 		}
 
-		const offsetY = triggerElementDimensions?.height * (yOffset / 100.0);
+		const offsetY = elementDimensions?.height * (yOffset / 100.0);
 		position['top'] += offsetY;
 
 		this.#debug?.(
-			`_contentPositionCalculator::options: `,
+			`\n_contentPositionCalculator::options: `,
 			options,
 			`\n_contentPositionCalculator::position: `,
 			position
 		);
 
 		// Finally, pass on the current position of the dropdown itself
-		position.dropdownRect = element?.getBoundingClientRect?.();
-
+		position.dropdownRect = elementDimensions;
 		return position;
 	}
 
@@ -294,14 +294,14 @@ export default class MdcAbstractDropdownComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent, this);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		trigger: 'mdc-abstract-dropdown/trigger',
-		content: 'mdc-abstract-dropdown/content'
+		trigger: TriggerComponent,
+		content: ContentComponent
 	};
 	// #endregion
 

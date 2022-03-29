@@ -2,6 +2,10 @@ import Component from '../../mdc-abstract-dropdown/trigger/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import ListItemIconComponent from './../../mdc-list/item/icon/index';
 
 export default class MdcMenuTriggerComponent extends Component {
 	// #region Accessed Services
@@ -73,13 +77,13 @@ export default class MdcMenuTriggerComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		icon: 'mdc-list/item/icon'
+		icon: ListItemIconComponent
 	};
 	// #endregion
 

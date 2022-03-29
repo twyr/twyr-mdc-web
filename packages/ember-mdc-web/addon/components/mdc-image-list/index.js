@@ -1,6 +1,12 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import RegularItemComponent from './regular-item/index';
+import MasonryItemComponent from './masonry-item/index';
+
 export default class MdcImageListComponent extends Component {
 	// #region Accessed Services
 	// #endregion
@@ -39,14 +45,14 @@ export default class MdcImageListComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		regular: 'mdc-image-list/regular-item',
-		masonry: 'mdc-image-list/masonry-item'
+		regular: RegularItemComponent,
+		masonry: MasonryItemComponent
 	};
 	// #endregion
 

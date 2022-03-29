@@ -1,6 +1,12 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import HeadlineComponent from './../../mdc-headline/index';
+import SubHeadlineComponent from './../../mdc-sub-headline/index';
+
 export default class MdcDrawerHeaderComponent extends Component {
 	// #region Accessed Services
 	// #endregion
@@ -56,14 +62,14 @@ export default class MdcDrawerHeaderComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// //#endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		headline: 'mdc-headline',
-		subheadline: 'mdc-sub-headline'
+		headline: HeadlineComponent,
+		subheadline: SubHeadlineComponent
 	};
 	// #endregion
 

@@ -1,6 +1,13 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import HeaderComponent from './header/index';
+import ContentComponent from './content/index';
+import FooterComponent from './footer/index';
+
 export default class MdcCardComponent extends Component {
 	// #region Accessed Services
 	// #endregion
@@ -54,15 +61,15 @@ export default class MdcCardComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent, this);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		header: 'mdc-card/header',
-		content: 'mdc-card/content',
-		footer: 'mdc-card/footer'
+		header: HeaderComponent,
+		content: ContentComponent,
+		footer: FooterComponent
 	};
 	// #endregion
 

@@ -1,8 +1,14 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
-import { action } from '@ember/object';
 import { MDCRipple } from '@material/ripple/index';
+import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import HeadlineComponent from './../../mdc-headline/index';
+import SubheadlineComponent from './../../mdc-sub-headline/index';
+import MediaComponent from './media/index';
 
 export default class MdcCardContentComponent extends Component {
 	// #region Accessed Services
@@ -92,15 +98,15 @@ export default class MdcCardContentComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent, this);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		title: 'mdc-headline',
-		subtitle: 'mdc-sub-headline',
-		media: 'mdc-card/content/media'
+		title: HeadlineComponent,
+		subtitle: SubheadlineComponent,
+		media: MediaComponent
 	};
 	// #endregion
 

@@ -2,6 +2,11 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import HeaderComponent from './header/index';
+import ListComponent from './../mdc-list/index';
 
 export default class MdcListGroupComponent extends Component {
 	// #region Accessed Services
@@ -128,14 +133,14 @@ export default class MdcListGroupComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		header: 'mdc-list-group/header',
-		list: 'mdc-list'
+		header: HeaderComponent,
+		list: ListComponent
 	};
 	// #endregion
 

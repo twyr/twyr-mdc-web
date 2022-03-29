@@ -2,7 +2,13 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
 import { tracked } from '@glimmer/tracking';
+
+/* Safe Subcomponent Imports */
+import HeaderComponent from './header/index';
+import ContentComponent from './content/index';
+import FooterComponent from './footer/index';
 
 export default class MdcDialogComponent extends Component {
 	// #region Accessed Services
@@ -115,15 +121,15 @@ export default class MdcDialogComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		header: 'mdc-dialog/header',
-		content: 'mdc-dialog/content',
-		footer: 'mdc-dialog/footer'
+		header: HeaderComponent,
+		content: ContentComponent,
+		footer: FooterComponent
 	};
 	// #endregion
 

@@ -1,10 +1,13 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import { MDCRipple } from '@material/ripple/index';
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
 import { tracked } from '@glimmer/tracking';
 
-import { MDCRipple } from '@material/ripple/index';
+/* Safe Subcomponent Imports */
+import ListItemIconComponent from './icon/index';
 
 export default class MdcListItemComponent extends Component {
 	// #region Accessed Services
@@ -148,7 +151,7 @@ export default class MdcListItemComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 
 	_setupInitState() {
@@ -171,7 +174,7 @@ export default class MdcListItemComponent extends Component {
 
 	// #region Default Sub-components
 	#subComponents = {
-		icon: 'mdc-list/item/icon'
+		icon: ListItemIconComponent
 	};
 	// #endregion
 

@@ -3,7 +3,12 @@ import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
 import { cancel, later, scheduleOnce } from '@ember/runloop';
+import { ensureSafeComponent } from '@embroider/util';
 import { tracked } from '@glimmer/tracking';
+
+/* Safe Subcomponent Imports */
+import ListComponent from './list/index';
+import TriggerComponent from './trigger/index';
 
 export default class MdcMenuComponent extends Component {
 	// #region Accessed Services
@@ -254,14 +259,14 @@ export default class MdcMenuComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		list: 'mdc-menu/list',
-		trigger: 'mdc-menu/trigger'
+		list: ListComponent,
+		trigger: TriggerComponent
 	};
 	// #endregion
 

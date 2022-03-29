@@ -58,9 +58,7 @@ export default class MdcSelectTriggerComponent extends Component {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
-		const rootElement = this.#element?.closest?.(
-			'div.select-field-container'
-		);
+		const rootElement = this.#element?.closest?.('div.select-container');
 
 		// Step 1: Reset
 		// TODO: Optimize this by unsetting only those properties that have not been utilitized

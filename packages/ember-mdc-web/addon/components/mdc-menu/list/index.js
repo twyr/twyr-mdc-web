@@ -2,7 +2,12 @@ import Component from './../../mdc-abstract-dropdown/content/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
 import { cancel, scheduleOnce } from '@ember/runloop';
+
+/* Safe Subcomponent Imports */
+import DividerComponent from './../../mdc-list/divider/index';
+import ListItemComponent from './../../mdc-list/item/index';
 
 export default class MdcMenuListComponent extends Component {
 	// #region Accessed Services
@@ -95,7 +100,7 @@ export default class MdcMenuListComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 
 	_initOpenPositionSchedule() {
@@ -108,8 +113,8 @@ export default class MdcMenuListComponent extends Component {
 
 	// #region Default Sub-components
 	#subComponents = {
-		divider: 'mdc-list/divider',
-		listItem: 'mdc-list/item'
+		divider: DividerComponent,
+		listItem: ListItemComponent
 	};
 	// #endregion
 

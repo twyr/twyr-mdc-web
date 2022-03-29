@@ -1,7 +1,11 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import { ensureSafeComponent } from '@embroider/util';
 import { v4 as uuidv4 } from 'uuid';
+
+/* Safe Subcomponent Imports */
+import RadioComponent from './radio/index';
 
 export default class MdcRadioGroupComponent extends Component {
 	// #region Accessed Services
@@ -52,13 +56,13 @@ export default class MdcRadioGroupComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		radio: 'mdc-radio-group/radio'
+		radio: RadioComponent
 	};
 	// #endregion
 

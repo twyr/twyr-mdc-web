@@ -2,6 +2,11 @@ import Component from './../mdc-abstract-dropdown/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
+
+/* Safe Subcomponent Imports */
+import ListComponent from './list/index';
+import TriggerComponent from './trigger/index';
 
 export default class MdcSelectComponent extends Component {
 	// #region Accessed Services
@@ -104,14 +109,14 @@ export default class MdcSelectComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		list: 'mdc-select/list',
-		trigger: 'mdc-select/trigger'
+		list: ListComponent,
+		trigger: TriggerComponent
 	};
 	// #endregion
 

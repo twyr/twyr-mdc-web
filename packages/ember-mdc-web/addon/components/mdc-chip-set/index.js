@@ -2,7 +2,10 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { ensureSafeComponent } from '@embroider/util';
 
+/* Safe Subcomponent Imports */
+import ChipComponent from './chip/index';
 export default class MdcChipSetComponent extends Component {
 	// #region Accessed Services
 	// #endregion
@@ -86,13 +89,13 @@ export default class MdcChipSetComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return subComponent;
+		return ensureSafeComponent(subComponent);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		chip: 'mdc-chip-set/chip'
+		chip: ChipComponent
 	};
 	// #endregion
 
