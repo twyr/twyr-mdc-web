@@ -1,3 +1,51 @@
 .mdc-theme--error-bg {
 	background-color: var(--mdc-theme-error);
 }
+
+.mdc-banner__icon,
+.mdc-button__icon,
+.mdc-evolution-chip__icon,
+.mdc-fab__icon,
+.mdc-icon-button__icon,
+.mdc-segmented-button__icon,
+.mdc-select__icon,
+.mdc-switch__icon,
+.mdc-tab__icon,
+.mdc-text-field__icon {
+	height: unset;
+}
+
+.mdc-button .mdc-button__icon,
+.mdc-button--outlined .mdc-button__icon,
+.mdc-button--raised .mdc-button__icon,
+.mdc-button--unelevated .mdc-button__icon {
+	height: unset;
+}
+
+.mdc-evolution-chip .mdc-evolution-chip__icon--primary,
+.mdc-evolution-chip .mdc-evolution-chip__icon--trailing,
+.mdc-evolution-chip .mdc-evolution-chip__action--trailing:after {
+	height: unset;
+}
+
+.mdc-evolution-chip--with-avatar .mdc-evolution-chip__icon--primary {
+	height: unset;
+}
+
+.mdc-fab .mdc-fab__icon {
+	height: unset;
+}
+
+.mdc-select .mdc-select__icon {
+	height: unset;
+}
+
+.mdc-switch.mdc-switch--selected .mdc-switch__icon,
+.mdc-switch.mdc-switch--unselected .mdc-switch__icon {
+	height: unset;
+}
+
+.mdc-text-field__icon.mdc-text-field__icon--leading,
+.mdc-text-field__icon.mdc-text-field__icon--trailing {
+	height: unset;
+}
