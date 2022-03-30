@@ -62,7 +62,7 @@ export default class MdcDrawerHeaderComponent extends Component {
 			`_getComputedSubcomponent::${componentName}-component`,
 			subComponent
 		);
-		return ensureSafeComponent(subComponent);
+		return ensureSafeComponent(subComponent, this);
 	}
 	// //#endregion
 

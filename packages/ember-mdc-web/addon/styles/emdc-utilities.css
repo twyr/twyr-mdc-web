@@ -24,7 +24,7 @@
 
 .mdc-evolution-chip .mdc-evolution-chip__icon--primary,
 .mdc-evolution-chip .mdc-evolution-chip__icon--trailing,
-.mdc-evolution-chip .mdc-evolution-chip__action--trailing:after {
+.mdc-evolution-chip .mdc-evolution-chip__action--trailing::after {
 	height: unset;
 }
 
