@@ -5,7 +5,13 @@ export default class HasClassIfModifier extends Modifier {
 	// #region Accessed Services
 	// #endregion
 
-	// #region Constructor
+	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
+	// #endregion
+
+	// #region Constructor / Destructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
@@ -13,28 +19,47 @@ export default class HasClassIfModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall(...arguments);
+	modify(element, [condition, positiveClassList, negativeClassList]) {
+		super.modify(...arguments);
+
+		const trueClassList =
+			positiveClassList
+				?.split?.(' ')
+				?.map?.((className) => {
+					return className ? className?.trim?.() : null;
+				})
+				.filter((className) => {
+					return !!className && className.length;
+				}) ?? [];
+
+		const falseClassList =
+			negativeClassList
+				?.split?.(' ')
+				?.map?.((className) => {
+					return className ? className?.trim?.() : null;
+				})
+				.filter((className) => {
+					return !!className && className.length;
+				}) ?? [];
+
 		this.#debug?.(
-			`didInstall:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
+			`modify:\nelement: `,
+			element,
+			`\npositionalArgs::`,
+			`${condition}: ${trueClassList?.join?.(
+				', '
+			)} : ${falseClassList?.join?.(', ')}`
 		);
 
-		this?._manageClasslist?.();
-	}
+		if (trueClassList?.length) {
+			if (condition) element?.classList?.add?.(...trueClassList);
+			else element?.classList?.remove?.(...trueClassList);
+		}
 
-	didUpdateArguments() {
-		super.didUpdateArguments(...arguments);
-		this.#debug?.(
-			`didUpdateArguments:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
-		);
-
-		this?._manageClasslist?.();
+		if (falseClassList?.length) {
+			if (condition) element?.classList?.remove?.(...falseClassList);
+			else element?.classList?.add?.(...falseClassList);
+		}
 	}
 	// #endregion
 
@@ -45,57 +70,6 @@ export default class HasClassIfModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_manageClasslist() {
-		const yesClassList =
-			this?.args?.positional?.[1]
-				?.split?.(' ')
-				?.map?.((className) => {
-					return className ? className?.trim?.() : null;
-				})
-				.filter((className) => {
-					return !!className && className.length;
-				}) ?? [];
-
-		const noClassList =
-			this?.args?.positional?.[2]
-				?.split?.(' ')
-				?.map?.((className) => {
-					return className ? className?.trim?.() : null;
-				})
-				.filter((className) => {
-					return !!className && className.length;
-				}) ?? [];
-
-		const condition = this?.args?.positional?.[0];
-		if (condition) {
-			this.#debug?.(
-				`_manageClasslist:\ncondition: ${condition}\nyes classes: ${yesClassList.join(
-					' '
-				)}\nno classes: ${noClassList.join(' ')}`
-			);
-
-			if (yesClassList?.length) {
-				this?.element?.classList?.add?.(...yesClassList);
-			}
-
-			if (noClassList?.length) {
-				this?.element?.classList?.remove?.(...noClassList);
-			}
-		} else {
-			this.#debug?.(
-				`_manageClasslist:\ncondition: ${condition}\nyes classes: ${yesClassList.join(
-					' '
-				)}\nno classes: ${noClassList.join(' ')}`
-			);
-			if (yesClassList?.length) {
-				this?.element?.classList?.remove?.(...yesClassList);
-			}
-
-			if (noClassList?.length) {
-				this?.element?.classList?.add?.(...noClassList);
-			}
-		}
-	}
 	// #endregion
 
 	// #region Private Attributes

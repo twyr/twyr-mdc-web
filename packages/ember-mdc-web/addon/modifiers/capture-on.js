@@ -1,58 +1,48 @@
 import Modifier from 'ember-modifier';
 import debugLogger from 'ember-debug-logger';
 
+import { registerDestructor } from '@ember/destroyable';
+
 export default class CaptureOnModifier extends Modifier {
 	// #region Accessed Services
 	// #endregion
 
-	// #region Constructor
+	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
+	// #endregion
+
+	// #region Constructor / Destructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		registerDestructor(this, this.destructor);
+	}
+
+	destructor() {
+		this.#debug?.(`destructor`);
+		this?._manageEventListener?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall(...arguments);
+	modify(element, [event, eventListener]) {
+		super.modify(...arguments);
+		if (this.#event === event && this.#eventHandler === eventListener)
+			return;
+
 		this.#debug?.(
-			`didInstall:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
+			`modify:\nelement: `,
+			element,
+			`\nevent: `,
+			event,
+			`\neventListener: `,
+			eventListener
 		);
 
-		this?._addEventListener?.();
-	}
-
-	didUpdateArguments() {
-		super.didUpdateArguments(...arguments);
-		this.#debug?.(
-			`didUpdateArguments:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
-		);
-
-		this?._addEventListener?.();
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-
-		// eslint-disable-next-line curly
-		if (this.#event && this.#eventHandler) {
-			document.removeEventListener(
-				this.#event,
-				this?._eventHandler?.bind?.(this),
-				this.#defaultOptions
-			);
-		}
-
-		this.#event = null;
-		this.#eventHandler = null;
-
-		super.willDestroy(...arguments);
+		this?._manageEventListener?.(event, eventListener);
 	}
 	// #endregion
 
@@ -63,43 +53,23 @@ export default class CaptureOnModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_addEventListener() {
-		// eslint-disable-next-line curly
-		if (this.#event && this.#eventHandler) {
+	_manageEventListener(event, eventListener) {
+		if (this.#event && this.#eventHandler)
 			document.removeEventListener(
 				this.#event,
-				this?._eventHandler?.bind?.(this),
+				this.#eventHandler,
 				this.#defaultOptions
 			);
-		}
 
-		this.#event = this?.args?.positional?.[0];
-		this.#eventHandler = this?.args?.positional?.[1];
+		this.#event = event;
+		this.#eventHandler = eventListener;
 
-		document.addEventListener(
-			this.#event,
-			this?._eventHandler?.bind?.(this),
-			this.#defaultOptions
-		);
-	}
-
-	_eventHandler(event) {
-		const isEventOutsideElement =
-			event.target !== this.element &&
-			!this.element.contains(event.target);
-
-		this.#debug?.(
-			`_eventHandler:\nelement: `,
-			this?.element,
-			`\nevent: `,
-			this.#event,
-			`\noutside? `,
-			isEventOutsideElement
-		);
-
-		if (isEventOutsideElement) return;
-
-		this.#eventHandler?.(event);
+		if (this.#event && this.#eventHandler)
+			document.addEventListener(
+				this.#event,
+				this.#eventHandler,
+				this.#defaultOptions
+			);
 	}
 	// #endregion
 

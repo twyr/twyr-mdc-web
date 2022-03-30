@@ -5,7 +5,13 @@ export default class OnArgsChangeModifier extends Modifier {
 	// #region Accessed Services
 	// #endregion
 
-	// #region Constructor
+	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
+	// #endregion
+
+	// #region Constructor / Destructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
@@ -13,29 +19,10 @@ export default class OnArgsChangeModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall(...arguments);
-		this.#debug?.(
-			`didInstall:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
-		);
+	modify(element, [callback]) {
+		super.modify(...arguments);
+		this.#debug?.(`modify:\nelement: `, element, `\ncallback: `, callback);
 
-		const callback = this?.args?.positional?.[0];
-		callback?.();
-	}
-
-	didUpdateArguments() {
-		super.didUpdateArguments(...arguments);
-		this.#debug?.(
-			`didUpdateArguments:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
-		);
-
-		const callback = this?.args?.positional?.[0];
 		callback?.();
 	}
 	// #endregion

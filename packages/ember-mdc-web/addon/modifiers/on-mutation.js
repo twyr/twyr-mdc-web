@@ -1,6 +1,7 @@
 import Modifier from 'ember-modifier';
 import debugLogger from 'ember-debug-logger';
 
+import { registerDestructor } from '@ember/destroyable';
 import { service } from '@ember/service';
 
 export default class OnMutationModifier extends Modifier {
@@ -8,47 +9,39 @@ export default class OnMutationModifier extends Modifier {
 	@service('elementMutationWatcher') mutationWatcher;
 	// #endregion
 
-	// #region Constructor
+	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
+	// #endregion
+
+	// #region Constructor / Destructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		registerDestructor(this, this.destructor);
+	}
+
+	destructor() {
+		this.#debug?.(`destructor`);
+		this?._manageWatcher?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall(...arguments);
+	modify(element, [callback], named) {
+		super.modify(...arguments);
 		this.#debug?.(
-			`didInstall:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
+			`modify:\nelement: `,
+			element,
+			`\ncallback: `,
+			callback,
+			`\nnamed args: `,
+			named
 		);
 
-		this?._addWatcher?.();
-	}
-
-	didUpdateArguments() {
-		super.didUpdateArguments(...arguments);
-		this.#debug?.(
-			`didUpdateArguments:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
-		);
-
-		this?._addWatcher?.();
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-
-		this?.mutationWatcher?.unwatchElement(
-			this?.element,
-			this.#currentCallback
-		);
-
-		super.willDestroy(...arguments);
+		this?._manageWatcher?.(element, callback, named);
 	}
 	// #endregion
 
@@ -57,85 +50,90 @@ export default class OnMutationModifier extends Modifier {
 
 	// #region Computed Properties
 	get attributeFilter() {
-		return this?.args?.named?.attributeFilter ?? ['disabled'];
+		return this.#namedArgs?.attributeFilter ?? ['disabled'];
 	}
 
 	get attributeOldValue() {
-		return !!this?.args?.named?.attributeOldValue;
+		return !!this.#namedArgs?.attributeOldValue;
 	}
 
 	get attributes() {
 		return (
-			!!this?.args?.named?.attributes ||
-			!!this?.args?.named?.attributeFilter?.length
+			!!this.#namedArgs?.attributes ||
+			!!this.#namedArgs?.attributeFilter?.length
 		);
 	}
 
 	get characterData() {
-		return !!this?.args?.named?.characterData;
+		return !!this.#namedArgs?.characterData;
 	}
 
 	get characterDataOldValue() {
-		return !!this?.args?.named?.characterDataOldValue;
+		return !!this.#namedArgs?.characterDataOldValue;
 	}
 
 	get childList() {
-		return !!this?.args?.named?.childList;
+		return !!this.#namedArgs?.childList;
 	}
 
 	get subtree() {
-		return !!this?.args?.named?.subtree;
+		return !!this.#namedArgs?.subtree;
 	}
 	// #endregion
 
 	// #region Private Methods
-	_addWatcher() {
+	_manageWatcher(element, callback, named) {
+		// Step 1: Get rid of the existing watcher
+		if (this.#element && this.#callback) {
+			this.#debug?.(`_manageWatcher: de-registering old callback...`);
+
+			this?.mutationWatcher?.unwatchElement?.(
+				this.#element,
+				this.#callback
+			);
+		}
+
+		// Step 2: Sanity check
+		this.#callback = callback;
+		this.#element = element;
+		this.#namedArgs = named;
+
+		if (!this.#element) {
+			this.#debug?.(`_manageWatcher: no element specified. aborting...`);
+			return;
+		}
+
+		if (!this.#callback) {
+			this.#debug?.(`_manageWatcher: no callback defined. aborting...`);
+			return;
+		}
+
+		// Step 3: Add new watcher
 		const options = {
-			attributeFilter: this.attributeFilter,
-			attributeOldValue: this.attributeOldValue,
-			attributes: this.attributes,
-			characterData: this.characterData,
-			characterDataOldValue: this.characterDataOldValue,
-			childList: this.childList,
-			subtree: this.subtree
+			attributeFilter: this?.attributeFilter,
+			attributeOldValue: this?.attributeOldValue,
+			attributes: this?.attributes,
+			characterData: this?.characterData,
+			characterDataOldValue: this?.characterDataOldValue,
+			childList: this?.childList,
+			subtree: this?.subtree
 		};
 
 		if (!this?.attributes) delete options?.attributeFilter;
 
-		if (this.#currentCallback) {
-			this.#debug?.(`_addWatcher: de-registering old callback...`);
-
-			this?.mutationWatcher?.unwatchElement(
-				this?.element,
-				this.#currentCallback
-			);
-		}
-
-		this.#currentCallback = this?.args?.positional?.[0];
-		if (!this.#currentCallback) {
-			this.#debug?.(`_addWatcher: no callback defined. aborting...`);
-			return;
-		}
-
-		this.#debug?.(
-			`_addWatcher:\nelement: `,
-			this?.element,
-			`\noptions: `,
+		this?.mutationWatcher?.watchElement?.(
+			this.#element,
 			options,
-			`\ncallback: `,
-			this.#currentCallback
-		);
-
-		this?.mutationWatcher?.watchElement(
-			this?.element,
-			options,
-			this.#currentCallback
+			this.#callback
 		);
 	}
 	// #endregion
 
 	// #region Private Attributes
-	#currentCallback = null;
 	#debug = debugLogger('modifier:on-mutation');
+
+	#callback = null;
+	#element = null;
+	#namedArgs = {};
 	// #endregion
 }

@@ -2,62 +2,47 @@ import Modifier from 'ember-modifier';
 import debugLogger from 'ember-debug-logger';
 
 import supportsPassiveEventListeners from './../utils/check-browser-features';
+
+import { action } from '@ember/object';
+import { registerDestructor } from '@ember/destroyable';
+
 export default class NotOnModifier extends Modifier {
 	// #region Accessed Services
 	// #endregion
 
-	// #region Constructor
+	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
+	// #endregion
+
+	// #region Constructor / Destructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
-		this.#debug?.(
-			`supportsPassiveEventListeners: `,
-			supportsPassiveEventListeners
-		);
+
+		registerDestructor(this, this?.destructor);
+	}
+
+	destructor() {
+		this.#debug?.(`destructor`);
+		this?._manageEventListener?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall(...arguments);
+	modify(element, [event, eventListener], { passive }) {
+		super.modify(...arguments);
 		this.#debug?.(
-			`didInstall:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
+			`modify:\nelement: `,
+			element,
+			`\nevent: `,
+			event,
+			`\neventListener: `,
+			eventListener
 		);
 
-		this?._addEventListener?.();
-	}
-
-	didUpdateArguments() {
-		super.didUpdateArguments(...arguments);
-		this.#debug?.(
-			`didUpdateArguments:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
-		);
-
-		this?._addEventListener?.();
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-
-		// eslint-disable-next-line curly
-		if (this.#event && this.#eventHandler) {
-			document.removeEventListener(
-				this.#event,
-				this?._eventHandler?.bind?.(this),
-				this.#defaultOptions
-			);
-		}
-
-		this.#event = null;
-		this.#eventHandler = null;
-
-		super.willDestroy(...arguments);
+		this?._manageEventListener?.(element, event, eventListener, passive);
 	}
 	// #endregion
 
@@ -68,33 +53,34 @@ export default class NotOnModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_addEventListener() {
-		// eslint-disable-next-line curly
-		if (this.#event && this.#eventHandler) {
-			document.removeEventListener(
-				this.#event,
-				this?._eventHandler?.bind?.(this),
-				this.#defaultOptions
-			);
-		}
+	_manageEventListener(element, event, eventListener, passive = false) {
+		if (this.#event && this.#eventHandler)
+			document.removeEventListener(this.#event, this?._eventHandler, {
+				capture: false,
+				passive: this.#passive
+			});
 
-		this.#event = this?.args?.positional?.[0];
-		this.#eventHandler = this?.args?.positional?.[1];
+		this.#element = element;
+		this.#event = event;
+		this.#eventHandler = eventListener;
+		this.#passive = supportsPassiveEventListeners && passive;
 
-		document.addEventListener(
-			this.#event,
-			this?._eventHandler?.bind?.(this),
-			this.#defaultOptions
-		);
+		if (this.#event && this.#eventHandler)
+			document.addEventListener(this.#event, this?._eventHandler, {
+				capture: false,
+				passive: this.#passive
+			});
 	}
 
+	@action
 	_eventHandler(event) {
 		const isEventOutsideElement =
-			event.target !== this.element &&
-			!this.element.contains(event.target);
+			event.target !== this.#element &&
+			!this.#element.contains(event.target);
+
 		this.#debug?.(
 			`_eventHandler:\nelement: `,
-			this?.element,
+			this.#element,
 			`\nevent: `,
 			this.#event,
 			`\noutside? `,
@@ -110,12 +96,9 @@ export default class NotOnModifier extends Modifier {
 	// #region Private Attributes
 	#debug = debugLogger('modifier:not-on');
 
-	#defaultOptions = {
-		capture: false,
-		passive: supportsPassiveEventListeners
-	};
-
+	#element = null;
 	#event = null;
 	#eventHandler = null;
+	#passive = false;
 	// #endregion
 }

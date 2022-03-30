@@ -7,7 +7,13 @@ export default class RequiresIdModifier extends Modifier {
 	// #region Accessed Services
 	// #endregion
 
-	// #region Constructor
+	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
+	// #endregion
+
+	// #region Constructor / Destructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
@@ -15,28 +21,18 @@ export default class RequiresIdModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall(...arguments);
+	modify(element, positional, named) {
+		super.modify(...arguments);
 		this.#debug?.(
-			`didInstall:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
+			`modify:\nelement: `,
+			element,
+			'\npositional args: ',
+			positional,
+			`\nnamed args: `,
+			named
 		);
 
-		this?._setElementId?.();
-	}
-
-	didUpdateArguments() {
-		super.didUpdateArguments(...arguments);
-		this.#debug?.(
-			`didUpdateArguments:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
-		);
-
-		this?._setElementId?.();
+		this?._setElementId?.(element, named);
 	}
 	// #endregion
 
@@ -47,34 +43,25 @@ export default class RequiresIdModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_setElementId() {
+	_setElementId(element, { ignore, replace, append, prepend }) {
 		const elementId = uuidv4();
 
-		const currentId = this?.element?.getAttribute?.('id');
+		const currentId = element?.getAttribute?.('id');
 		if (!currentId) {
-			this?.element?.setAttribute?.('id', elementId);
+			element?.setAttribute?.('id', elementId);
 			return;
 		}
 
-		const ignore = this?.args?.named?.ignore ?? true;
 		if (ignore) return;
 
-		const replace = this?.args?.named?.replace ?? false;
-		if (replace) this?.element?.setAttribute?.('id', elementId);
+		if (replace) {
+			element?.setAttribute?.('id', elementId);
+			return;
+		}
 
-		const append = this?.args?.named?.append ?? false;
-		if (append)
-			this?.element?.setAttribute?.(
-				'id',
-				`${[currentId, elementId].join('-')}`
-			);
+		if (append) element?.setAttribute?.('id', `${currentId}-${elementId}`);
 
-		const prepend = this?.args?.named?.prepend ?? false;
-		if (prepend)
-			this?.element?.setAttribute?.(
-				'id',
-				`${[elementId, currentId].join('-')}`
-			);
+		if (prepend) element?.setAttribute?.('id', `${elementId}-${currentId}`);
 	}
 	// #endregion
 

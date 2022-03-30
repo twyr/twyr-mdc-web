@@ -1,6 +1,7 @@
 import Modifier from 'ember-modifier';
 import debugLogger from 'ember-debug-logger';
 
+import { registerDestructor } from '@ember/destroyable';
 import { service } from '@ember/service';
 
 export default class OnStyleChangeModifier extends Modifier {
@@ -8,47 +9,39 @@ export default class OnStyleChangeModifier extends Modifier {
 	@service('elementComputedStyleWatcher') styleWatcher;
 	// #endregion
 
-	// #region Constructor
+	// #region Tracked Attributes
+	// #endregion
+
+	// #region Untracked Public Fields
+	// #endregion
+
+	// #region Constructor / Destructor
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		registerDestructor(this, this.destructor);
+	}
+
+	destructor() {
+		this.#debug?.(`destructor`);
+		this?._manageWatcher?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall(...arguments);
+	modify(element, [callback], { properties }) {
+		super.modify(...arguments);
 		this.#debug?.(
-			`didInstall:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
+			`modify:\nelement: `,
+			element,
+			`\ncallback: `,
+			callback,
+			`\nproperties: `,
+			properties
 		);
 
-		this?._addWatcher?.();
-	}
-
-	didUpdateArguments() {
-		super.didUpdateArguments(...arguments);
-		this.#debug?.(
-			`didUpdateArguments:\nelement: `,
-			this?.element,
-			`\nargs: `,
-			this?.args
-		);
-
-		this?._addWatcher?.();
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-
-		this?.styleWatcher?.unwatchElement?.(
-			this?.element,
-			this.#currentCallback
-		);
-
-		super.willDestroy?.(...arguments);
+		this?._manageWatcher?.(element, callback, properties);
 	}
 	// #endregion
 
@@ -62,40 +55,41 @@ export default class OnStyleChangeModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_addWatcher() {
-		if (this.#currentCallback) {
-			this.#debug?.(`_addWatcher: de-registering old callback...`);
-			this?.styleWatcher?.unwatchElement?.(
-				this?.element,
-				this.#currentCallback
-			);
+	_manageWatcher(element, callback, properties) {
+		// Step 1: Get rid of the existing watcher
+		if (this.#element && this.#callback) {
+			this.#debug?.(`_manageWatcher: de-registering old callback...`);
+			this?.styleWatcher?.unwatchElement?.(this.#element, this.#callback);
 		}
 
-		this.#currentCallback = this?.args?.positional?.[0];
-		if (!this.#currentCallback) {
-			this.#debug?.(`_addWatcher: no callback defined. aborting...`);
+		// Step 2: Sanity check
+		this.#callback = callback;
+		this.#element = element;
+		this.#properties = properties;
+
+		if (!this.#element) {
+			this.#debug?.(`_manageWatcher: no element specified. aborting...`);
 			return;
 		}
 
-		this.#debug?.(
-			`didReceiveArguments:\nelement: `,
-			this?.element,
-			`\noptions: `,
-			this?.options,
-			`\ncallback: `,
-			this.#currentCallback
-		);
+		if (!this.#callback) {
+			this.#debug?.(`_manageWatcher: no callback defined. aborting...`);
+			return;
+		}
 
 		this?.styleWatcher?.watchElement?.(
-			this?.element,
-			this?.options,
-			this.#currentCallback
+			this.#element,
+			this.#properties,
+			this.#callback
 		);
 	}
 	// #endregion
 
 	// #region Private Attributes
 	#debug = debugLogger?.('modifier:on-style-change');
-	#currentCallback = null;
+
+	#callback = null;
+	#element = null;
+	#properties = {};
 	// #endregion
 }
