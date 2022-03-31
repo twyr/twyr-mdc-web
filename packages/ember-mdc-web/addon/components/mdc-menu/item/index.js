@@ -1,20 +1,20 @@
-import Component from './../mdc-abstract-dropdown/index';
+import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { MDCRipple } from '@material/ripple/index';
 import { action } from '@ember/object';
-import { cancel, scheduleOnce } from '@ember/runloop';
 import { ensureSafeComponent } from '@embroider/util';
+import { tracked } from '@glimmer/tracking';
 
 /* Safe Subcomponent Imports */
-import ListComponent from './list/index';
-import TriggerComponent from './trigger/index';
+import IconComponent from './../icon/index';
 
-export default class MdcMenuComponent extends Component {
+export default class MdcMenuItemComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
 	// #region Tracked Attributes
+	@tracked disabled = false;
 	// #endregion
 
 	// #region Untracked Public Fields
@@ -30,11 +30,6 @@ export default class MdcMenuComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-
-		if (this.#initOpenSchedule) {
-			cancel?.(this.#initOpenSchedule);
-			this.#initOpenSchedule = null;
-		}
 
 		this.#mdcRipple = null;
 		this.#element = null;
@@ -52,19 +47,51 @@ export default class MdcMenuComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		super.onAttributeMutation?.(mutationRecord);
 		this?._setupInitState?.();
+		this?.recalcStyles?.();
+	}
+
+	@action
+	recalcStyles() {
+		this.#debug?.(`recalcStyles`);
+		if (!this.#element) return;
+
+		const textElement = this.#element?.querySelector?.(
+			'span.mdc-list-item__text'
+		);
+
+		// Step 1: Reset
+		// TODO: Optimize this by unsetting only those properties that have not been utilitized
+		// in the current scenario
+		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
+
+		this.#element.style.borderRadius = null;
+		if (textElement) textElement.style.color = null;
+
+		// Stop if the element is disabled
+		if (this.#element?.hasAttribute?.('disabled')) return;
+
+		// Step 2: Style / Palette
+		if (this?.args?.palette) {
+			this.#element?.style?.setProperty?.(
+				'--mdc-ripple-color',
+				`var(--mdc-theme-${this?.args?.palette})`
+			);
+
+			if (textElement)
+				textElement.style.color = `var(--mdc-theme-${this?.args?.palette})`;
+		}
 	}
 
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		super.storeElement?.(element);
 
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
 		this?._setupInitState?.();
+		this?.recalcStyles?.();
 	}
 	// #endregion
 
@@ -72,32 +99,25 @@ export default class MdcMenuComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
-	get tag() {
-		return 'li';
-	}
-
-	get triggerComponent() {
-		return this?._getComputedSubcomponent?.('trigger');
-	}
-
-	get listComponent() {
-		return this?._getComputedSubcomponent?.('list');
+	get iconComponent() {
+		return this?._getComputedSubcomponent?.('icon');
 	}
 	// #endregion
 
 	// #region Private Methods
 	_setupInitState() {
+		this.#debug?.(
+			`__setupInitState::disabled: ${this.#element?.hasAttribute?.(
+				'disabled'
+			)}`
+		);
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
-			return;
+			this.disabled = true;
+		} else {
+			// this.#mdcRipple?.activate?.();
+			this.disabled = false;
 		}
-
-		if (!this.#element?.hasAttribute?.('open')) return;
-		this.#initOpenSchedule = scheduleOnce?.(
-			'afterRender',
-			this,
-			this?._open
-		);
 	}
 
 	_getComputedSubcomponent(componentName) {
@@ -111,17 +131,14 @@ export default class MdcMenuComponent extends Component {
 
 	// #region Default Sub-components
 	#subComponents = {
-		list: ListComponent,
-		trigger: TriggerComponent
+		icon: IconComponent
 	};
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('component:mdc-menu');
+	#debug = debugLogger('component:mdc-menu-item');
 
 	#element = null;
 	#mdcRipple = null;
-
-	#initOpenSchedule = null;
 	// #endregion
 }

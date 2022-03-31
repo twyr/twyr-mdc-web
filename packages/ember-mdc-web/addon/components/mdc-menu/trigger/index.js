@@ -1,11 +1,11 @@
-import Component from '../../mdc-abstract-dropdown/trigger/index';
+import Component from './../../mdc-abstract-dropdown/trigger/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
 import { ensureSafeComponent } from '@embroider/util';
 
 /* Safe Subcomponent Imports */
-import ListItemIconComponent from './../../mdc-list/item/icon/index';
+import IconComponent from './../icon/index';
 
 export default class MdcMenuTriggerComponent extends Component {
 	// #region Accessed Services
@@ -21,44 +21,40 @@ export default class MdcMenuTriggerComponent extends Component {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
-
-		this.#controls.openItem = this?._openItem;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	willDestroy() {
-		this.#debug(`willDestroy`);
+		this.#debug?.(`willDestroy`);
+		this.#element = null;
 
-		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
 
 	// #region DOM Event Handlers
+	@action
+	notOnClick(event) {
+		this.#debug(`notOnClick: `, event);
+		if (!this.#element) return;
+
+		if (!this?.open) return;
+		this?.args?.dropdownControls?.close?.(event);
+	}
 	// #endregion
 
 	// #region Modifier Callbacks
 	@action
 	storeElement(element) {
-		this.#debug?.(`storeElement: `, element);
+		this.#debug(`storeElement: `, element);
 		super.storeElement?.(element);
 
-		this?.args?.itemControls?.setControls?.('trigger', this.#controls);
+		this.#element = element;
 	}
 	// #endregion
 
 	// #region Controls
-	@action
-	_openItem(open) {
-		this.#debug?.(`_openItem: `, open);
-		if (open) {
-			this?.args?.dropdownControls?.open?.();
-			return;
-		}
-
-		this?.args?.dropdownControls?.close?.();
-	}
 	// #endregion
 
 	// #region Computed Properties
@@ -73,22 +69,18 @@ export default class MdcMenuTriggerComponent extends Component {
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(
-			`_getComputedSubcomponent::${componentName}-component`,
-			subComponent
-		);
 		return ensureSafeComponent(subComponent, this);
 	}
 	// #endregion
 
 	// #region Default Sub-components
 	#subComponents = {
-		icon: ListItemIconComponent
+		icon: IconComponent
 	};
 	// #endregion
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-menu-trigger');
-	#controls = {};
+	#element = null;
 	// #endregion
 }

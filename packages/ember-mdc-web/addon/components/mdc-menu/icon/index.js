@@ -1,14 +1,9 @@
-import Component from '../../mdc-abstract-dropdown/content/index';
+import Component from '../../mdc-icon/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
-import { ensureSafeComponent } from '@embroider/util';
 
-/* Safe Subcomponent Imports */
-import DividerComponent from './../divider/index';
-import ItemComponent from './../item/index';
-
-export default class MdcMenuListComponent extends Component {
+export default class MdcMenuIconComponent extends Component {
 	// #region Accessed Services
 	// #endregion
 
@@ -28,8 +23,8 @@ export default class MdcMenuListComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-		this.#element = null;
 
+		this.#element = null;
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -40,18 +35,21 @@ export default class MdcMenuListComponent extends Component {
 	// #region Modifier Callbacks
 	@action
 	recalcStyles() {
-		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
+
+		this.#element.style.color = null;
+		if (this?.args?.disabled) return;
+
+		this.#element.style.color = this?.args?.palette
+			? `var(--mdc-theme-${this?.args?.palette})`
+			: null;
 	}
 
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-
-		super.storeElement?.(element);
 		this.#element = element;
 
-		this?._setupInitState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -60,36 +58,16 @@ export default class MdcMenuListComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
-	get dividerComponent() {
-		return this?._getComputedSubcomponent?.('divider');
-	}
-
-	get itemComponent() {
-		return this?._getComputedSubcomponent?.('item');
-	}
 	// #endregion
 
 	// #region Private Methods
-	_getComputedSubcomponent(componentName) {
-		const subComponent =
-			this?.args?.customComponents?.[componentName] ??
-			this.#subComponents?.[componentName];
-
-		return ensureSafeComponent(subComponent, this);
-	}
 	// #endregion
 
 	// #region Default Sub-components
-	#subComponents = {
-		divider: DividerComponent,
-		item: ItemComponent
-	};
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('component:mdc-menu-list');
-
+	#debug = debugLogger('component:mdc-menu-icon');
 	#element = null;
-	#items = new Map();
 	// #endregion
 }
