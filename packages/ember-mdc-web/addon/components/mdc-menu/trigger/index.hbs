@@ -6,6 +6,8 @@
 	{{on this.triggerEvent this.onTriggerEvent}}
 	{{! React to clicks outside the menu area}}
 	{{not-on 'click' this.notOnClick}}
+	{{! Re-calculate colours as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
