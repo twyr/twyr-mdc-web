@@ -47,18 +47,6 @@ export default class MdcMenuBarComponent extends Component {
 
 	// #region Modifier Callbacks
 	@action
-	closeSubMenus(event) {
-		this.#debug(`closeSubmenus: `, event);
-		if (!this?.open) return;
-
-		this.#menuItems?.forEach?.((menuItemControls) => {
-			menuItemControls?.open?.(false);
-		});
-
-		this.open = false;
-	}
-
-	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
@@ -103,19 +91,13 @@ export default class MdcMenuBarComponent extends Component {
 			if (item === menuItem) return;
 
 			this.#debug?.(`_openItem::closing: `, menuItem);
-			menuItemControl?.open?.(false);
+			menuItemControl?.openItem?.(false);
 		});
 
-		const thisItemControl = this.#menuItems?.get?.(item);
-		const currentStatus = thisItemControl?.status?.()?.['open'];
-		if (open !== currentStatus) {
-			this.#debug?.(`_openItem::toggling: `, item);
-			thisItemControl?.open?.(open);
-		}
+		const itemControls = this.#menuItems?.get?.(item);
+		itemControls?.openItem?.(open);
 
 		if (this?.open === open) return;
-
-		this.#debug?.(`_openItem::isMenuOpen: ${open}`);
 		this.open = open;
 
 		const eventData = {
@@ -123,6 +105,7 @@ export default class MdcMenuBarComponent extends Component {
 			open: open
 		};
 
+		this.#debug?.(`_openItem::isMenuOpen: ${open}`);
 		this?._fireEvent?.('statuschange', eventData);
 	}
 	// #endregion
@@ -161,10 +144,6 @@ export default class MdcMenuBarComponent extends Component {
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(
-			`_getComputedSubcomponent::${componentName}-component`,
-			subComponent
-		);
 		return ensureSafeComponent(subComponent, this);
 	}
 	// #endregion

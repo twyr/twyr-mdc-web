@@ -35,12 +35,18 @@ export default class MdcMenuTriggerComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
+	onTriggerEvent(event) {
+		this.#debug?.(`onTriggerEvent::${this?.triggerEvent} `, event);
+		this?.args?.dropdownControls?.open?.();
+	}
+
+	@action
 	notOnClick(event) {
 		this.#debug(`notOnClick: `, event);
 		if (!this.#element) return;
 
 		if (!this?.open) return;
-		this?.args?.dropdownControls?.close?.(event);
+		this?.args?.dropdownControls?.close?.();
 	}
 	// #endregion
 

@@ -24,17 +24,27 @@ export default class MdcMenuComponent extends Component {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		this.#controls.barReady = this?._onBarReady;
+		this.#controls.openItem = this?._openItem;
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
+		this?.args?.menuBarControls?.registerItem?.(
+			this.#element,
+			this.#controls,
+			false
+		);
 
 		if (this.#initOpenSchedule) {
 			cancel?.(this.#initOpenSchedule);
 			this.#initOpenSchedule = null;
 		}
+
+		this.#controls = {};
 
 		this.#mdcRipple = null;
 		this.#element = null;
@@ -65,10 +75,80 @@ export default class MdcMenuComponent extends Component {
 		this.#mdcRipple = new MDCRipple(this.#element);
 
 		this?._setupInitState?.();
+		this?._onBarReady?.();
+
+		this?.args?.menuBarControls?.registerItem?.(
+			this.#element,
+			this.#controls,
+			true
+		);
 	}
 	// #endregion
 
 	// #region Controls
+	@action
+	_onBarReady() {
+		this.#debug?.(`_onBarReady`);
+		if (!this.#element?.hasAttribute?.('open')) return;
+
+		if (!this?.args?.menuBarControls) {
+			this.#initOpenSchedule = scheduleOnce?.(
+				'afterRender',
+				this,
+				this?._open
+			);
+
+			return;
+		}
+
+		this.#initOpenSchedule = scheduleOnce?.(
+			'afterRender',
+			this,
+			this?.args?.menuBarControls?.openItem,
+			this.#element,
+			true
+		);
+	}
+
+	@action
+	_openItem(open) {
+		if (open) this?._open?.(true);
+		else this?._close?.(true);
+	}
+
+	@action
+	_open(fromMenuBar = false) {
+		this.#debug?.(`_open: ${fromMenuBar}`);
+
+		if (!this?.args?.menuBarControls) {
+			super._open?.();
+			return;
+		}
+
+		if (!fromMenuBar) {
+			this?.args?.menuBarControls?.openItem?.(this.#element, true);
+			return;
+		}
+
+		super._open?.();
+	}
+
+	@action
+	_close(fromMenuBar = false) {
+		this.#debug?.(`_close: ${fromMenuBar}`);
+
+		if (!this?.args?.menuBarControls) {
+			super._close?.();
+			return;
+		}
+
+		if (!fromMenuBar) {
+			this?.args?.menuBarControls?.openItem?.(this.#element, false);
+			return;
+		}
+
+		super._close?.();
+	}
 	// #endregion
 
 	// #region Computed Properties
@@ -91,13 +171,6 @@ export default class MdcMenuComponent extends Component {
 			this.#mdcRipple?.deactivate?.();
 			return;
 		}
-
-		if (!this.#element?.hasAttribute?.('open')) return;
-		this.#initOpenSchedule = scheduleOnce?.(
-			'afterRender',
-			this,
-			this?._open
-		);
 	}
 
 	_getComputedSubcomponent(componentName) {
@@ -118,6 +191,7 @@ export default class MdcMenuComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-menu');
+	#controls = {};
 
 	#element = null;
 	#mdcRipple = null;

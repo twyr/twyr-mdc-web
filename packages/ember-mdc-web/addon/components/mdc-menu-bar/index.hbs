@@ -2,8 +2,6 @@
 	class='mdc-list mdc-menu-bar'
 	{{! Ensure id is present - we need it for the events }}
 	{{requires-id ignore=true}}
-	{{! React to clicks outside the menu area}}
-	{{not-on 'click' this.closeSubMenus}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
@@ -13,7 +11,7 @@
 		(hash
 			Menu=(component
 				this.menuComponent
-				menuControls=this.controls
+				menuBarControls=this.controls
 				triggerEvent=this.triggerEvent
 				xAlign=@xAlign
 				xOffset=@xOffset
