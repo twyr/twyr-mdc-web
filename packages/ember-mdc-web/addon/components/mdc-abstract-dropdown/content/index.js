@@ -82,7 +82,7 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	}
 
 	@action
-	async storeElement(element) {
+	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 

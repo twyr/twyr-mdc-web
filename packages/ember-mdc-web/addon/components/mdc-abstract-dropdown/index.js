@@ -126,6 +126,8 @@ export default class MdcAbstractDropdownComponent extends Component {
 			this.#contentElement = register ? element : null;
 		}
 
+		if (!this.#element) return;
+
 		const status = this?._setupStatus?.();
 		this?._informSubComponents?.(status);
 	}
@@ -290,10 +292,6 @@ export default class MdcAbstractDropdownComponent extends Component {
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(
-			`_getComputedSubcomponent::${componentName}-component`,
-			subComponent
-		);
 		return ensureSafeComponent(subComponent, this);
 	}
 	// #endregion
