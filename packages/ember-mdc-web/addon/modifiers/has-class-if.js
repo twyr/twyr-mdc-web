@@ -1,6 +1,8 @@
 import Modifier from 'ember-modifier';
 import debugLogger from 'ember-debug-logger';
 
+import { registerDestructor } from '@ember/destroyable';
+
 export default class HasClassIfModifier extends Modifier {
 	// #region Accessed Services
 	// #endregion
@@ -15,6 +17,12 @@ export default class HasClassIfModifier extends Modifier {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		registerDestructor(this, this.destructor);
+	}
+
+	destructor() {
+		this.#debug?.(`destructor`);
 	}
 	// #endregion
 

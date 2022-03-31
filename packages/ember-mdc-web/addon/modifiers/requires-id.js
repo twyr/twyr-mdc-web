@@ -1,6 +1,7 @@
 import Modifier from 'ember-modifier';
 import debugLogger from 'ember-debug-logger';
 
+import { registerDestructor } from '@ember/destroyable';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class RequiresIdModifier extends Modifier {
@@ -17,6 +18,12 @@ export default class RequiresIdModifier extends Modifier {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		registerDestructor(this, this.destructor);
+	}
+
+	destructor() {
+		this.#debug?.(`destructor`);
 	}
 	// #endregion
 
