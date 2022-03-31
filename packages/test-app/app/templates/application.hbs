@@ -15,23 +15,22 @@
 	<:title>Ember Material Components for the Web</:title>
 
 	<:actionIcons>
-		<MdcMenu @palette={{false}} @xAlign='right'>
+		<MdcMenu @palette={{this.palette}} @xAlign='right'>
 			<:trigger as |Trigger|>
 				<Trigger>
 					<MdcIcon
-						class='text-3xl'
+						class='text-3xl text-white'
 						@icon='menu'
 						@palette={{this.palette}}
 					/>
 				</Trigger>
 			</:trigger>
 			<:items as |Items|>
-				<Items as |List|>
-					<List.Item>Single Menu 1</List.Item>
-					<List.Divider />
-					<List.Item>Single Menu 2</List.Item>
-					<List.Divider />
-					<List.Item>Single Menu 3</List.Item>
+				<Items as |MenuItems|>
+					<MenuItems.Item>Single Menu 1</MenuItems.Item>
+					<MenuItems.Item>Single Menu 2</MenuItems.Item>
+					<MenuItems.Divider />
+					<MenuItems.Item>Single Menu 3</MenuItems.Item>
 				</Items>
 			</:items>
 		</MdcMenu>
@@ -221,7 +220,13 @@
 		</MdcSegmentedButton>
 
 		<MdcMenuBar @palette={{this.palette}} as |MenuBar|>
-			<MenuBar.Menu>This</MenuBar.Menu>
+			<MenuBar.Menu>
+				<:trigger as |Trigger|>
+					<Trigger>
+						This
+					</Trigger>
+				</:trigger>
+			</MenuBar.Menu>
 			<MenuBar.Menu>
 				<:trigger as |Trigger|>
 					<Trigger>
@@ -259,7 +264,13 @@
 					</Items>
 				</:items>
 			</MenuBar.Menu>
-			<MenuBar.Menu>First</MenuBar.Menu>
+			<MenuBar.Menu>
+				<:trigger as |Trigger|>
+					<Trigger>
+						First
+					</Trigger>
+				</:trigger>
+			</MenuBar.Menu>
 			<MenuBar.Menu>
 				<:trigger as |Trigger|>
 					<Trigger>
@@ -316,9 +327,10 @@
 		/>
 	</div>
 
-	<div class='flex flex-row justify-around items-center m-2'>
+	<div class='flex flex-row justify-start items-center m-2'>
 		<MdcTextField
-			@outlined={{false}}
+			class='mr-2'
+			@outlined={{true}}
 			@fullWidth={{false}}
 			@label='Hello, world'
 			@palette={{this.palette}}
@@ -331,7 +343,8 @@
 			required
 		/>
 		<MdcSelect
-			@outlined={{false}}
+			class='mx-2'
+			@outlined={{true}}
 			@fullWidth={{false}}
 			@allowEmpty={{true}}
 			@label='Hello, world'
@@ -352,8 +365,8 @@
 					<Options.Option value='option-2'>Option #2</Options.Option>
 					<Options.Option value='option-3'>Option #3</Options.Option>
 					<Options.Divider />
-					<Options.Option value='option-4'>Option #4</Options.Option>
-					<Options.Option value='option-5' selected>Option #5</Options.Option>
+					<Options.Option value='option-4' selected>Option #4</Options.Option>
+					<Options.Option value='option-5'>Option #5</Options.Option>
 				</OptionList>
 			</:optionlist>
 		</MdcSelect>

@@ -5,6 +5,13 @@
     margin-top: 1rem;
     margin-bottom: 1rem
 }
+.mx-2 {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem
+}
+.mr-2 {
+    margin-right: 0.5rem
+}
 .flex {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -21,6 +28,11 @@
         -ms-flex-align: center;
             align-items: center
 }
+.justify-start {
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start
+}
 .justify-around {
     -ms-flex-pack: distribute;
         justify-content: space-around
@@ -28,6 +40,10 @@
 .text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem
+}
+.text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity))
 }
 .underline {
     -webkit-text-decoration-line: underline;
