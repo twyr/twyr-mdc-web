@@ -169,7 +169,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 		contentElement,
 		options
 	) {
-		this.#debug?.(`_contentPositionCalculator::options: `, options);
+		this.#debug?.(`_contentPositionCalculator::arguments: `, arguments);
 		const position = {
 			dropdownRect: null,
 			left: null,
@@ -185,6 +185,7 @@ export default class MdcAbstractDropdownComponent extends Component {
 		if (yAlign === 'top') yOffset = -yOffset;
 
 		const elementDimensions = element?.getBoundingClientRect?.();
+		position.dropdownRect = elementDimensions;
 
 		// Step 1: Set width according to input parameters
 		// Init stuff - if we're matching widths, do it now, wait for height to settle
@@ -242,7 +243,6 @@ export default class MdcAbstractDropdownComponent extends Component {
 		);
 
 		// Finally, pass on the current position of the dropdown itself
-		position.dropdownRect = elementDimensions;
 		return position;
 	}
 

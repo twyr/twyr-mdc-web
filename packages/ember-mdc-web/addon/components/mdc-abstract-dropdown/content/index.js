@@ -1,6 +1,8 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import nextBrowserTick from '../../../utils/next-browser-tick';
+
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
@@ -106,6 +108,9 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		this.open = dropdownStatus?.open;
 
 		if (!this?.open) return;
+
+		await nextBrowserTick?.();
+		await nextBrowserTick?.();
 		await this?.setNewPosition();
 	}
 	// #endregion
