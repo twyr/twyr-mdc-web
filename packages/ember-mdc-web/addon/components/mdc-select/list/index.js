@@ -2,9 +2,7 @@ import Component from './../../mdc-abstract-dropdown/content/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
-import { cancel, scheduleOnce } from '@ember/runloop';
 import { ensureSafeComponent } from '@embroider/util';
-import { tracked } from '@glimmer/tracking';
 
 /* Safe Subcomponent Imports */
 import DividerComponent from './../../mdc-list/divider/index';
@@ -15,9 +13,6 @@ export default class MdcSelectListComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked required = false;
-	@tracked value = null;
-	@tracked text = null;
 	// #endregion
 
 	// #region Untracked Public Fields
@@ -37,11 +32,6 @@ export default class MdcSelectListComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-
-		if (this.#selectInit) {
-			cancel?.(this.#selectInit);
-			this.#selectInit = false;
-		}
 
 		this.#options?.clear?.();
 		this.controls = {};
@@ -71,6 +61,8 @@ export default class MdcSelectListComponent extends Component {
 		this?._setupInitState?.();
 		this?.recalcStyles?.();
 
+		if (!this.#selectInit) return;
+
 		this.#options?.forEach?.((optionControls) => {
 			optionControls?.listReady?.();
 		});
@@ -81,14 +73,7 @@ export default class MdcSelectListComponent extends Component {
 	@action
 	_optionClicked(value, text) {
 		this.#debug?.(`_optionClicked: ${value}[${text}]:`);
-
-		if (this.#selectInit) {
-			this?.args?.dropdownControls?.setSelectValue?.(value, text);
-			return;
-		}
-
-		this.value = value;
-		this.text = text;
+		this?.args?.dropdownControls?.setSelectValue?.(value, text);
 	}
 
 	@action
@@ -97,28 +82,23 @@ export default class MdcSelectListComponent extends Component {
 		super._setDropdownStatus?.(dropdownStatus);
 
 		if (this.#selectInit) {
-			this.required = dropdownStatus?.required;
-			this.value = dropdownStatus?.value;
-			this.text = dropdownStatus?.text;
-
 			this?._setupInitState?.();
 			this?.recalcStyles?.();
 
 			const selectedOption = this.#element?.querySelector?.(
-				`li.mdc-list-item[value="${this.value}"]`
+				`li.mdc-list-item[value="${dropdownStatus?.value}"]`
 			);
-			this?._selectOption?.(selectedOption, true);
 
+			this?._selectOption?.(selectedOption, true);
 			return;
 		}
 
-		this.#selectInit = scheduleOnce?.(
-			'afterRender',
-			this,
-			this?._optionClicked,
-			this.value,
-			this.text
-		);
+		this.#selectInit = true;
+		if (!this.#element) return;
+
+		this.#options?.forEach?.((optionControls) => {
+			optionControls?.listReady?.();
+		});
 	}
 
 	@action
@@ -132,6 +112,7 @@ export default class MdcSelectListComponent extends Component {
 
 		this.#options?.set?.(option, controls);
 		if (!this.#element) return;
+		if (!this.#selectInit) return;
 
 		controls?.listReady?.();
 	}
@@ -155,13 +136,6 @@ export default class MdcSelectListComponent extends Component {
 
 		const optionControls = this.#options?.get?.(option);
 		optionControls?.select?.(selected);
-
-		const eventData = {
-			selected: selected ? option?.id : null,
-			unselected: selectedOption?.id
-		};
-
-		this?._fireEvent?.('select', eventData);
 	}
 	// #endregion
 
@@ -200,37 +174,6 @@ export default class MdcSelectListComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_fireEvent(name, options) {
-		this.#debug?.(`_fireEvent::${name}: `, options);
-		if (!this.#element) return;
-
-		const status = Object?.assign?.(
-			{},
-			{
-				open: this?.open,
-
-				disabled: this?.disabled,
-				required: this?.required,
-
-				value: this?.value,
-				text: this?.text
-			},
-			options
-		);
-
-		const thisEvent = new CustomEvent(name, {
-			detail: {
-				id: this.#element?.id,
-				controls: {
-					selectItem: this?._selectItem
-				},
-				status: status
-			}
-		});
-
-		this.#element?.dispatchEvent?.(thisEvent);
-	}
-
 	_setupInitState() {
 		if (!this.disabled) return;
 	}

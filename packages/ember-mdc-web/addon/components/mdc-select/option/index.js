@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
+import { cancel, scheduleOnce } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
 
 import { MDCRipple } from '@material/ripple/index';
@@ -32,6 +33,11 @@ export default class MdcSelectOptionComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 
+		if (this.#initValueSetSchedule) {
+			cancel?.(this.#initValueSetSchedule);
+			this.#initValueSetSchedule = null;
+		}
+
 		this?.args?.selectControls?.registerOption?.(
 			this.#element,
 			null,
@@ -48,7 +54,10 @@ export default class MdcSelectOptionComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	onClick() {
+	onClick(event) {
+		this.#debug?.(`onClick: `, event);
+
+		this.#initValueSetSchedule = null;
 		this?.args?.selectControls?.selectOption?.(
 			this.#element?.getAttribute?.('value'),
 			this.#element?.innerText?.trim?.()
@@ -130,9 +139,13 @@ export default class MdcSelectOptionComponent extends Component {
 		this.#debug?.(`_onListReady`);
 
 		if (!this.#element?.hasAttribute?.('selected')) return;
-		this?.args?.selectControls?.selectOption?.(
-			this.#element?.getAttribute?.('value'),
-			this.#element?.innerText?.trim?.()
+
+		if (this.#initValueSetSchedule) return;
+
+		this.#initValueSetSchedule = scheduleOnce?.(
+			'afterRender',
+			this,
+			this?.onClick
 		);
 	}
 
@@ -183,5 +196,7 @@ export default class MdcSelectOptionComponent extends Component {
 	#mdcRipple = null;
 
 	#controls = {};
+
+	#initValueSetSchedule = null;
 	// #endregion
 }
