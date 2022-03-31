@@ -15,6 +15,10 @@ module.exports = function (defaults) {
 			plugins: [require.resolve('ember-auto-import/babel-plugin')]
 		},
 
+		'ember-freestyle': {
+			includeStyles: false
+		},
+
 		sassOptions: {
 			implementation: require('sass'),
 			includePaths: ['node_modules']
