@@ -44,7 +44,7 @@ export default class MdcRadioGroupRadioComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -99,7 +99,7 @@ export default class MdcRadioGroupRadioComponent extends Component {
 		);
 		this.#mdcRipple.unbounded = true;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -111,7 +111,7 @@ export default class MdcRadioGroupRadioComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		this.inputElementId = this.#element?.id;
 
 		if (this.#element?.hasAttribute?.('disabled')) {
@@ -119,13 +119,14 @@ export default class MdcRadioGroupRadioComponent extends Component {
 			this.#element
 				?.closest?.('div.mdc-radio')
 				?.classList?.add?.('mdc-radio--disabled');
-		} else {
-			this.#element
-				?.closest?.('div.mdc-radio')
-				?.classList?.remove?.('mdc-radio--disabled');
 
-			// this.#mdcRipple?.activate?.();
+			return;
 		}
+
+		// this.#mdcRipple?.activate?.();
+		this.#element
+			?.closest?.('div.mdc-radio')
+			?.classList?.remove?.('mdc-radio--disabled');
 	}
 	// #endregion
 

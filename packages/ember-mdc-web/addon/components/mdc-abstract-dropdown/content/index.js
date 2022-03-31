@@ -33,9 +33,9 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		this.#debug?.(`willDestroy`);
 		this?.args?.dropdownControls?.register?.('content', null, false);
 
-		this.#controls = {};
 		this.#element = null;
 
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -167,8 +167,8 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-abstract-dropdown-content');
+	#controls = {};
 
 	#element = null;
-	#controls = {};
 	// #endregion
 }

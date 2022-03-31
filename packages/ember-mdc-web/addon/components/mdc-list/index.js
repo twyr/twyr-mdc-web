@@ -34,9 +34,9 @@ export default class MdcListComponent extends Component {
 		this.#debug?.(`willDestroy`);
 
 		this.#items?.clear?.();
-		this.controls = {};
-
 		this.#element = null;
+
+		this.controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion

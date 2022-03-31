@@ -31,9 +31,9 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 		this.#debug?.(`willDestroy`);
 		this?.args?.dropdownControls?.register?.('trigger', null, false);
 
-		this.#controls = {};
 		this.#element = null;
 
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -88,8 +88,8 @@ export default class MdcAbstractDropdownTriggerComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-abstract-dropdown-trigger');
+	#controls = {};
 
 	#element = null;
-	#controls = {};
 	// #endregion
 }

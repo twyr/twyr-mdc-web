@@ -33,13 +33,12 @@ export default class MdcListItemComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-
 		this?.args?.listControls?.registerItem?.(this.#element, null, false);
-		this.#controls = {};
 
 		this.#mdcRipple = null;
 		this.#element = null;
 
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -57,7 +56,7 @@ export default class MdcListItemComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -112,7 +111,7 @@ export default class MdcListItemComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		this?.args?.listControls?.registerItem?.(
@@ -122,7 +121,6 @@ export default class MdcListItemComponent extends Component {
 		);
 
 		if (!this.#element?.hasAttribute?.('selected')) return;
-
 		this?.args?.listControls?.selectItem?.(this.#element, true);
 	}
 	// #endregion
@@ -150,9 +148,9 @@ export default class MdcListItemComponent extends Component {
 		return ensureSafeComponent(subComponent, this);
 	}
 
-	_setupInitState() {
+	_setComponentState() {
 		this.#debug?.(
-			`__setupInitState::disabled: ${this.#element?.hasAttribute?.(
+			`__setComponentState::disabled: ${this.#element?.hasAttribute?.(
 				'disabled'
 			)}`
 		);
@@ -160,11 +158,12 @@ export default class MdcListItemComponent extends Component {
 			this.#mdcRipple?.deactivate?.();
 			this.#element?.classList?.add?.('mdc-list-item--disabled');
 			this.disabled = true;
-		} else {
-			// this.#mdcRipple?.activate?.();
-			this.#element?.classList?.remove?.('mdc-list-item--disabled');
-			this.disabled = false;
+
+			return;
 		}
+
+		this.#element?.classList?.remove?.('mdc-list-item--disabled');
+		this.disabled = false;
 	}
 	// #endregion
 
@@ -176,10 +175,9 @@ export default class MdcListItemComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-list-item');
+	#controls = {};
 
 	#element = null;
 	#mdcRipple = null;
-
-	#controls = {};
 	// #endregion
 }

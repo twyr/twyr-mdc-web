@@ -34,9 +34,9 @@ export default class MdcSelectListComponent extends Component {
 		this.#debug?.(`willDestroy`);
 
 		this.#options?.clear?.();
-		this.controls = {};
-
 		this.#element = null;
+
+		this.controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -52,13 +52,13 @@ export default class MdcSelectListComponent extends Component {
 	}
 
 	@action
-	async storeElement(element) {
+	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-
-		this.#element = element;
 		super.storeElement?.(element);
 
-		this?._setupInitState?.();
+		this.#element = element;
+
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		if (!this.#selectInit) return;
@@ -82,7 +82,7 @@ export default class MdcSelectListComponent extends Component {
 		super._setDropdownStatus?.(dropdownStatus);
 
 		if (this.#selectInit) {
-			this?._setupInitState?.();
+			this?._setComponentState?.();
 			this?.recalcStyles?.();
 
 			const selectedOption = this.#element?.querySelector?.(
@@ -174,7 +174,7 @@ export default class MdcSelectListComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		if (!this.disabled) return;
 	}
 

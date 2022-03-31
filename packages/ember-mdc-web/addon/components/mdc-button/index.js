@@ -41,7 +41,7 @@ export default class MdcButtonComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -178,7 +178,7 @@ export default class MdcButtonComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -190,12 +190,10 @@ export default class MdcButtonComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
-		if (this.#element?.hasAttribute?.('disabled')) {
-			this.#mdcRipple?.deactivate?.();
-		} else {
-			// this.#mdcRipple?.activate?.();
-		}
+	_setComponentState() {
+		if (!this.#element?.hasAttribute?.('disabled')) return;
+
+		this.#mdcRipple?.deactivate?.();
 	}
 	// #endregion
 

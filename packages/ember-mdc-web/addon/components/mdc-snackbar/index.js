@@ -40,7 +40,6 @@ export default class MdcSnackbarComponent extends Component {
 		this.#debug?.(`willDestroy`);
 
 		this?.snackbarManager?.register?.(this.#element?.id, null, false);
-		this.#controls = {};
 
 		if (this.#alertTimeout) {
 			cancel?.(this.#alertTimeout);
@@ -52,8 +51,9 @@ export default class MdcSnackbarComponent extends Component {
 
 		this.#mdcActionRipple = null;
 		this.#mdcRipple = null;
-
 		this.#element = null;
+
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -92,7 +92,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -122,7 +122,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		this?.snackbarManager?.register?.(
@@ -137,7 +137,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.#debug?.(`storeActionElement: `, element);
 		this.#mdcActionRipple = new MDCRipple(element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -162,7 +162,7 @@ export default class MdcSnackbarComponent extends Component {
 
 		this.open = options?.open ?? false;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		if (this.open) {
@@ -181,7 +181,7 @@ export default class MdcSnackbarComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcActionRipple?.deactivate?.();
 			this.#mdcRipple?.deactivate?.();
@@ -197,10 +197,9 @@ export default class MdcSnackbarComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-snackbar');
-
-	#element = null;
 	#controls = {};
 
+	#element = null;
 	#mdcRipple = null;
 	#mdcActionRipple = null;
 

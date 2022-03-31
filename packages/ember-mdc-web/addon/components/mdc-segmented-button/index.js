@@ -33,9 +33,9 @@ export default class MdcSegmentedButtonComponent extends Component {
 		this.#debug?.(`willDestroy`);
 
 		this.#segments?.clear?.();
-		this.controls = {};
-
 		this.#element = null;
+
+		this.controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion

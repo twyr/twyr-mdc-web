@@ -41,7 +41,7 @@ export default class MdcIconButtonComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -80,7 +80,7 @@ export default class MdcIconButtonComponent extends Component {
 		this.#mdcRipple = new MDCRipple(this.#element);
 		this.#mdcRipple.unbounded = true;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -95,11 +95,10 @@ export default class MdcIconButtonComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
-		} else {
-			// this.#mdcRipple?.activate?.();
+			return;
 		}
 	}
 	// #endregion

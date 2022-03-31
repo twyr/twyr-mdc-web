@@ -28,8 +28,8 @@ export default class MdcMenuListComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-		this.#element = null;
 
+		this.#element = null;
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -41,6 +41,8 @@ export default class MdcMenuListComponent extends Component {
 	@action
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
+		super.recalcStyles?.();
+
 		if (!this.#element) return;
 	}
 
@@ -51,7 +53,7 @@ export default class MdcMenuListComponent extends Component {
 		super.storeElement?.(element);
 		this.#element = element;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -88,8 +90,6 @@ export default class MdcMenuListComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-menu-list');
-
 	#element = null;
-	#items = new Map();
 	// #endregion
 }

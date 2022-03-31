@@ -73,9 +73,9 @@ export default class MdcTabBarComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
-		this.#element = element;
 
-		this?._setupInitState?.();
+		this.#element = element;
+		this?._setComponentState?.();
 
 		this.#tabs?.forEach?.((tabControls) => {
 			tabControls?.barReady?.();
@@ -135,12 +135,12 @@ export default class MdcTabBarComponent extends Component {
 		// Small screen, and a huge tab???
 		if (tabRect?.left < scrollAreaRect?.left) {
 			scrollAreaElement.scrollLeft -= tabRect.width;
-			this?._setupInitState?.();
+			this?._setComponentState?.();
 		}
 
 		if (tabRect?.right > scrollAreaRect?.right) {
 			scrollAreaElement.scrollLeft += tabRect.width;
-			this?._setupInitState?.();
+			this?._setComponentState?.();
 		}
 
 		this?._fireEvent?.('statuschange', {
@@ -189,7 +189,7 @@ export default class MdcTabBarComponent extends Component {
 		);
 		scrollAreaElement.scrollLeft -= lastInvisibleTabRect.width;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 	}
 
 	_scrollRight() {
@@ -206,11 +206,11 @@ export default class MdcTabBarComponent extends Component {
 		);
 		scrollAreaElement.scrollLeft += firstInvisibleTabRect.width;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 	}
 
-	_setupInitState() {
-		this.#debug?.(`_setupInitState`);
+	_setComponentState() {
+		this.#debug?.(`_setComponentState`);
 
 		this.scrollEnabled = this?._shouldEnableScrollArea?.();
 		this.leftScrollEnabled = this?._shouldEnableScrollLeft?.();

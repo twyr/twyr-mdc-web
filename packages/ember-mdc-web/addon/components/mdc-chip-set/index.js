@@ -6,6 +6,7 @@ import { ensureSafeComponent } from '@embroider/util';
 
 /* Safe Subcomponent Imports */
 import ChipComponent from './chip/index';
+
 export default class MdcChipSetComponent extends Component {
 	// #region Accessed Services
 	// #endregion

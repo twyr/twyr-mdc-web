@@ -36,11 +36,11 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 			null,
 			false
 		);
-		this.#controls = {};
 
 		this.#mdcRipple = null;
 		this.#element = null;
 
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -62,7 +62,7 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcAria?.();
 		this?.recalcStyles?.();
 	}
@@ -128,7 +128,7 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcAria?.();
 		this?.recalcStyles?.();
 
@@ -160,18 +160,20 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 			this.#element?.classList?.add?.(
 				'mdc-segmented-button__segment--disabled'
 			);
-		} else {
-			// this.#mdcRipple?.activate?.();
-			this.#element?.classList?.remove?.(
-				'mdc-segmented-button__segment--disabled'
-			);
+
+			return;
 		}
+
+		// this.#mdcRipple?.activate?.();
+		this.#element?.classList?.remove?.(
+			'mdc-segmented-button__segment--disabled'
+		);
 	}
 	// #endregion
 
@@ -180,11 +182,10 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-segmented-button-segment');
+	#controls = {};
 
 	#element = null;
 	#mdcRipple = null;
-
-	#controls = {};
 
 	#selected = false;
 	// #endregion

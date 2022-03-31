@@ -21,6 +21,10 @@
 		@apply text-start;
 	}
 
+	& .mdc-card__media {
+		background-image: var(--mdc-card-media);
+	}
+
 	& .mdc-card__media-content {
 		@apply flex flex-col justify-end content-end self-end;
 		@apply px-3;

@@ -39,21 +39,10 @@ export default class MdcDialogComponent extends Component {
 
 	// #region DOM Event Handlers
 	@action
-	onClickOutside(event) {
+	onClickOutside() {
 		if (!this?.clickOutsideToClose) {
 			this.#debug?.(
 				`onClickOutside: ${this?.clickOutsideToClose}. aborting...`
-			);
-			return;
-		}
-
-		const isEventInsideElement =
-			event?.target === this.#element ||
-			this.#element?.contains?.(event?.target);
-
-		if (isEventInsideElement) {
-			this.#debug?.(
-				`onClickOutside: click is inside this element. aborting...`
 			);
 			return;
 		}

@@ -44,7 +44,7 @@ export default class MdcCheckboxComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -105,7 +105,7 @@ export default class MdcCheckboxComponent extends Component {
 		);
 		this.#mdcRipple.unbounded = true;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -117,7 +117,7 @@ export default class MdcCheckboxComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		this.inputElementId = this.#element?.id;
 
 		if (this.#element?.hasAttribute?.('disabled')) {
@@ -125,13 +125,13 @@ export default class MdcCheckboxComponent extends Component {
 			this.#element
 				?.closest?.('div.mdc-checkbox')
 				?.classList?.add?.('mdc-checkbox--disabled');
-		} else {
-			this.#element
-				?.closest?.('div.mdc-checkbox')
-				?.classList?.remove?.('mdc-checkbox--disabled');
 
-			// this.#mdcRipple?.activate?.();
+			return;
 		}
+
+		this.#element
+			?.closest?.('div.mdc-checkbox')
+			?.classList?.remove?.('mdc-checkbox--disabled');
 	}
 	// #endregion
 

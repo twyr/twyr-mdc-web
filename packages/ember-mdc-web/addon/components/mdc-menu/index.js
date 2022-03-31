@@ -44,11 +44,10 @@ export default class MdcMenuComponent extends Component {
 			this.#initOpenSchedule = null;
 		}
 
-		this.#controls = {};
-
 		this.#mdcRipple = null;
 		this.#element = null;
 
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -63,7 +62,7 @@ export default class MdcMenuComponent extends Component {
 		if (!this.#element) return;
 
 		super.onAttributeMutation?.(mutationRecord);
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 	}
 
 	@action
@@ -74,7 +73,7 @@ export default class MdcMenuComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?._onBarReady?.();
 
 		this?.args?.menuBarControls?.registerItem?.(
@@ -166,7 +165,7 @@ export default class MdcMenuComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 			return;

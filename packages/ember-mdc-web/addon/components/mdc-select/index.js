@@ -30,8 +30,10 @@ export default class MdcSelectComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug(`willDestroy`);
+
 		this.#element = null;
 
+		delete this.controls.setSelectValue;
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -51,9 +53,9 @@ export default class MdcSelectComponent extends Component {
 	@action
 	storeElement(element) {
 		this.#debug(`storeElement: `, element);
-		this.#element = element;
-
 		super.storeElement?.(element);
+
+		this.#element = element;
 	}
 	// #endregion
 

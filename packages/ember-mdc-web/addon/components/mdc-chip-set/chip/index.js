@@ -49,7 +49,7 @@ export default class MdcChipsetChipComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationEntry);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -109,7 +109,7 @@ export default class MdcChipsetChipComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -136,19 +136,19 @@ export default class MdcChipsetChipComponent extends Component {
 		this.#element?.dispatchEvent?.(thisEvent);
 	}
 
-	_setupInitState() {
+	_setComponentState() {
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 			this.#element
 				?.closest?.('span.mdc-evolution-chip')
 				?.classList?.add?.('mdc-evolution-chip--disabled');
-		} else {
-			this.#element
-				?.closest?.('span.mdc-evolution-chip')
-				?.classList?.remove?.('mdc-evolution-chip--disabled');
 
-			// this.#mdcRipple?.activate?.();
+			return;
 		}
+
+		this.#element
+			?.closest?.('span.mdc-evolution-chip')
+			?.classList?.remove?.('mdc-evolution-chip--disabled');
 	}
 	// #endregion
 

@@ -9,7 +9,7 @@ export default class MdcDrawerControlComponent extends Component {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked toggled = false;
+	@tracked open = false;
 	// #endregion
 
 	// #region Untracked Public Fields
@@ -30,10 +30,10 @@ export default class MdcDrawerControlComponent extends Component {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 
-		this.#controls = {};
 		this.#sideBar = null;
-
 		this.#element = null;
+
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -78,7 +78,7 @@ export default class MdcDrawerControlComponent extends Component {
 	@action
 	_setSidebarState(status) {
 		this.#debug?.(`_setSidebarState: `, status);
-		this.toggled = status;
+		this.open = status;
 	}
 	// #endregion
 
@@ -106,9 +106,9 @@ export default class MdcDrawerControlComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-drawer-control');
-	#element = null;
-
 	#controls = {};
+
+	#element = null;
 	#sideBar = null;
 	// #endregion
 }

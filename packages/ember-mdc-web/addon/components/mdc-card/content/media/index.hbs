@@ -6,6 +6,8 @@
 		'mdc-card__media--square'
 		'mdc-card__media--16-9'
 	}}
+	{{! Re-calculate background as necessary }}
+	{{on-args-change this.recalcStyles @src}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}

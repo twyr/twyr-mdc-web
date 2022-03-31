@@ -40,28 +40,30 @@ export default class MdcBannerComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
+		this?.bannerManager?.register(this.#element?.id, null, false);
 
-		this.#controls = {};
 		this.#primaryActionHandler = null;
 		this.#secondaryActionHandler = null;
 
-		this?.bannerManager?.register(this.#element?.id, null, false);
+		this.#element = null;
+
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
 
 	// #region DOM Event Handlers
 	@action
-	async fireActionEvent(action) {
-		this.#debug?.(`fireActionEvent: ${action}`);
+	async fireActionEvent(action, event) {
+		this.#debug?.(`fireActionEvent::${action}: `, event);
 		this.open = false;
 
 		if (action === 'primary') {
-			await this.#primaryActionHandler?.();
+			await this.#primaryActionHandler?.(event);
 		}
 
 		if (action === 'secondary') {
-			await this.#secondaryActionHandler?.();
+			await this.#secondaryActionHandler?.(event);
 		}
 
 		this.#primaryActionHandler = null;
@@ -144,9 +146,9 @@ export default class MdcBannerComponent extends Component {
 
 	// #region Private Fields
 	#debug = debugLogger('component:mdc-banner');
+	#controls = {};
 
 	#element = null;
-	#controls = {};
 
 	#primaryActionHandler = null;
 	#secondaryActionHandler = null;

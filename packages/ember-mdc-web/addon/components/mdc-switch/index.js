@@ -50,7 +50,7 @@ export default class MdcSwitchComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -166,7 +166,7 @@ export default class MdcSwitchComponent extends Component {
 			this.#element?.querySelector?.('div.mdc-switch__handle')
 		);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		if (this.#element?.hasAttribute?.('selected')) this.selected = true;
@@ -192,7 +192,7 @@ export default class MdcSwitchComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		this.inputElementId = this.#element?.id;
 
 		if (this.#element?.hasAttribute?.('disabled')) {

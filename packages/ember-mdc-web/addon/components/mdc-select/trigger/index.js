@@ -47,9 +47,10 @@ export default class MdcSelectTriggerComponent extends Component {
 	onAttributeMutation(mutationRecord) {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
+
 		this?.setupLineRipple?.();
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -107,7 +108,7 @@ export default class MdcSelectTriggerComponent extends Component {
 		this.#mdcRipple = new MDCRipple(this.#element);
 		this?.setupLineRipple?.();
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -122,7 +123,7 @@ export default class MdcSelectTriggerComponent extends Component {
 		this.value = dropdownStatus?.value;
 		this.text = dropdownStatus?.text;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -134,7 +135,7 @@ export default class MdcSelectTriggerComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		if (!this.disabled) return;
 
 		this.#mdcRipple?.deactivate?.();

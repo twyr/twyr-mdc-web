@@ -81,8 +81,9 @@ export default class MdcSliderComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
+		this?.recalcValue?.();
 	}
 
 	@action
@@ -156,7 +157,7 @@ export default class MdcSliderComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 		this?.recalcValue?.();
 	}
@@ -330,7 +331,7 @@ export default class MdcSliderComponent extends Component {
 		});
 	}
 
-	_setupInitState() {
+	_setComponentState() {
 		if (
 			this.#element
 				?.querySelector?.('input.mdc-slider__input')

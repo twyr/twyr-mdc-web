@@ -33,11 +33,11 @@ export default class MdcMenuBarComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug(`willDestroy`);
-		this.controls = {};
 
 		this.#menuItems?.clear?.();
 		this.#element = null;
 
+		this.controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion

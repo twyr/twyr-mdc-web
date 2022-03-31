@@ -62,7 +62,7 @@ export default class MdcTextFieldComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		this?.setupLineRipple?.();
@@ -115,7 +115,7 @@ export default class MdcTextFieldComponent extends Component {
 			this.#element?.closest?.('label.mdc-text-field')
 		);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		this?.setupLineRipple?.();
@@ -129,7 +129,7 @@ export default class MdcTextFieldComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		this.inputElementId = this.#element?.id;
 
 		if (this.#element?.hasAttribute?.('disabled')) {

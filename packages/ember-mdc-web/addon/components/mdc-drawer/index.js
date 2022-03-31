@@ -37,13 +37,14 @@ export default class MdcDrawerComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
+
 		this?._fireEvent?.('unregister');
+		this?._close?.();
 
 		this.#controlElement = null;
 		this.#element = null;
 
 		this.#controls = {};
-
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -52,18 +53,6 @@ export default class MdcDrawerComponent extends Component {
 	@action
 	onClickOutside(event) {
 		this.#debug?.(`onClickOutside: `, event);
-
-		const isEventOnControl =
-			event.target === this.#controlElement?.element ||
-			this.#controlElement?.element?.contains?.(event.target);
-
-		if (isEventOnControl) {
-			this.#debug?.(
-				`onClickOutside::isEventOnControl: ${isEventOnControl}`
-			);
-			return;
-		}
-
 		this?._close?.();
 	}
 	// #endregion
@@ -74,8 +63,7 @@ export default class MdcDrawerComponent extends Component {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this.open = this.#element?.hasAttribute?.('open');
-		this.#controlElement?.controls?.setState?.(this?.open);
+		if (this.#element?.hasAttribute?.('open')) this?._open?.();
 
 		this?._fireEvent?.('register');
 	}
@@ -175,10 +163,9 @@ export default class MdcDrawerComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-drawer');
+	#controls = {};
 
 	#element = null;
 	#controlElement = null;
-
-	#controls = {};
 	// #endregion
 }

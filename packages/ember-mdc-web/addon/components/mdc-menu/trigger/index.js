@@ -27,8 +27,8 @@ export default class MdcMenuTriggerComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-		this.#element = null;
 
+		this.#element = null;
 		super.willDestroy(...arguments);
 	}
 	// #endregion

@@ -43,11 +43,11 @@ export default class MdcSelectOptionComponent extends Component {
 			null,
 			false
 		);
-		this.#controls = {};
 
 		this.#mdcRipple = null;
 		this.#element = null;
 
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -71,7 +71,7 @@ export default class MdcSelectOptionComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -122,7 +122,7 @@ export default class MdcSelectOptionComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		this?.args?.selectControls?.registerOption?.(
@@ -170,19 +170,21 @@ export default class MdcSelectOptionComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		this.#debug?.(
-			`__setupInitState::disabled: ${this.#element?.hasAttribute?.(
+			`__setComponentState::disabled: ${this.#element?.hasAttribute?.(
 				'disabled'
 			)}`
 		);
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 			this.disabled = true;
-		} else {
-			// this.#mdcRipple?.activate?.();
-			this.disabled = false;
+
+			return;
 		}
+
+		// this.#mdcRipple?.activate?.();
+		this.disabled = false;
 	}
 	// #endregion
 
@@ -191,11 +193,10 @@ export default class MdcSelectOptionComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-select-option');
+	#controls = {};
 
 	#element = null;
 	#mdcRipple = null;
-
-	#controls = {};
 
 	#initValueSetSchedule = null;
 	// #endregion

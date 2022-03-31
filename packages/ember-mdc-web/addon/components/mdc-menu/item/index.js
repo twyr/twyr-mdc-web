@@ -47,7 +47,7 @@ export default class MdcMenuItemComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -90,7 +90,7 @@ export default class MdcMenuItemComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 	// #endregion
@@ -105,19 +105,21 @@ export default class MdcMenuItemComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		this.#debug?.(
-			`__setupInitState::disabled: ${this.#element?.hasAttribute?.(
+			`__setComponentState::disabled: ${this.#element?.hasAttribute?.(
 				'disabled'
 			)}`
 		);
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 			this.disabled = true;
-		} else {
-			// this.#mdcRipple?.activate?.();
-			this.disabled = false;
+
+			return;
 		}
+
+		// this.#mdcRipple?.activate?.();
+		this.disabled = false;
 	}
 
 	_getComputedSubcomponent(componentName) {

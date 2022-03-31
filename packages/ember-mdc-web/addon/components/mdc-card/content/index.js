@@ -48,20 +48,19 @@ export default class MdcCardContentComponent extends Component {
 		if (!this.#element) return;
 		if (!this.#mdcRipple) return;
 
-		if (this?.args?.primaryAction) {
-			// this.#mdcRipple?.activate?.();
-		} else {
-			this.#mdcRipple?.deactivate?.();
-		}
+		if (this?.args?.primaryAction) return;
+
+		this.#mdcRipple?.deactivate?.();
 	}
 
 	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
+
 		this.#element = element;
+		this.#mdcRipple = new MDCRipple(this.#element);
 
 		this?.recalcStyles?.();
-		this.#mdcRipple = new MDCRipple(this.#element);
 	}
 	// #endregion
 

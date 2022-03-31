@@ -30,13 +30,12 @@ export default class MdcTabBarTabComponent extends Component {
 	// #region Lifecycle Hooks
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
-
 		this?.args?.tabbarControls?.registerTab?.(this.#element, null, false);
-		this.#controls = {};
 
 		this.#mdcRipple = null;
 		this.#element = null;
 
+		this.#controls = {};
 		super.willDestroy(...arguments);
 	}
 	// #endregion
@@ -55,7 +54,7 @@ export default class MdcTabBarTabComponent extends Component {
 		this.#debug?.(`onAttributeMutation: `, mutationRecord);
 		if (!this.#element) return;
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 	}
 
@@ -85,7 +84,7 @@ export default class MdcTabBarTabComponent extends Component {
 		this.#element = element;
 		this.#mdcRipple = new MDCRipple(this.#element);
 
-		this?._setupInitState?.();
+		this?._setComponentState?.();
 		this?.recalcStyles?.();
 
 		this?.args?.tabbarControls?.registerTab?.(
@@ -123,7 +122,7 @@ export default class MdcTabBarTabComponent extends Component {
 	// #endregion
 
 	// #region Private Methods
-	_setupInitState() {
+	_setComponentState() {
 		if (this.#element?.hasAttribute?.('disabled')) {
 			this.#mdcRipple?.deactivate?.();
 		} else {
@@ -137,10 +136,9 @@ export default class MdcTabBarTabComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-tab-bar-tab');
+	#controls = {};
 
 	#element = null;
 	#mdcRipple = null;
-
-	#controls = {};
 	// #endregion
 }

@@ -34,11 +34,31 @@ export default class MdcCardContentMediaComponent extends Component {
 
 	// #region Modifier Callbacks
 	@action
+	recalcStyles() {
+		this.#debug?.(`recalcStyles: re-calculating styling`);
+		if (!this.#element) return;
+
+		// Step 1: Reset
+		this.#element?.style?.removeProperty?.('--mdc-card-media');
+
+		// Stop if the element is disabled
+		if (this.#element?.hasAttribute?.('disabled')) return;
+
+		// Step 2: Style background if required
+		if (!this?.args?.src) return;
+
+		this.#element?.style?.setProperty?.(
+			'--mdc-card-media',
+			`url(${this?.args?.src})`
+		);
+	}
+
+	@action
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
 
-		this.#element.style.backgroundImage = `url(${this?.args?.src})`;
+		this?.recalcStyles?.();
 	}
 	// #endregion
 
