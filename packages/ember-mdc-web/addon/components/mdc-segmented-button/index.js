@@ -105,10 +105,6 @@ export default class MdcSegmentedButtonComponent extends Component {
 			this?.args?.customComponents?.[componentName] ??
 			this.#subComponents?.[componentName];
 
-		this.#debug?.(
-			`_getComputedSubcomponent::${componentName}-component`,
-			subComponent
-		);
 		return ensureSafeComponent(subComponent, this);
 	}
 	// #endregion
