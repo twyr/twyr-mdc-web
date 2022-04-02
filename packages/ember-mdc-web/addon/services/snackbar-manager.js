@@ -110,17 +110,22 @@ export default class SnackbarManagerService extends Service {
 			`_showAlert::queued alert list: `,
 			JSON?.stringify?.([...this.#queuedAlerts], null, '\t')
 		);
-		let nextAlert = this.#queuedAlerts?.get?.(snackBarId)?.shift?.();
-		if (!nextAlert) {
+		let nextAlertOptions = this.#queuedAlerts?.get?.(snackBarId)?.shift?.();
+		if (!nextAlertOptions) {
 			this.#debug(`_showAlert: no more alerts to be shown...`);
 			return;
 		}
 
-		this.#debug(`_showAlert: showing next queued alert: `, nextAlert);
-		this.#currentAlerts[snackBarId] = nextAlert;
+		this.#debug(
+			`_showAlert: showing next queued alert: `,
+			nextAlertOptions
+		);
+
+		nextAlertOptions.open = true;
+		this.#currentAlerts[snackBarId] = nextAlertOptions;
 
 		const snackBar = this.#snackBars?.get?.(snackBarId);
-		snackBar?.showAlert?.(nextAlert);
+		snackBar?.showAlert?.(nextAlertOptions);
 	}
 	// #endregion
 

@@ -65,11 +65,11 @@ export default class BannerManagerService extends Service {
 
 		this.#queuedBanners?.get?.(options?.bannerId)?.push?.(options);
 		this.#debug(
-			`notify::queued banner list: `,
+			`show::queued banner list: `,
 			JSON?.stringify?.([...this.#queuedBanners], null, '\t')
 		);
 
-		this?._showbanner?.(options?.bannerId);
+		this?._showBanner?.(options?.bannerId);
 	}
 
 	notifyBannerClose(bannerId) {
@@ -105,17 +105,22 @@ export default class BannerManagerService extends Service {
 			JSON?.stringify?.([...this.#queuedBanners], null, '\t')
 		);
 
-		let nextBanner = this.#queuedBanners?.get?.(bannerId)?.shift?.();
-		if (!nextBanner) {
+		let nextBannerOptions = this.#queuedBanners?.get?.(bannerId)?.shift?.();
+		if (!nextBannerOptions) {
 			this.#debug(`_showBanner: no more banners to be shown...`);
 			return;
 		}
 
-		this.#debug(`_showBanner: showing next queued banner: `, nextBanner);
-		this.#currentBanners[bannerId] = nextBanner;
+		this.#debug(
+			`_showBanner: showing next queued banner: `,
+			nextBannerOptions
+		);
+
+		nextBannerOptions.open = true;
+		this.#currentBanners[bannerId] = nextBannerOptions;
 
 		const banner = this.#banners?.get?.(bannerId);
-		banner?.show?.(nextBanner);
+		banner?.show?.(nextBannerOptions);
 	}
 	// #endregion
 
