@@ -23,7 +23,11 @@ module.exports = function (environment) {
 			// when it is created
 		},
 
-		googleFonts: ['Inter', 'Josefin Sans']
+		googleFonts: ['Inter', 'Josefin Sans'],
+
+		pageTitle: {
+			prepend: false
+		}
 	};
 
 	if (environment === 'development') {

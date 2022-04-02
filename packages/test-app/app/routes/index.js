@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import debugLogger from 'ember-debug-logger';
 
-export default class FreestyleRoute extends Route {
+export default class IndexRoute extends Route {
 	// #region Accessed Services
 	// #endregion
 
@@ -19,6 +19,11 @@ export default class FreestyleRoute extends Route {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	beforeModel(transition) {
+		this.#debug?.(`beforeModel: `, transition);
+		this?.transitionTo?.('home');
+		return null;
+	}
 	// #endregion
 
 	// #region Computed Properties
@@ -28,6 +33,6 @@ export default class FreestyleRoute extends Route {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('route:freestyle');
+	#debug = debugLogger('route:index');
 	// #endregion
 }

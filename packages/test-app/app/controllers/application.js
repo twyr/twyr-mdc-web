@@ -2,7 +2,8 @@ import Controller from '@ember/controller';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { later } from '@ember/runloop';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
@@ -12,11 +13,6 @@ export default class ApplicationController extends Controller {
 
 	// #region Tracked Attributes
 	@tracked palette = 'error';
-
-	@tracked bufferValue = 59;
-	@tracked progress = 59;
-
-	@tracked sliderValue = 65;
 	// #endregion
 
 	// #region Constructor
@@ -29,102 +25,38 @@ export default class ApplicationController extends Controller {
 	// #region Lifecycle Hooks
 	// #endregion
 
-	// #region DOM Event Handlers
+	// #region DOM Event Handlers - Drawer / Sidebar
 	@action
 	storeNavigationIconControls(event) {
 		this.#debug?.('storeNavigationIconControls: ', event?.detail);
 		this.#navIconControls = event?.detail?.controls;
 
-		if (!this.#toBeRegisteredDrawers?.length) {
+		if (!this.#sidebar) {
 			this.#debug?.(
-				'storeNavigationIconControls: no deferred sidebars. nothing to do...'
+				'storeNavigationIconControls: no sidebar yet. nothing to do...'
 			);
 			return;
 		}
 
-		this.#debug?.(
-			'storeNavigationIconControls: registering deferred sidebars...'
-		);
-		this.#toBeRegisteredDrawers?.forEach?.(({ drawer, operation }) => {
-			const drawerElement = document?.getElementById?.(drawer?.id);
-			if (!drawerElement) {
-				this.#debug?.(
-					'storeNavigationIconControls::sidebar element not found: ',
-					drawer?.id
-				);
-				return;
-			}
-
-			this.#debug?.(`registerDrawer: registering with navIconcontrol...`);
-			if (operation) {
-				this.#navIconControls?.registerSidebar?.(
-					drawerElement,
-					drawerElement?.controls
-				);
-			} else {
-				this.#navIconControls?.unregisterSidebar?.(drawerElement);
-			}
-		});
-
-		this.#toBeRegisteredDrawers.length = 0;
-	}
-
-	@action
-	storeBannerControls(event) {
-		this.#debug?.(`storeBannerControls: `, event?.detail);
-		this.#bannerControls = event?.detail?.controls;
-
-		setTimeout(() => {
-			this.#bannerControls?.open?.({
-				open: !event?.detail?.status?.open,
-
-				centered: false,
-				stacked: false,
-
-				icon: 'crowd',
-				text: 'This is the banner text',
-
-				secondaryActionLabel: 'Hello',
-				primaryActionLabel: 'World'
-			});
-		}, 100);
+		this.#debug?.('storeNavigationIconControls: registering sidebar...');
 	}
 
 	@action
 	registerDrawer(register, event) {
 		this.#debug?.(`registerDrawer::${register}: `, event?.detail);
-		if (!this.#navIconControls) {
-			this.#debug?.(
-				`registerDrawer: navigation icon controls nont there yet. deferring...`
-			);
-			this.#toBeRegisteredDrawers?.push?.({
-				drawer: event?.detail,
-				operation: register
-			});
-
-			return;
-		}
-
-		const drawerElement = document?.getElementById?.(event?.detail?.id);
-		if (!drawerElement) {
-			this.#debug?.(
-				`registerDrawer::sidebar element not found: `,
-				event?.detail?.id
-			);
-			return;
-		}
 
 		if (register) {
 			this.#debug?.(`registerDrawer: registering with navIconControl...`);
-			this.#navIconControls?.registerSidebar?.(
-				drawerElement,
-				event?.detail?.controls
-			);
+			this.#sidebar = event?.detail?.controls;
+
+			this.#navIconControls?.registerSidebar?.(null, this.#sidebar);
 		} else {
 			this.#debug?.(
 				`registerDrawer: un-registering with navIconControl...`
 			);
-			this.#navIconControls?.unregisterSidebar?.(drawerElement);
+
+			this.#navIconControls?.unregisterSidebar?.();
+			this.#sidebar = null;
 		}
 	}
 
@@ -132,132 +64,43 @@ export default class ApplicationController extends Controller {
 	drawerStatusChange(event) {
 		this.#debug?.(`drawerStatusChange: `, event?.detail);
 	}
+	// #endregion
 
-	@action
-	closeChip(event) {
-		this.#debug?.('closeChip', event);
-	}
-
-	@action
-	processBannerEvent(event) {
-		this.#debug?.('processBannerEvent', event?.detail);
-
-		setTimeout(() => {
-			const newStatus = Object?.assign?.({}, event?.detail?.status);
-			const bannerControls = event?.detail?.controls;
-
-			newStatus.open = false;
-			bannerControls?.open?.(newStatus);
-		}, 7500);
-	}
-
-	@action
-	processCheckboxEvent(event) {
-		this.#debug?.('processCheckboxEvent', event);
-	}
-
-	@action
-	processRadioGroupEvent(event) {
-		this.#debug?.('processRadioGroupEvent', event);
-	}
-
+	// #region DOM Event Handlers - Drawer / Sidebar List Items
 	@action
 	processListGroupEvent(event) {
 		this.#debug?.('processListGroupEvent', event?.detail);
-		// if(!event?.detail?.status?.unselected) return;
-
-		// setTimeout(() => {
-		// 	const unselectedItem = document?.getElementById?.(event?.detail?.status?.unselected);
-		// 	event?.detail?.controls?.selectItem?.(unselectedItem, true);
-		// }, 5000);
 	}
+	// #endregion
 
+	// #region DOM Event Handlers - Alert / Snackbar
 	@action
-	onButtonGroupSelectionChange(event) {
-		this.#debug?.('onButtonGroupSelectionChange', event?.detail);
-		// if(!event?.detail?.status?.unselected) return;
+	snackBarInitialized(element) {
+		later?.(
+			this,
+			() => {
+				this.#debug?.('snackBarInitialized', element);
+				this?.alertManager?.notify?.({
+					actionLabel: 'Alert Action',
+					text: 'Bohemian Rhapsody',
+					timeout: 30000,
 
-		// setTimeout(() => {
-		// 	const unselectedSegment = document?.getElementById?.(event?.detail?.status?.unselected);
-		// 	event?.detail?.controls?.selectSegment?.(unselectedSegment);
-		// }, 3000);
-	}
-
-	@action
-	processSwitchEvent(event) {
-		this.#debug?.('processSwitchEvent', event?.detail);
-		// setTimeout(() => {
-		// 	const newStatus = Object?.assign({}, event?.detail?.status);
-		// 	newStatus.on = !newStatus?.on;
-		// 	event?.detail?.controls?.setState?.(newStatus);
-		// }, 3000);
-	}
-
-	@action
-	processSliderEvent(event) {
-		this.#debug?.('processSliderEvent', event?.detail);
-		this.sliderValue = event?.detail?.status?.newValue;
-	}
-
-	@action
-	setAlertControls(event) {
-		this.#debug?.('setAlertControls: ', event?.detail);
-		this.#alertControls = event?.detail?.controls;
-
-		setTimeout(() => {
-			this.#debug?.('setAlertControls: showing alert...');
-			this.#numAlertDisplay++;
-
-			// this.#alertControls?.showAlert?.({
-			// 	open: true,
-			// 	text: `Wassup #${this.#numAlertDisplay}?`,
-			// 	actionLabel: 'Close'
-			// });
-
-			this?.alertManager?.notify?.({
-				open: true,
-				text: `Wassup #${this.#numAlertDisplay}?`,
-				actionLabel: 'Close'
-			});
-		}, 1000);
-	}
-
-	@action
-	processAlertDisplay(event) {
-		this.#debug?.(`processAlertDisplay: `, event?.detail);
-	}
-
-	@action
-	processAlertAction(event) {
-		this.#debug?.('processAlertAction', event?.detail);
-
-		this.#numAlertDisplay++;
-
-		this.#debug?.(
-			`processAlertAction: showing alert #${this.#numAlertDisplay}: `,
-			{
-				snackBarId: event?.detail?.snackBarId,
-				open: true,
-				text: `Wassup #${this.#numAlertDisplay}?`,
-				actionLabel: 'Close'
-			}
+					actionHandler: this?._onAlertActioned,
+					closeHandler: this?._onAlertClosed
+				});
+			},
+			5000
 		);
-
-		this?.alertManager?.notify?.({
-			open: true,
-			text: `Wassup #${this.#numAlertDisplay}?`,
-			actionLabel: 'Close'
-		});
 	}
 
 	@action
-	processAlertClose(event) {
-		this.#debug?.('processAlertClose', event?.detail);
+	_onAlertActioned() {
+		this.#debug?.('_onAlertActioned: ', arguments);
 	}
 
 	@action
-	selectValueChange(event) {
-		this.#debug?.('selectValueChange', event?.detail);
+	_onAlertClosed() {
+		this.#debug?.('_onAlertClosed: ', arguments);
 	}
 	// #endregion
 
@@ -271,13 +114,9 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger?.('application:test-app');
-	#numAlertDisplay = 0;
+	#debug = debugLogger?.('controller:application');
 
-	#alertControls = null;
-	#bannerControls = null;
 	#navIconControls = null;
-
-	#toBeRegisteredDrawers = [];
+	#sidebar = null;
 	// #endregion
 }
