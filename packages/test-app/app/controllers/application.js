@@ -13,6 +13,9 @@ export default class ApplicationController extends Controller {
 
 	// #region Tracked Attributes
 	@tracked palette = 'error';
+
+	@tracked drawerLocked = false;
+	@tracked drawerModal = false;
 	// #endregion
 
 	// #region Constructor
@@ -63,6 +66,16 @@ export default class ApplicationController extends Controller {
 	@action
 	drawerStatusChange(event) {
 		this.#debug?.(`drawerStatusChange: `, event?.detail);
+	}
+
+	@action
+	setDrawerLocked(event) {
+		this.drawerLocked = event?.target?.checked;
+	}
+
+	@action
+	setDrawerModal(event) {
+		this.drawerModal = event?.target?.checked;
 	}
 	// #endregion
 
