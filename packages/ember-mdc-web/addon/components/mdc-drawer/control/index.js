@@ -10,6 +10,7 @@ export default class MdcDrawerControlComponent extends Component {
 
 	// #region Tracked Attributes
 	@tracked open = false;
+	@tracked locked = false;
 	// #endregion
 
 	// #region Untracked Public Fields
@@ -78,7 +79,8 @@ export default class MdcDrawerControlComponent extends Component {
 	@action
 	_setSidebarState(status) {
 		this.#debug?.(`_setSidebarState: `, status);
-		this.open = status;
+		this.open = status?.open;
+		this.locked = status?.locked;
 	}
 	// #endregion
 

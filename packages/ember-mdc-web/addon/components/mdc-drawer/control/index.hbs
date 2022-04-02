@@ -2,6 +2,7 @@
 	type='button'
 	class='mdc-icon-button'
 	{{! Add styling classes as necessary }}
+	{{has-class-if this.locked 'invisible'}}
 	{{has-class-if this.open 'mdc-icon-button--on'}}
 	{{! Tooltip stuff }}
 	title={{@title}}
