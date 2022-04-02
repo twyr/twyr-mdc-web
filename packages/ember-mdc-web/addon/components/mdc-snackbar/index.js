@@ -158,7 +158,7 @@ export default class MdcSnackbarComponent extends Component {
 		this.stacked = options?.stacked ?? false;
 
 		this.#actionHandler = options?.actionHandler ?? null;
-		this.#closeHandler = options?.closeaHandler ?? null;
+		this.#closeHandler = options?.closeHandler ?? null;
 
 		this.open = options?.open ?? false;
 

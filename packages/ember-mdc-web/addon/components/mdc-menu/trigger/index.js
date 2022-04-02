@@ -56,42 +56,31 @@ export default class MdcMenuTriggerComponent extends Component {
 		this.#debug?.(`recalcStyles`);
 		if (!this.#element) return;
 
+		const rootElement = this.#element?.closest?.('.mdc-abstract-dropdown');
 		const textElement = this.#element?.querySelector?.(
 			'span.mdc-list-item__text'
-		);
-
-		const primaryTextElement = this.#element?.querySelector?.(
-			'span.mdc-list-item__primary-text'
 		);
 
 		// Step 1: Reset
 		// TODO: Optimize this by unsetting only those properties that have not been utilitized
 		// in the current scenario
-		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
+		rootElement?.style?.removeProperty?.('--mdc-ripple-color');
 
-		this.#element.style.borderRadius = null;
+		rootElement.style.borderRadius = null;
 		if (textElement) textElement.style.color = null;
-		if (primaryTextElement) primaryTextElement.style.color = null;
 
 		// Stop if the element is disabled
-		if (this.#element?.hasAttribute?.('disabled')) return;
+		if (rootElement?.hasAttribute?.('disabled')) return;
 
 		// Step 2: Style / Palette
-		if (this?.args?.shaped) {
-			this.#element.style.borderRadius = '0 2rem 2rem 0';
-		}
-
 		if (this?.args?.palette) {
-			this.#element?.style?.setProperty?.(
+			rootElement?.style?.setProperty?.(
 				'--mdc-ripple-color',
 				`var(--mdc-theme-${this?.args?.palette})`
 			);
 
 			if (textElement)
 				textElement.style.color = `var(--mdc-theme-${this?.args?.palette})`;
-
-			if (primaryTextElement)
-				primaryTextElement.style.color = `var(--mdc-theme-${this?.args?.palette})`;
 		}
 	}
 
