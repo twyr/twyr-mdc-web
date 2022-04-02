@@ -27,8 +27,31 @@ export default class HasClassIfModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	didInstall() {
+		super.didInstall?.(...arguments);
+		this?.modify?.(
+			this?.element,
+			this?.args?.positional,
+			this?.args?.named
+		);
+	}
+
+	didUpdateArguments() {
+		super.didUpdateArguments?.(...arguments);
+		this?.modify?.(
+			this?.element,
+			this?.args?.positional,
+			this?.args?.named
+		);
+	}
+
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+		this?.destructor?.();
+	}
+
 	modify(element, [condition, positiveClassList, negativeClassList]) {
-		super.modify(...arguments);
+		super.modify?.(...arguments);
 
 		const trueClassList =
 			positiveClassList

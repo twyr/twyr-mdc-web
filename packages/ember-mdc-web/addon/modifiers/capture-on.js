@@ -28,8 +28,31 @@ export default class CaptureOnModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	didInstall() {
+		super.didInstall?.(...arguments);
+		this?.modify?.(
+			this?.element,
+			this?.args?.positional,
+			this?.args?.named
+		);
+	}
+
+	didUpdateArguments() {
+		super.didUpdateArguments?.(...arguments);
+		this?.modify?.(
+			this?.element,
+			this?.args?.positional,
+			this?.args?.named
+		);
+	}
+
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+		this?.destructor?.();
+	}
+
 	modify(element, [event, eventListener]) {
-		super.modify(...arguments);
+		super.modify?.(...arguments);
 		if (this.#event === event && this.#eventHandler === eventListener)
 			return;
 

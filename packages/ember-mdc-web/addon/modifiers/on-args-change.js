@@ -27,8 +27,31 @@ export default class OnArgsChangeModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	didInstall() {
+		super.didInstall?.(...arguments);
+		this?.modify?.(
+			this?.element,
+			this?.args?.positional,
+			this?.args?.named
+		);
+	}
+
+	didUpdateArguments() {
+		super.didUpdateArguments?.(...arguments);
+		this?.modify?.(
+			this?.element,
+			this?.args?.positional,
+			this?.args?.named
+		);
+	}
+
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+		this?.destructor?.();
+	}
+
 	modify(element, [callback]) {
-		super.modify(...arguments);
+		super.modify?.(...arguments);
 		this.#debug?.(`modify:\nelement: `, element, `\ncallback: `, callback);
 
 		callback?.();

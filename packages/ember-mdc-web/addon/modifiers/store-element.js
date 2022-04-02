@@ -27,8 +27,31 @@ export default class StoreElementModifier extends Modifier {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	didInstall() {
+		super.didInstall?.(...arguments);
+		this?.modify?.(
+			this?.element,
+			this?.args?.positional,
+			this?.args?.named
+		);
+	}
+
+	didUpdateArguments() {
+		super.didUpdateArguments?.(...arguments);
+		this?.modify?.(
+			this?.element,
+			this?.args?.positional,
+			this?.args?.named
+		);
+	}
+
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+		this?.destructor?.();
+	}
+
 	modify(element, [callback], named) {
-		super.modify(...arguments);
+		super.modify?.(...arguments);
 		if (this.#element === element && this.#callback === callback) return;
 
 		this.#debug?.(`modify:\nelement: `, element);
