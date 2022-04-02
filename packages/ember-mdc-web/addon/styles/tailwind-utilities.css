@@ -4,9 +4,6 @@
 .pointer-events-auto {
     pointer-events: auto
 }
-.invisible {
-    visibility: hidden
-}
 .fixed {
     position: fixed
 }

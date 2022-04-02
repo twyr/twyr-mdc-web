@@ -25,6 +25,13 @@
 		}
 	}
 
+	& .mdc-banner__text {
+		color: var(
+			--mdc-banner-graphic-background-color,
+			var(--mdc-theme-primary, #01579b)
+		);
+	}
+
 	&.mdc-banner--centered .mdc-banner__content {
 		max-width: 720px;
 	}
