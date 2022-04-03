@@ -18,9 +18,16 @@
 	...attributes
 >
 	<span class='mdc-icon-button__ripple'></span>
-	<MdcIcon
-		@icon={{this.toggledIcon}}
-		class='mdc-icon-button__icon mdc-icon-button__icon--on'
-	/>
-	<MdcIcon @icon={{@icon}} class='mdc-icon-button__icon' />
+	{{#if this.locked}}
+		<MdcIcon
+			@icon={{this.lockedIcon}}
+			class='mdc-icon-button__icon mdc-icon-button__icon--on'
+		/>
+	{{else}}
+		<MdcIcon
+			@icon={{this.toggledIcon}}
+			class='mdc-icon-button__icon mdc-icon-button__icon--on'
+		/>
+		<MdcIcon @icon={{@icon}} class='mdc-icon-button__icon' />
+	{{/if}}
 </button>

@@ -24,7 +24,7 @@
 			to='media'
 		}}
 	{{/if}}
-	{{#if (has-block 'text')}}
+	{{#if (has-block 'content')}}
 		<div
 			{{has-class-if
 				@primaryAction
@@ -32,7 +32,7 @@
 				'mdc-card__content-default'
 			}}
 		>
-			{{yield to='text'}}
+			{{yield to='content'}}
 		</div>
 	{{/if}}
 

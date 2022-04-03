@@ -85,6 +85,10 @@ export default class MdcDrawerControlComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
+	get lockedIcon() {
+		return this?.args?.lockedIcon ?? 'border-none-variant';
+	}
+
 	// #endregion
 
 	// #region Private Methods
