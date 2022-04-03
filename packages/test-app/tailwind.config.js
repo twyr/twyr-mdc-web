@@ -968,5 +968,5 @@ module.exports = {
 	corePlugins: {
 		preflight: false
 	},
-	plugins: [require('tailwindcss-rtl')]
+	plugins: [require('@tailwindcss/typography'), require('tailwindcss-rtl')]
 };

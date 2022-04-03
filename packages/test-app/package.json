@@ -369,6 +369,7 @@
 		"@glimmer/component": "1.1.1",
 		"@glimmer/tracking": "1.1.1",
 		"@mdi/font": "6.6.96",
+		"@tailwindcss/typography": "0.5.2",
 		"@twyr/ember-mdc-web": "file:../ember-mdc-web",
 		"broccoli-asset-rev": "3.0.0",
 		"ember-auto-import": "2.4.1",
