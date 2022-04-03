@@ -48,6 +48,10 @@ export default class MdcSegmentedButtonComponent extends Component {
 	storeElement(element) {
 		this.#debug?.(`storeElement: `, element);
 		this.#element = element;
+
+		this.#segments?.forEach?.((segmentControls) => {
+			segmentControls?.buttonReady?.();
+		});
 	}
 	// #endregion
 
@@ -62,6 +66,9 @@ export default class MdcSegmentedButtonComponent extends Component {
 		}
 
 		this.#segments?.set?.(segment, controls);
+		if (!this.#element) return;
+
+		controls?.buttonReady?.();
 	}
 
 	@action

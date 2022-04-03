@@ -95,6 +95,9 @@ export default class MdcListComponent extends Component {
 		const selectedItem = this.#element?.querySelector?.(
 			'li.mdc-list-item--selected'
 		);
+
+		if (selected && selectedItem === item) return;
+
 		if (selectedItem) {
 			const selectedItemControls = this.#items?.get?.(selectedItem);
 			selectedItemControls?.select?.(false);

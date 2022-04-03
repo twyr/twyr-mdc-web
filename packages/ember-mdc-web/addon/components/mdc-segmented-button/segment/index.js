@@ -24,6 +24,7 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 		this.#debug?.(`constructor`);
 
 		this.#controls.select = this?._setSelected;
+		this.#controls.buttonReady = this?._onButtonReady;
 	}
 	// #endregion
 
@@ -141,6 +142,17 @@ export default class MdcSegmentedButtonSegmentComponent extends Component {
 	// #endregion
 
 	// #region Controls
+	@action
+	_onButtonReady() {
+		this.#debug?.(`_onButtonReady`);
+		if (!this.#element?.hasAttribute?.('selected')) return;
+
+		this?.args?.segmentedButtonControls?.select?.(
+			this.#element,
+			!this.#selected
+		);
+	}
+
 	@action
 	_setSelected(selected) {
 		this.#debug?.(`_setSelected: `, selected);

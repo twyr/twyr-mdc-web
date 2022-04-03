@@ -87,12 +87,13 @@ export default class MdcMenuBarComponent extends Component {
 			return;
 		}
 
-		this.#menuItems?.forEach((menuItemControl, menuItem) => {
-			if (item === menuItem) return;
+		if (open)
+			this.#menuItems?.forEach((menuItemControl, menuItem) => {
+				if (item === menuItem) return;
 
-			this.#debug?.(`_openItem::closing: `, menuItem);
-			menuItemControl?.openItem?.(false);
-		});
+				this.#debug?.(`_openItem::closing: `, menuItem);
+				menuItemControl?.openItem?.(false);
+			});
 
 		const itemControls = this.#menuItems?.get?.(item);
 		itemControls?.openItem?.(open);

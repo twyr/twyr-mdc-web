@@ -24,7 +24,7 @@
 			to='media'
 		}}
 	{{/if}}
-	{{#if (has-block 'content')}}
+	{{#if (and (has-block 'media') (has-block 'content'))}}
 		<div
 			{{has-class-if
 				@primaryAction
@@ -33,6 +33,18 @@
 			}}
 		>
 			{{yield to='content'}}
+		</div>
+	{{/if}}
+
+	{{#if (not (has-block 'media'))}}
+		<div
+			{{has-class-if
+				@primaryAction
+				'mdc-card__primary-action-default'
+				'mdc-card__content-default'
+			}}
+		>
+			{{yield}}
 		</div>
 	{{/if}}
 
