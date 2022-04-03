@@ -1,3 +1,7 @@
+.ember-application {
+	font-family: var(--mdc-typography-font-family);
+}
+
 .mdc-theme--error-bg {
 	background-color: var(--mdc-theme-error);
 }

@@ -1,38 +1,47 @@
+@use "sass:string";
 @use './reset.scss';
 
+$primary-colour: #01579b !default;
+$secondary-colour: #f57f17 !default;
+$error-colour: #d50000 !default;
+$surface-colour: #fafafa !default;
+$background-colour: #f6f6f6 !default;
+$body-font-family: string.unquote('Roboto, sans-serif') !default;
+$header-font-family: string.unquote('Roboto, sans-serif') !default;
+
 @use '@material/theme' with (
-	$primary: #01579b,
-	$secondary: #f57f17,
-	$error: #d50000,
-	$surface: #fafafa,
-	$background: #f6f6f6
+	$primary: $primary-colour,
+	$secondary: $secondary-colour,
+	$error: $error-colour,
+	$surface: $surface-colour,
+	$background: $background-colour
 );
 
 @use '@material/typography' with (
-	$font-family: unquote('Inter, sans-serif'),
+	$font-family: $body-font-family,
 	$styles-headline1: (
-		font-family: unquote('Josefin Sans, sans-serif')
+		font-family: $header-font-family
 	),
 	$styles-headline2: (
-		font-family: unquote('Josefin Sans, sans-serif')
+		font-family: $header-font-family
 	),
 	$styles-headline3: (
-		font-family: unquote('Josefin Sans, sans-serif')
+		font-family: $header-font-family
 	),
 	$styles-headline4: (
-		font-family: unquote('Josefin Sans, sans-serif')
+		font-family: $header-font-family
 	),
 	$styles-headline5: (
-		font-family: unquote('Josefin Sans, sans-serif')
+		font-family: $header-font-family
 	),
 	$styles-headline6: (
-		font-family: unquote('Josefin Sans, sans-serif')
+		font-family: $header-font-family
 	),
 	$styles-subtitle1: (
-		font-family: unquote('Josefin Sans, sans-serif')
+		font-family: $header-font-family
 	),
 	$styles-subtitle2: (
-		font-family: unquote('Josefin Sans, sans-serif')
+		font-family: $header-font-family
 	)
 );
 
@@ -45,9 +54,11 @@
 /*
 @use 'material-components-web/material-components-web';
 */
+
 /*
  * Tailwind JIT-ted stuff
  */
+
 /* @use './tailwind-base.css'; */
 @use './tailwind-components.css';
 
