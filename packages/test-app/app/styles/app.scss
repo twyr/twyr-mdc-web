@@ -1,11 +1,23 @@
+@use "sass:string";
+
 /*
  * Material Design Components for the Web
  */
-@use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web';
+@use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web' with (
+	$primary-colour: #01579b,
+	$secondary-colour: #f57f17,
+	$error-colour: #d50000,
+	$surface-colour: #fafafa,
+	$background-colour: #f4f4f4,
+
+	$body-font-family: string.unquote('Inter, sans-serif'),
+	$header-font-family: string.unquote('Josefin Sans, sans-serif')
+);
 
 /*
  * Tailwind JIT-ted stuff
  */
+
 /* @use './tailwind-base.css'; */
 @use './tailwind-components.css';
 @use './tailwind-utilities.css';
@@ -19,7 +31,7 @@
 /*
  * Ember Freestyle styles
 */
-$FreestyleGuide-color--primary: var(--mdc-theme-primary);
-$FreestyleGuide-color--accent: var(--mdc-theme-secondary);
-
-@use 'ember-freestyle';
+@use 'ember-freestyle' with (
+	$FreestyleGuide-color--primary: 'var(--mdc-theme-primary)',
+	$FreestyleGuide-color--accent: 'var(--mdc-theme-secondary)'
+);
