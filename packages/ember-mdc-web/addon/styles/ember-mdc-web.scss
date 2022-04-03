@@ -42,6 +42,21 @@ $header-font-family: string.unquote('Roboto, sans-serif') !default;
 	),
 	$styles-subtitle2: (
 		font-family: $header-font-family
+	),
+	$styles-body1: (
+		font-family: $body-font-family
+	),
+	$styles-body2: (
+		font-family: $body-font-family
+	),
+	$styles-caption: (
+		font-family: $header-font-family
+	),
+	$styles-button: (
+		font-family: $body-font-family
+	),
+	$styles-overline: (
+		font-family: $body-font-family
 	)
 );
 
