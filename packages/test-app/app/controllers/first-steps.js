@@ -1,14 +1,11 @@
-import Route from '@ember/routing/route';
+import Controller from '@ember/controller';
 import debugLogger from 'ember-debug-logger';
 
-export default class ApplicationRoute extends Route {
+export default class FirstStepsController extends Controller {
 	// #region Accessed Services
 	// #endregion
 
 	// #region Tracked Attributes
-	// #endregion
-
-	// #region Untracked Public Fields
 	// #endregion
 
 	// #region Constructor
@@ -21,13 +18,22 @@ export default class ApplicationRoute extends Route {
 	// #region Lifecycle Hooks
 	// #endregion
 
+	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Modifier Callbacks
+	// #endregion
+
 	// #region Computed Properties
 	// #endregion
 
 	// #region Private Methods
 	// #endregion
 
+	// #region Default Sub-components
+	// #endregion
+
 	// #region Private Attributes
-	#debug = debugLogger('route:application');
+	#debug = debugLogger?.('controller:first-steps');
 	// #endregion
 }

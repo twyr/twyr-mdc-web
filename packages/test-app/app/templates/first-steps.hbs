@@ -1,0 +1,21 @@
+{{! template-lint-disable no-triple-curlies }}
+{{page-title 'First Steps'}}
+<div class='w-full h-full p-5 flex flex-row justify-start items-start'>
+	<MdcCard class='w-full' @outlined={{this.cardOutlined}}>
+		<:header as |Header|>
+			<Header class='flex flex-row justify-between items-center border-b'>
+				<:headline as |Headline|>
+					<Headline @text='README' />
+				</:headline>
+				<:subheadline as |SubHeadline|>
+					<SubHeadline @text='Getting started' />
+				</:subheadline>
+			</Header>
+		</:header>
+		<:content as |Content|>
+			<Content class='prose max-w-none'>
+				<h4 class='prose'>Why Ember MDC Web?</h4>
+			</Content>
+		</:content>
+	</MdcCard>
+</div>

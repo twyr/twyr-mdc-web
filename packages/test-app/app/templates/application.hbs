@@ -15,25 +15,13 @@
 	<:title>Ember Material Components for the Web</:title>
 
 	<:actionIcons>
-		<MdcMenu @palette={{this.palette}} @xAlign='right'>
-			<:trigger as |Trigger|>
-				<Trigger>
-					<MdcIcon
-						class='text-3xl text-white'
-						@icon='menu'
-						@palette={{this.palette}}
-					/>
-				</Trigger>
-			</:trigger>
-			<:items as |Items|>
-				<Items as |MenuItems|>
-					<MenuItems.Item>Single Menu 1</MenuItems.Item>
-					<MenuItems.Item>Single Menu 2</MenuItems.Item>
-					<MenuItems.Divider />
-					<MenuItems.Item>Single Menu 3</MenuItems.Item>
-				</Items>
-			</:items>
-		</MdcMenu>
+		<a href='https://github.com/twyr/twyr-mdc-web'>
+			<MdcIcon
+				class='text-3xl text-white'
+				@icon='github'
+				@palette={{this.palette}}
+			/>
+		</a>
 	</:actionIcons>
 </MdcTopAppBar>
 
@@ -55,8 +43,12 @@
 			<:default>
 				<div class='container flex flex-row justify-start items-center'>
 					<MdcCheckbox
+						checked={{this.drawerLocked}}
 						@palette={{this.palette}}
-						{{on 'change' this.setDrawerLocked}}
+						{{on
+							'change'
+							(fn (mut this.drawerLocked) (not this.drawerLocked))
+						}}
 					>
 						{{#if this.drawerLocked}}
 							Locked
@@ -65,8 +57,12 @@
 						{{/if}}
 					</MdcCheckbox>
 					<MdcCheckbox
+						checked={{this.drawerModal}}
 						@palette={{this.palette}}
-						{{on 'change' this.setDrawerModal}}
+						{{on
+							'change'
+							(fn (mut this.drawerModal) (not this.drawerModal))
+						}}
 					>
 						{{#if this.drawerModal}}
 							Modal
@@ -83,42 +79,32 @@
 		<MdcListGroup
 			@doubleLine={{true}}
 			@palette={{this.palette}}
-			@shaped={{true}}
+			@shaped={{false}}
+			{{on 'init' this.setListGroupControls}}
 			{{on 'select' this.processListGroupEvent}}
 			as |ListGroup|
 		>
-			<ListGroup.List as |List|>
-				<LinkTo @route='home'>
-					<List.Item>
-						<:primaryText>Home</:primaryText>
-						<:secondaryText>The showcase</:secondaryText>
-
-						<:meta>
-							<MdcIcon @icon='home' />
-						</:meta>
-					</List.Item>
-				</LinkTo>
-			</ListGroup.List>
-
 			<ListGroup.Header>
-				List Group #2
+				BASICS
 			</ListGroup.Header>
 			<ListGroup.List as |List|>
-				<List.Item>
-					<:primaryText>Home</:primaryText>
-					<:secondaryText>Home, sweet home</:secondaryText>
-
-					<:default>Home</:default>
+				<List.Item {{on 'click' (fn this.setSelectedLink 'showcase')}}>
+					<:primaryText>Showcase</:primaryText>
+					<:secondaryText>The Component Collection</:secondaryText>
 
 					<:meta>
-						<MdcIcon @icon='crowd' />
+						<MdcIcon @icon='eye-outline' />
 					</:meta>
 				</List.Item>
+				<List.Item
+					{{on 'click' (fn this.setSelectedLink 'first-steps')}}
+				>
+					<:primaryText>Read Me</:primaryText>
+					<:secondaryText>Installation, Integration, etc.</:secondaryText>
 
-				<List.Item>
-					<:primaryText>Rome</:primaryText>
-					<:secondaryText>Rome, sweet rome</:secondaryText>
-					<:default>Rome</:default>
+					<:meta>
+						<MdcIcon @icon='book-open' />
+					</:meta>
 				</List.Item>
 				<List.Divider />
 			</ListGroup.List>
@@ -126,9 +112,7 @@
 	</:content>
 </MdcDrawer>
 
-<div
-	class='mdc-drawer-app-content mdc-top-app-bar--fixed-adjust mdc-theme--surface'
->
+<div class='mdc-drawer-app-content mdc-top-app-bar--fixed-adjust h-full'>
 	{{outlet}}
 </div>
 

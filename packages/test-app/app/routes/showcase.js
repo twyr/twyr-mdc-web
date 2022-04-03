@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import debugLogger from 'ember-debug-logger';
 
-export default class ApplicationRoute extends Route {
+export default class ShowcaseRoute extends Route {
 	// #region Accessed Services
 	// #endregion
 
@@ -28,6 +28,6 @@ export default class ApplicationRoute extends Route {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('route:application');
+	#debug = debugLogger('route:showcase');
 	// #endregion
 }

@@ -6,13 +6,15 @@ import { later } from '@ember/runloop';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-export default class ApplicationController extends Controller {
+export default class ShowcaseController extends Controller {
 	// #region Accessed Services
 	@service('bannerManager') bannerManager;
 	// #endregion
 
 	// #region Tracked Attributes
 	@tracked palette = 'error';
+	@tracked cardOutlined = false;
+
 	@tracked bufferValue = 59;
 	@tracked progress = 59;
 
@@ -23,17 +25,6 @@ export default class ApplicationController extends Controller {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
-
-		// const palettes = ['primary', 'secondary', 'error'];
-		// let currPalette = 0;
-		//
-		// setInterval(() => {
-		// 	currPalette++;
-		// 	if(currPalette >= palettes?.length)
-		// 		currPalette = 0;
-		//
-		// 	this.palette = palettes[currPalette];
-		// }, 10000);
 	}
 	// #endregion
 
@@ -85,22 +76,11 @@ export default class ApplicationController extends Controller {
 	@action
 	onButtonGroupSelectionChange(event) {
 		this.#debug?.('onButtonGroupSelectionChange', event?.detail);
-		// if(!event?.detail?.status?.unselected) return;
-
-		// setTimeout(() => {
-		// 	const unselectedSegment = document?.getElementById?.(event?.detail?.status?.unselected);
-		// 	event?.detail?.controls?.selectSegment?.(unselectedSegment);
-		// }, 3000);
 	}
 
 	@action
 	processSwitchEvent(event) {
 		this.#debug?.('processSwitchEvent', event?.detail);
-		// setTimeout(() => {
-		// 	const newStatus = Object?.assign({}, event?.detail?.status);
-		// 	newStatus.on = !newStatus?.on;
-		// 	event?.detail?.controls?.setState?.(newStatus);
-		// }, 3000);
 	}
 
 	@action
@@ -125,7 +105,6 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger?.('controller:home');
-	#bannerControls = null;
+	#debug = debugLogger?.('controller:showcase');
 	// #endregion
 }

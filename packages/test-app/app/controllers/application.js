@@ -8,13 +8,15 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
 	// #region Accessed Services
+	@service('emberFreestyle') documentationManager;
+	@service('router') emberRouter;
 	@service('snackbarManager') alertManager;
 	// #endregion
 
 	// #region Tracked Attributes
 	@tracked palette = 'error';
 
-	@tracked drawerLocked = false;
+	@tracked drawerLocked = true;
 	@tracked drawerModal = false;
 	// #endregion
 
@@ -22,6 +24,8 @@ export default class ApplicationController extends Controller {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		this.documentationManager.allowRenderingAllSections = false;
 	}
 	// #endregion
 
@@ -67,19 +71,28 @@ export default class ApplicationController extends Controller {
 	drawerStatusChange(event) {
 		this.#debug?.(`drawerStatusChange: `, event?.detail);
 	}
-
-	@action
-	setDrawerLocked(event) {
-		this.drawerLocked = event?.target?.checked;
-	}
-
-	@action
-	setDrawerModal(event) {
-		this.drawerModal = event?.target?.checked;
-	}
 	// #endregion
 
 	// #region DOM Event Handlers - Drawer / Sidebar List Items
+	@action
+	setListGroupControls(event) {
+		this.#debug?.('setListGroupControls', event?.detail);
+		this.#listGroupControls = event?.detail?.controls;
+	}
+
+	@action
+	setSelectedLink(route, event) {
+		this.#debug?.(`setSelectedLink::route::${route}: `, event?.target);
+		if (!this.#listGroupControls) return;
+
+		let listItem = event?.target;
+		if (!listItem?.classList?.contains?.('mdc-list-item'))
+			listItem = listItem?.closest?.('mdc-list-item');
+
+		this.#listGroupControls?.selectItem?.(listItem, true);
+		this?.emberRouter?.transitionTo?.(route);
+	}
+
 	@action
 	processListGroupEvent(event) {
 		this.#debug?.('processListGroupEvent', event?.detail);
@@ -94,8 +107,8 @@ export default class ApplicationController extends Controller {
 			() => {
 				this.#debug?.('snackBarInitialized', element);
 				this?.alertManager?.notify?.({
-					actionLabel: 'Alert Action',
-					text: 'Bohemian Rhapsody',
+					actionLabel: 'Alert',
+					text: 'To alert, or not to alert: that is the question',
 					timeout: 30000,
 
 					actionHandler: this?._onAlertActioned,
@@ -131,5 +144,7 @@ export default class ApplicationController extends Controller {
 
 	#navIconControls = null;
 	#sidebar = null;
+
+	#listGroupControls = null;
 	// #endregion
 }

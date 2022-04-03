@@ -21,7 +21,7 @@ export default class IndexRoute extends Route {
 	// #region Lifecycle Hooks
 	beforeModel(transition) {
 		this.#debug?.(`beforeModel: `, transition);
-		this?.transitionTo?.('home');
+		this?.transitionTo?.('showcase');
 		return null;
 	}
 	// #endregion
