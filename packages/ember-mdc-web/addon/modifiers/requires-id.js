@@ -22,7 +22,8 @@ export default class RequiresIdModifier extends Modifier {
 		registerDestructor(this, this.destructor);
 	}
 
-	destructor() {
+	destructor(instance) {
+		if (instance) return;
 		this.#debug?.(`destructor`);
 	}
 	// #endregion
@@ -49,6 +50,8 @@ export default class RequiresIdModifier extends Modifier {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 		this?.destructor?.();
+
+		super.willDestroy?.(...arguments);
 	}
 
 	modify(element, positional, named) {

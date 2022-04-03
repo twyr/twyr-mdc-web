@@ -24,8 +24,10 @@ export default class NotOnModifier extends Modifier {
 		registerDestructor(this, this?.destructor);
 	}
 
-	destructor() {
+	destructor(instance) {
+		if (instance) return;
 		this.#debug?.(`destructor`);
+
 		this?._manageEventListener?.();
 	}
 	// #endregion
@@ -52,6 +54,8 @@ export default class NotOnModifier extends Modifier {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 		this?.destructor?.();
+
+		super.willDestroy?.(...arguments);
 	}
 
 	modify(element, [event, eventListener], { passive }) {

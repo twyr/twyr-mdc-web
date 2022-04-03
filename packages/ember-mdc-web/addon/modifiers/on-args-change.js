@@ -21,7 +21,8 @@ export default class OnArgsChangeModifier extends Modifier {
 		registerDestructor(this, this.destructor);
 	}
 
-	destructor() {
+	destructor(instance) {
+		if (instance) return;
 		this.#debug?.(`destructor`);
 	}
 	// #endregion
@@ -48,6 +49,8 @@ export default class OnArgsChangeModifier extends Modifier {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 		this?.destructor?.();
+
+		super.willDestroy?.(...arguments);
 	}
 
 	modify(element, [callback]) {

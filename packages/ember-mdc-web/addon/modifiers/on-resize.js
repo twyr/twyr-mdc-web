@@ -23,8 +23,10 @@ export default class OnResizeModifier extends Modifier {
 		registerDestructor(this, this.destructor);
 	}
 
-	destructor() {
+	destructor(instance) {
+		if (instance) return;
 		this.#debug?.(`destructor`);
+
 		this?._manageWatcher?.();
 	}
 	// #endregion
@@ -51,6 +53,8 @@ export default class OnResizeModifier extends Modifier {
 	willDestroy() {
 		this.#debug?.(`willDestroy`);
 		this?.destructor?.();
+
+		super.willDestroy?.(...arguments);
 	}
 
 	modify(element, [callback], named) {
