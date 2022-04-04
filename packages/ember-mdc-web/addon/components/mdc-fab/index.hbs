@@ -20,6 +20,12 @@
 		<MdcIcon @icon={{@icon}} class='mdc-fab__icon' />
 	{{/if}}
 	{{#if @extended}}
-		<span class='mdc-fab__label'>{{yield}}</span>
+		<span class='mdc-fab__label'>
+			{{#if (has-block)}}
+				{{yield}}
+			{{else}}
+				{{@text}}
+			{{/if}}
+		</span>
 	{{/if}}
 </button>
