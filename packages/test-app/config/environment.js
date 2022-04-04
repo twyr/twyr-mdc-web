@@ -26,7 +26,7 @@ module.exports = function (environment) {
 		googleFonts: ['Inter', 'Josefin Sans'],
 
 		pageTitle: {
-			prepend: false
+			prepend: true
 		}
 	};
 

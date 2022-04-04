@@ -88,7 +88,9 @@
 				BASICS
 			</ListGroup.Header>
 			<ListGroup.List as |List|>
-				<List.Item {{on 'click' (fn this.setSelectedLink 'showcase')}}>
+				<List.Item
+					{{store-element this.setLinkRouteMap route='showcase'}}
+				>
 					<:primaryText>Showcase</:primaryText>
 					<:secondaryText>The Component Collection</:secondaryText>
 
@@ -97,7 +99,17 @@
 					</:meta>
 				</List.Item>
 				<List.Item
-					{{on 'click' (fn this.setSelectedLink 'first-steps')}}
+					{{store-element this.setLinkRouteMap route='introduction'}}
+				>
+					<:primaryText>Introduction</:primaryText>
+					<:secondaryText>Why, Design Goals, etc.</:secondaryText>
+
+					<:meta>
+						<MdcIcon @icon='star-three-points-outline' />
+					</:meta>
+				</List.Item>
+				<List.Item
+					{{store-element this.setLinkRouteMap route='first-steps'}}
 				>
 					<:primaryText>Read Me</:primaryText>
 					<:secondaryText>Installation, Integration, etc.</:secondaryText>

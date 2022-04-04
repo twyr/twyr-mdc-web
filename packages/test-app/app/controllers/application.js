@@ -30,6 +30,19 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Lifecycle Hooks
+	willDestroy() {
+		this.#debug?.(`willDestroy`);
+
+		this.#listGroupItems?.clear?.();
+		this.#listGroupItems = null;
+
+		this.#listGroupControls = null;
+
+		this.#sidebar = null;
+		this.#navIconControls = null;
+
+		super.willDestroy(...arguments);
+	}
 	// #endregion
 
 	// #region DOM Event Handlers - Drawer / Sidebar
@@ -46,6 +59,9 @@ export default class ApplicationController extends Controller {
 		}
 
 		this.#debug?.('storeNavigationIconControls: registering sidebar...');
+		this.#navIconControls?.registerSidebar?.(null, this.#sidebar);
+
+		this?._setInitialSelectedListItem?.('storeNavigationIconControls');
 	}
 
 	@action
@@ -53,10 +69,19 @@ export default class ApplicationController extends Controller {
 		this.#debug?.(`registerDrawer::${register}: `, event?.detail);
 
 		if (register) {
-			this.#debug?.(`registerDrawer: registering with navIconControl...`);
 			this.#sidebar = event?.detail?.controls;
 
+			if (!this.#navIconControls) {
+				this.#debug?.(
+					`registerDrawer: no navIconControl yet. nothing to do...`
+				);
+				return;
+			}
+
+			this.#debug?.(`registerDrawer: registering with navIconControl...`);
 			this.#navIconControls?.registerSidebar?.(null, this.#sidebar);
+
+			this?._setInitialSelectedListItem?.('registerDrawer');
 		} else {
 			this.#debug?.(
 				`registerDrawer: un-registering with navIconControl...`
@@ -81,21 +106,34 @@ export default class ApplicationController extends Controller {
 	}
 
 	@action
-	setSelectedLink(route, event) {
-		this.#debug?.(`setSelectedLink::route::${route}: `, event?.target);
-		if (!this.#listGroupControls) return;
-
-		let listItem = event?.target;
-		if (!listItem?.classList?.contains?.('mdc-list-item'))
-			listItem = listItem?.closest?.('mdc-list-item');
-
-		this.#listGroupControls?.selectItem?.(listItem, true);
-		this?.emberRouter?.transitionTo?.(route);
+	setLinkRouteMap(element, { route }) {
+		this.#debug?.(`setSelectedLink::route::${route}: `, element);
+		this.#listGroupItems?.set?.(element, route);
 	}
 
 	@action
 	processListGroupEvent(event) {
 		this.#debug?.('processListGroupEvent', event?.detail);
+		if (!this.#listGroupControls) return;
+
+		const listItemId =
+			event?.detail?.status?.selected ??
+			event?.detail?.status?.unselected;
+		const listItem = document.getElementById(listItemId);
+		if (!listItem) return;
+
+		const route = this.#listGroupItems?.get?.(listItem);
+
+		this.#debug?.(`processListGroupEvent::route::${route}: `, listItem);
+		this?.emberRouter?.transitionTo?.(route);
+
+		later?.(
+			this,
+			() => {
+				this.#listGroupControls?.selectItem?.(listItem, true);
+			},
+			100
+		);
 	}
 	// #endregion
 
@@ -134,6 +172,21 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Private Methods
+	_setInitialSelectedListItem(source) {
+		const currentRouteName = this?.emberRouter?.currentRouteName;
+		this.#debug?.(
+			`_setInitialSelectedListItem::${source}: `,
+			currentRouteName
+		);
+
+		let activeListItem = null;
+		this.#listGroupItems?.forEach?.((route, listItem) => {
+			if (route !== currentRouteName) return;
+			activeListItem = listItem;
+		});
+
+		this.#listGroupControls?.selectItem?.(activeListItem, true);
+	}
 	// #endregion
 
 	// #region Default Sub-components
@@ -146,5 +199,6 @@ export default class ApplicationController extends Controller {
 	#sidebar = null;
 
 	#listGroupControls = null;
+	#listGroupItems = new Map();
 	// #endregion
 }

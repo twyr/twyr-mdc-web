@@ -1,5 +1,6 @@
 module.exports = {
 	content: [
+		'./app/index.html',
 		'./app/components/**/*.{html,js,hbs}',
 		'./app/templates/**/*.{html,js,hbs}'
 	],

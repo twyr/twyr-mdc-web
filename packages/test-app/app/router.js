@@ -10,5 +10,6 @@ Router.map(function () {
 	this.route('index', { path: '/' });
 	this.route('freestyle');
 	this.route('showcase');
+	this.route('introduction');
 	this.route('first-steps');
 });

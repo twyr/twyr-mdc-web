@@ -1,0 +1,86 @@
+{{! template-lint-disable no-triple-curlies }}
+{{page-title 'First Steps'}}
+<div class='w-full h-full p-5 flex flex-row justify-start items-start'>
+	<MdcCard class='w-full' @outlined={{this.cardOutlined}}>
+		<:header as |Header|>
+			<Header class='flex flex-row justify-between items-center border-b'>
+				<:headline as |Headline|>
+					<Headline @text='My name is MDC... Ember MDC' />
+				</:headline>
+				<:subheadline as |SubHeadline|>
+					<SubHeadline
+						@text='Raison d&apos;etre, Design Goals, etc.'
+					/>
+				</:subheadline>
+			</Header>
+		</:header>
+		<:content as |Content|>
+			<Content class='prose max-w-none'>
+				<article class='prose max-w-none'>
+					<p class='prose max-w-none'>
+						The Ember community has long used
+						<a
+							class='prose'
+							href='https://www.npmjs.com/package/ember-paper'
+							target='_blank'
+							rel='noopener noreferrer'
+						>Ember Paper</a>
+						as the default Ember Addon for implementing "classic"
+						<a
+							class='prose'
+							href='https://material.io/'
+							target='_blank'
+							rel='noopener noreferrer'
+						>Material Design</a>
+						in Ember Apps. Since the first release of the addon (in
+						Sept 2015), however, two significant things have
+						happened:
+					</p>
+
+					<ol class='prose max-w-none'>
+						<li class='prose max-w-none'>
+							Google has moved on from Material Design - towards
+							"Material You" - consisting of a new set of styles,
+							guidelines, components, etc. aimed at allowing more
+							flexibility and customizability for the developer.
+							This effort remains a work in progress, however, and
+							reference implementations (for platforms other than
+							Android) are nowhere close to being complete.
+							Currently, what we have is an intermediate version
+							called
+							<a
+								class='prose'
+								href='https://material-components.github.io/material-components-web-catalog/#/component/tabs'
+							> Material Design Components (MDC) for the Web</a>.
+						</li>
+
+						<li class='prose max-w-none'>
+							Ember, too, has moved on - towards Octane and 4.0
+							and beyond - and "The Ember Way" itself has evolved
+							significantly. Ember developers expect current
+							addons to export components based on native JS
+							classes, to be derived from @glimmer/component, be
+							modifier/helper friendly, etc.
+						</li>
+					</ol>
+				</article>
+
+				<h4 class='prose'>Goals</h4>
+				<article class='prose max-w-none'>
+					<p class='prose max-w-none'>
+						This addon aims to provide an implementation of MDC for
+						the Web using the latest Ember features with no attempt
+						at backwards compatibility with pre-4.0 versions of
+						Ember Hopefully, MDC for the Web is close enough to the
+						eventual Material You for the Web - and this addon can
+						continue to co-evolve to provide a full implementation
+						of the design specification as and when reference
+						implementations are officially released.
+					</p>
+
+					<p class='prose max-w-none'></p>
+				</article>
+			</Content>
+		</:content>
+	</MdcCard>
+</div>

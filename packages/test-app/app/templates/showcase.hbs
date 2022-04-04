@@ -1,6 +1,6 @@
 {{page-title 'Home'}}
 <div class='w-full h-full p-5 flex flex-row justify-center items-center'>
-	<MdcCard class='max-w-full' @outlined={{this.cardOutlined}}>
+	<MdcCard class='max-w-full max-h-full' @outlined={{this.cardOutlined}}>
 		<:header as |Header|>
 			<Header class='flex flex-row justify-between items-center border-b'>
 				<:headline as |Headline|>
@@ -32,7 +32,7 @@
 			</Header>
 		</:header>
 		<:content as |Content|>
-			<Content>
+			<Content class='overflow-y-auto'>
 				<MdcBanner
 					@text='This is a banner message'
 					@icon='crowd'
@@ -41,8 +41,7 @@
 					@palette={{this.palette}}
 					{{store-element this.bannerInitialized}}
 				/>
-			</Content>
-			<Content>
+
 				<div class='flex flex-row justify-around items-center m-2'>
 					<MdcTabBar
 						class='my-4'
@@ -211,6 +210,109 @@
 						@maxValue='100'
 						@progress={{this.progress}}
 						@palette={{this.palette}}
+					/>
+				</div>
+				<div class='flex flex-row justify-around items-center m-2'>
+					<MdcButton
+						@leadingIcon='human-greeting'
+						@trailingIcon='blur'
+						@palette={{this.palette}}
+					>
+						Button
+					</MdcButton>
+
+					<MdcButton
+						@leadingIcon='human-greeting'
+						@trailingIcon='blur'
+						@palette={{this.palette}}
+						@shape='rounded'
+					>
+						Button
+					</MdcButton>
+
+					<MdcButton
+						@leadingIcon='human-greeting'
+						@trailingIcon='blur'
+						@palette={{this.palette}}
+						@style='outlined'
+					>
+						Button
+					</MdcButton>
+
+					<MdcButton
+						@leadingIcon='human-greeting'
+						@trailingIcon='blur'
+						@palette={{this.palette}}
+						@style='outlined'
+						@shape='rounded'
+					>
+						Button
+					</MdcButton>
+
+					<MdcButton
+						@leadingIcon='human-greeting'
+						@trailingIcon='blur'
+						@palette={{this.palette}}
+						@style='flat'
+					>
+						Button
+					</MdcButton>
+
+					<MdcButton
+						@leadingIcon='human-greeting'
+						@trailingIcon='blur'
+						@palette={{this.palette}}
+						@style='flat'
+						@shape='rounded'
+					>
+						Button
+					</MdcButton>
+
+					<MdcButton
+						@leadingIcon='human-greeting'
+						@trailingIcon='blur'
+						@palette={{this.palette}}
+						@style='raised'
+					>
+						Button
+					</MdcButton>
+
+					<MdcButton
+						@leadingIcon='human-greeting'
+						@trailingIcon='blur'
+						@palette={{this.palette}}
+						@style='raised'
+						@shape='rounded'
+					>
+						Button
+					</MdcButton>
+				</div>
+				<div
+					class='flex flex-row justify-around items-center m-2 pb-12'
+				>
+					<MdcIconButton @icon='blur' @palette={{this.palette}} />
+
+					<MdcFab @icon='blur' @palette={{this.palette}} />
+
+					<MdcFab
+						@icon='blur'
+						@mini={{true}}
+						@palette={{this.palette}}
+					/>
+
+					<MdcFab
+						@icon='blur'
+						@extended={{true}}
+						@palette={{this.palette}}
+						@text='Button'
+					/>
+
+					<MdcFab
+						@icon='blur'
+						@mini={{true}}
+						@extended={{true}}
+						@palette={{this.palette}}
+						@text='Button'
 					/>
 				</div>
 

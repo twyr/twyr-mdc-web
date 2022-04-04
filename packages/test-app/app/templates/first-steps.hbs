@@ -8,13 +8,21 @@
 					<Headline @text='README' />
 				</:headline>
 				<:subheadline as |SubHeadline|>
-					<SubHeadline @text='Getting started' />
+					<SubHeadline @text='Installation, integration, etc' />
 				</:subheadline>
 			</Header>
 		</:header>
 		<:content as |Content|>
 			<Content class='prose max-w-none'>
-				<h4 class='prose'>Why Ember MDC Web?</h4>
+				<h4 class='prose'>Installation</h4>
+				<article class='prose max-w-none'>
+					Installation is pretty standard - use either:<br />
+					<code class='prose'>ember install @twyr/ember-mdc-web</code>
+					<br />or<br />
+					<code class='prose'>npm install @twyr/ember-mdc-web</code>
+				</article>
+
+				<h4 class='prose'>Integration into Ember Apps</h4>
 			</Content>
 		</:content>
 	</MdcCard>

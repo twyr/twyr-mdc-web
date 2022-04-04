@@ -20,6 +20,9 @@
 .h-full {
     height: 100%
 }
+.max-h-full {
+    max-height: 100%
+}
 .w-full {
     width: 100%
 }
@@ -64,11 +67,23 @@
     -ms-flex-pack: distribute;
         justify-content: space-around
 }
+.overflow-hidden {
+    overflow: hidden
+}
+.overflow-y-auto {
+    overflow-y: auto
+}
+.rounded {
+    border-radius: 0.25rem
+}
 .border-b {
     border-bottom-width: 1px
 }
 .p-5 {
     padding: 1.25rem
+}
+.pb-12 {
+    padding-bottom: 3rem
 }
 .text-3xl {
     font-size: 1.875rem;
@@ -81,4 +96,9 @@
 .underline {
     -webkit-text-decoration-line: underline;
             text-decoration-line: underline
+}
+.blur {
+    --tw-blur: blur(8px);
+    -webkit-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+            filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
 }
