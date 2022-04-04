@@ -13,20 +13,17 @@
 			        transform: none;
 		}
 .mdc-banner .mdc-banner__content .mdc-banner__graphic {
-			background-color: var(
-				--mdc-banner-graphic-background-color,
-				var(--mdc-theme-primary, #01579b)
-			);
-			color: var(
-				--mdc-banner-graphic-color,
-				var(--mdc-theme-surface, #fafafa)
-			);
+			background-color: var(--mdc-banner-graphic-background-color,
+			var(--mdc-theme-primary),
+			#01579b);
+			color: var(--mdc-banner-graphic-color,
+			var(--mdc-theme-surface),
+			#fafafa);
 		}
 .mdc-banner .mdc-banner__text {
-		color: var(
-			--mdc-banner-graphic-background-color,
-			var(--mdc-theme-primary, #01579b)
-		);
+		color: var(--mdc-banner-graphic-background-color,
+		var(--mdc-theme-primary),
+		#01579b);
 	}
 .mdc-banner.mdc-banner--centered .mdc-banner__content {
 		max-width: 720px;

@@ -1,8 +1,7 @@
 .mdc-linear-progress__bar-inner {
-	border-color: var(
-		--mdc-linear-progress-color,
-		var(--mdc-theme-primary, #01579b)
-	);
+	border-color: var(--mdc-linear-progress-color,
+	var(--mdc-theme-primary),
+	#01579b);
 }
 
 .mdc-linear-progress__buffer {
@@ -16,6 +15,6 @@
 }
 
 .mdc-linear-progress--indeterminate .mdc-linear-progress__primary-bar {
-	animation: mdc-linear-progress-primary-indeterminate-translate 2s infinite
-		linear;
+	/* stylelint-disable-next-line no-unknown-animations */
+	animation: mdc-linear-progress-primary-indeterminate-translate 2s infinite linear;
 }

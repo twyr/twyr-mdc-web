@@ -2,5 +2,5 @@
 	@apply inset-0 z-10;
 	@apply opacity-25;
 
-	background-color: rgb(0 0 0 / 0.32);
+	background-color: var(--mdc-theme-background, rgb(0 0 0 / 32%));
 }

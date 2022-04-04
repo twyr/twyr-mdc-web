@@ -1,6 +1,5 @@
 .mdc-form-field {
-	color: var(
-		--mdc-form-field-color,
-		var(--mdc-theme-text-primary-on-background, rgb(0 0 0 / 0.87))
-	);
+	color: var(--mdc-form-field-color,
+	var(--mdc-theme-text-primary-on-background),
+	rgb(0 0 0 / 87%));
 }
