@@ -1,6 +1,9 @@
 {{page-title 'Home'}}
 <div class='w-full h-full p-5 flex flex-row justify-center items-center'>
-	<MdcCard class='max-w-full max-h-full' @outlined={{this.cardOutlined}}>
+	<MdcCard
+		class='w-full max-w-full max-h-full'
+		@outlined={{this.cardOutlined}}
+	>
 		<:header as |Header|>
 			<Header class='flex flex-row justify-between items-center border-b'>
 				<:headline as |Headline|>

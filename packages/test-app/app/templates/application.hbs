@@ -67,7 +67,7 @@
 						{{#if this.drawerModal}}
 							Modal
 						{{else}}
-							Plain
+							Flat
 						{{/if}}
 					</MdcCheckbox>
 				</div>
@@ -116,6 +116,16 @@
 
 					<:meta>
 						<MdcIcon @icon='book-open' />
+					</:meta>
+				</List.Item>
+				<List.Item
+					{{store-element this.setLinkRouteMap route='theming'}}
+				>
+					<:primaryText>Theming</:primaryText>
+					<:secondaryText>Run-time changes to colour</:secondaryText>
+
+					<:meta>
+						<MdcIcon @icon='shape-outline' />
 					</:meta>
 				</List.Item>
 				<List.Divider />

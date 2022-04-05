@@ -1,7 +1,7 @@
 {{! template-lint-disable no-triple-curlies }}
-{{page-title 'First Steps'}}
+{{page-title 'Introduction'}}
 <div class='w-full h-full p-5 flex flex-row justify-start items-start'>
-	<MdcCard class='w-full' @outlined={{this.cardOutlined}}>
+	<MdcCard class='w-full max-w-full max-h-full'>
 		<:header as |Header|>
 			<Header class='flex flex-row justify-between items-center border-b'>
 				<:headline as |Headline|>
@@ -15,7 +15,7 @@
 			</Header>
 		</:header>
 		<:content as |Content|>
-			<Content class='prose max-w-none'>
+			<Content class='prose max-w-none overflow-y-auto'>
 				<article class='prose max-w-none'>
 					<p class='prose max-w-none'>
 						The Ember community has long used
@@ -40,17 +40,24 @@
 					<ol class='prose max-w-none'>
 						<li class='prose max-w-none'>
 							Google has moved on from Material Design - towards
-							"Material You" - consisting of a new set of styles,
-							guidelines, components, etc. aimed at allowing more
-							flexibility and customizability for the developer.
-							This effort remains a work in progress, however, and
-							reference implementations (for platforms other than
-							Android) are nowhere close to being complete.
-							Currently, what we have is an intermediate version
-							called
 							<a
 								class='prose'
-								href='https://material-components.github.io/material-components-web-catalog/#/component/tabs'
+								href='https://material.io/'
+							>"Material You"</a>
+							- consisting of a new set of styles, guidelines,
+							components, etc. aimed at allowing more flexibility
+							and customizability for the developer. This effort
+							remains a work in progress, however, and reference
+							implementations (for platforms other than Android)
+							are
+							<a
+								class='prose'
+								href='https://m3.material.io/libraries/additional'
+							>nowhere close to being complete</a>. Currently,
+							what we have is an intermediate version called
+							<a
+								class='prose'
+								href='https://material-components.github.io/material-components-web-catalog/'
 							> Material Design Components (MDC) for the Web</a>.
 						</li>
 
@@ -69,16 +76,129 @@
 				<article class='prose max-w-none'>
 					<p class='prose max-w-none'>
 						This addon aims to provide an implementation of MDC for
-						the Web using the latest Ember features with no attempt
-						at backwards compatibility with pre-4.0 versions of
-						Ember Hopefully, MDC for the Web is close enough to the
-						eventual Material You for the Web - and this addon can
-						continue to co-evolve to provide a full implementation
-						of the design specification as and when reference
-						implementations are officially released.
+						the Web using the latest Ember features - with no
+						attempt at backwards compatibility with pre-4.0 versions
+						of Ember. Hopefully, MDC for the Web is close enough to
+						the eventual Material You for the Web - and this addon
+						can continue to co-evolve to provide a full
+						implementation of the design specification as and when
+						Google officially releases the reference implementation.
 					</p>
 
-					<p class='prose max-w-none'></p>
+					<p class='prose max-w-none'>HTML / CSS / Code:</p>
+					<ol class='prose max-w-none'>
+						<li class='prose max-w-none'>The component's HTML should
+							be as close to MDC Web as possible - it should, as
+							far as possible, look as if it was copy-pasted from
+							the demo site.</li>
+						<li class='prose max-w-none'>The component's HTML should
+							use the same CSS classes as MDC Web</li>
+						<li class='prose max-w-none'>The JS should, as far as
+							possible, exactly mimic the functionality provided
+							in the demo site.</li>
+						<li class='prose max-w-none'>The JS should be
+							"idiomatic" Ember 4.0 - native JS classes derived
+							from @glimmer/component, should use tracking /
+							getters, etc.</li>
+					</ol>
+
+					<p class='prose max-w-none'>Tests and Documentation:</p>
+					<ol class='prose max-w-none'>
+						<li class='prose max-w-none'>Aim for 100% coverage in
+							Tests</li>
+						<li class='prose max-w-none'>Use ember-try to test for
+							every version since 4.0</li>
+						<li class='prose max-w-none'>Document clearly and make
+							DevEx as good as possible</li>
+					</ol>
+
+					<p class='prose max-w-none'>Tooling:</p>
+					<ol class='prose max-w-none'>
+						<li class='prose max-w-none'>Build a V2-format addon -
+							aim for Embroider "native" level.</li>
+						<li class='prose max-w-none'>Lint as much as possible,
+							and as often as possible, to enforce code styling,
+							etc.</li>
+						<li class='prose max-w-none'>Enable CI / CD (Github
+							Actions) to catch/prevent as many issues as possible</li>
+					</ol>
+
+					<p class='prose max-w-none'>Miscellaneous:</p>
+					<ol class='prose max-w-none'>
+						<li class='prose max-w-none'>Resist the temptation to
+							author components, or extensions to components, that
+							are NOT part of the MDC Web catalogue - including
+							multi-select, autocomplete, etc.
+						</li>
+					</ol>
+				</article>
+
+				<h4 class='prose'>Acknowledgements</h4>
+				<article class='prose max-w-none'>
+					<p class='prose max-w-none'>
+						The Ember MDC Web Addon borrows concepts, ideas, code,
+						etc. from several open source projects on Github and
+						elsewhere. This section is an acknowledgement of the
+						major influences on the codebase.
+					</p>
+
+					<ol class='prose max-w-none'>
+						<li class='prose max-w-none'>The Ember Core team, for
+							providing us with a cool framework
+						</li>
+						<li class='prose max-w-none'>The main ideas on how to
+							implement this addon are, very obviously, derived
+							from
+							<a
+								class='prose'
+								href='https://miguelcobain.github.io/ember-paper/'
+							>Ember Paper</a>
+							and
+							<a
+								class='prose'
+								href='https://www.ember-bootstrap.com/'
+							>Ember Bootstrap</a>. A huge shoutout to
+							<a
+								class='prose'
+								href='https://github.com/miguelcobain'
+							>Miguel Andrade</a>
+							and
+							<a
+								class='prose'
+								href='https://github.com/simonihmig'
+							>Simon Ihmig</a>
+							for being the OGs.
+						</li>
+
+						<li class='prose max-w-none'>
+							The idea of an "abstract dropdown" component that is
+							re-used in the menu, select, and other components
+							is, obviously, borrowed from
+							<a
+								class='prose'
+								href='https://ember-basic-dropdown.com'
+							>Ember Basic Dropdown</a>. Lots of thanks to
+							<a
+								class='prose'
+								href='https://github.com/cibernox'
+							>Miguel Camba</a>
+							for the wonderful "ember-power-" set of Addons.
+						</li>
+
+						<li class='prose max-w-none'>
+							Several pieces of code, scattered throughout the
+							codebase have been "borrowed" [i.e., copied
+							outright] from several repositories on Gihub,
+							Gitlab, etc. They have been acknowledged in the
+							code.
+						</li>
+					</ol>
+
+					<p class='prose max-w-none'>
+						If I've forgotten to acknowledge your code in this
+						codebase, it is an honest mistake - please let me know
+						and I'll add it to the list above as soon as I can.
+					</p>
 				</article>
 			</Content>
 		</:content>

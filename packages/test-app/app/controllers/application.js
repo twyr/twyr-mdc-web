@@ -14,7 +14,7 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked palette = 'error';
+	@tracked palette = 'primary';
 
 	@tracked drawerLocked = true;
 	@tracked drawerModal = false;

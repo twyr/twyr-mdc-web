@@ -9,6 +9,12 @@
     margin-left: 0.5rem;
     margin-right: 0.5rem
 }
+.mt-4 {
+    margin-top: 1rem
+}
+.mt-0 {
+    margin-top: 0px
+}
 .mr-2 {
     margin-right: 0.5rem
 }
@@ -26,11 +32,11 @@
 .w-full {
     width: 100%
 }
-.max-w-none {
-    max-width: none
-}
 .max-w-full {
     max-width: 100%
+}
+.max-w-none {
+    max-width: none
 }
 .flex-row {
     -webkit-box-orient: horizontal;
@@ -101,4 +107,8 @@
     --tw-blur: blur(8px);
     -webkit-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
             filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
+}
+.prose-strong\:underline :is(:where(strong):not(:where([class~="not-prose"] *))) {
+    -webkit-text-decoration-line: underline;
+            text-decoration-line: underline
 }

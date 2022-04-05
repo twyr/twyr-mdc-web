@@ -12,4 +12,5 @@ Router.map(function () {
 	this.route('showcase');
 	this.route('introduction');
 	this.route('first-steps');
+	this.route('theming');
 });

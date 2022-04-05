@@ -12,7 +12,7 @@ export default class ShowcaseController extends Controller {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked palette = 'error';
+	@tracked palette = 'primary';
 	@tracked cardOutlined = false;
 
 	@tracked bufferValue = 59;

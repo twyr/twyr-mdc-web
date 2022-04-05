@@ -1,7 +1,7 @@
-{{! template-lint-disable no-triple-curlies }}
+{{! prettier-ignore }}
 {{page-title 'First Steps'}}
 <div class='w-full h-full p-5 flex flex-row justify-start items-start'>
-	<MdcCard class='w-full' @outlined={{this.cardOutlined}}>
+	<MdcCard class='w-full max-w-full max-h-full'>
 		<:header as |Header|>
 			<Header class='flex flex-row justify-between items-center border-b'>
 				<:headline as |Headline|>
@@ -13,16 +13,98 @@
 			</Header>
 		</:header>
 		<:content as |Content|>
-			<Content class='prose max-w-none'>
-				<h4 class='prose'>Installation</h4>
+			<Content class='prose max-w-none overflow-y-auto'>
+				<h4 class='prose max-w-none mt-0'>Installation</h4>
 				<article class='prose max-w-none'>
-					Installation is pretty standard - use either:<br />
-					<code class='prose'>ember install @twyr/ember-mdc-web</code>
-					<br />or<br />
-					<code class='prose'>npm install @twyr/ember-mdc-web</code>
+					<p class='prose max-w-none'>
+						Installation is pretty standard: Use either
+						<code class='prose'>ember install @twyr/ember-mdc-web</code>
+						or
+						<code class='prose'>npm install @twyr/ember-mdc-web</code>
+					</p>
 				</article>
 
-				<h4 class='prose'>Integration into Ember Apps</h4>
+				<h4 class='prose max-w-none'>Integration into Ember Apps</h4>
+				<article class='prose max-w-none'>
+					<p class='prose prose-strong:underline max-w-none'>
+						<strong>CAVEAT:</strong>
+						At this point, the
+						<code>build</code>
+						hook for Embroider does not seem to be invoking the
+						build configurations file. Once that is resolved,
+						integrating EMDC Web configurations within the Ember App
+						build process should become automatic. For right now,
+						however, the following steps should be manually
+						configured:
+					</p>
+					<ol class='prose max-w-none'>
+						<li class='prose max-w-none'>
+							Add a div to "contain" the dropdown content
+							elements. Ideally, this div should be either the
+							first, or the last, element in the
+							<code>application.hbs</code>
+							file. However, that is just a recommendation, and
+							can be placed anywhere in the template.
+							{{! template-lint-disable }}
+							<pre class='prose max-w-none mt-0'>
+								&lt;div
+								id='mdc-abstract-dropdown--content-container'
+								/&gt;
+							</pre>
+							{{! template-lint-enable }}
+						</li>
+						<li class='prose max-w-none'>
+							If the ember/npm install script does not
+							automatically add
+							<code>ember-cli-sass</code>
+							and/or
+							<code>ember-google-fonts</code>
+							to the application's dev-dependencies, add them:
+							{{! template-lint-disable }}
+							<pre class='prose max-w-full mt-0'>
+								ember install ember-cli-sass ember-google-fonts
+							</pre>
+							{{! template-lint-enable }}
+						</li>
+						<li class='prose max-w-none'>
+							Add EMDC Web SCSS configuration to the
+							<code
+							>&lt;ember_app_name&gt;/app/styles/app.scss</code>
+							file (change values as necessary):
+							{{! template-lint-disable }}
+							<pre class='prose max-w-none mt-0'>
+								@use "sass:string"; /* * Material Design
+								Components for the Web */ @use
+								'@twyr/ember-mdc-web/dist/styles/ember-mdc-web'
+								with ( $primary-colour: #01579b,
+								$secondary-colour: #f57f17, $error-colour:
+								#d50000, $surface-colour: #fafafa,
+								$background-colour: #f4f4f4, $body-font-family:
+								string.unquote('Inter, sans-serif'),
+								$header-font-family: string.unquote('Josefin
+								Sans, sans-serif') );
+							</pre>
+							{{! template-lint-enable }}
+						</li>
+						<li class='prose max-w-none'>
+							Add the Google font import configuration to the
+							<code
+							>&lt;ember_app_name&gt;/config/environment.js</code>
+							file:
+							{{! template-lint-disable }}
+							<pre class='prose max-w-none mt-0'>
+								googleFonts: ['Inter', 'Josefin Sans']
+							</pre>
+							{{! template-lint-enable }}
+						</li>
+					</ol>
+				</article>
+				<article class='prose max-w-none mt-4'>
+					<p class='prose max-w-none'>
+						And with that, the Ember App should be ready to consume
+						EMDC Web Addon artifacts.
+					</p>
+				</article>
 			</Content>
 		</:content>
 	</MdcCard>
