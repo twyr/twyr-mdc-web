@@ -1,7 +1,7 @@
 .mdc-linear-progress__bar-inner {
 	border-color: var(--mdc-linear-progress-color,
-			var(--mdc-theme-primary),
-			#01579b);
+	var(--mdc-theme-primary),
+	#01579b);
 }
 
 .mdc-linear-progress__buffer {
