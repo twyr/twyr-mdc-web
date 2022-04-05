@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import debugLogger from 'ember-debug-logger';
 
-export default class FirstStepsRoute extends Route {
+export default class ThemingRoute extends Route {
 	// #region Accessed Services
 	// #endregion
 
@@ -28,6 +28,6 @@ export default class FirstStepsRoute extends Route {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger('route:first-steps');
+	#debug = debugLogger('route:theming');
 	// #endregion
 }

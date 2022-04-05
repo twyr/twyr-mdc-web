@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import debugLogger from 'ember-debug-logger';
 
-export default class FirstStepsController extends Controller {
+export default class ThemingController extends Controller {
 	// #region Accessed Services
 	// #endregion
 
@@ -34,6 +34,6 @@ export default class FirstStepsController extends Controller {
 	// #endregion
 
 	// #region Private Attributes
-	#debug = debugLogger?.('controller:first-steps');
+	#debug = debugLogger?.('controller:theming');
 	// #endregion
 }
