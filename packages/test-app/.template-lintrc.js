@@ -9,5 +9,9 @@ module.exports = {
 		'twyr-mdc-web/packages/test-app/app/templates/first-steps.hbs',
 		'test-app/app/templates/first-steps.hbs',
 		'app/templates/first-steps.hbs'
-	]
+	],
+
+	rules: {
+		'self-closing-void-elements': true
+	}
 };
