@@ -22,22 +22,26 @@
 						<code>&lt;ember_app_name&gt;/app/styles/app.scss</code>
 						file:
 					</p>
-					{{! template-lint-disable }}
-					<pre class='prose max-w-none mt-0'>
-						@use "sass:string"; /* * Material Design Components for
-						the Web */ @use
-						'@twyr/ember-mdc-web/dist/styles/ember-mdc-web' with (
-						$primary-colour: &lt;primary_color_rgb&gt;,
-						$secondary-colour: &lt;secondary_color_rgb&gt;,
-						$error-colour: &lt;error_color_rgb&gt;, $surface-colour:
-						&lt;surface_color_rgb&gt;, $background-colour:
-						&lt;background_color_rgb&gt;, $body-font-family:
-						string.unquote('&lt;body_font_name&gt;, sans-serif'),
-						$header-font-family:
-						string.unquote('&lt;headings_font_name&gt;, sans-serif')
-						);
-					</pre>
-					{{! template-lint-enable }}
+{{! template-lint-disable }}
+<pre class='prose max-w-none mt-0'>
+	@use "sass:string";
+
+	/*
+	 * Material Design Components for the Web
+	 */
+
+	@use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web' with (
+		$primary-colour: &lt;primary_color_rgb&gt;,
+		$secondary-colour: &lt;secondary_color_rgb&gt;,
+		$error-colour: &lt;error_color_rgb&gt;,
+		$surface-colour: &lt;surface_color_rgb&gt;,
+		$background-colour: &lt;background_color_rgb&gt;,
+
+		$body-font-family: string.unquote('&lt;body_font_name&gt;,sans-serif'),
+		$header-font-family: string.unquote('&lt;headings_font_name&gt;, sans-serif')
+	);
+</pre>
+{{! template-lint-enable }}
 					<p class='prose max-w-none'>
 						This configuration generates the CSS variables, etc.
 						that get embedded in
