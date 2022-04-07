@@ -1,4 +1,3 @@
-{{! prettier-ignore }}
 {{page-title 'Theming'}}
 <div class='w-full h-full p-5 flex flex-row justify-start items-start'>
 	<MdcCard class='w-full max-w-full max-h-full'>
@@ -22,8 +21,8 @@
 						<code>&lt;ember_app_name&gt;/app/styles/app.scss</code>
 						file:
 					</p>
-{{! template-lint-disable }}
-<pre class='prose max-w-none mt-0'>
+					{{! prettier-ignore }}
+					<pre class='prose max-w-none mt-0'>
 	@use "sass:string";
 
 	/*
@@ -40,8 +39,7 @@
 		$body-font-family: string.unquote('&lt;body_font_name&gt;,sans-serif'),
 		$header-font-family: string.unquote('&lt;headings_font_name&gt;, sans-serif')
 	);
-</pre>
-{{! template-lint-enable }}
+					</pre>
 					<p class='prose max-w-none'>
 						This configuration generates the CSS variables, etc.
 						that get embedded in

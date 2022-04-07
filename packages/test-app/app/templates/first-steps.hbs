@@ -44,11 +44,11 @@
 							<code>application.hbs</code>
 							file. However, that is just a recommendation, and
 							can be placed anywhere in the template.
-{{! template-lint-disable }}
-<pre class='prose max-w-none mt-0'>
+
+							{{! prettier-ignore }}
+							<pre class='prose max-w-none mt-0'>
 	&lt;div id='mdc-abstract-dropdown--content-container' /&gt;
-</pre>
-{{! template-lint-enable }}
+							</pre>
 						</li>
 						<li class='prose max-w-none'>
 							If the ember/npm install script does not
@@ -57,19 +57,20 @@
 							and/or
 							<code>ember-google-fonts</code>
 							to the application's dev-dependencies, add them:
-{{! template-lint-disable }}
-<pre class='prose max-w-full mt-0'>
+
+							{{! prettier-ignore }}
+							<pre class='prose max-w-full mt-0'>
 	ember install ember-cli-sass ember-google-fonts
-</pre>
-{{! template-lint-enable }}
+							</pre>
 						</li>
 						<li class='prose max-w-none'>
 							Add EMDC Web SCSS configuration to the
 							<code
 							>&lt;ember_app_name&gt;/app/styles/app.scss</code>
 							file (change values as necessary):
-{{! template-lint-disable }}
-<pre class='prose max-w-none mt-0'>
+
+							{{! prettier-ignore }}
+							<pre class='prose max-w-none mt-0'>
 	@use "sass:string";
 
 	/*
@@ -86,19 +87,18 @@
 		$body-font-family: string.unquote('&lt;body_font_name&gt;,sans-serif'),
 		$header-font-family: string.unquote('&lt;headings_font_name&gt;, sans-serif')
 	);
-</pre>
-{{! template-lint-enable }}
+							</pre>
 						</li>
 						<li class='prose max-w-none'>
 							Add the Google font import configuration to the
 							<code
 							>&lt;ember_app_name&gt;/config/environment.js</code>
 							file:
-{{! template-lint-disable }}
-<pre class='prose max-w-none mt-0'>
+
+							{{! prettier-ignore }}
+							<pre class='prose max-w-none mt-0'>
 	googleFonts: ['Inter', 'Josefin Sans']
-</pre>
-{{! template-lint-enable }}
+							</pre>
 						</li>
 					</ol>
 				</article>
