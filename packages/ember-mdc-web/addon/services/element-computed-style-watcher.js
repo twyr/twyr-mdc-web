@@ -16,10 +16,6 @@ export default class ElementComputedStyleWatcherService extends Service {
 		this.#debug?.(`constructor`);
 
 		this?._notifyStyleChange?.();
-		this.#checkInterval = setInterval?.(
-			this?._notifyStyleChange?.bind?.(this),
-			500
-		);
 	}
 	// #endregion
 
@@ -53,6 +49,13 @@ export default class ElementComputedStyleWatcherService extends Service {
 
 			this.#elementCallback?.set?.(element, [styleAttributes]);
 			this?._notifyStyleChange?.();
+
+			if (this.#elementCallback?.size === 1) {
+				this.#checkInterval = setInterval?.(
+					this?._notifyStyleChange?.bind?.(this),
+					500
+				);
+			}
 
 			return;
 		}
@@ -124,13 +127,18 @@ export default class ElementComputedStyleWatcherService extends Service {
 		);
 
 		this.#elementCallback?.delete?.(element);
+		if (this.#elementCallback?.size > 0) return;
+
+		if (this.#checkInterval) {
+			clearInterval?.(this.#checkInterval);
+			this.#checkInterval = null;
+		}
 	}
 	// #endregion
 
 	// #region Private Methods
 	_notifyStyleChange() {
 		// this.#debug?.(`_notifyStyleChange`);
-
 		if (this.#isCheckRunning) return;
 
 		try {
@@ -147,6 +155,10 @@ export default class ElementComputedStyleWatcherService extends Service {
 
 						styleAttributes?.['stylesToMonitor']?.forEach?.(
 							(styleProperty) => {
+								this.#debug?.(
+									`_notifyStyleChange::property::${styleProperty}`,
+									element
+								);
 								if (
 									elementStyle?.[styleProperty] ===
 									styleAttributes?.['currentValues']?.[
