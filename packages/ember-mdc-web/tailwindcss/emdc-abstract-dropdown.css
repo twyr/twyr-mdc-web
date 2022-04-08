@@ -12,6 +12,8 @@
 
 		& .mdc-abstract-dropdown__content {
 			@apply absolute overflow-ellipsis;
+
+			z-index: 6;
 		}
 	}
 }
