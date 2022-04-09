@@ -41,6 +41,18 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	// #endregion
 
 	// #region DOM Event Handlers
+	@action
+	async onAncestorScroll(event) {
+		this.#debug?.(`onAncestorScroll: `, event);
+		if (this.#processingScroll) return;
+
+		this.#processingScroll = true;
+
+		await nextBrowserTick?.();
+		await this?.setNewPosition();
+
+		this.#processingScroll = false;
+	}
 	// #endregion
 
 	// #region Modifier Callbacks
@@ -110,7 +122,6 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 		if (!this?.open) return;
 
 		await nextBrowserTick?.();
-		await nextBrowserTick?.();
 		await this?.setNewPosition();
 	}
 	// #endregion
@@ -170,5 +181,7 @@ export default class MdcAbstractDropdownContentComponent extends Component {
 	#controls = {};
 
 	#element = null;
+
+	#processingScroll = false;
 	// #endregion
 }

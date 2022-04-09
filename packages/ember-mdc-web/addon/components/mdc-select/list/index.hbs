@@ -7,6 +7,8 @@
 			'mdc-menu-surface--open'
 		}}
 		id='{{this.dropdownId}}-content'
+		{{! Monitor changes to scroll position }}
+		{{capture-on 'scroll' this.onAncestorScroll}}
 		{{! Re-calculate colours as necessary }}
 		{{on-args-change this.recalcStyles @palette}}
 		{{! Store reference to the element for DOM manipulation }}

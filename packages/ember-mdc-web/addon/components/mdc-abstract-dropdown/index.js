@@ -193,8 +193,6 @@ export default class MdcAbstractDropdownComponent extends Component {
 		// Init stuff - if we're matching widths, do it now, wait for height to settle
 		if (options?.matchTriggerWidth) {
 			contentElement.style.width = `${elementDimensions?.width}px`;
-
-			await nextBrowserTick?.();
 			await nextBrowserTick?.();
 		}
 

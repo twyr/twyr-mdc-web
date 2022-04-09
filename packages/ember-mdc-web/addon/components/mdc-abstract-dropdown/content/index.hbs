@@ -3,6 +3,8 @@
 		class='mdc-abstract-dropdown__content'
 		{{has-class-if (or (not this.open) this.disabled) 'hidden'}}
 		id='{{this.dropdownId}}-content'
+		{{! Monitor changes to scroll position }}
+		{{capture-on 'scroll' this.onAncestorScroll}}
 		{{! React to argument changes }}
 		{{on-args-change
 			this.setNewPosition
