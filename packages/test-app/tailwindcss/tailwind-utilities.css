@@ -1,1 +1,11 @@
 @tailwind utilities;
+
+.twyr-prose {
+	@apply prose max-w-none m-0;
+}
+
+/* stylelint-disable selector-max-type */
+/* stylelint-disable selector-no-qualifying-type */
+li.twyr-prose:not(:where(:first-child)) {
+	@apply mt-8;
+}

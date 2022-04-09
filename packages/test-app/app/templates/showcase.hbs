@@ -35,7 +35,7 @@
 			</Header>
 		</:header>
 		<:content as |Content|>
-			<Content class='overflow-y-auto'>
+			<Content class='overflow-auto'>
 				<MdcBanner
 					@text='This is a banner message'
 					@icon='crowd'
@@ -45,7 +45,9 @@
 					{{store-element this.bannerInitialized}}
 				/>
 
-				<div class='flex flex-row justify-around items-center m-2'>
+				<div
+					class='flex flex-row flex-wrap justify-around items-center m-2'
+				>
 					<MdcTabBar
 						class='my-4'
 						@fill={{false}}
@@ -75,7 +77,9 @@
 						<TabBar.Tab @icon='crowd' @text='Tab #16' />
 					</MdcTabBar>
 				</div>
-				<div class='flex flex-row justify-around items-center m-2'>
+				<div
+					class='flex flex-row flex-wrap justify-around items-center m-2'
+				>
 					<MdcChipSet @palette={{this.palette}} as |Chipset|>
 						<Chipset.Chip
 							@icon='abacus'
@@ -186,6 +190,7 @@
 
 				<div class='m-2'>
 					<MdcSlider
+						class='w-full'
 						@discrete={{true}}
 						@tickMarks={{true}}
 						@step='5'
@@ -197,7 +202,9 @@
 					/>
 				</div>
 
-				<div class='flex flex-row justify-around items-center m-2'>
+				<div
+					class='flex flex-row flex-wrap justify-around items-center m-2'
+				>
 					<MdcLinearProgress
 						@minValue='0'
 						@maxValue='100'
@@ -215,7 +222,9 @@
 						@palette={{this.palette}}
 					/>
 				</div>
-				<div class='flex flex-row justify-around items-center m-2'>
+				<div
+					class='flex flex-row flex-wrap justify-around items-center m-2'
+				>
 					<MdcButton
 						@leadingIcon='human-greeting'
 						@trailingIcon='blur'
@@ -291,7 +300,7 @@
 					</MdcButton>
 				</div>
 				<div
-					class='flex flex-row justify-around items-center m-2 pb-12'
+					class='flex flex-row flex-wrap justify-around items-center m-2 pb-12'
 				>
 					<MdcIconButton @icon='blur' @palette={{this.palette}} />
 
@@ -319,7 +328,9 @@
 					/>
 				</div>
 
-				<div class='flex flex-row justify-around items-center m-2'>
+				<div
+					class='flex flex-row flex-wrap justify-around items-center m-2'
+				>
 					<MdcTextField
 						class='mr-2'
 						@outlined={{true}}

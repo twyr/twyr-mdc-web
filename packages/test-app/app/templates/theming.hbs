@@ -12,44 +12,213 @@
 			</Header>
 		</:header>
 		<:content as |Content|>
-			<Content class='prose max-w-none overflow-y-auto'>
-				<h4 class='prose max-w-none mt-0'>Build-time Theming</h4>
-				<article class='prose max-w-none'>
-					<p class='prose max-w-none'>
+			<Content class='overflow-y-auto'>
+				<article class='twyr-prose'>
+					<h4 class='twyr-prose mt-0'>Build-time Theming</h4>
+					<p class='twyr-prose'>
 						Build-time theming configuration is controlled by the
 						entries in the
 						<code>&lt;ember_app_name&gt;/app/styles/app.scss</code>
 						file:
 					</p>
 					{{! prettier-ignore }}
-					<pre class='prose max-w-none mt-0'>
-	@use "sass:string";
+					<pre class='twyr-prose mt-0'>
+@use "sass:string";
 
-	/*
-	 * Material Design Components for the Web
-	 */
+/*
+ * Material Design Components for the Web
+ */
 
-	@use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web' with (
-		$primary-colour: &lt;primary_color_rgb&gt;,
-		$secondary-colour: &lt;secondary_color_rgb&gt;,
-		$error-colour: &lt;error_color_rgb&gt;,
-		$surface-colour: &lt;surface_color_rgb&gt;,
-		$background-colour: &lt;background_color_rgb&gt;,
+@use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web' with (
+	$primary-colour: &lt;primary_color_rgb&gt;,
+	$secondary-colour: &lt;secondary_color_rgb&gt;,
+	$error-colour: &lt;error_color_rgb&gt;,
+	$surface-colour: &lt;surface_color_rgb&gt;,
+	$background-colour: &lt;background_color_rgb&gt;,
 
-		$body-font-family: string.unquote('&lt;body_font_name&gt;,sans-serif'),
-		$header-font-family: string.unquote('&lt;headings_font_name&gt;, sans-serif')
-	);
-					</pre>
-					<p class='prose max-w-none'>
+	$body-font-family: string.unquote('&lt;body_font_name&gt;,sans-serif'),
+	$header-font-family: string.unquote('&lt;headings_font_name&gt;, sans-serif')
+);</pre>
+					<p class='twyr-prose'>
 						This configuration generates the CSS variables, etc.
 						that get embedded in
 						<code class='prose'>vendor.css</code>
 						and used on the first render of the Ember App
 					</p>
-				</article>
 
-				<h4 class='prose max-w-none mt-4'>Run-time Theming</h4>
-				<article class='prose max-w-none'>
+					<h4 class='twyr-prose mt-4'>Global Run-time Theming</h4>
+					<p class='twyr-prose'>
+						Global run-time theming refers to changing the primary,
+						secondary, and error, colours at run-time, and fonts,
+						font-weights, font-sizes, etc. The values of these css
+						properties can be changed by setting the values of the
+						css variables on the
+						<code class='twyr-prose'>root</code>
+						element. The table below lists the more common
+						properties:
+					</p>
+					<table class='twyr-prose'>
+						<thead class='twyr-prose'>
+							<tr class='twyr-prose'>
+								<th class='twyr-prose'>Colour CSS Variable</th>
+								<th class='twyr-prose'>Application</th>
+							</tr>
+						</thead>
+						<tbody class='twyr-prose'>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-primary</code></td>
+								<td class='twyr-prose'>Get / set the primary
+									theme colour</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-on-primary</code></td>
+								<td class='twyr-prose'>Get / set the colour of
+									the text against a primary colour background</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'>&nbsp;</td>
+								<td class='twyr-prose'>&nbsp;</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-secondary</code></td>
+								<td class='twyr-prose'>Get / set the secondary
+									theme colour</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-on-secondary</code></td>
+								<td class='twyr-prose'>Get / set the colour of
+									the text against a secondary colour
+									background</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'>&nbsp;</td>
+								<td class='twyr-prose'>&nbsp;</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-error</code></td>
+								<td class='twyr-prose'>Get / set the error theme
+									colour</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-on-error</code></td>
+								<td class='twyr-prose'>Get / set the colour of
+									the text against an error colour background</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'>&nbsp;</td>
+								<td class='twyr-prose'>&nbsp;</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-surface</code></td>
+								<td class='twyr-prose'>Get / set the surface
+									theme colour</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-on-surface</code></td>
+								<td class='twyr-prose'>Get / set the colour of
+									the text against a surface colour background</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'>&nbsp;</td>
+								<td class='twyr-prose'>&nbsp;</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-theme-background</code></td>
+								<td class='twyr-prose'>Get / set the background
+									theme colour</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class='twyr-prose'>
+						<thead class='twyr-prose'>
+							<tr class='twyr-prose'>
+								<th class='twyr-prose'>Typography CSS Variable</th>
+								<th class='twyr-prose'>Application</th>
+							</tr>
+						</thead>
+						<tbody class='twyr-prose'>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-typography-font-family</code></td>
+								<td class='twyr-prose'>Get / set the font used
+									across the board, when not overridden by a
+									more specific directive</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-typography-headline[1-6]-font-family</code></td>
+								<td class='twyr-prose'>Get / set the font used
+									by the headings h1, h2, etc.</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-typography-subtitle[1-2]-font-family</code></td>
+								<td class='twyr-prose'>Get / set the font used
+									by the subtitles</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'><code
+										class='twyr-prose'
+									>--mdc-typography-body[1-2]-font-family</code></td>
+								<td class='twyr-prose'>Get / set the font used
+									in the body of an element</td>
+							</tr>
+						</tbody>
+					</table>
+					<p class='twyr-prose'>
+						A comprehensive list of the CSS variables that can be
+						set to customize the look and feel of the design system
+						can be found at the
+						<a
+							class='twyr-prose'
+							href='https://material.io/develop/web/theming/theming-guide'
+							target='_blank'
+							rel='noopener noreferrer'
+						>MDC Web Theming Guide</a>
+					</p>
+
+					<h4 class='twyr-prose mt-4'>Local Run-time Theming</h4>
+					<p class='twyr-prose'>
+						Local theming refers to the ability to change the theme
+						for a particular element. For example, an input element
+						may need to be marked as
+						<code class='twyr-prose'>error</code>
+						if the user input fails a validation test.
+					</p>
+					<p class='twyr-prose'>
+						To enable this functionalty, all EMDC Web components
+						accept a
+						<code class='twyr-prose'>@palette</code>
+						argument. This argument takes either
+						<code class='twyr-prose'>primary</code>, or
+						<code class='twyr-prose'>secondary</code>, or
+						<code class='twyr-prose'>error</code>, as acceptable
+						values. When this argument is passed to the component,
+						the theme for that element [NOT DESCENDANTS] is changed
+						to reflect the correct colour scheme. The component
+						demos provide examples of this functionality.
+					</p>
 				</article>
 			</Content>
 		</:content>

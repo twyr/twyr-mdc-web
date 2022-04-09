@@ -15,41 +15,28 @@
 			</Header>
 		</:header>
 		<:content as |Content|>
-			<Content class='prose max-w-none overflow-y-auto'>
-				<article class='prose max-w-none'>
-					<p class='prose max-w-none'>
-						The Ember community has long used
+			<Content class='overflow-y-auto'>
+				<article class='twyr-prose'>
+					<p class='twyr-prose'>
+						Since the announcement of the original
 						<a
-							class='prose'
-							href='https://www.npmjs.com/package/ember-paper'
+							class='twyr-prose'
+							href='https://en.wikipedia.org/wiki/Material_Design'
 							target='_blank'
 							rel='noopener noreferrer'
-						>Ember Paper</a>
-						as the default Ember Addon for implementing "classic"
-						<a
-							class='prose'
-							href='https://material.io/'
-							target='_blank'
-							rel='noopener noreferrer'
-						>Material Design</a>
-						in Ember Apps. Since the first release of the addon (in
-						Sept 2015), however, two significant things have
-						happened:
+						>Material Design</a>, on June 25th, 2014:
 					</p>
-
-					<ol class='prose max-w-none'>
-						<li class='prose max-w-none'>
+					<ol class='twyr-prose'>
+						<li class='twyr-prose'>
 							Google has moved on from Material Design - towards
 							<a
 								class='prose'
 								href='https://material.io/'
-							>"Material You"</a>
-							- consisting of a new set of styles, guidelines,
-							components, etc. aimed at allowing more flexibility
-							and customizability for the developer. This effort
-							remains a work in progress, however, and reference
-							implementations (for platforms other than Android)
-							are
+								target='_blank'
+								rel='noopener noreferrer'
+							>"Material You"</a>. This effort remains a work in
+							progress, however, and reference implementations
+							(for platforms other than Android) are
 							<a
 								class='prose'
 								href='https://m3.material.io/libraries/additional'
@@ -58,10 +45,12 @@
 							<a
 								class='prose'
 								href='https://material-components.github.io/material-components-web-catalog/'
+								target='_blank'
+								rel='noopener noreferrer'
 							> Material Design Components (MDC) for the Web</a>.
 						</li>
 
-						<li class='prose max-w-none'>
+						<li class='twyr-prose'>
 							Ember, too, has moved on - towards Octane and 4.0
 							and beyond - and "The Ember Way" itself has evolved
 							significantly. Ember developers expect current
@@ -70,10 +59,7 @@
 							modifier/helper friendly, etc.
 						</li>
 					</ol>
-				</article>
 
-				<h4 class='prose'>Goals</h4>
-				<article class='prose max-w-none'>
 					<p class='prose max-w-none'>
 						This addon aims to provide an implementation of MDC for
 						the Web using the latest Ember features - with no
@@ -85,73 +71,72 @@
 						Google officially releases the reference implementation.
 					</p>
 
-					<p class='prose max-w-none'>HTML / CSS / Code:</p>
-					<ol class='prose max-w-none'>
-						<li class='prose max-w-none'>The component's HTML should
-							be as close to MDC Web as possible - it should, as
-							far as possible, look as if it was copy-pasted from
-							the demo site.</li>
-						<li class='prose max-w-none'>The component's HTML should
-							use the same CSS classes as MDC Web</li>
-						<li class='prose max-w-none'>The JS should, as far as
+					<h4 class='twyr-prose'>Goals</h4>
+					<p class='twyr-prose'>HTML / CSS / Code:</p>
+					<ol class='twyr-prose'>
+						<li class='twyr-prose'>The component's HTML should be as
+							close to MDC Web as possible - it should, as far as
+							possible, look as if it was copy-pasted from the
+							demo site.</li>
+						<li class='twyr-prose'>The component's HTML should use
+							the same CSS classes as MDC Web</li>
+						<li class='twyr-prose'>The JS should, as far as
 							possible, exactly mimic the functionality provided
 							in the demo site.</li>
-						<li class='prose max-w-none'>The JS should be
-							"idiomatic" Ember 4.0 - native JS classes derived
-							from @glimmer/component, should use tracking /
-							getters, etc.</li>
+						<li class='twyr-prose'>The JS should be "idiomatic"
+							Ember 4.0 - native JS classes derived from
+							@glimmer/component, should use tracking / getters,
+							etc.</li>
 					</ol>
 
 					<p class='prose max-w-none'>Tests and Documentation:</p>
-					<ol class='prose max-w-none'>
-						<li class='prose max-w-none'>Aim for 100% coverage in
-							Tests</li>
-						<li class='prose max-w-none'>Use ember-try to test for
-							every version since 4.0</li>
-						<li class='prose max-w-none'>Document clearly and make
-							DevEx as good as possible</li>
+					<ol class='twyr-prose'>
+						<li class='twyr-prose'>Aim for 100% coverage in Tests</li>
+						<li class='twyr-prose'>Use ember-try to test for every
+							version since 4.0</li>
+						<li class='twyr-prose'>Document clearly and make DevEx
+							as good as possible</li>
 					</ol>
 
 					<p class='prose max-w-none'>Tooling:</p>
-					<ol class='prose max-w-none'>
-						<li class='prose max-w-none'>Build a V2-format addon -
-							aim for Embroider "native" level.</li>
-						<li class='prose max-w-none'>Lint as much as possible,
-							and as often as possible, to enforce code styling,
-							etc.</li>
-						<li class='prose max-w-none'>Enable CI / CD (Github
-							Actions) to catch/prevent as many issues as possible</li>
+					<ol class='twyr-prose'>
+						<li class='twyr-prose'>Build a V2-format addon - aim for
+							Embroider "native" level.</li>
+						<li class='twyr-prose'>Lint as much as possible, and as
+							often as possible, to enforce code styling, etc.</li>
+						<li class='twyr-prose'>Enable CI / CD (Github Actions)
+							to catch/prevent as many issues as possible</li>
 					</ol>
 
 					<p class='prose max-w-none'>Miscellaneous:</p>
-					<ol class='prose max-w-none'>
-						<li class='prose max-w-none'>Resist the temptation to
-							author components, or extensions to components, that
-							are NOT part of the MDC Web catalogue - including
-							multi-select, autocomplete, etc.
+					<ol class='twyr-prose'>
+						<li class='twyr-prose'>Resist the temptation to author
+							components, or extensions to components, that are
+							NOT part of the MDC Web catalogue - including
+							multi-select, autocomplete, forms, etc.
 						</li>
 					</ol>
-				</article>
 
-				<h4 class='prose'>Acknowledgements</h4>
-				<article class='prose max-w-none'>
-					<p class='prose max-w-none'>
+					<h4 class='twyr-prose'>Acknowledgements</h4>
+					<p class='twyr-prose'>
 						The Ember MDC Web Addon borrows concepts, ideas, code,
 						etc. from several open source projects on Github and
 						elsewhere. This section is an acknowledgement of the
 						major influences on the codebase.
 					</p>
 
-					<ol class='prose max-w-none'>
-						<li class='prose max-w-none'>The Ember Core team, for
+					<ol class='twyr-prose'>
+						<li class='twyr-prose'>The Ember Core team, for
 							providing us with a cool framework
 						</li>
-						<li class='prose max-w-none'>The main ideas on how to
+						<li class='twyr-prose'>The main ideas on how to
 							implement this addon are, very obviously, derived
 							from
 							<a
 								class='prose'
 								href='https://miguelcobain.github.io/ember-paper/'
+								target='_blank'
+								rel='noopener noreferrer'
 							>Ember Paper</a>
 							and
 							<a
@@ -161,31 +146,57 @@
 							<a
 								class='prose'
 								href='https://github.com/miguelcobain'
+								target='_blank'
+								rel='noopener noreferrer'
 							>Miguel Andrade</a>
 							and
 							<a
 								class='prose'
 								href='https://github.com/simonihmig'
-							>Simon Ihmig</a>
-							for being the OGs.
+								target='_blank'
+								rel='noopener noreferrer'
+							>Simon Ihmig</a>, respectively, for being the OGs.
 						</li>
 
-						<li class='prose max-w-none'>
+						<li class='twyr-prose'>
 							The idea of an "abstract dropdown" component that is
 							re-used in the menu, select, and other components
 							is, obviously, borrowed from
 							<a
 								class='prose'
 								href='https://ember-basic-dropdown.com'
+								target='_blank'
+								rel='noopener noreferrer'
 							>Ember Basic Dropdown</a>. Lots of thanks to
 							<a
 								class='prose'
 								href='https://github.com/cibernox'
+								target='_blank'
+								rel='noopener noreferrer'
 							>Miguel Camba</a>
 							for the wonderful "ember-power-" set of Addons.
 						</li>
 
-						<li class='prose max-w-none'>
+						<li class='twyr-prose'>
+							All EMDC Web components benefit immensely from using
+							the modifier functionality enabled by the
+							<a
+								class='twyr-prose'
+								href='https://github.com/ember-modifier/ember-modifier'
+								target='_blank'
+								rel='noopener noreferrer'
+							>ember-modifier</a>
+							addon. Thanks to
+							<a
+								class='twyr-prose'
+								href='https://github.com/chriskrycho'
+								target='_blank'
+								rel='noopener noreferrer'
+							>Chris Krycho</a>
+							for making life easier for the rest of us
+						</li>
+
+						<li class='twyr-prose'>
 							Several pieces of code, scattered throughout the
 							codebase have been "borrowed" [i.e., copied
 							outright] from several repositories on Gihub,
@@ -194,7 +205,7 @@
 						</li>
 					</ol>
 
-					<p class='prose max-w-none'>
+					<p class='twyr-prose'>
 						If I've forgotten to acknowledge your code in this
 						codebase, it is an honest mistake - please let me know
 						and I'll add it to the list above as soon as I can.

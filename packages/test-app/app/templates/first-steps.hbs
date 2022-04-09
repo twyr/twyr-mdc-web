@@ -12,20 +12,18 @@
 			</Header>
 		</:header>
 		<:content as |Content|>
-			<Content class='prose max-w-none overflow-y-auto'>
-				<h4 class='prose max-w-none mt-0'>Installation</h4>
-				<article class='prose max-w-none'>
-					<p class='prose max-w-none'>
+			<Content class='overflow-y-auto'>
+				<article class='twyr-prose'>
+					<h4 class='prose max-w-none'>Installation</h4>
+					<p class='twyr-prose'>
 						Installation is pretty standard: Use either
 						<code class='prose'>ember install @twyr/ember-mdc-web</code>
 						or
 						<code class='prose'>npm install @twyr/ember-mdc-web</code>
 					</p>
-				</article>
 
-				<h4 class='prose max-w-none'>Integration into Ember Apps</h4>
-				<article class='prose max-w-none'>
-					<p class='prose prose-strong:underline max-w-none'>
+					<h4 class='prose max-w-none'>Integration into Ember Apps</h4>
+					<p class='twyr-prose prose-strong:underline'>
 						<strong>CAVEAT:</strong>
 						At this point, the
 						<code>build</code>
@@ -36,8 +34,8 @@
 						however, the following steps should be manually
 						configured:
 					</p>
-					<ol class='prose max-w-none'>
-						<li class='prose max-w-none'>
+					<ol class='twyr-prose'>
+						<li class='twyr-prose'>
 							Add a div to "contain" the dropdown content
 							elements. Ideally, this div should be either the
 							first, or the last, element in the
@@ -46,11 +44,10 @@
 							can be placed anywhere in the template.
 
 							{{! prettier-ignore }}
-							<pre class='prose max-w-none mt-0'>
-	&lt;div id='mdc-abstract-dropdown--content-container' /&gt;
-							</pre>
+							<pre class='twyr-prose'>
+&lt;div id='mdc-abstract-dropdown--content-container' /&gt;</pre>
 						</li>
-						<li class='prose max-w-none'>
+						<li class='twyr-prose'>
 							If the ember/npm install script does not
 							automatically add
 							<code>ember-cli-sass</code>
@@ -59,50 +56,45 @@
 							to the application's dev-dependencies, add them:
 
 							{{! prettier-ignore }}
-							<pre class='prose max-w-full mt-0'>
-	ember install ember-cli-sass ember-google-fonts
-							</pre>
+							<pre class='twyr-prose'>
+ember install ember-cli-sass ember-google-fonts</pre>
 						</li>
-						<li class='prose max-w-none'>
+						<li class='twyr-prose'>
 							Add EMDC Web SCSS configuration to the
 							<code
 							>&lt;ember_app_name&gt;/app/styles/app.scss</code>
 							file (change values as necessary):
 
 							{{! prettier-ignore }}
-							<pre class='prose max-w-none mt-0'>
-	@use "sass:string";
+							<pre class='twyr-prose'>
+@use "sass:string";
 
-	/*
-	 * Material Design Components for the Web
-	 */
+/*
+ * Material Design Components for the Web
+ */
 
-	@use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web' with (
-		$primary-colour: &lt;primary_color_rgb&gt;,
-		$secondary-colour: &lt;secondary_color_rgb&gt;,
-		$error-colour: &lt;error_color_rgb&gt;,
-		$surface-colour: &lt;surface_color_rgb&gt;,
-		$background-colour: &lt;background_color_rgb&gt;,
+@use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web' with (
+	$primary-colour: &lt;primary_color_rgb&gt;,
+	$secondary-colour: &lt;secondary_color_rgb&gt;,
+	$error-colour: &lt;error_color_rgb&gt;,
+	$surface-colour: &lt;surface_color_rgb&gt;,
+	$background-colour: &lt;background_color_rgb&gt;,
 
-		$body-font-family: string.unquote('&lt;body_font_name&gt;,sans-serif'),
-		$header-font-family: string.unquote('&lt;headings_font_name&gt;, sans-serif')
-	);
-							</pre>
+	$body-font-family: string.unquote('&lt;body_font_name&gt;,sans-serif'),
+	$header-font-family: string.unquote('&lt;headings_font_name&gt;, sans-serif')
+);</pre>
 						</li>
-						<li class='prose max-w-none'>
+						<li class='twyr-prose'>
 							Add the Google font import configuration to the
 							<code
 							>&lt;ember_app_name&gt;/config/environment.js</code>
 							file:
 
 							{{! prettier-ignore }}
-							<pre class='prose max-w-none mt-0'>
-	googleFonts: ['Inter', 'Josefin Sans']
-							</pre>
+							<pre class='twyr-prose'>
+googleFonts: ['Inter', 'Josefin Sans']</pre>
 						</li>
 					</ol>
-				</article>
-				<article class='prose max-w-none mt-4'>
 					<p class='prose max-w-none'>
 						And with that, the Ember App should be ready to consume
 						EMDC Web Addon artifacts.
