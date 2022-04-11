@@ -31,7 +31,7 @@ export default class RequiresIdModifier extends Modifier {
 	// #region Lifecycle Hooks
 	didInstall() {
 		super.didInstall?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -40,7 +40,7 @@ export default class RequiresIdModifier extends Modifier {
 
 	didUpdateArguments() {
 		super.didUpdateArguments?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -53,20 +53,6 @@ export default class RequiresIdModifier extends Modifier {
 
 		super.willDestroy?.(...arguments);
 	}
-
-	modify(element, positional, named) {
-		super.modify?.(...arguments);
-		this.#debug?.(
-			`modify:\nelement: `,
-			element,
-			'\npositional args: ',
-			positional,
-			`\nnamed args: `,
-			named
-		);
-
-		this?._setElementId?.(element, named);
-	}
 	// #endregion
 
 	// #region DOM Event Handlers
@@ -76,6 +62,20 @@ export default class RequiresIdModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
+	_doModify(element, positional, named) {
+		// super._doModify?.(...arguments);
+		this.#debug?.(
+			`_doModify:\nelement: `,
+			element,
+			'\npositional args: ',
+			positional,
+			`\nnamed args: `,
+			named
+		);
+
+		this?._setElementId?.(element, named);
+	}
+
 	_setElementId(element, { ignore, replace, append, prepend }) {
 		const elementId = uuidv4();
 

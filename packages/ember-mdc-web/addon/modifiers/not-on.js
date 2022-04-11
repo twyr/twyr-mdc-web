@@ -35,7 +35,7 @@ export default class NotOnModifier extends Modifier {
 	// #region Lifecycle Hooks
 	didInstall() {
 		super.didInstall?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -44,7 +44,7 @@ export default class NotOnModifier extends Modifier {
 
 	didUpdateArguments() {
 		super.didUpdateArguments?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -57,20 +57,6 @@ export default class NotOnModifier extends Modifier {
 
 		super.willDestroy?.(...arguments);
 	}
-
-	modify(element, [event, eventListener], { passive }) {
-		super.modify?.(...arguments);
-		this.#debug?.(
-			`modify:\nelement: `,
-			element,
-			`\nevent: `,
-			event,
-			`\neventListener: `,
-			eventListener
-		);
-
-		this?._manageEventListener?.(element, event, eventListener, passive);
-	}
 	// #endregion
 
 	// #region DOM Event Handlers
@@ -80,6 +66,20 @@ export default class NotOnModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
+	_doModify(element, [event, eventListener], { passive }) {
+		// super._doModify?.(...arguments);
+		this.#debug?.(
+			`_doModify:\nelement: `,
+			element,
+			`\nevent: `,
+			event,
+			`\neventListener: `,
+			eventListener
+		);
+
+		this?._manageEventListener?.(element, event, eventListener, passive);
+	}
+
 	_manageEventListener(element, event, eventListener, passive = false) {
 		if (this.#event && this.#eventHandler)
 			document.removeEventListener(this.#event, this?._eventHandler, {

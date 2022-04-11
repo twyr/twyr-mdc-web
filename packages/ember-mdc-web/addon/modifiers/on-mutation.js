@@ -34,7 +34,7 @@ export default class OnMutationModifier extends Modifier {
 	// #region Lifecycle Hooks
 	didInstall() {
 		super.didInstall?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -43,7 +43,7 @@ export default class OnMutationModifier extends Modifier {
 
 	didUpdateArguments() {
 		super.didUpdateArguments?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -55,20 +55,6 @@ export default class OnMutationModifier extends Modifier {
 		this?.destructor?.();
 
 		super.willDestroy?.(...arguments);
-	}
-
-	modify(element, [callback], named) {
-		super.modify?.(...arguments);
-		this.#debug?.(
-			`modify:\nelement: `,
-			element,
-			`\ncallback: `,
-			callback,
-			`\nnamed args: `,
-			named
-		);
-
-		this?._manageWatcher?.(element, callback, named);
 	}
 	// #endregion
 
@@ -109,6 +95,20 @@ export default class OnMutationModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
+	_doModify(element, [callback], named) {
+		// super._doModify?.(...arguments);
+		this.#debug?.(
+			`_doModify:\nelement: `,
+			element,
+			`\ncallback: `,
+			callback,
+			`\nnamed args: `,
+			named
+		);
+
+		this?._manageWatcher?.(element, callback, named);
+	}
+
 	_manageWatcher(element, callback, named) {
 		// Step 1: Get rid of the existing watcher
 		if (this.#element && this.#callback) {

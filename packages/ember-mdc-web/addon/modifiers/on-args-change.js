@@ -30,7 +30,7 @@ export default class OnArgsChangeModifier extends Modifier {
 	// #region Lifecycle Hooks
 	didInstall() {
 		super.didInstall?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -39,7 +39,7 @@ export default class OnArgsChangeModifier extends Modifier {
 
 	didUpdateArguments() {
 		super.didUpdateArguments?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -52,13 +52,6 @@ export default class OnArgsChangeModifier extends Modifier {
 
 		super.willDestroy?.(...arguments);
 	}
-
-	modify(element, [callback]) {
-		super.modify?.(...arguments);
-		this.#debug?.(`modify:\nelement: `, element, `\ncallback: `, callback);
-
-		callback?.();
-	}
 	// #endregion
 
 	// #region DOM Event Handlers
@@ -68,6 +61,17 @@ export default class OnArgsChangeModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
+	_doModify(element, [callback]) {
+		// super._doModify?.(...arguments);
+		this.#debug?.(
+			`_doModify:\nelement: `,
+			element,
+			`\ncallback: `,
+			callback
+		);
+
+		callback?.();
+	}
 	// #endregion
 
 	// #region Private Attributes

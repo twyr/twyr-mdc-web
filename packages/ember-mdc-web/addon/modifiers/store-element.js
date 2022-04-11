@@ -30,7 +30,7 @@ export default class StoreElementModifier extends Modifier {
 	// #region Lifecycle Hooks
 	didInstall() {
 		super.didInstall?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -39,7 +39,7 @@ export default class StoreElementModifier extends Modifier {
 
 	didUpdateArguments() {
 		super.didUpdateArguments?.(...arguments);
-		this?.modify?.(
+		this?._doModify?.(
 			this?.element,
 			this?.args?.positional,
 			this?.args?.named
@@ -52,18 +52,6 @@ export default class StoreElementModifier extends Modifier {
 
 		super.willDestroy?.(...arguments);
 	}
-
-	modify(element, [callback], named) {
-		super.modify?.(...arguments);
-		if (this.#element === element && this.#callback === callback) return;
-
-		this.#debug?.(`modify:\nelement: `, element);
-
-		this.#element = element;
-		this.#callback = callback;
-
-		this.#callback?.(this.#element, named);
-	}
 	// #endregion
 
 	// #region DOM Event Handlers
@@ -73,6 +61,17 @@ export default class StoreElementModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
+	_doModify(element, [callback], named) {
+		// super._doModify?.(...arguments);
+		if (this.#element === element && this.#callback === callback) return;
+
+		this.#debug?.(`_doModify:\nelement: `, element);
+
+		this.#element = element;
+		this.#callback = callback;
+
+		this.#callback?.(this.#element, named);
+	}
 	// #endregion
 
 	// #region Private Attributes
