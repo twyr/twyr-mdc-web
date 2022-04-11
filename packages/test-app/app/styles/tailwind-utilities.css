@@ -17,6 +17,11 @@
     margin-right: 0.5rem;
 }
 
+.mb-0 {
+
+    margin-bottom: 0px;
+}
+
 .mr-2 {
 
     margin-right: 0.5rem;
@@ -25,11 +30,6 @@
 .mt-0 {
 
     margin-top: 0px;
-}
-
-.mt-4 {
-
-    margin-top: 1rem;
 }
 
 .flex {
@@ -164,6 +164,11 @@
 .p-5 {
 
     padding: 1.25rem;
+}
+
+.pt-0 {
+
+    padding-top: 0px;
 }
 
 .pb-12 {

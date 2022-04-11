@@ -77,17 +77,16 @@
 
 	<:content>
 		<MdcListGroup
-			@doubleLine={{true}}
 			@palette={{this.palette}}
 			@shaped={{false}}
 			{{on 'init' this.setListGroupControls}}
 			{{on 'select' this.processListGroupEvent}}
 			as |ListGroup|
 		>
-			<ListGroup.Header>
+			<ListGroup.Header class='mb-0'>
 				BASICS
 			</ListGroup.Header>
-			<ListGroup.List as |List|>
+			<ListGroup.List class='pt-0' @doubleLine={{true}} as |List|>
 				<List.Item
 					{{store-element this.setLinkRouteMap route='showcase'}}
 				>
@@ -127,6 +126,21 @@
 					<:meta>
 						<MdcIcon @icon='shape-outline' />
 					</:meta>
+				</List.Item>
+				<List.Divider />
+			</ListGroup.List>
+
+			<ListGroup.Header class='mb-0'>
+				COMPONENTS
+			</ListGroup.Header>
+			<ListGroup.List class='pt-0' @doubleLine={{false}} as |List|>
+				<List.Item
+					{{store-element
+						this.setLinkRouteMap
+						route='abstract-dropdown'
+					}}
+				>
+					Abstract Dropdown
 				</List.Item>
 				<List.Divider />
 			</ListGroup.List>

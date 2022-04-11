@@ -25,6 +25,11 @@ export default class ShowcaseController extends Controller {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
+
+		later?.(() => {
+			this.#debug?.(`constructor::changing palette: `, this);
+			this.palette = 'error';
+		}, 10000);
 	}
 	// #endregion
 

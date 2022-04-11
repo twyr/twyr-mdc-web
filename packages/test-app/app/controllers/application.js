@@ -8,7 +8,6 @@ import { tracked } from '@glimmer/tracking';
 
 export default class ApplicationController extends Controller {
 	// #region Accessed Services
-	@service('emberFreestyle') documentationManager;
 	@service('router') emberRouter;
 	@service('snackbarManager') alertManager;
 	// #endregion
@@ -25,7 +24,10 @@ export default class ApplicationController extends Controller {
 		super(...arguments);
 		this.#debug?.(`constructor`);
 
-		this.documentationManager.allowRenderingAllSections = false;
+		later?.(() => {
+			this.#debug?.(`constructor::changing palette`);
+			this.palette = 'error';
+		}, 10000);
 	}
 	// #endregion
 
@@ -140,6 +142,9 @@ export default class ApplicationController extends Controller {
 	// #region DOM Event Handlers - Alert / Snackbar
 	@action
 	snackBarInitialized(element) {
+		const currentRouteName = this?.emberRouter?.currentRouteName;
+		if (currentRouteName !== 'showcase') return;
+
 		later?.(
 			this,
 			() => {
