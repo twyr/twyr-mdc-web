@@ -1,3 +1,7 @@
+.mdc-list-group__subheader {
+	color: var(--mdc-list-group-subheader-color, var(--mdc-theme-primary));
+}
+
 .mdc-list-item {
 	align-items: center;
 	height: 48px;

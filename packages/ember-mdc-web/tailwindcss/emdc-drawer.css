@@ -3,5 +3,8 @@
 
 	& .mdc-drawer__header {
 		@apply pt-2;
+
+		background-color: var(--mdc-drawer-header-background-color, var(--mdc-theme-surface));
+		color: var(--mdc-drawer-header-color, var(--mdc-theme-on-surface));
 	}
 }

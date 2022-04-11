@@ -10,9 +10,8 @@
 		'flex flex-row'
 		'flex flex-col'
 	}}
-	{{has-class-if @palette this.paletteStyle}}
 	{{! Re-calculate as necessary }}
-	{{on-args-change this.recalcStyles @primaryAction}}
+	{{on-args-change this.recalcStyles @primaryAction @palette}}
 	{{! Store reference to the element for DOM manipulation }}
 	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}

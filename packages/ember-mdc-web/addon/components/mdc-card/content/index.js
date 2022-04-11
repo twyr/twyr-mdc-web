@@ -46,10 +46,30 @@ export default class MdcCardContentComponent extends Component {
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
-		if (!this.#mdcRipple) return;
 
+		// Step 1: Reset
+		this.#element?.style?.removeProperty?.(
+			'--mdc-card-content-background-color'
+		);
+		this.#element?.style?.removeProperty?.('--mdc-card-content-color');
+
+		// Step 2: Style / Palette
+		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'surface'}`;
+		const textColour = `--mdc-theme-on-${this?.args?.palette ?? 'surface'}`;
+
+		this.#element?.style?.setProperty?.(
+			'--mdc-card-content-background-color',
+			`var(${paletteColour})`
+		);
+		this.#element?.style?.setProperty?.(
+			'--mdc-card-content-color',
+			`var(${textColour})`
+		);
+
+		// Step 3: Setup / deactivate ripple for primary action
 		if (this?.args?.primaryAction) return;
 
+		if (!this.#mdcRipple) return;
 		this.#mdcRipple?.deactivate?.();
 	}
 
@@ -68,12 +88,6 @@ export default class MdcCardContentComponent extends Component {
 	// #endregion
 
 	// #region Computed Properties
-	get paletteStyle() {
-		if (!this?.args?.palette) return null;
-
-		return `mdc-theme--${this?.args?.palette}-bg mdc-theme--on-${this?.args?.palette}`;
-	}
-
 	get titleComponent() {
 		return this?._getComputedSubcomponent?.('title');
 	}

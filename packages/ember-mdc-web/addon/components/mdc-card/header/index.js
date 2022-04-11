@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import debugLogger from 'ember-debug-logger';
 
+import { action } from '@ember/object';
 import { ensureSafeComponent } from '@embroider/util';
 
 /* Safe Subcomponent Imports */
@@ -31,18 +32,44 @@ export default class MdcCardHeaderComponent extends Component {
 	// #endregion
 
 	// #region Modifier Callbacks
+	@action
+	recalcStyles() {
+		this.#debug?.(`recalcStyles: re-calculating styling`);
+		if (!this.#element) return;
+
+		// Step 1: Reset
+		this.#element?.style?.removeProperty?.(
+			'--mdc-card-header-background-color'
+		);
+		this.#element?.style?.removeProperty?.('--mdc-card-header-color');
+
+		// Step 2: Style / Palette
+		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'surface'}`;
+		const textColour = `--mdc-theme-on-${this?.args?.palette ?? 'surface'}`;
+
+		this.#element?.style?.setProperty?.(
+			'--mdc-card-header-background-color',
+			`var(${paletteColour})`
+		);
+		this.#element?.style?.setProperty?.(
+			'--mdc-card-header-color',
+			`var(${textColour})`
+		);
+	}
+
+	@action
+	storeElement(element) {
+		this.#debug?.(`storeElement: `, element);
+		this.#element = element;
+
+		this?.recalcStyles?.();
+	}
 	// #endregion
 
 	// #region Controls
 	// #endregion
 
 	// #region Computed Properties
-	get paletteStyle() {
-		if (!this?.args?.palette) return null;
-
-		return `mdc-theme--${this?.args?.palette}-bg mdc-theme--on-${this?.args?.palette}`;
-	}
-
 	get headlineComponent() {
 		return this?._getComputedSubcomponent?.('headline');
 	}
@@ -71,5 +98,6 @@ export default class MdcCardHeaderComponent extends Component {
 
 	// #region Private Attributes
 	#debug = debugLogger('component:mdc-card-header');
+	#element = null;
 	// #endregion
 }

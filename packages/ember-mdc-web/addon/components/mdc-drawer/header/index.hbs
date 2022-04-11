@@ -1,7 +1,9 @@
 <div
 	class='mdc-drawer__header'
-	{{! Add styling classes as necessary }}
-	{{has-class-if @palette this.paletteStyle}}
+	{{! Re-calculate as necessary }}
+	{{on-args-change this.recalcStyles @palette}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
 	{{! HTML attributes added in the calling template }}
 	...attributes
 >

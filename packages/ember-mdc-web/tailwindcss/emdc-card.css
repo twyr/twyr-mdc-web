@@ -1,6 +1,9 @@
 .mdc-card__header {
 	@apply p-3;
 
+	background-color: var(--mdc-card-header-background-color, var(--mdc-theme-surface));
+	color: var(--mdc-card-header-color, var(--mdc-theme-on-surface));
+
 	& .mdc-card__header--article {
 		@apply container;
 		@apply text-start;
@@ -15,6 +18,9 @@
 	@apply overflow-hidden;
 	@apply box-border;
 	@apply text-inherit;
+
+	background-color: var(--mdc-card-content-background-color, var(--mdc-theme-surface));
+	color: var(--mdc-card-content-color, var(--mdc-theme-on-surface));
 
 	& .mdc-card__content-default {
 		@apply p-3;
