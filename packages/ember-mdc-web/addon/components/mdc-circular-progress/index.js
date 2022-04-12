@@ -38,12 +38,17 @@ export default class MdcCircularProgressComponent extends Component {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
+		// Step 1: Reset
 		this.#element
 			?.querySelector?.(
 				'circle.mdc-circular-progress__determinate-circle'
 			)
 			?.style?.removeProperty?.('--mdc-circular-progress-stroke-color');
 
+		// Check if Step 2 is necessary
+		if (!this?.args?.palette) return;
+
+		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
 		this.#element
 			?.querySelector?.(

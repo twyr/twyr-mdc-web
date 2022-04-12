@@ -37,6 +37,9 @@ export default class MdcListGroupHeaderComponent extends Component {
 			'--mdc-list-group-subheader-color'
 		);
 
+		// Check if Step 2 is necessary
+		if (!this?.args?.palette) return;
+
 		// Step 2: Style / Palette
 		const textColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
 

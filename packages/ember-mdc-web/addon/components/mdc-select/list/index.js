@@ -48,7 +48,6 @@ export default class MdcSelectListComponent extends Component {
 	@action
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
-		if (!this.#element) return;
 	}
 
 	@action

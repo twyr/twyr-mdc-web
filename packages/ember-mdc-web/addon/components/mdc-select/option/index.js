@@ -100,6 +100,9 @@ export default class MdcSelectOptionComponent extends Component {
 		// Stop if the element is disabled
 		if (this.#element?.hasAttribute?.('disabled')) return;
 
+		// Check if Step 2 is necessary
+		if (!this?.args?.palette) return;
+
 		// Step 2: Style / Palette
 		if (this?.args?.palette) {
 			this.#element?.style?.setProperty?.(

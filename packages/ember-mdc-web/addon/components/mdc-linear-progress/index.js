@@ -38,10 +38,15 @@ export default class MdcLinearProgressComponent extends Component {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		if (!this.#element) return;
 
+		// Step 1: Reset
 		this.#element
 			?.querySelector?.('span.mdc-linear-progress__bar-inner')
 			?.style?.removeProperty?.('--mdc-linear-progress-color');
 
+		// Check if Step 2 is necessary
+		if (!this?.args?.palette) return;
+
+		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
 		this.#element
 			?.querySelector?.('span.mdc-linear-progress__bar-inner')

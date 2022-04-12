@@ -42,8 +42,6 @@ export default class MdcMenuListComponent extends Component {
 	recalcStyles() {
 		this.#debug?.(`recalcStyles: re-calculating styling`);
 		super.recalcStyles?.();
-
-		if (!this.#element) return;
 	}
 
 	@action

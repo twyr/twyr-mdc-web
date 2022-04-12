@@ -49,6 +49,9 @@ export default class MdcTopAppBarComponent extends Component {
 		);
 		this.#element?.style?.removeProperty?.('--mdc-top-app-bar-color');
 
+		// Check if Step 2 is necessary
+		if (!this?.args?.palette) return;
+
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'primary'}`;
 		const textColour = `--mdc-theme-on-${this?.args?.palette ?? 'primary'}`;

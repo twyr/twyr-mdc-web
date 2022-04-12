@@ -80,6 +80,9 @@ export default class MdcChipsetChipComponent extends Component {
 		if (rootElement?.classList?.contains?.('mdc-evolution-chip--disabled'))
 			return;
 
+		// Check if Step 2 is necessary
+		if (!this?.args?.palette) return;
+
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${
 			this?.args?.palette ?? 'secondary'

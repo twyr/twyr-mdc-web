@@ -45,13 +45,15 @@ export default class MdcChipSetComponent extends Component {
 		if (this?.chipsetType === 'grid') {
 			this.#element?.removeAttribute?.('aria-orientation');
 			this.#element?.removeAttribute?.('aria-multiselectable');
-		} else {
-			this.#element?.setAttribute?.('aria-orientation', 'horizontal');
-			this.#element?.setAttribute?.(
-				'aria-multiselectable',
-				this?.args?.multiselect ?? false
-			);
+
+			return;
 		}
+
+		this.#element?.setAttribute?.('aria-orientation', 'horizontal');
+		this.#element?.setAttribute?.(
+			'aria-multiselectable',
+			this?.args?.multiselect ?? false
+		);
 	}
 
 	@action

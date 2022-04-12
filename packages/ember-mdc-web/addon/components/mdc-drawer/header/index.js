@@ -40,6 +40,9 @@ export default class MdcDrawerHeaderComponent extends Component {
 		);
 		this.#element?.style?.removeProperty?.('--mdc-drawer-header-color');
 
+		// Check if Step 2 is necessary
+		if (!this?.args?.palette) return;
+
 		// Step 2: Style / Palette
 		const paletteColour = `--mdc-theme-${this?.args?.palette ?? 'surface'}`;
 		const textColour = `--mdc-theme-on-${this?.args?.palette ?? 'surface'}`;
