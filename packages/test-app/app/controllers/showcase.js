@@ -12,7 +12,7 @@ export default class ShowcaseController extends Controller {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked palette = 'primary';
+	@tracked palette = 'error';
 	@tracked cardOutlined = false;
 
 	@tracked bufferValue = 59;
@@ -25,11 +25,6 @@ export default class ShowcaseController extends Controller {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
-
-		later?.(() => {
-			this.#debug?.(`constructor::changing palette: `, this);
-			this.palette = 'error';
-		}, 10000);
 	}
 	// #endregion
 
@@ -95,8 +90,11 @@ export default class ShowcaseController extends Controller {
 	}
 
 	@action
-	selectValueChange(event) {
-		this.#debug?.('selectValueChange', event?.detail);
+	paletteSelectionChange(event) {
+		this.#debug?.('paletteSelectionChange', event?.detail);
+		this.palette = event?.detail?.status?.value;
+
+		if (!this?.palette?.length) this.palette = false;
 	}
 	// #endregion
 

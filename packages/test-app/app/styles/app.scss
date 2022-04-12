@@ -4,11 +4,11 @@
  * Material Design Components for the Web
  */
 @use '@twyr/ember-mdc-web/dist/styles/ember-mdc-web' with (
-	$primary-colour: #01579b,
-	$secondary-colour: #f57f17,
-	$error-colour: #d50000,
-	$surface-colour: #fafafa,
-	$background-colour: #f4f4f4,
+	$primary-colour: #4338ca,
+	$secondary-colour: #facc15,
+	$error-colour: #f97316,
+	$surface-colour: #f9fafb,
+	$background-colour: #f1f5f9,
 
 	$body-font-family: string.unquote('Inter, sans-serif'),
 	$header-font-family: string.unquote('Josefin Sans, sans-serif')

@@ -13,7 +13,7 @@ export default class ApplicationController extends Controller {
 	// #endregion
 
 	// #region Tracked Attributes
-	@tracked palette = 'primary';
+	@tracked palette = false;
 
 	@tracked drawerLocked = true;
 	@tracked drawerModal = false;
@@ -23,11 +23,6 @@ export default class ApplicationController extends Controller {
 	constructor() {
 		super(...arguments);
 		this.#debug?.(`constructor`);
-
-		later?.(() => {
-			this.#debug?.(`constructor::changing palette`);
-			this.palette = 'error';
-		}, 10000);
 	}
 	// #endregion
 

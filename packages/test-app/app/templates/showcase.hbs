@@ -3,7 +3,6 @@
 	<MdcCard
 		class='w-full max-w-full max-h-full'
 		@outlined={{this.cardOutlined}}
-		@palette={{this.palette}}
 	>
 		<:header as |Header|>
 			<Header class='flex flex-row justify-between items-center border-b'>
@@ -18,20 +17,71 @@
 					/>
 				</:subheadline>
 				<:default>
-					<MdcCheckbox
-						checked={{this.cardOutlined}}
+					<MdcSelect
+						class='mx-2'
+						@outlined={{true}}
+						@fullWidth={{true}}
+						@allowEmpty={{true}}
+						@label='Palette'
+						@leadingIcon='palette'
 						@palette={{this.palette}}
-						{{on
-							'change'
-							(fn (mut this.cardOutlined) (not this.cardOutlined))
-						}}
+						{{on 'change' this.paletteSelectionChange}}
+						required
 					>
-						{{#if this.cardOutlined}}
+						<:trigger as |Trigger|>
+							<Trigger>Hello, world</Trigger>
+						</:trigger>
+
+						<:optionlist as |OptionList|>
+							<OptionList as |Options|>
+								<Options.Option
+									value='primary'
+									selected={{(eq this.palette 'primary')}}
+								>Primary</Options.Option>
+								<Options.Option
+									value='secondary'
+									selected={{(eq this.palette 'secondary')}}
+								>Secondary</Options.Option>
+								<Options.Option
+									value='error'
+									selected={{(eq this.palette 'error')}}
+								>Error</Options.Option>
+							</OptionList>
+						</:optionlist>
+					</MdcSelect>
+
+					<MdcRadioGroup
+						class='flex flex-row justify-center items-center'
+						@groupName='Card Style'
+						@palette={{this.palette}}
+						as |RadioGroup|
+					>
+						<RadioGroup.Radio
+							{{on
+								'change'
+								(fn
+									(mut this.cardOutlined)
+									(not this.cardOutlined)
+								)
+							}}
+							checked={{this.cardOutlined}}
+						>
 							Outlined
-						{{else}}
+						</RadioGroup.Radio>
+
+						<RadioGroup.Radio
+							{{on
+								'change'
+								(fn
+									(mut this.cardOutlined)
+									(not this.cardOutlined)
+								)
+							}}
+							checked={{(not this.cardOutlined)}}
+						>
 							Raised
-						{{/if}}
-					</MdcCheckbox>
+						</RadioGroup.Radio>
+					</MdcRadioGroup>
 				</:default>
 			</Header>
 		</:header>
@@ -47,72 +97,8 @@
 				/>
 
 				<div
-					class='flex flex-row flex-wrap justify-around items-center m-2'
+					class='flex flex-row flex-wrap justify-start items-center m-2'
 				>
-					<MdcTabBar
-						class='my-4'
-						@fill={{false}}
-						@align='center'
-						@indicatorLength='full'
-						@selectedTabIndicator='underline'
-						@indicatorIcon='thumb-up'
-						@transitionType='fade'
-						@palette={{this.palette}}
-						as |TabBar|
-					>
-						<TabBar.Tab @icon='crowd' @text='Tab #1' />
-						<TabBar.Tab @icon='crowd' @text='Tab #2' selected />
-						<TabBar.Tab @icon='crowd' @text='Tab #3' />
-						<TabBar.Tab @icon='crowd' @text='Tab #4' />
-						<TabBar.Tab @icon='crowd' @text='Tab #5' />
-						<TabBar.Tab @icon='crowd' @text='Tab #6' />
-						<TabBar.Tab @icon='crowd' @text='Tab #7' />
-						<TabBar.Tab @icon='crowd' @text='Tab #8' />
-						<TabBar.Tab @icon='crowd' @text='Tab #9' />
-						<TabBar.Tab @icon='crowd' @text='Tab #10' />
-						<TabBar.Tab @icon='crowd' @text='Tab #11' />
-						<TabBar.Tab @icon='crowd' @text='Tab #12' />
-						<TabBar.Tab @icon='crowd' @text='Tab #13' />
-						<TabBar.Tab @icon='crowd' @text='Tab #14' />
-						<TabBar.Tab @icon='crowd' @text='Tab #15' />
-						<TabBar.Tab @icon='crowd' @text='Tab #16' />
-					</MdcTabBar>
-				</div>
-				<div
-					class='flex flex-row flex-wrap justify-around items-center m-2'
-				>
-					<MdcChipSet @palette={{this.palette}} as |Chipset|>
-						<Chipset.Chip
-							@icon='abacus'
-							@closeable={{true}}
-							{{on 'close' this.closeChip}}
-						>
-							Hello
-						</Chipset.Chip>
-						<Chipset.Chip @icon='crowd'>World</Chipset.Chip>
-					</MdcChipSet>
-
-					<MdcSegmentedButton
-						@palette={{this.palette}}
-						@singleSelect={{false}}
-						{{on 'select' this.onButtonGroupSelectionChange}}
-						as |SegmentedButton|
-					>
-						<SegmentedButton.Segment
-							@icon='format-bold'
-							@text='Bold'
-						/>
-						<SegmentedButton.Segment
-							@icon='format-italic'
-							@text='Italic'
-						/>
-						<SegmentedButton.Segment
-							@icon='format-underline'
-							@text='Underline'
-							selected
-						/>
-					</MdcSegmentedButton>
-
 					<MdcMenuBar @palette={{this.palette}} as |MenuBar|>
 						<MenuBar.Menu>
 							<:trigger as |Trigger|>
@@ -189,6 +175,81 @@
 					</MdcMenuBar>
 				</div>
 
+				<div
+					class='flex flex-row flex-wrap justify-around items-center m-2'
+				>
+					<MdcTextField
+						class='mr-2'
+						@outlined={{true}}
+						@fullWidth={{false}}
+						@label='Hello, world'
+						@palette={{this.palette}}
+						@status='Testing the text field'
+						@statusBar={{true}}
+						@leadingIcon='crowd'
+						@trailingIcon='thumb-up'
+						maxlength='20'
+						value='Yoo, hoo, hoo'
+						required
+					/>
+
+					<MdcCheckbox
+						@palette={{this.palette}}
+						{{on 'change' this.processCheckboxEvent}}
+						checked
+					>
+						Checkbox
+					</MdcCheckbox>
+
+					<MdcSwitch
+						@palette={{this.palette}}
+						@selectedLabel='On'
+						@unselectedLabel='Off'
+						{{on 'statuschange' this.processSwitchEvent}}
+						selected
+					/>
+
+					<MdcChipSet @palette={{this.palette}} as |Chipset|>
+						<Chipset.Chip
+							@icon='abacus'
+							@closeable={{true}}
+							{{on 'close' this.closeChip}}
+						>
+							Hello
+						</Chipset.Chip>
+						<Chipset.Chip @icon='crowd'>World</Chipset.Chip>
+					</MdcChipSet>
+
+					<MdcSegmentedButton
+						@palette={{this.palette}}
+						@singleSelect={{false}}
+						{{on 'select' this.onButtonGroupSelectionChange}}
+						as |SegmentedButton|
+					>
+						<SegmentedButton.Segment
+							@icon='format-bold'
+							@text='Bold'
+						/>
+						<SegmentedButton.Segment
+							@icon='format-italic'
+							@text='Italic'
+						/>
+						<SegmentedButton.Segment
+							@icon='format-underline'
+							@text='Underline'
+							selected
+						/>
+					</MdcSegmentedButton>
+
+					<MdcCircularProgress
+						@size='4'
+						@minValue='0'
+						@maxValue='100'
+						@progress={{this.progress}}
+						@palette={{this.palette}}
+					/>
+				</div>
+
 				<div class='m-2'>
 					<MdcSlider
 						class='w-full'
@@ -214,17 +275,9 @@
 						@progress={{this.progress}}
 						@palette={{this.palette}}
 					/>
-
-					<MdcCircularProgress
-						@size='8'
-						@minValue='0'
-						@maxValue='100'
-						@progress={{this.progress}}
-						@palette={{this.palette}}
-					/>
 				</div>
 				<div
-					class='flex flex-row flex-wrap justify-around items-center m-2'
+					class='flex flex-row flex-wrap justify-around items-center mt-10'
 				>
 					<MdcButton
 						@leadingIcon='human-greeting'
@@ -332,85 +385,34 @@
 				<div
 					class='flex flex-row flex-wrap justify-around items-center m-2'
 				>
-					<MdcTextField
-						class='mr-2'
-						@outlined={{true}}
-						@fullWidth={{false}}
-						@label='Hello, world'
+					<MdcTabBar
+						class='my-4'
+						@fill={{false}}
+						@align='center'
+						@indicatorLength='full'
+						@selectedTabIndicator='underline'
+						@indicatorIcon='thumb-up'
+						@transitionType='fade'
 						@palette={{this.palette}}
-						@status='Testing the text field'
-						@statusBar={{true}}
-						@leadingIcon='crowd'
-						@trailingIcon='thumb-up'
-						maxlength='20'
-						value='Yoo, hoo, hoo'
-						required
-					/>
-
-					<MdcCheckbox
-						@palette={{this.palette}}
-						{{on 'change' this.processCheckboxEvent}}
-						checked
+						as |TabBar|
 					>
-						Checkbox
-					</MdcCheckbox>
-
-					<MdcRadioGroup
-						@groupName='Test Group 1'
-						@palette={{this.palette}}
-						as |RadioGroup|
-					>
-						<RadioGroup.Radio
-							{{on 'change' this.processRadioGroupEvent}}
-						>
-							Radio 1
-						</RadioGroup.Radio>
-
-						<RadioGroup.Radio
-							{{on 'change' this.processRadioGroupEvent}}
-							checked
-						>
-							Radio 2
-						</RadioGroup.Radio>
-					</MdcRadioGroup>
-
-					<MdcSwitch
-						@palette={{this.palette}}
-						@selectedLabel='On'
-						@unselectedLabel='Off'
-						{{on 'statuschange' this.processSwitchEvent}}
-						selected
-					/>
-
-					<MdcSelect
-						class='mx-2'
-						@outlined={{true}}
-						@fullWidth={{false}}
-						@allowEmpty={{true}}
-						@label='Hello, world'
-						@leadingIcon='crowd'
-						@palette={{this.palette}}
-						@status='Testing the select field'
-						@statusBar={{true}}
-						{{on 'change' this.selectValueChange}}
-						required
-					>
-						<:trigger as |Trigger|>
-							<Trigger>Hello, world</Trigger>
-						</:trigger>
-
-						<:optionlist as |OptionList|>
-							<OptionList as |Options|>
-								<Options.Option value='option-1'>Option #1</Options.Option>
-								<Options.Option value='option-2'>Option #2</Options.Option>
-								<Options.Option value='option-3'>Option #3</Options.Option>
-								<Options.Divider />
-								<Options.Option value='option-4' selected>Option
-									#4</Options.Option>
-								<Options.Option value='option-5'>Option #5</Options.Option>
-							</OptionList>
-						</:optionlist>
-					</MdcSelect>
+						<TabBar.Tab @icon='crowd' @text='Tab #1' />
+						<TabBar.Tab @icon='crowd' @text='Tab #2' selected />
+						<TabBar.Tab @icon='crowd' @text='Tab #3' />
+						<TabBar.Tab @icon='crowd' @text='Tab #4' />
+						<TabBar.Tab @icon='crowd' @text='Tab #5' />
+						<TabBar.Tab @icon='crowd' @text='Tab #6' />
+						<TabBar.Tab @icon='crowd' @text='Tab #7' />
+						<TabBar.Tab @icon='crowd' @text='Tab #8' />
+						<TabBar.Tab @icon='crowd' @text='Tab #9' />
+						<TabBar.Tab @icon='crowd' @text='Tab #10' />
+						<TabBar.Tab @icon='crowd' @text='Tab #11' />
+						<TabBar.Tab @icon='crowd' @text='Tab #12' />
+						<TabBar.Tab @icon='crowd' @text='Tab #13' />
+						<TabBar.Tab @icon='crowd' @text='Tab #14' />
+						<TabBar.Tab @icon='crowd' @text='Tab #15' />
+						<TabBar.Tab @icon='crowd' @text='Tab #16' />
+					</MdcTabBar>
 				</div>
 			</Content>
 		</:content>
