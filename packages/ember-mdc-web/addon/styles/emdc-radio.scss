@@ -1,0 +1,21 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle {
+	border-color: var(--mdc-radio-checked-color, var(--mdc-theme-secondary, tc.$secondary));
+}
+
+.mdc-radio .mdc-radio__native-control:enabled:not(:checked)+.mdc-radio__background .mdc-radio__outer-circle {
+	border-color: var(--mdc-radio-checked-color, var(--mdc-theme-secondary, tc.$secondary));
+}
+
+.mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__inner-circle {
+	border-color: var(--mdc-radio-checked-color, var(--mdc-theme-secondary, tc.$secondary));
+}
+
+.mdc-radio .mdc-radio__ripple::before {
+	background-color: var(--mdc-radio-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-secondary, tc.$secondary)));
+}
+
+.mdc-radio .mdc-radio__ripple::after {
+	background-color: var(--mdc-radio-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-secondary, tc.$secondary)));
+}

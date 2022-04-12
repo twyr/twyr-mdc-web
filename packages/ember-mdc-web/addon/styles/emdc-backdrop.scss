@@ -1,0 +1,12 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-backdrop{
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+	background-color: tc.$background;
+	background-color: var(--mdc-theme-background, tc.$background);
+	opacity: 0.25
+}

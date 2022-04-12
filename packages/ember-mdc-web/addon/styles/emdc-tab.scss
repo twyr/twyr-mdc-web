@@ -1,0 +1,34 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-tab {
+	flex: unset;
+	flex: unset;
+	-webkit-box-flex: unset
+}
+
+.mdc-tab.stretch {
+	flex: 1 0 auto;
+	flex: 1 0 auto;
+	-webkit-box-flex: 1;
+}
+
+.mdc-tab--active .mdc-tab__icon {
+	color: var(--mdc-active-tab-color, var(--mdc-theme-primary, tc.$primary));
+}
+
+.mdc-tab--active .mdc-tab__text-label {
+	color: var(--mdc-active-tab-color, var(--mdc-theme-primary, tc.$primary));
+}
+
+.mdc-tab-indicator .mdc-tab-indicator__content--underline {
+	border-color: var(--mdc-active-tab-color, var(--mdc-theme-primary, tc.$primary));
+}
+
+.mdc-tab .mdc-tab__ripple::before,
+.mdc-tab .mdc-tab__ripple::after {
+	background-color: var(--mdc-active-tab-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
+}
+
+.mdc-tab-indicator .mdc-tab-indicator__content--icon {
+	color: var(--mdc-active-tab-color, var(--mdc-theme-secondary, tc.$secondary));
+}

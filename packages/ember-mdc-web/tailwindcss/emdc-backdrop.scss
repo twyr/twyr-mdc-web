@@ -1,0 +1,8 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-backdrop {
+	@apply inset-0 z-10;
+	@apply opacity-25;
+
+	background-color: var(--mdc-theme-background, tc.$background);
+}

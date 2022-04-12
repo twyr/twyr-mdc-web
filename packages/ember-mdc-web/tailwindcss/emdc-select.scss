@@ -1,0 +1,76 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-select:not(.mdc-select--disabled) {
+	& .mdc-floating-label {
+		color: var(--mdc-select-field-color, var(--mdc-theme-text-primary-on-background, tc.$primary));
+	}
+
+	& + .mdc-select-helper-text {
+		color: var(--mdc-select-field-color, var(--mdc-theme-text-primary-on-background, tc.$primary));
+	}
+
+	& .mdc-line-ripple::before {
+		border-bottom-color: var(--mdc-select-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
+	}
+
+	& .mdc-line-ripple::after {
+		border-bottom-color: var(--mdc-select-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
+	}
+
+	&:hover .mdc-line-ripple::before {
+		border-bottom-color: var(--mdc-select-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
+	}
+
+	&.mdc-select--focused .mdc-floating-label {
+		color: var(--mdc-select-field-color, var(--mdc-theme-text-primary-on-background, tc.$primary));
+	}
+}
+
+.mdc-select--outlined:not(.mdc-select--disabled) {
+	& .mdc-notched-outline__leading {
+		border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+	}
+
+	& .mdc-notched-outline__notch {
+		border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+	}
+
+	& .mdc-notched-outline__trailing {
+		border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+	}
+
+	&.mdc-select--focused .mdc-notched-outline {
+		& .mdc-notched-outline__leading {
+			border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+		}
+
+		& .mdc-notched-outline__notch {
+			border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+		}
+
+		& .mdc-notched-outline__trailing {
+			border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+		}
+	}
+
+	&:not(.mdc-select--focused)
+	.mdc-select__anchor:hover
+	.mdc-notched-outline
+	.mdc-notched-outline__leading {
+		border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+	}
+
+	&:not(.mdc-select--focused)
+	.mdc-select__anchor:hover
+	.mdc-notched-outline
+	.mdc-notched-outline__notch {
+		border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+	}
+
+	&:not(.mdc-select--focused)
+	.mdc-select__anchor:hover
+	.mdc-notched-outline
+	.mdc-notched-outline__trailing {
+		border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
+	}
+}

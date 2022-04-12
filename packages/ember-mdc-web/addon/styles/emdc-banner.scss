@@ -1,0 +1,33 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-banner.mdc-banner--open {
+	height: 64px;
+}
+
+.mdc-banner .mdc-banner__content {
+	max-width: 100%
+}
+
+.mdc-banner .mdc-banner__content .mdc-banner__icon {
+	position: initial;
+	top: unset;
+	font-size: 2rem;
+	transform: none;
+	transform: none;
+}
+
+.mdc-banner .mdc-banner__content .mdc-banner__graphic {
+	background-color: var(--mdc-banner-graphic-background-color,
+	var(--mdc-theme-primary, tc.$primary));
+	color: var(--mdc-banner-graphic-color,
+	var(--mdc-theme-surface, tc.$surface));
+}
+
+.mdc-banner .mdc-banner__text {
+	color: var(--mdc-banner-graphic-background-color,
+	var(--mdc-theme-primary, tc.$primary));
+}
+
+.mdc-banner.mdc-banner--centered .mdc-banner__content {
+	max-width: 720px;
+}

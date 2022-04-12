@@ -1,0 +1,82 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-text-field.mdc-text-field--fullwidth:not(.mdc-text-field--disabled) {
+	background-color: transparent;
+}
+
+.mdc-text-field.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+	& .mdc-line-ripple::before {
+		border-bottom-color: var(--mdc-text-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
+	}
+
+	& .mdc-line-ripple::after {
+		border-bottom-color: var(--mdc-text-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
+	}
+}
+
+.mdc-notched-outline.mdc-notched-outline--notched {
+	& .mdc-notched-outline__notch {
+		border-right: 0;
+		border-left: 0;
+	}
+}
+
+.mdc-text-field.mdc-text-field--outlined:not(.mdc-text-field--disabled) {
+	& .mdc-notched-outline__leading {
+		border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+	}
+
+	& .mdc-notched-outline__notch {
+		border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+	}
+
+	& .mdc-notched-outline__trailing {
+		border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+	}
+}
+
+.mdc-text-field.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover {
+	& .mdc-notched-outline__leading {
+		border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+	}
+
+	& .mdc-notched-outline__notch {
+		border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+	}
+
+	& .mdc-notched-outline__trailing {
+		border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+	}
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+	color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled)+.mdc-text-field-helper-line {
+	& .mdc-text-field-helper-text {
+		color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+	}
+
+	& .mdc-text-field-character-counter {
+		color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
+	}
+}
+
+.mdc-text-field__icon.mdc-text-field__icon--leading {
+	width: 24px;
+	height: 24px;
+	margin-right: 8px;
+	margin-left: 16px;
+	padding: 0;
+	font-size: 24px;
+}
+
+.mdc-text-field__icon.mdc-text-field__icon--trailing {
+	width: 24px;
+	height: 24px;
+	margin-right: 16px;
+	margin-left: 8px;
+	padding: 0;
+	font-size: 24px;
+}

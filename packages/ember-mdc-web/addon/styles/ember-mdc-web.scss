@@ -82,86 +82,86 @@ $header-font-family: string.unquote('Roboto, sans-serif') !default;
  */
 
 /* Abstract dropdown component */
-@use './emdc-abstract-dropdown.css';
+@use './emdc-abstract-dropdown.scss';
 
 /* Backdrop component */
-@use './emdc-backdrop.css';
+@use './emdc-backdrop.scss';
 
 /* Banner component */
 @use '@material/banner/styles' as banner-styles;
-@use './emdc-banner.css';
+@use './emdc-banner.scss';
 
 /* Button component(s) - button, fab, icon-button, etc. */
 @use '@material/button/mdc-button';
 @use '@material/fab/mdc-fab';
 @use '@material/icon-button/mdc-icon-button';
-@use './emdc-button.css';
+@use './emdc-button.scss';
 
 /* Button Group component */
 @use '@material/segmented-button/styles' as segmented-button-styles;
-@use './emdc-segmented-button.css';
+@use './emdc-segmented-button.scss';
 
 /* Card component */
 @use '@material/card/mdc-card';
-@use './emdc-card.css';
+@use './emdc-card.scss';
 
 /* Checkbox component */
 @use '@material/checkbox/mdc-checkbox';
-@use './emdc-checkbox.css';
+@use './emdc-checkbox.scss';
 
 /* Chips component */
 @use '@material/chips/styles' as chip-styles;
-@use './emdc-chip-set.css';
+@use './emdc-chip-set.scss';
 
 /* Circular progress component */
 @use '@material/circular-progress/mdc-circular-progress';
-@use './emdc-circular-progress.css';
+@use './emdc-circular-progress.scss';
 
 /* Dialog component */
 @use '@material/dialog/mdc-dialog';
 
 /* Drawer component - aka sidebar */
 @use '@material/drawer/mdc-drawer';
-@use './emdc-drawer.css';
+@use './emdc-drawer.scss';
 
 /* Form field component - standard stuff used by all form fields */
 @use '@material/form-field/mdc-form-field';
-@use './emdc-form-field.css';
+@use './emdc-form-field.scss';
 
 /* Image List component */
 @use '@material/image-list/mdc-image-list';
-@use './emdc-image-list.css';
+@use './emdc-image-list.scss';
 
 /* Linear progress component */
 @use '@material/linear-progress/mdc-linear-progress';
-@use './emdc-linear-progress.css';
+@use './emdc-linear-progress.scss';
 
 /* List component */
 @use '@material/list/mdc-list';
-@use './emdc-list.css';
+@use './emdc-list.scss';
 
 /* Menu component */
 @use '@material/menu-surface/mdc-menu-surface';
 @use '@material/menu/mdc-menu';
 
 /* Menu Bar component */
-@use './emdc-menu-bar.css';
+@use './emdc-menu-bar.scss';
 
 /* Radio Button component */
 @use '@material/radio/mdc-radio';
-@use './emdc-radio.css';
+@use './emdc-radio.scss';
 
 /* Select component */
 @use '@material/select/styles' as select-styles;
-@use './emdc-select.css';
+@use './emdc-select.scss';
 
 /* Slider component */
 @use '@material/slider/styles' as slider-styles;
-@use './emdc-slider.css';
+@use './emdc-slider.scss';
 
 /* Snackbar component */
 @use '@material/snackbar/mdc-snackbar';
-@use './emdc-snackbar.css';
+@use './emdc-snackbar.scss';
 
 /* Switch component */
 @use '@material/switch/styles' as switch-styles;
@@ -171,18 +171,18 @@ $header-font-family: string.unquote('Roboto, sans-serif') !default;
 @use '@material/tab-scroller/mdc-tab-scroller';
 @use '@material/tab-indicator/mdc-tab-indicator';
 @use '@material/tab/mdc-tab';
-@use './emdc-tab.css';
+@use './emdc-tab.scss';
 
 /* Text Field component */
 @use '@material/floating-label/mdc-floating-label';
 @use '@material/line-ripple/mdc-line-ripple';
 @use '@material/notched-outline/mdc-notched-outline';
 @use '@material/textfield/mdc-text-field';
-@use './emdc-text-field.css';
+@use './emdc-text-field.scss';
 
 /* Top Bar component */
 @use '@material/top-app-bar/mdc-top-app-bar';
-@use './emdc-top-app-bar.css';
+@use './emdc-top-app-bar.scss';
 
 /*
  * MDC Theme, Typography, etc.

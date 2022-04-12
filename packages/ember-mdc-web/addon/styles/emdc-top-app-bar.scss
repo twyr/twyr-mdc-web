@@ -1,0 +1,14 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-top-app-bar{
+	position: absolute;
+	z-index: 8;
+	background-color: tc.$primary;
+	background-color: var(--mdc-top-app-bar-background-color, var(--mdc-theme-primary, tc.$primary));
+	color: tc.$primary;
+	color: var(--mdc-top-app-bar-color, var(--mdc-theme-on-primary, tc.$primary))
+}
+
+.mdc-top-app-bar.mdc-top-app-bar--fixed{
+	position: fixed
+}

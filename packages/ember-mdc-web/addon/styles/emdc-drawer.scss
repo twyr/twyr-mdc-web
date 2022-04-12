@@ -1,0 +1,13 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-drawer{
+	overflow-y: auto
+}
+
+.mdc-drawer .mdc-drawer__header{
+	padding-top: 0.5rem;
+	background-color: tc.$surface;
+	background-color: var(--mdc-drawer-header-background-color, var(--mdc-theme-surface, tc.$surface));
+	color: tc.$on-surface;
+	color: var(--mdc-drawer-header-color, var(--mdc-theme-on-surface, tc.$on-surface))
+}

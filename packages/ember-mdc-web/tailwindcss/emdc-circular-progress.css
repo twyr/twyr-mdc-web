@@ -1,5 +1,0 @@
-.mdc-circular-progress__determinate-circle {
-	stroke: var(--mdc-circular-progress-stroke-color,
-	var(--mdc-theme-primary),
-	#01579b);
-}

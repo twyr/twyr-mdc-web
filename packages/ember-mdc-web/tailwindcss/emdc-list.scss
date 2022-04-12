@@ -1,0 +1,34 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-list-group__subheader {
+	color: var(--mdc-list-group-subheader-color, var(--mdc-theme-primary, tc.$primary));
+}
+
+.mdc-list-item {
+	align-items: center;
+	height: 48px;
+}
+
+.mdc-list-item__graphic {
+	@apply m-0 mr-2;
+	@apply w-6 h-6;
+	@apply flex items-center justify-center;
+
+	&.double {
+		@apply h-full;
+		@apply aspect-square;
+		@apply text-3xl;
+	}
+}
+
+.mdc-list-item__meta {
+	@apply ml-auto mr-0;
+	@apply w-6 h-6;
+	@apply flex items-center justify-center;
+
+	&.double {
+		@apply h-full;
+		@apply aspect-square;
+		@apply text-3xl;
+	}
+}

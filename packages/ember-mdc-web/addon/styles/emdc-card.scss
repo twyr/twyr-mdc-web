@@ -1,0 +1,116 @@
+/* stylelint-disable no-descending-specificity */
+/* stylelint-disable no-duplicate-selectors */
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-card__header{
+	padding: 0.75rem;
+	background-color: tc.$surface;
+	background-color: var(--mdc-card-header-background-color, var(--mdc-theme-surface, tc.$surface));
+	color: tc.$on-surface;
+	color: var(--mdc-card-header-color, var(--mdc-theme-on-surface, tc.$on-surface));
+}
+
+.mdc-card__header .mdc-card__header--article{
+	width: 100%;
+}
+
+[dir="rtl"] .mdc-card__header .mdc-card__header--article{
+	text-align: right;
+}
+
+[dir="ltr"] .mdc-card__header .mdc-card__header--article{
+	text-align: left;
+}
+
+.mdc-card__header .mdc-card__header--article{
+	display: box;
+	display: flexbox;
+	display: flex;
+	flex-direction: column;
+	flex-direction: column;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+}
+
+.mdc-card__content{
+	position: relative;
+	display: box;
+	display: flexbox;
+	display: flex;
+	overflow: hidden;
+	box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: tc.$surface;
+	background-color: var(--mdc-card-content-background-color, var(--mdc-theme-surface, tc.$surface));
+	color: inherit;
+	color: tc.$on-surface;
+	color: var(--mdc-card-content-color, var(--mdc-theme-on-surface, tc.$on-surface));
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+}
+
+.mdc-card__content .mdc-card__content-default{
+	padding: 0.75rem;
+}
+
+[dir="rtl"] .mdc-card__content .mdc-card__content-default{
+	text-align: right;
+}
+
+[dir="ltr"] .mdc-card__content .mdc-card__content-default{
+	text-align: left;
+}
+
+.mdc-card__content .mdc-card__media {
+	background-image: var(--mdc-card-media);
+}
+
+.mdc-card__content .mdc-card__media-content{
+	display: box;
+	display: flexbox;
+	display: flex;
+	flex-direction: column;
+	flex-direction: column;
+	align-content: flex-end;
+	align-self: flex-end;
+	justify-content: flex-end;
+	padding-right: 0.75rem;
+	padding-left: 0.75rem;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-line-pack: end;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	-ms-flex-item-align: end;
+}
+
+.mdc-card__primary-action .mdc-card__primary-action-default{
+	padding: 0.75rem;
+}
+
+[dir="rtl"] .mdc-card__primary-action .mdc-card__primary-action-default{
+	text-align: right;
+}
+
+[dir="ltr"] .mdc-card__primary-action .mdc-card__primary-action-default{
+	text-align: left;
+}
+
+.mdc-card__primary-action .mdc-card__media-content{
+	display: box;
+	display: flexbox;
+	display: flex;
+	flex-direction: column;
+	flex-direction: column;
+	align-content: flex-end;
+	align-self: flex-end;
+	justify-content: flex-end;
+	padding-right: 0.75rem;
+	padding-left: 0.75rem;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-line-pack: end;
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	-ms-flex-item-align: end;
+}
