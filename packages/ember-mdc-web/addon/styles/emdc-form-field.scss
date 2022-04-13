@@ -1,5 +1,6 @@
 @use './../node_modules/@material/theme/theme-color'as tc;
 
 .mdc-form-field {
+	color: tc.ink-color-for-fill_(tc.$primary, tc.$background);
 	color: var(--mdc-form-field-color, var(--mdc-theme-text-primary-on-background, tc.ink-color-for-fill_(tc.$primary, tc.$background)));
 }

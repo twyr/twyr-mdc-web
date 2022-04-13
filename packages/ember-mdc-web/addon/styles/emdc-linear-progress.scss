@@ -2,6 +2,7 @@
 @use './../node_modules/@material/theme/theme-color' as tc;
 
 .mdc-linear-progress__bar-inner {
+	border-color: tc.$primary;
 	border-color: var(--mdc-linear-progress-color, var(--mdc-theme-primary, tc.$primary));
 }
 

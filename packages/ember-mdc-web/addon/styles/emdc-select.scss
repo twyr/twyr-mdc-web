@@ -1,50 +1,62 @@
 @use './../node_modules/@material/theme/theme-color' as tc;
 
 .mdc-select:not(.mdc-select--disabled) .mdc-floating-label {
+	color: tc.$primary;
 	color: var(--mdc-select-field-color, var(--mdc-theme-text-primary-on-background, tc.$primary));
 }
 
 .mdc-select:not(.mdc-select--disabled) + .mdc-select-helper-text {
+	color: tc.$primary;
 	color: var(--mdc-select-field-color, var(--mdc-theme-text-primary-on-background, tc.$primary));
 }
 
 .mdc-select:not(.mdc-select--disabled) .mdc-line-ripple::before {
+	border-bottom-color: tc.$primary;
 	border-bottom-color: var(--mdc-select-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
 .mdc-select:not(.mdc-select--disabled) .mdc-line-ripple::after {
+	border-bottom-color: tc.$primary;
 	border-bottom-color: var(--mdc-select-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
 .mdc-select:not(.mdc-select--disabled):hover .mdc-line-ripple::before {
+	border-bottom-color: tc.$primary;
 	border-bottom-color: var(--mdc-select-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
 .mdc-select.mdc-select--focused:not(.mdc-select--disabled) .mdc-floating-label {
+	color: tc.$primary;
 	color: var(--mdc-select-field-color, var(--mdc-theme-text-primary-on-background, tc.$primary));
 }
 
 .mdc-select--outlined:not(.mdc-select--disabled) .mdc-notched-outline__leading {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }
 
 .mdc-select--outlined:not(.mdc-select--disabled) .mdc-notched-outline__notch {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }
 
 .mdc-select--outlined:not(.mdc-select--disabled) .mdc-notched-outline__trailing {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }
 
 .mdc-select--outlined.mdc-select--focused:not(.mdc-select--disabled) .mdc-notched-outline .mdc-notched-outline__leading {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }
 
 .mdc-select--outlined.mdc-select--focused:not(.mdc-select--disabled) .mdc-notched-outline .mdc-notched-outline__notch {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }
 
 .mdc-select--outlined.mdc-select--focused:not(.mdc-select--disabled) .mdc-notched-outline .mdc-notched-outline__trailing {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }
 
@@ -52,6 +64,7 @@
 .mdc-select__anchor:hover
 .mdc-notched-outline
 .mdc-notched-outline__leading {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }
 
@@ -59,6 +72,7 @@
 .mdc-select__anchor:hover
 .mdc-notched-outline
 .mdc-notched-outline__notch {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }
 
@@ -66,5 +80,6 @@
 .mdc-select__anchor:hover
 .mdc-notched-outline
 .mdc-notched-outline__trailing {
+	border-color: tc.$background;
 	border-color: var(--mdc-select-field-color, var(--mdc-theme-background, tc.$background));
 }

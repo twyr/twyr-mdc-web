@@ -93,9 +93,13 @@ $header-font-family: string.unquote('Roboto, sans-serif') !default;
 
 /* Button component(s) - button, fab, icon-button, etc. */
 @use '@material/button/mdc-button';
-@use '@material/fab/mdc-fab';
-@use '@material/icon-button/mdc-icon-button';
 @use './emdc-button.scss';
+
+@use '@material/fab/mdc-fab';
+@use './emdc-fab.scss';
+
+@use '@material/icon-button/mdc-icon-button';
+@use './emdc-icon-button.scss';
 
 /* Button Group component */
 @use '@material/segmented-button/styles' as segmented-button-styles;

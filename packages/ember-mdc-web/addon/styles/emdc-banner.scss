@@ -9,6 +9,7 @@
 }
 
 .mdc-banner .mdc-banner__content .mdc-banner__icon {
+	position: static;
 	position: initial;
 	top: unset;
 	font-size: 2rem;
@@ -17,13 +18,16 @@
 }
 
 .mdc-banner .mdc-banner__content .mdc-banner__graphic {
+	background-color: tc.$primary;
 	background-color: var(--mdc-banner-graphic-background-color,
 	var(--mdc-theme-primary, tc.$primary));
+	color: tc.$surface;
 	color: var(--mdc-banner-graphic-color,
 	var(--mdc-theme-surface, tc.$surface));
 }
 
 .mdc-banner .mdc-banner__text {
+	color: tc.$primary;
 	color: var(--mdc-banner-graphic-background-color,
 	var(--mdc-theme-primary, tc.$primary));
 }

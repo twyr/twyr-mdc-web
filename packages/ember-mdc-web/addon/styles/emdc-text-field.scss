@@ -5,10 +5,12 @@
 }
 
 .mdc-text-field.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+	border-bottom-color: tc.$primary;
 	border-bottom-color: var(--mdc-text-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
 .mdc-text-field.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+	border-bottom-color: tc.$primary;
 	border-bottom-color: var(--mdc-text-field-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
@@ -18,38 +20,47 @@
 }
 
 .mdc-text-field.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading {
+	border-color: tc.$primary;
 	border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-text-field.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch {
+	border-color: tc.$primary;
 	border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-text-field.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+	border-color: tc.$primary;
 	border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-text-field.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline__leading {
+	border-color: tc.$primary;
 	border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-text-field.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline__notch {
+	border-color: tc.$primary;
 	border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-text-field.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline__trailing {
+	border-color: tc.$primary;
 	border-color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+	color: tc.$primary;
 	color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled)+.mdc-text-field-helper-line .mdc-text-field-helper-text {
+	color: tc.$primary;
 	color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-text-field:not(.mdc-text-field--disabled)+.mdc-text-field-helper-line .mdc-text-field-character-counter {
+	color: tc.$primary;
 	color: var(--mdc-text-field-color, var(--mdc-theme-primary, tc.$primary));
 }
 

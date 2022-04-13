@@ -1,0 +1,5 @@
+@use './../node_modules/@material/theme/theme-color' as tc;
+
+.mdc-fab .mdc-fab__ripple::before, .mdc-fab .mdc-fab__ripple::after {
+	background-color: var(--mdc-fab-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-on-secondary, tc.$on-secondary)));
+}

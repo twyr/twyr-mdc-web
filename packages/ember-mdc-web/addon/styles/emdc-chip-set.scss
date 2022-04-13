@@ -1,7 +1,9 @@
 @use './../node_modules/@material/theme/theme-color' as tc;
 
 .mdc-evolution-chip {
+	background-color: tc.$background;
 	background-color: var(--mdc-evolution-chip-background-color, tc.$background);
+	color: tc.ink-color-for-fill_(tc.$primary, tc.$background);
 	color: var(--mdc-evolution-chip-color, var(--mdc-theme-text-primary-on-background, tc.ink-color-for-fill_(tc.$primary, tc.$background)))
 }
 
@@ -10,6 +12,7 @@
 }
 
 .mdc-evolution-chip .mdc-evolution-chip__text-label {
+	color: tc.ink-color-for-fill_(tc.$primary, tc.$background);
 	color: var(--mdc-evolution-chip-color, var(--mdc-theme-text-primary-on-background, tc.ink-color-for-fill_(tc.$primary, tc.$background)));
 }
 
@@ -21,13 +24,16 @@
 	--mdc-evolution-chip-background-color: transparent;
 
 	border-width: 1px;
+	border-color: tc.ink-color-for-fill_(tc.$primary, tc.$background);
 	border-color: var(--mdc-evolution-chip-color, var(--mdc-theme-text-primary-on-background, tc.ink-color-for-fill_(tc.$primary, tc.$background)));
 }
 
 .mdc-evolution-chip .mdc-evolution-chip__action--primary .mdc-evolution-chip__ripple::before {
+	background-color: tc.$primary;
 	background-color: var(--mdc-evolution-chip-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
 .mdc-evolution-chip .mdc-evolution-chip__action--primary .mdc-evolution-chip__ripple::after {
+	background-color: tc.$primary;
 	background-color: var(--mdc-evolution-chip-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }

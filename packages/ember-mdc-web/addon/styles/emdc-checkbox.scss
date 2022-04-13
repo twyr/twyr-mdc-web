@@ -1,9 +1,11 @@
 @use './../node_modules/@material/theme/theme-color' as tc;
 
 .mdc-checkbox .mdc-checkbox__ripple::before {
+	background-color: tc.$primary;
 	background-color: var(--mdc-checkbox-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
 .mdc-checkbox .mdc-checkbox__ripple::after {
+	background-color: tc.$primary;
 	background-color: var(--mdc-checkbox-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }

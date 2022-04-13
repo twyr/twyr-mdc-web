@@ -1,5 +1,6 @@
 @use './../node_modules/@material/theme/theme-color' as tc;
 
 .mdc-circular-progress__determinate-circle {
+	stroke: tc.$primary;
 	stroke: var(--mdc-circular-progress-stroke-color, var(--mdc-theme-primary, tc.$primary));
 }

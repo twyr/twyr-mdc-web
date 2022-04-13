@@ -5,10 +5,12 @@
 }
 
 .mdc-segmented-button .mdc-segmented-button__segment .mdc-segmented-button__ripple::before {
+	background-color: tc.$primary;
 	background-color: var(--mdc-segmented-button-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
 .mdc-segmented-button .mdc-segmented-button__segment .mdc-segmented-button__ripple::after {
+	background-color: tc.$primary;
 	background-color: var(--mdc-segmented-button-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 

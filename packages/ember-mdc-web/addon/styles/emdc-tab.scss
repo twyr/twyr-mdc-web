@@ -13,22 +13,27 @@
 }
 
 .mdc-tab--active .mdc-tab__icon {
+	color: tc.$primary;
 	color: var(--mdc-active-tab-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-tab--active .mdc-tab__text-label {
+	color: tc.$primary;
 	color: var(--mdc-active-tab-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-tab-indicator .mdc-tab-indicator__content--underline {
+	border-color: tc.$primary;
 	border-color: var(--mdc-active-tab-color, var(--mdc-theme-primary, tc.$primary));
 }
 
 .mdc-tab .mdc-tab__ripple::before,
 .mdc-tab .mdc-tab__ripple::after {
+	background-color: tc.$primary;
 	background-color: var(--mdc-active-tab-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
 .mdc-tab-indicator .mdc-tab-indicator__content--icon {
+	color: tc.$secondary;
 	color: var(--mdc-active-tab-color, var(--mdc-theme-secondary, tc.$secondary));
 }

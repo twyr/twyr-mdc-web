@@ -1,5 +1,6 @@
 @use './../node_modules/@material/theme/theme-color' as tc;
 
 .mdc-snackbar__action:not(:disabled) {
+	color: tc.$background;
 	color: var(--mdc-snackbar-action-color, var(--mdc-theme-background, tc.$background));
 }
