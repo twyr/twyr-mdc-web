@@ -91,7 +91,7 @@ export default class MdcSelectOptionComponent extends Component {
 		// Step 1: Reset
 		// TODO: Optimize this by unsetting only those properties that have not been utilitized
 		// in the current scenario
-		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
+		this.#element?.style?.removeProperty?.('--mdc-list-item-ripple-color');
 
 		this.#element.style.borderRadius = null;
 		if (textElement) textElement.style.color = null;
@@ -106,7 +106,7 @@ export default class MdcSelectOptionComponent extends Component {
 		// Step 2: Style / Palette
 		if (this?.args?.palette) {
 			this.#element?.style?.setProperty?.(
-				'--mdc-ripple-color',
+				'--mdc-list-item-ripple-color',
 				`var(--mdc-theme-${this?.args?.palette})`
 			);
 

@@ -54,7 +54,9 @@ export default class MdcIconButtonComponent extends Component {
 		// TODO: Optimize this by unsetting only those properties that have not been utilitized
 		// in the current scenario
 		this.#element.style.color = null;
-		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
+		this.#element?.style?.removeProperty?.(
+			'--mdc-icon-button-ripple-color'
+		);
 
 		// Stop if the element is disabled
 		if (this.#element?.hasAttribute?.('disabled')) return;
@@ -70,7 +72,7 @@ export default class MdcIconButtonComponent extends Component {
 
 		this.#element.style.color = `var(${textColour})`;
 		this.#element?.style?.setProperty?.(
-			'--mdc-ripple-color',
+			'--mdc-icon-button-ripple-color',
 			`var(${paletteColour})`
 		);
 	}

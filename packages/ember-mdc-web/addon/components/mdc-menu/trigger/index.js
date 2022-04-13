@@ -64,7 +64,7 @@ export default class MdcMenuTriggerComponent extends Component {
 		// Step 1: Reset
 		// TODO: Optimize this by unsetting only those properties that have not been utilitized
 		// in the current scenario
-		rootElement?.style?.removeProperty?.('--mdc-ripple-color');
+		rootElement?.style?.removeProperty?.('--mdc-list-item-ripple-color');
 
 		rootElement.style.borderRadius = null;
 		if (textElement) textElement.style.color = null;
@@ -78,7 +78,7 @@ export default class MdcMenuTriggerComponent extends Component {
 		// Step 2: Style / Palette
 		if (this?.args?.palette) {
 			rootElement?.style?.setProperty?.(
-				'--mdc-ripple-color',
+				'--mdc-list-item-ripple-color',
 				`var(--mdc-theme-${this?.args?.palette})`
 			);
 

@@ -59,7 +59,7 @@ export default class MdcFabComponent extends Component {
 		// TODO: Optimize this by unsetting only those properties that have not been utilitized
 		// in the current scenario
 
-		this.#element?.style?.removeProperty?.('--mdc-ripple-color');
+		this.#element?.style?.removeProperty?.('--mdc-fab-ripple-color');
 		this.#element.style.backgroundColor = null;
 		this.#element.style.color = null;
 
@@ -87,7 +87,7 @@ export default class MdcFabComponent extends Component {
 		if (labelElement) labelElement.style.color = `var(${textColour})`;
 
 		this.#element?.style?.setProperty?.(
-			'--mdc-ripple-color',
+			'--mdc-fab-ripple-color',
 			`var(${textColour})`
 		);
 	}
