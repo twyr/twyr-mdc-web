@@ -13,7 +13,8 @@
 	"extends": [
 		"eslint:recommended",
 		"plugin:json/recommended",
-		"plugin:ember/recommended"
+		"plugin:ember/recommended",
+		"plugin:prettier/recommended"
 	],
 	"env": {
 		"browser": true,
