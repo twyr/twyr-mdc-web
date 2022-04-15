@@ -9,7 +9,7 @@
 			"legacyDecorators": true
 		}
 	},
-	"plugins": ["ember", "json"],
+	"plugins": ["ember", "json", "prettier"],
 	"extends": [
 		"eslint:recommended",
 		"plugin:json/recommended",
