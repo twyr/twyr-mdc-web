@@ -25,51 +25,16 @@ export default class NotOnModifier extends Modifier {
 	}
 
 	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
-
-		this?._manageEventListener?.();
+		// this.#debug?.(`destructor`);
+		instance?._manageEventListener?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
-
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
-
-		super.willDestroy?.(...arguments);
-	}
-	// #endregion
-
-	// #region DOM Event Handlers
-	// #endregion
-
-	// #region Computed Properties
-	// #endregion
-
-	// #region Private Methods
-	_doModify(element, [event, eventListener], { passive }) {
-		// super._doModify?.(...arguments);
+	modify(element, [event, eventListener], { passive }) {
+		super.modify?.(...arguments);
 		this.#debug?.(
-			`_doModify:\nelement: `,
+			`modify:\nelement: `,
 			element,
 			`\nevent: `,
 			event,
@@ -79,26 +44,9 @@ export default class NotOnModifier extends Modifier {
 
 		this?._manageEventListener?.(element, event, eventListener, passive);
 	}
+	// #endregion
 
-	_manageEventListener(element, event, eventListener, passive = false) {
-		if (this.#event && this.#eventHandler)
-			document.removeEventListener(this.#event, this?._eventHandler, {
-				capture: false,
-				passive: this.#passive
-			});
-
-		this.#element = element;
-		this.#event = event;
-		this.#eventHandler = eventListener;
-		this.#passive = supportsPassiveEventListeners && passive;
-
-		if (this.#event && this.#eventHandler)
-			document.addEventListener(this.#event, this?._eventHandler, {
-				capture: false,
-				passive: this.#passive
-			});
-	}
-
+	// #region DOM Event Handlers
 	@action
 	_eventHandler(event) {
 		const isEventOutsideElement =
@@ -117,6 +65,30 @@ export default class NotOnModifier extends Modifier {
 		if (!isEventOutsideElement) return;
 
 		this.#eventHandler?.(event);
+	}
+	// #endregion
+
+	// #region Computed Properties
+	// #endregion
+
+	// #region Private Methods
+	_manageEventListener(element, event, eventListener, passive = false) {
+		if (this.#event && this.#eventHandler)
+			document.removeEventListener(this.#event, this?._eventHandler, {
+				capture: false,
+				passive: this.#passive
+			});
+
+		this.#element = element;
+		this.#event = event;
+		this.#eventHandler = eventListener;
+		this.#passive = supportsPassiveEventListeners && passive;
+
+		if (this.#event && this.#eventHandler)
+			document.addEventListener(this.#event, this?._eventHandler, {
+				capture: false,
+				passive: this.#passive
+			});
 	}
 	// #endregion
 

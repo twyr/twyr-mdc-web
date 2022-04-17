@@ -24,37 +24,51 @@ export default class OnMutationModifier extends Modifier {
 	}
 
 	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
-
-		this?._manageWatcher?.();
+		// this.#debug?.(`destructor`);
+		instance?._manageWatcher?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
+	modify(
+		element,
+		[callback],
+		{
+			attributeFilter,
+			attributeOldValue,
+			characterData,
+			characterDataOldValue,
+			childList,
+			subTree
+		}
+	) {
+		super.modify?.(...arguments);
+		this.#debug?.(
+			`modify:\nelement: `,
+			element,
+			`\ncallback: `,
+			callback,
+			`\nnamed args: `,
+			{
+				attributeFilter: attributeFilter,
+				attributeOldValue: attributeOldValue,
+				characterData: characterData,
+				characterDataOldValue: characterDataOldValue,
+				childList: childList,
+				subTree: subTree
+			}
 		);
-	}
 
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
+		this?._manageWatcher?.(
+			element,
+			callback,
+			attributeFilter,
+			attributeOldValue,
+			characterData,
+			characterDataOldValue,
+			childList,
+			subTree
 		);
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
-
-		super.willDestroy?.(...arguments);
 	}
 	// #endregion
 
@@ -62,54 +76,19 @@ export default class OnMutationModifier extends Modifier {
 	// #endregion
 
 	// #region Computed Properties
-	get attributeFilter() {
-		return this.#namedArgs?.attributeFilter ?? ['disabled'];
-	}
-
-	get attributeOldValue() {
-		return !!this.#namedArgs?.attributeOldValue;
-	}
-
-	get attributes() {
-		return (
-			!!this.#namedArgs?.attributes ||
-			!!this.#namedArgs?.attributeFilter?.length
-		);
-	}
-
-	get characterData() {
-		return !!this.#namedArgs?.characterData;
-	}
-
-	get characterDataOldValue() {
-		return !!this.#namedArgs?.characterDataOldValue;
-	}
-
-	get childList() {
-		return !!this.#namedArgs?.childList;
-	}
-
-	get subtree() {
-		return !!this.#namedArgs?.subtree;
-	}
 	// #endregion
 
 	// #region Private Methods
-	_doModify(element, [callback], named) {
-		// super._doModify?.(...arguments);
-		this.#debug?.(
-			`_doModify:\nelement: `,
-			element,
-			`\ncallback: `,
-			callback,
-			`\nnamed args: `,
-			named
-		);
-
-		this?._manageWatcher?.(element, callback, named);
-	}
-
-	_manageWatcher(element, callback, named) {
+	_manageWatcher(
+		element,
+		callback,
+		attributeFilter,
+		attributeOldValue,
+		characterData,
+		characterDataOldValue,
+		childList,
+		subTree
+	) {
 		// Step 1: Get rid of the existing watcher
 		if (this.#element && this.#callback) {
 			this.#debug?.(`_manageWatcher: de-registering old callback...`);
@@ -121,9 +100,8 @@ export default class OnMutationModifier extends Modifier {
 		}
 
 		// Step 2: Sanity check
-		this.#callback = callback;
 		this.#element = element;
-		this.#namedArgs = named;
+		this.#callback = callback;
 
 		if (!this.#element) {
 			this.#debug?.(`_manageWatcher: no element specified. aborting...`);
@@ -137,16 +115,14 @@ export default class OnMutationModifier extends Modifier {
 
 		// Step 3: Add new watcher
 		const options = {
-			attributeFilter: this?.attributeFilter,
-			attributeOldValue: this?.attributeOldValue,
-			attributes: this?.attributes,
-			characterData: this?.characterData,
-			characterDataOldValue: this?.characterDataOldValue,
-			childList: this?.childList,
-			subtree: this?.subtree
+			attributeFilter: attributeFilter ?? ['disabled'],
+			attributeOldValue: !!attributeOldValue,
+			attributes: true,
+			characterData: !!characterData,
+			characterDataOldValue: !!characterDataOldValue,
+			childList: !!childList,
+			subtree: !!subTree
 		};
-
-		if (!this?.attributes) delete options?.attributeFilter;
 
 		this?.mutationWatcher?.watchElement?.(
 			this.#element,
@@ -159,8 +135,7 @@ export default class OnMutationModifier extends Modifier {
 	// #region Private Attributes
 	#debug = debugLogger('modifier:on-mutation');
 
-	#callback = null;
 	#element = null;
-	#namedArgs = {};
+	#callback = null;
 	// #endregion
 }

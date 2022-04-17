@@ -21,36 +21,22 @@ export default class StoreElementModifier extends Modifier {
 		registerDestructor(this, this.destructor);
 	}
 
-	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
+	destructor() {
+		// this.#debug?.(`destructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
+	modify(element, [callback], named) {
+		super.modify?.(...arguments);
+		if (this.#element === element && this.#callback === callback) return;
 
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
+		this.#debug?.(`modify:\nelement: `, element);
 
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
+		this.#element = element;
+		this.#callback = callback;
 
-		super.willDestroy?.(...arguments);
+		this.#callback?.(this.#element, named);
 	}
 	// #endregion
 
@@ -61,17 +47,6 @@ export default class StoreElementModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_doModify(element, [callback], named) {
-		// super._doModify?.(...arguments);
-		if (this.#element === element && this.#callback === callback) return;
-
-		this.#debug?.(`_doModify:\nelement: `, element);
-
-		this.#element = element;
-		this.#callback = callback;
-
-		this.#callback?.(this.#element, named);
-	}
 	// #endregion
 
 	// #region Private Attributes

@@ -21,48 +21,14 @@ export default class HasClassIfModifier extends Modifier {
 		registerDestructor(this, this.destructor);
 	}
 
-	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
+	destructor() {
+		// this.#debug?.(`destructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
-
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
-
-		super.willDestroy?.(...arguments);
-	}
-	// #endregion
-
-	// #region DOM Event Handlers
-	// #endregion
-
-	// #region Computed Properties
-	// #endregion
-
-	// #region Private Methods
-	_doModify(element, [condition, positiveClassList, negativeClassList]) {
-		// super._doModify?.(...arguments);
+	modify(element, [condition, positiveClassList, negativeClassList]) {
+		super.modify?.(...arguments);
 
 		const trueClassList =
 			positiveClassList
@@ -85,7 +51,7 @@ export default class HasClassIfModifier extends Modifier {
 				}) ?? [];
 
 		this.#debug?.(
-			`_doModify:\nelement: `,
+			`modify:\nelement: `,
 			element,
 			`\npositionalArgs::`,
 			`${condition}: ${trueClassList?.join?.(
@@ -103,6 +69,15 @@ export default class HasClassIfModifier extends Modifier {
 			else element?.classList?.add?.(...falseClassList);
 		}
 	}
+	// #endregion
+
+	// #region DOM Event Handlers
+	// #endregion
+
+	// #region Computed Properties
+	// #endregion
+
+	// #region Private Methods
 	// #endregion
 
 	// #region Private Attributes

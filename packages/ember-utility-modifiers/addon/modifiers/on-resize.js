@@ -24,37 +24,24 @@ export default class OnResizeModifier extends Modifier {
 	}
 
 	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
-
-		this?._manageWatcher?.();
+		// this.#debug?.(`destructor`);
+		instance?._manageWatcher?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
+	modify(element, [callback], { box }) {
+		super.modify?.(...arguments);
+		this.#debug?.(
+			`modify:\nelement: `,
+			element,
+			`\ncallback: `,
+			callback,
+			`\nnamed args: `,
+			{ box: box }
 		);
-	}
 
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
-
-		super.willDestroy?.(...arguments);
+		this?._manageWatcher?.(element, callback, box);
 	}
 	// #endregion
 
@@ -62,27 +49,11 @@ export default class OnResizeModifier extends Modifier {
 	// #endregion
 
 	// #region Computed Properties
-	get resizeBox() {
-		return this.#namedArgs?.box ?? 'content-box';
-	}
 	// #endregion
 
 	// #region Private Methods
-	_doModify(element, [callback], named) {
-		// super._doModify?.(...arguments);
-		this.#debug?.(
-			`_doModify:\nelement: `,
-			element,
-			`\ncallback: `,
-			callback,
-			`\nnamed args: `,
-			named
-		);
 
-		this?._manageWatcher?.(element, callback, named);
-	}
-
-	_manageWatcher(element, callback, named) {
+	_manageWatcher(element, callback, resizeBox) {
 		// Step 1: Get rid of the existing watcher
 		if (this.#element && this.#callback) {
 			this.#debug?.(`_manageWatcher: de-registering old callback...`);
@@ -94,9 +65,8 @@ export default class OnResizeModifier extends Modifier {
 		}
 
 		// Step 2: Sanity check
-		this.#callback = callback;
 		this.#element = element;
-		this.#namedArgs = named;
+		this.#callback = callback;
 
 		if (!this.#element) {
 			this.#debug?.(`_manageWatcher: no element specified. aborting...`);
@@ -110,7 +80,7 @@ export default class OnResizeModifier extends Modifier {
 
 		// Step 3: Add new watcher
 		const options = {
-			box: this.resizeBox
+			box: resizeBox ?? 'content-box'
 		};
 
 		this?.resizeWatcher?.watchElement?.(
@@ -124,8 +94,7 @@ export default class OnResizeModifier extends Modifier {
 	// #region Private Attributes
 	#debug = debugLogger('modifier:on-resize');
 
-	#callback = null;
 	#element = null;
-	#namedArgs = {};
+	#callback = null;
 	// #endregion
 }

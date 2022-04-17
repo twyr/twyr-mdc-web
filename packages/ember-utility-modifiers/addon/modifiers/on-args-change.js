@@ -21,36 +21,26 @@ export default class OnArgsChangeModifier extends Modifier {
 		registerDestructor(this, this.destructor);
 	}
 
-	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
+	destructor() {
+		// this.#debug?.(`destructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
+	modify(element, positional) {
+		super.modify?.(...arguments);
+
+		this.#debug?.(
+			`modify:\nelement: `,
+			element,
+			`\ncallback: `,
+			positional?.[0]
 		);
-	}
 
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
+		const callback = positional?.[0];
+		const changedArgs = positional?.slice?.(1);
 
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
-
-		super.willDestroy?.(...arguments);
+		callback?.(changedArgs);
 	}
 	// #endregion
 
@@ -61,17 +51,6 @@ export default class OnArgsChangeModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_doModify(element, [callback]) {
-		// super._doModify?.(...arguments);
-		this.#debug?.(
-			`_doModify:\nelement: `,
-			element,
-			`\ncallback: `,
-			callback
-		);
-
-		callback?.();
-	}
 	// #endregion
 
 	// #region Private Attributes

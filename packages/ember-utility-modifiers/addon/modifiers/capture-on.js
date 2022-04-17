@@ -22,37 +22,27 @@ export default class CaptureOnModifier extends Modifier {
 	}
 
 	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
-
-		this?._manageEventListener?.();
+		// this.#debug?.(`destructor`);
+		instance?._manageEventListener?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
+	modify(element, [event, eventListener]) {
+		super.modify?.(...arguments);
+		if (this.#event === event && this.#eventHandler === eventListener)
+			return;
+
+		this.#debug?.(
+			`modify:\nelement: `,
+			element,
+			`\nevent: `,
+			event,
+			`\neventListener: `,
+			eventListener
 		);
-	}
 
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
-
-		super.willDestroy?.(...arguments);
+		this?._manageEventListener?.(event, eventListener);
 	}
 	// #endregion
 
@@ -63,23 +53,6 @@ export default class CaptureOnModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_doModify(element, [event, eventListener]) {
-		// super._doModify?.(...arguments);
-		if (this.#event === event && this.#eventHandler === eventListener)
-			return;
-
-		this.#debug?.(
-			`_doModify:\nelement: `,
-			element,
-			`\nevent: `,
-			event,
-			`\neventListener: `,
-			eventListener
-		);
-
-		this?._manageEventListener?.(event, eventListener);
-	}
-
 	_manageEventListener(event, eventListener) {
 		if (this.#event && this.#eventHandler)
 			document.removeEventListener(

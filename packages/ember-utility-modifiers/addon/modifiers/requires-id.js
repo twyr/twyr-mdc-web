@@ -22,36 +22,24 @@ export default class RequiresIdModifier extends Modifier {
 		registerDestructor(this, this.destructor);
 	}
 
-	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
+	destructor() {
+		// this.#debug?.(`destructor`);
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
+	modify(element, positional, { ignore, replace, append, prepend }) {
+		// super.modify?.(...arguments);
+		this.#debug?.(
+			`modify:\nelement: `,
+			element,
+			'\npositional args: ',
+			positional,
+			`\nnamed args: `,
+			{ ignore, replace, append, prepend }
 		);
-	}
 
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
-
-		super.willDestroy?.(...arguments);
+		this?._setElementId?.(element, ignore, replace, append, prepend);
 	}
 	// #endregion
 
@@ -62,21 +50,7 @@ export default class RequiresIdModifier extends Modifier {
 	// #endregion
 
 	// #region Private Methods
-	_doModify(element, positional, named) {
-		// super._doModify?.(...arguments);
-		this.#debug?.(
-			`_doModify:\nelement: `,
-			element,
-			'\npositional args: ',
-			positional,
-			`\nnamed args: `,
-			named
-		);
-
-		this?._setElementId?.(element, named);
-	}
-
-	_setElementId(element, { ignore, replace, append, prepend }) {
+	_setElementId(element, ignore, replace, append, prepend) {
 		const elementId = uuidv4();
 
 		const currentId = element?.getAttribute?.('id');

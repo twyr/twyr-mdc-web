@@ -24,37 +24,23 @@ export default class OnStyleChangeModifier extends Modifier {
 	}
 
 	destructor(instance) {
-		if (instance) return;
-		this.#debug?.(`destructor`);
-
-		this?._manageWatcher?.();
+		instance?._manageWatcher?.();
 	}
 	// #endregion
 
 	// #region Lifecycle Hooks
-	didInstall() {
-		super.didInstall?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
+	modify(element, [callback], { styles }) {
+		super.modify?.(...arguments);
+		this.#debug?.(
+			`modify:\nelement: `,
+			element,
+			`\ncallback: `,
+			callback,
+			`\nstyles: `,
+			styles
 		);
-	}
 
-	didUpdateArguments() {
-		super.didUpdateArguments?.(...arguments);
-		this?._doModify?.(
-			this?.element,
-			this?.args?.positional,
-			this?.args?.named
-		);
-	}
-
-	willDestroy() {
-		this.#debug?.(`willDestroy`);
-		this?.destructor?.();
-
-		super.willDestroy?.(...arguments);
+		this?._manageWatcher?.(element, callback, styles);
 	}
 	// #endregion
 
@@ -62,27 +48,10 @@ export default class OnStyleChangeModifier extends Modifier {
 	// #endregion
 
 	// #region Computed Properties
-	get options() {
-		return this?.args?.named?.styles ?? [];
-	}
 	// #endregion
 
 	// #region Private Methods
-	_doModify(element, [callback], { properties }) {
-		// super._doModify?.(...arguments);
-		this.#debug?.(
-			`_doModify:\nelement: `,
-			element,
-			`\ncallback: `,
-			callback,
-			`\nproperties: `,
-			properties
-		);
-
-		this?._manageWatcher?.(element, callback, properties);
-	}
-
-	_manageWatcher(element, callback, properties) {
+	_manageWatcher(element, callback, styles) {
 		// Step 1: Get rid of the existing watcher
 		if (this.#element && this.#callback) {
 			this.#debug?.(`_manageWatcher: de-registering old callback...`);
@@ -92,7 +61,6 @@ export default class OnStyleChangeModifier extends Modifier {
 		// Step 2: Sanity check
 		this.#callback = callback;
 		this.#element = element;
-		this.#properties = properties;
 
 		if (!this.#element) {
 			this.#debug?.(`_manageWatcher: no element specified. aborting...`);
@@ -106,7 +74,7 @@ export default class OnStyleChangeModifier extends Modifier {
 
 		this?.styleWatcher?.watchElement?.(
 			this.#element,
-			this.#properties,
+			styles,
 			this.#callback
 		);
 	}
@@ -117,6 +85,5 @@ export default class OnStyleChangeModifier extends Modifier {
 
 	#callback = null;
 	#element = null;
-	#properties = {};
 	// #endregion
 }
