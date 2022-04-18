@@ -81,7 +81,7 @@ kbd,
 samp,
 pre {
 	font-size: 1em;
-	font-family: 'ui-monospace', 'SFMono-Regular', 'Consolas', 'Liberation Mono',
+	font-family: ui-monospace, 'SFMono-Regular', 'Consolas', 'Liberation Mono',
 		'Menlo', monospace;
 }
 
@@ -222,6 +222,7 @@ progress {
 	/* 1 */
 	font: inherit;
 	appearance: button;
+
 	/* 2 */
 }
 

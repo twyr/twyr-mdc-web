@@ -9,7 +9,7 @@
 	height: 48px;
 }
 
-:not(.mdc-list-item--disabled).mdc-list-item--selected .mdc-list-item__ripple::before, :not(.mdc-list-item--disabled).mdc-list-item--selected .mdc-list-item__ripple::after {
+:not(.mdc-list-item--disabled).mdc-list-item .mdc-list-item__ripple::before, :not(.mdc-list-item--disabled).mdc-list-item .mdc-list-item__ripple::after {
 	background-color: var(--mdc-list-item-ripple-color, var(--mdc-ripple-color, var(--mdc-theme-primary, tc.$primary)));
 }
 
