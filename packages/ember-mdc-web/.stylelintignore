@@ -28,4 +28,4 @@
 /package-lock.json.ember-try
 
 # generated css
-/addon/styles/**/*.css
+/addon/styles/reset.scss
