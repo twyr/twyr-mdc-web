@@ -100,6 +100,7 @@
 		"build": "build-injections.js",
 		"app-js": {
 			"./modifiers/capture-on.js": "./dist/_app_/modifiers/capture-on.js",
+			"./modifiers/css-style.js": "./dist/_app_/modifiers/css-style.js",
 			"./modifiers/has-class-if.js": "./dist/_app_/modifiers/has-class-if.js",
 			"./modifiers/not-on.js": "./dist/_app_/modifiers/not-on.js",
 			"./modifiers/on-args-change.js": "./dist/_app_/modifiers/on-args-change.js",
