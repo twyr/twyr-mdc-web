@@ -4,10 +4,10 @@
 		<:header as |Header|>
 			<Header class='flex flex-row justify-between items-center border-b'>
 				<:headline as |Headline|>
-					<Headline @text='THEMING' />
+					<Headline @text='Theming' />
 				</:headline>
 				<:subheadline as |SubHeadline|>
-					<SubHeadline @text='Changing colors and fonts at runtime' />
+					<SubHeadline @text='Changing colors and fonts' />
 				</:subheadline>
 			</Header>
 		</:header>
@@ -57,14 +57,18 @@
 						pseudo-element. The table below lists the more common
 						properties:
 					</p>
-					<table class='prose max-w-none'>
-						<thead class='twyr-prose'>
-							<tr class='twyr-prose'>
-								<th class='twyr-prose'>Colour CSS Variable</th>
-								<th class='twyr-prose'>Application</th>
-							</tr>
-						</thead>
+					<table
+						class='prose max-w-none'
+						{{css-style marginTop='0px'}}
+					>
 						<tbody class='twyr-prose'>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose' colspan='2'>&nbsp;</td>
+							</tr>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'>Colour CSS Variable</td>
+								<td class='twyr-prose'>Application</td>
+							</tr>
 							<tr class='twyr-prose'>
 								<td class='twyr-prose'><code
 										class='twyr-prose'
@@ -145,16 +149,13 @@
 								<td class='twyr-prose'>Get / set the background
 									theme colour</td>
 							</tr>
-						</tbody>
-					</table>
-					<table class='prose max-w-none'>
-						<thead class='twyr-prose'>
 							<tr class='twyr-prose'>
-								<th class='twyr-prose'>Typography CSS Variable</th>
-								<th class='twyr-prose'>Application</th>
+								<td class='twyr-prose' colspan='2'>&nbsp;</td>
 							</tr>
-						</thead>
-						<tbody class='twyr-prose'>
+							<tr class='twyr-prose'>
+								<td class='twyr-prose'>Typography CSS Variable</td>
+								<td class='twyr-prose'>Application</td>
+							</tr>
 							<tr class='twyr-prose'>
 								<td class='twyr-prose'><code
 										class='twyr-prose'
