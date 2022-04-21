@@ -1,3 +1,5 @@
+/* stylelint-disable function-no-unknown */
+
 @use "sass:string";
 @use './reset.scss';
 
@@ -82,7 +84,7 @@ $header-font-family: string.unquote('Roboto, sans-serif') !default;
  */
 
 /* Abstract dropdown component */
-@use './emdc-abstract-dropdown.scss';
+@use '@twyr/ember-abstract-dropdown/dist/styles/ember-abstract-dropdown' as abstract-dropdown-styles;
 
 /* Backdrop component */
 @use './emdc-backdrop.scss';

@@ -1,4 +1,4 @@
-import Component from './../../mdc-abstract-dropdown/trigger/index';
+import Component from '../../../../node_modules/@twyr/ember-abstract-dropdown/dist/_app_/components/ember-abstract-dropdown/trigger/index';
 import debugLogger from 'ember-debug-logger';
 
 import { action } from '@ember/object';
@@ -56,7 +56,9 @@ export default class MdcMenuTriggerComponent extends Component {
 		this.#debug?.(`recalcStyles`);
 		if (!this.#element) return;
 
-		const rootElement = this.#element?.closest?.('.mdc-abstract-dropdown');
+		const rootElement = this.#element?.closest?.(
+			'.ember-abstract-dropdown'
+		);
 		const textElement = this.#element?.querySelector?.(
 			'span.mdc-list-item__text'
 		);

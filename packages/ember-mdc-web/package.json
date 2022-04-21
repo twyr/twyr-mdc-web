@@ -61,6 +61,7 @@
 		"@material/line-ripple": "13.0.0",
 		"@material/ripple": "13.0.0",
 		"@mdi/font": "6.6.96",
+		"@twyr/ember-abstract-dropdown": "0.1.1",
 		"@twyr/ember-utility-modifiers": "0.1.1",
 		"ember-cli-htmlbars": "6.0.1",
 		"ember-cli-sass": "10.0.1",
@@ -144,9 +145,6 @@
 		"main": "addon-main.js",
 		"build": "build-injections.js",
 		"app-js": {
-			"./components/mdc-abstract-dropdown/content/index.js": "./dist/_app_/components/mdc-abstract-dropdown/content/index.js",
-			"./components/mdc-abstract-dropdown/index.js": "./dist/_app_/components/mdc-abstract-dropdown/index.js",
-			"./components/mdc-abstract-dropdown/trigger/index.js": "./dist/_app_/components/mdc-abstract-dropdown/trigger/index.js",
 			"./components/mdc-backdrop/index.js": "./dist/_app_/components/mdc-backdrop/index.js",
 			"./components/mdc-banner/index.js": "./dist/_app_/components/mdc-banner/index.js",
 			"./components/mdc-button/index.js": "./dist/_app_/components/mdc-button/index.js",
@@ -212,9 +210,7 @@
 			"./components/mdc-top-app-bar/navigation-icon/index.js": "./dist/_app_/components/mdc-top-app-bar/navigation-icon/index.js",
 			"./services/banner-manager.js": "./dist/_app_/services/banner-manager.js",
 			"./services/colour-utilities.js": "./dist/_app_/services/colour-utilities.js",
-			"./services/snackbar-manager.js": "./dist/_app_/services/snackbar-manager.js",
-			"./utils/dom-element-attributes.js": "./dist/_app_/utils/dom-element-attributes.js",
-			"./utils/next-browser-tick.js": "./dist/_app_/utils/next-browser-tick.js"
+			"./services/snackbar-manager.js": "./dist/_app_/services/snackbar-manager.js"
 		}
 	}
 }

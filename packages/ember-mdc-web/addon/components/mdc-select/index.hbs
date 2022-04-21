@@ -4,12 +4,12 @@
 	{{has-class-if @fullWidth 'block' 'inline-block'}}
 >
 	<div
-		class='mdc-abstract-dropdown mdc-select'
+		class='ember-abstract-dropdown mdc-select'
 		{{! Add styling classes as necessary }}
 		{{has-class-if @outlined 'mdc-select--outlined' 'mdc-select--filled'}}
 		{{has-class-if
 			this.open
-			'mdc-abstract-dropdown--open mdc-select--activated mdc-select--focused'
+			'ember-abstract-dropdown--open mdc-select--activated mdc-select--focused'
 		}}
 		{{has-class-if this.disabled 'mdc-select--disabled'}}
 		{{has-class-if @leadingIcon 'mdc-select--with-leading-icon'}}

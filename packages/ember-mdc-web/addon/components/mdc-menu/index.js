@@ -1,4 +1,4 @@
-import Component from './../mdc-abstract-dropdown/index';
+import Component from './../../../node_modules/@twyr/ember-abstract-dropdown/dist/_app_/components/ember-abstract-dropdown/index';
 import debugLogger from 'ember-debug-logger';
 
 import { MDCRipple } from '@material/ripple/index';
