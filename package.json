@@ -49,12 +49,13 @@
 		"git-cz": "4.8.0",
 		"git-split-diffs": "0.10.0",
 		"husky": "7.0.4",
+		"is-ci": "3.0.1",
 		"lerna": "4.0.0",
 		"lint-staged": "12.4.0"
 	},
 	"scripts": {
 		"lint-staged": "npx --no-install lint-staged --allow-empty",
-		"prepare": "npx --no-install husky install"
+		"prepare": "is-ci || npx --no-install husky install"
 	},
 	"engines": {
 		"node": ">= 14"
