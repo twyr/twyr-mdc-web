@@ -1,0 +1,15 @@
+{{! template-lint-disable no-down-event-binding }}
+{{! template-lint-disable no-invalid-interactive }}
+<span
+	class='ember-abstract-dropdown__trigger'
+	id='{{this.dropdownId}}-trigger'
+	{{! React to events }}
+	{{on this.triggerEvent this.onTriggerEvent}}
+	{{! Store reference to the element for DOM manipulation }}
+	{{store-element this.storeElement}}
+	{{! HTML attributes added in the calling template }}
+	...attributes
+	disabled={{this.disabled}}
+>
+	{{yield}}
+</span>

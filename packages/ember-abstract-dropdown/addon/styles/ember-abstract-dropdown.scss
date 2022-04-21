@@ -1,0 +1,19 @@
+.ember-abstract-dropdown {
+	@apply relative bg-transparent;
+
+	&[disabled] {
+		@apply pointer-events-none;
+	}
+
+	&:not([disabled]) {
+		& .ember-abstract-dropdown__trigger {
+			@apply cursor-pointer;
+		}
+
+		& .ember-abstract-dropdown__content {
+			@apply absolute overflow-ellipsis;
+
+			z-index: 6;
+		}
+	}
+}
