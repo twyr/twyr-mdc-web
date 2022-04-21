@@ -27,11 +27,3 @@
  * CSS Variable Overrides
  */
 @use './global-vars.scss';
-
-/*
- * Ember Freestyle styles
-*/
-@use 'ember-freestyle' with (
-	$FreestyleGuide-color--primary: 'var(--mdc-theme-primary)',
-	$FreestyleGuide-color--accent: 'var(--mdc-theme-secondary)'
-);
