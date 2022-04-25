@@ -6,7 +6,7 @@
 	"homepage": "https://github.com/twyr/twyr-mdc-web#readme",
 	"license": "MITNFA",
 	"readme": "README.md",
-	"version": "0.1.1",
+	"version": "0.5.1",
 	"author": {
 		"name": "Vish Desai",
 		"email": "shadyvd@hotmail.com",
@@ -60,5 +60,8 @@
 	"engines": {
 		"node": ">= 14"
 	},
-	"workspaces": []
+	"workspaces": [
+		"packages/ember-mdc-web",
+		"packages/test-app"
+	]
 }
