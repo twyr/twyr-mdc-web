@@ -89,7 +89,7 @@
 		"core-util-is": "1.0.3",
 		"cross-spawn": "7.0.3",
 		"debug": "4.3.4",
-		"decode-uri-component": "0.2.0",
+		"decode-uri-component": "0.2.1",
 		"deep-is": "0.1.4",
 		"defaults": "1.0.3",
 		"define-properties": "1.1.4",
